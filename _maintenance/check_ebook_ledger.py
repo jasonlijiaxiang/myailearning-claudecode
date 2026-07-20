@@ -17,6 +17,10 @@
      增设动机：2026-07-20 撤馆藏回写出处时，5 条出处被填成了邻行的链接（Security 3 条、
      AI-Infra-Compute 2 条），前三轴全部放行——契约重心已从"文件在不在"转成"链接对不对"，
      判据必须跟着转。
+  5. **讲义正文不得指向馆藏**（v4.3.2 新增轴）——书单干净不代表讲义干净：撤馆藏时只回写了
+     `电子书书单.md`，讲义正文里「已入库 ebooks/」「本模块 ebooks/ 已归档该 PDF」之类的
+     表述留在原地，8 册共 12 处，四门禁全绿而讲义照旧指着一个不存在的目录（2026-07-20
+     建 Web 面试点时顺带发现）。故本轴直接扫 `<模块>-讲义.pptx` 的 slide XML。
 
 不做联网可达性探测：巡检要求纯离线秒级，且 404 与限流难以区分；链接失效由季度巡检的
 「建议复查日」人工轴兜底。
@@ -27,6 +31,7 @@
 import os
 import re
 import sys
+import zipfile
 
 # 链接边界须含中文标点：一格里常写「主链接；导读：另一链接」或「链接（版本注）」，
 # 少一个终止符就会把两条链接连成一串，重复链接检查随之失效（2026-07-20 回归验证发现）。
@@ -66,6 +71,41 @@ def is_entry_row(line):
         return False
     cells = [c.strip() for c in line.strip().strip("|").split("|")]
     return bool(cells) and cells[0].isdigit()
+
+
+# 轴 5：讲义正文里的馆藏痕迹。只收"撤馆藏后必然为假"的字面，宁可漏报不误伤——
+# 「已归档」「已入库」单独出现可能在讲义里另有所指，不入判据。
+DECK_STALE = [
+    (re.compile(rb'ebooks'), "指向已撤除的 ebooks/ 馆藏"),
+    (re.compile(rb'\xe2\x9c\x85\s*\xe5\xb7\xb2\xe4\xb8\x8b\xe8\xbd\xbd'), "残留「✅ 已下载」标记"),
+]
+
+
+def check_deck(mod_root, mod):
+    """扫模块讲义的 slide XML，返回 [(放映序页, 说明)]；无讲义则返回空。"""
+    deck = os.path.join(mod_root, mod, f"{mod}-讲义.pptx")
+    if not os.path.isfile(deck):
+        return []
+    hits = []
+    try:
+        with zipfile.ZipFile(deck) as z:
+            pres = z.read("ppt/presentation.xml").decode("utf-8")
+            rels = z.read("ppt/_rels/presentation.xml.rels").decode("utf-8")
+            rid2tgt = dict(re.findall(r'Id="(rId\d+)"[^>]*Target="([^"]+)"', rels))
+            order = []
+            for rid in re.findall(r'<p:sldId[^>]*r:id="(rId\d+)"', pres):
+                m = re.search(r"slide(\d+)\.xml", rid2tgt.get(rid, ""))
+                if m:
+                    order.append(f"ppt/slides/slide{m.group(1)}.xml")
+            for page, name in enumerate(order, 1):
+                raw = z.read(name)
+                for rx, label in DECK_STALE:
+                    n = len(rx.findall(raw))
+                    if n:
+                        hits.append((page, f"{label}（{n} 处）"))
+    except (KeyError, zipfile.BadZipFile) as e:
+        hits.append((0, f"讲义无法解析：{e}"))
+    return hits
 
 
 def check_module(mod_root, mod):
@@ -130,19 +170,23 @@ def main(argv):
         print(f"[提示] {os.path.relpath(legacy, root)} 仍存在——v4.3 起库不再落地电子书文件，"
               f"确认无用后可删除（出处存档见 _maintenance/）。")
 
-    print(f"扫描 {len(mods)} 个模块的书单（判据：每条给出正规渠道链接 + 无本地馆藏残留）")
+    print(f"扫描 {len(mods)} 个模块的书单与讲义"
+          f"（判据：每条给出正规渠道链接 + 书单与讲义均无本地馆藏残留）")
     bad = 0
     total = 0
     for mod in mods:
         n, issues = check_module(mod_root, mod)
         total += n
+        for page, label in check_deck(mod_root, mod):
+            where = f"讲义放映序 p{page}" if page else "讲义"
+            issues.append(f"{where}：{label}")
         if issues:
             print(f"\n===== {mod}（{n} 条）: 账实不符 =====")
             for it in issues:
                 print(f"  [账实不符] {it}")
             bad += 1
         else:
-            print(f"{mod}（{n} 条）: 条条有链接，无残留")
+            print(f"{mod}（{n} 条）: 条条有链接，书单与讲义均无残留")
     print(f"\n共 {len(mods)} 个模块 {total} 条资料，{bad} 个模块存在账实不符。"
           if bad else f"\n全部 {len(mods)} 个模块（{total} 条资料）账实一致。")
     return 1 if bad else 0
