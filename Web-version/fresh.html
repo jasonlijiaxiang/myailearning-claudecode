@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>完整保鲜看板 · AI 知识库</title>
+<link rel="stylesheet" href="../_assets/kb.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb"><a href="../README.html">知识库首页</a> · <a href="./index.html">网页版</a></p>
+    <h1><span class="en">Freshness Board</span>完整保鲜看板</h1>
+    <p class="lede">会过期的事实都登记了核实日期，有的还写了定点复查日。这一页按日期横向排开——
+      19 份模块账本各记各的，纸面上排不出这张表。首页只放一个月内该管的，这里是全量。</p>
+  </div>
+</header>
+
+<main class="wrap">
+<!-- FRESH:BEGIN 由 build.py 从 MANIFEST 时效性事实生成，请勿手工编辑 -->
+  <p class="net-lead">截至构建日 <b>2026-07-20</b>。全库共 212 条时效性事实登记在各模块账本里，其中 9 条写了定点复查日。引用任何数字前先核日期。</p>
+  <h2>定点复查日已排期</h2>
+  <div class="tw"><table class="fresh">
+   <thead><tr><th>复查日</th><th>模块</th><th>事实</th></tr></thead><tbody>
+    <tr><td><span class="badge recheck">2026-07-28</span></td><td><a href="../PPT-version/Agent/README.html">Agent</a></td><td>MCP 当前稳定版规范 2025-11-25；2026-07-28 新版 RC 已发布</td></tr>
+    <tr><td><span class="badge recheck">2026-07-28</span></td><td><a href="./mcp/">MCP</a></td><td>新版规范 2026-07-28 即将发布（RC 已锁定）：无状态核心、Extensions、Tasks 转为官方扩展（experimental core →…</td></tr>
+    <tr><td><span class="badge recheck">2026-08-01</span></td><td><a href="../PPT-version/Multimodal/README.html">Multimodal</a></td><td>闭源旗舰原生多模态：GPT-5（统一路由）/ Gemini 2.5 Pro（原生图音视频 + 1M~2M 上下文 + MoE）/ Claude 4.5（视觉…</td></tr>
+    <tr><td><span class="badge recheck">2026-08-01</span></td><td><a href="../PPT-version/Multimodal/README.html">Multimodal</a></td><td>开源 VLM SOTA：InternVL3-78B（MIT）MMMU≈72.2%；Qwen2.5-VL-72B MMMU≈70.2%/OCRBench≈88…</td></tr>
+    <tr><td><span class="badge recheck">2026-08-01</span></td><td><a href="../PPT-version/Multimodal/README.html">Multimodal</a></td><td>原生图像生成两大流派：扩散（FLUX.2 / Midjourney）vs 自回归（GPT Image 2〔2026-04〕、Nano Banana 2 = …</td></tr>
+    <tr><td><span class="badge recheck">2026-08-01</span></td><td><a href="../PPT-version/Multimodal/README.html">Multimodal</a></td><td>GPT Image 2 全新自回归架构，比前代快 3–5×，多约束指令≈98% 准确、文字渲染近字符级</td></tr>
+    <tr><td><span class="badge recheck">2026-08-31</span></td><td><a href="../PPT-version/Model-Landscape/README.html">Model-Landscape</a></td><td>Claude 5 家族：Fable 5（Mythos 级、1M 上下文/128K 输出）、Mythos 5 限量、Opus 4.8、Sonnet 5 尝鲜价…</td></tr>
+    <tr><td><span class="badge recheck">2026-08-31</span></td><td><a href="../PPT-version/Multimodal/README.html">Multimodal</a></td><td>视频生成格局（多方评测交叉）：Seedance 2.0（≤15s/1080p、原生音视频同步、参考输入 12 文件、Fast $0.022/秒）；Sora …</td></tr>
+    <tr><td><span class="badge recheck">2026-08-31</span></td><td><a href="../PPT-version/Multimodal/README.html">Multimodal</a></td><td>即梦消费端口径：注册送 260 积分、5 秒视频约 20 积分（新用户约 13 次免费生成）</td></tr>
+   </tbody></table></div>
+  <h2>核实日期最早的几条</h2>
+  <p class="net-lead">没写定点复查日，但放得最久——巡检默认按 90 天阈值筛，这几条是每次巡检最先该看的。</p>
+  <div class="tw"><table class="fresh">
+   <thead><tr><th>核实于</th><th>模块</th><th>事实</th></tr></thead><tbody>
+    <tr><td>2026-07-07</td><td><a href="../PPT-version/Agent/README.html">Agent</a></td><td>MCP 当前稳定版规范 2025-11-25；2026-07-28 新版 RC 已发布</td></tr>
+    <tr><td>2026-07-07</td><td><a href="../PPT-version/Agent/README.html">Agent</a></td><td>生产可用框架短名单：LangGraph、Claude Agent SDK、OpenAI Agents SDK、Google ADK、MS Agent Fra…</td></tr>
+    <tr><td>2026-07-07</td><td><a href="../PPT-version/Agent/README.html">Agent</a></td><td>OWASP Top 10 for Agentic Applications 2026 为 agent 安全行业标准清单</td></tr>
+    <tr><td>2026-07-07</td><td><a href="../PPT-version/Agent/README.html">Agent</a></td><td>评估/可观测平台格局：LangSmith、Langfuse、Arize Phoenix、W&amp;B Weave；τ-bench 用 pass^k</td></tr>
+    <tr><td>2026-07-07</td><td><a href="../PPT-version/RAG/README.html">RAG</a></td><td>Contextual Retrieval 实测降检索失败率 49%~67%</td></tr>
+    <tr><td>2026-07-07</td><td><a href="../PPT-version/RAG/README.html">RAG</a></td><td>BGE M3 为开源多语言 embedding 代表方案</td></tr>
+    <tr><td>2026-07-08</td><td><a href="../PPT-version/LLM/README.html">LLM</a></td><td>GQA 8:1 是生产默认（生态支持最全）；MLA 为 DeepSeek/Kimi 系默认，KV 缓存约为同级 GQA 的 1/10，已被 Kimi K2、…</td></tr>
+    <tr><td>2026-07-08</td><td><a href="../PPT-version/LLM/README.html">LLM</a></td><td>DeepSeek V3.2 的 DSA 稀疏注意力（lightning indexer + top-k，O(L²)→O(Lk)）已生产化，GLM-5 跟进；…</td></tr>
+   </tbody></table></div>
+  <!-- FRESH:END -->
+</main>
+
+<footer class="wrap">
+  <p>数据来自各模块 <code>MANIFEST.md</code> 的「时效性事实」表，由 <code>build.py</code> 汇总。
+     要改内容请改模块账本，不要改这一页。</p>
+</footer>
+
+<script src="./data.js"></script>
+<script src="./assets/site.js"></script>
+</body>
+</html>

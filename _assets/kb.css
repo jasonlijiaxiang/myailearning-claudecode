@@ -438,24 +438,14 @@ table.fresh tr.over td { background: #FBEDE9; }
   background: #F6DCD5; color: #8C2F1A; border: 1px solid #E0A491;
 }
 
-/* 问答四要素 */
-.qa summary { padding-right: 5.5rem; }
-.qa-tag {
-  position: absolute; right: 1.6rem; top: .95rem;
-  font-family: var(--sans); font-size: 11.5px; font-weight: 600;
-  letter-spacing: .06em; color: var(--gold);
-  border: 1px solid var(--gold-lt); padding: 0 .4rem; border-radius: 2px;
-}
+/* 问答四要素（判据标签已于 2026-07-20 撤除：10 题分 5 类，两类各只有 1 题，
+   标签不承载信息；立题判据留在 skill 的写作纪律里，不显示给读者） */
 .qa .a p { margin: .5rem 0; }
 .qa-why { color: var(--ink-500); }
 .qa-next { border-left: 2px solid var(--gold); padding-left: .7rem; }
 .qa-next b { font-family: var(--sans); font-size: 13px; letter-spacing: .06em; color: var(--gold); }
 .qa-src { font-size: 13.5px; color: var(--ink-400); }
 .qa-src a { color: var(--ink-500); }
-@media (max-width: 680px) {
-  .qa summary { padding-right: 0; padding-bottom: 1.6rem; }
-  .qa-tag { right: auto; left: 0; top: auto; bottom: .55rem; }
-}
 
 /* ============================================================
    门户页组件（根总纲 / PPT 总览 / 模块 README / _prep 三件套）
@@ -647,3 +637,11 @@ h2 .added, h3 .added { vertical-align: 4px; }
   border-left: 2px solid var(--rule); padding-left: .8rem; margin: .6rem 0 1rem;
 }
 .baseline b { font-family: var(--mono); font-weight: 400; color: var(--ink-500); }
+
+/* 关系网：宽屏出/入分两列，窄屏合并成一列「相关模块」
+   （780px 以下三列硬撑会让单行高到 400px，2026-07-20 实测） */
+table.net .c-all { display: none; }
+@media (max-width: 780px) {
+  table.net .c-out, table.net .c-in { display: none; }
+  table.net .c-all { display: table-cell; }
+}
