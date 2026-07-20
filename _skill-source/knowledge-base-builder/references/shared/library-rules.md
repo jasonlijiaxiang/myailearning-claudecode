@@ -14,7 +14,7 @@
 ## 库目录布局（v4.0 定版：一源两面；v4.1 拆总纲）与模块统一模板
 
 **v4.0 布局**——模块目录收进 `PPT-version/`（内容真源所在地），网页派生站点在
-`Web-version/`，电子书集中进 `_reference/ebooks/` 馆藏（两面共用、整库 portable 打包不重复）。
+`Web-version/`。**书单只列正规渠道链接，库内不存放电子书文件**（v4.3 起，见 `ebook-rules.md`）。
 **v4.1 补一刀：索引按"面中立 vs 面特有"拆两层**——根 `README.html` 只留面中立的东西
 （知识地图、每日取用、两面入口、库目录约定），各面的产出清单下沉到该面自己的
 `README.html`。理由与 v4.0 把共享规则抽进 `shared/` 是同一个判据：Web 面一起来，
@@ -36,7 +36,7 @@
 │       │   └── history/          # 成品历史版本：每次覆盖/改写成品前，旧版先存这里（见下）
 │       └── <模块名>-讲义.pptx     # ② 讲义式 PPT（PPT 面主力成品，见 ppt-rules.md）
 ├── Web-version/                  # Web 面 = 派生站点根（web-rules / web-design-system；试点前可为空）
-├── _reference/                   # 外部参考输入 + ebooks/ 电子书馆藏（含 README.txt 账本，标明馆藏子区）
+├── _reference/                   # 外部参考输入（书单只列链接，不存电子书文件）
 ├── _prep/                        # 库级产物三件套（见 prep-rules.md）
 └── _maintenance/                 # 库级维护：巡检报告、门禁与工具脚本（见 patrol-rules.md）
 ```
@@ -46,7 +46,7 @@
 「v4.0 布局迁移」；老库在迁移前仍按旧布局工作，账实脚本双布局兼容）。
 
 以 RAG 为例：`PPT-version/RAG/` 下直接放 `README.html` 和 `RAG-讲义.pptx`，用户历次的
-原始输入放在 `PPT-version/RAG/raw-data/`；RAG 书单里的电子书文件在 `_reference/ebooks/`。
+原始输入放在 `PPT-version/RAG/raw-data/`；RAG 书单里的资料只给官方链接，不落地文件。
 
 ### 索引两层：根总纲 vs 面总览（v4.1）
 
@@ -164,7 +164,7 @@ A/B 类顺手扫都会在"今天 ≥ 建议复查日"时点名它（见 patrol-r
 | 讲义页数 | 放映序实测（`ppt/slides/slide[0-9]+.xml` 计数） | 模块 MANIFEST／模块 README／顶层 README／`_prep` 一页纸+全库总数 | 增章、配图、删页 | `check_page_ledger.py` |
 | 章数口径 | 正文眉题「第 N 章」最大值 | 封面章节条/分组条、导览「X 章一条主线」、总收束行数、速查章编号 | 增章、并章 | audit 检查项 10/13 |
 | 全库口径（模块数/层数/题数） | 顶层 README 知识地图 | `_prep` 三件套正文与 `_prep/MANIFEST.md` | A 类新增模块、新设层 | prep-rules 回刷清单（人工） |
-| 电子书账 | `ebooks/` 实际文件 | `电子书书单.md` 的 ✅ 标记 | 书单增删、下载 | `check_ebook_ledger.py` |
+| 电子书账 | 各条资料的正规渠道链接 | `电子书书单.md` 的「获取方式」列 | 书单增删、链接失效 | `check_ebook_ledger.py` |
 | 时效性事实 | 各模块 MANIFEST 时效表（含核实笔记） | `_prep` 实战包题目/一页纸看板、讲义数字弹药页/速查页 | B 类刷新、巡检回写 | `_prep` 引用映射（巡检） |
 | 内部链接 | 实际文件路径 | 全库 HTML 相对链接、MANIFEST 串联边 | 改名、挪位、删模块 | `check_html_links.py` |
 | skill 版本 | SKILL.md frontmatter | 各模块 MANIFEST「产出 skill 版本」、CHANGELOG、.skill 包、安装目录 | 技能升级 | 打包后三处 diff/md5（人工） |
@@ -262,7 +262,7 @@ HTML 门户面与讲义 PPT 是**两套并行的识别色**，各自统一、不
 <a class="back" href="../README.html">← 返回知识库首页</a>
 <h1>PPT 面 · 讲义总览</h1>
 <p class="sub">本面是知识库的内容真源：N 个模块各自一份讲义式 PPT 与一份精选书单。
-电子书文件统一存放在库级馆藏 <code>_reference/ebooks/</code>。</p>
+书单只列正规渠道的官方链接，不落地文件。</p>
 <h2>模块列表</h2>
 <table>
  <tr><th>模块</th><th>主题一句话</th><th>电子书</th><th>讲义 PPT</th><th>更新日期</th></tr>
@@ -285,8 +285,8 @@ HTML 门户面与讲义 PPT 是**两套并行的识别色**，各自统一、不
 
 - 模块文件夹用主题的通用英文简称（`RAG`、`MCP`、`Agent`），全库大小写风格保持一致。
 - 模块内文件名沿用模板里的名字（`README.html`、`MANIFEST.md`、`电子书书单.md`、`raw-data/`、
-  `<模块名>-讲义.pptx`），新模块照抄，不要自创。**模块内不放 `ebooks/`**——v4.0 起电子书
-  一律进库级馆藏 `_reference/ebooks/`，书单里写指向馆藏的相对路径。
+  `<模块名>-讲义.pptx`），新模块照抄，不要自创。**库内任何层级都不放电子书文件**——
+  v4.3 起书单一律只列正规渠道链接。
 - B 类更新时，**先看该模块现有命名和结构，照它来**；不要引入与其它模块不一致的新写法。
 
 ## A 类 vs B 类 的差别（一句话）

@@ -6,9 +6,8 @@
   库根/ KB-CONFIG.md + README.html（门户）
        PPT-version/<模块>/（讲义+MANIFEST+README+书单+raw-data，内容真源所在地）
        Web-version/（派生站点根，试点前允许为空）
-       _reference/ebooks/（电子书馆藏，集中共享）
        _prep/  _maintenance/  _reference/
-旧布局（模块在库根、电子书在各模块 ebooks/）不算错误，报「待迁移」并指向
+旧布局（模块在库根）不算错误，报「待迁移」并指向
 init-rules「v4.0 布局迁移」。
 
 用法: python3 check_kb_layout.py [知识库根目录]   # 缺省为当前目录
@@ -18,7 +17,7 @@ import os
 import re
 import sys
 
-CONFIG_FIELDS = ("PPT 面根目录", "Web 面根目录", "电子书馆藏")
+CONFIG_FIELDS = ("PPT 面根目录", "Web 面根目录")  # v4.3 起不再有「电子书馆藏」
 MODULE_FILES = ("MANIFEST.md", "README.html", "电子书书单.md")
 
 
@@ -75,9 +74,6 @@ def main(argv):
         for f in CONFIG_FIELDS:
             if config_value(cfg, f) is None:
                 errors.append(f"KB-CONFIG 缺字段「{f}」（v4.0 布局迁移时补写）")
-        v = config_value(cfg, "电子书馆藏")
-        if v:
-            shared_ebooks = os.path.join(root, v)
 
     for mod in pv_mods:
         d = os.path.join(pv, mod)
@@ -87,10 +83,13 @@ def main(argv):
         if not os.path.isdir(os.path.join(d, "raw-data")):
             errors.append(f"{mod}/ 缺 raw-data/")
         if os.path.isdir(os.path.join(d, "ebooks")):
-            errors.append(f"迁移半途：{mod}/ebooks/ 仍在模块内（应集中进馆藏）")
+            errors.append(f"{mod}/ebooks/ 仍在库内——v4.3 起书单只列链接、不落地文件，"
+                          f"按 init-rules 第 3 步先补出处再撤除")
 
-    if not os.path.isdir(shared_ebooks):
-        errors.append(f"电子书馆藏目录缺失：{os.path.relpath(shared_ebooks, root)}")
+    # v4.3：库内不应再有电子书文件；存在则提示撤除（非硬错误，撤除需先补出处）
+    if os.path.isdir(shared_ebooks):
+        warns.append(f"{os.path.relpath(shared_ebooks, root)} 仍存在——v4.3 起书单只列链接，"
+                     f"按 init-rules 第 3 步先补出处再撤除")
     if not os.path.isdir(os.path.join(root, "Web-version")):
         warns.append("Web-version/ 尚未创建（试点前建空目录即可）")
     for d in ("_prep", "_maintenance", "_reference"):

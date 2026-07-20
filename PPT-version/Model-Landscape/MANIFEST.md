@@ -42,9 +42,9 @@
 | 许可证格局：OSAID v1.0（2024-10）口径下主流"开源"模型均为 open weight；DeepSeek/GLM-5.1 = MIT、Qwen3 主系 = Apache 2.0、Mistral Large 3/Small 4 转 Apache 2.0；Llama 社区证含 700M MAU 帽 + 欧盟条款 | ml-license | 2026-07-10 | qubittool / HF blog / LICENSE 原文 | — |
 | 价格光谱：地板 DeepSeek V4 Flash $0.14/$0.28、Gemini Flash-Lite $0.10/$0.40；超旗舰 GPT-5.4 Pro $30/$180；整体对比 2025 降 30–60% | ml-price | 2026-07-10 | pricepertoken / cloudzero / tldl | — |
 | 小模型：Phi-4 / Gemma 4（26B MoE 激活 ~4B；E2B 2.3B 有效参数 4GB 内存）/ SmolLM-3 为三大部署家族；sub-10B 常规超 2024 版 GPT-4 | ml-map / ml-capability | 2026-07-10 | bentoml / callsphere 2026 | — |
-| 推理模型：思考预算两旋钮（Anthropic budget_tokens / Gemini thinkingBudget）；L1 可控 vs L2 自适应（arXiv 2507.02076）；overthinking 实证——超临界预算准确率下降（arXiv 2506.04210） | ml-capability | 2026-07-10 | arXiv 两篇（已入 ebooks） | — |
+| 推理模型：思考预算两旋钮（Anthropic budget_tokens / Gemini thinkingBudget）；L1 可控 vs L2 自适应（arXiv 2507.02076）；overthinking 实证——超临界预算准确率下降（arXiv 2506.04210） | ml-capability | 2026-07-10 | arXiv 两篇（书单列官方链接） | — |
 | 选型实践：Walmart Code Puppy 跨 GPT/Claude/Gemini 动态路由；ServiceNow 2026-01 同签 OpenAI+Anthropic；Gartner 预计 2028 年 70% 多模型组织用 AI 网关（2024 <5%） | ml-selection | 2026-07-10 | chatgptaihub / datatobiz / Gartner 转引 | — |
-| 榜单防线：Leaderboard Illusion（私测多变体择优，arXiv 2504.20879）；MMLU 类饱和 88%+ 无区分度（与 evaluation 模块同源口径） | ml-selection | 2026-07-10 | arXiv（已入 ebooks）/ evaluation 模块 | — |
+| 榜单防线：Leaderboard Illusion（私测多变体择优，arXiv 2504.20879）；MMLU 类饱和 88%+ 无区分度（与 evaluation 模块同源口径） | ml-selection | 2026-07-10 | arXiv（书单列官方链接）/ evaluation 模块 | — |
 
 ## 稳定事实（不会过期，无需巡检）
 | 事实 | 章节 ID | 说明 |

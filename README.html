@@ -139,15 +139,15 @@
 
 <p class="plumb">
  库目录约定（v4.0 一源两面）：<code>PPT-version/</code> 是内容真源所在地，模块目录整体在此；
- <code>Web-version/</code> 是网页派生站点；电子书集中在库级馆藏 <code>_reference/ebooks/</code>，两面共用、整库打包不重复；
+ <code>Web-version/</code> 是网页派生站点；
  <code>_prep/</code> 放库级取用产物，<code>_maintenance/</code> 放巡检报告与门禁脚本。
  巡检范围包含 <code>_prep/MANIFEST.md</code>——它以「引用映射」挂靠各源模块，源模块事实刷新后需同步顶部三份取用文档。
  知识地图为<b>展示口径</b>（六行 + 关联扩展标记，2026-07-11 定版）；层归属的<b>机器口径</b>以 <code>KB-CONFIG.md</code> 与各模块 <code>MANIFEST.md</code> 为准（七层），两者差异为有意设计、勿"修正"。
 </p>
 
 <p class="plumb">
- 电子书馆藏说明：<code>_reference/ebooks/</code> 为第三方版权材料，<b>仅存于本地、不纳入版本库</b>。
- 因此在 GitHub 上浏览本库时，各模块《电子书书单》中指向 PDF 的链接不可用；书单本身完整保留，按条目名自行取书即可。
- 在本地打开则一切照常。
+ 书单口径（2026-07-20 起）：各模块《电子书书单》<b>只列正规渠道的官方链接，不再下载文件到本地</b>。
+ 早先的本地馆藏 <code>_reference/ebooks/</code> 已撤除——它是第三方版权材料，既不能随库分享、也不能纳入版本库，
+ 而链接可以，且不必随版本更新重下。原馆藏 71 份资料的出处已全部落到对应书单条目上。
 </p>
 </body></html>
