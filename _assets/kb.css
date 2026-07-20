@@ -638,3 +638,12 @@ h2 .hint, h2 .sub, h2 .note {
   padding: 0 .4rem; margin-left: .55rem; font-weight: 400;
 }
 h2 .added, h3 .added { vertical-align: 4px; }
+
+/* 模块页页脚的最近改动 / 问答基线声明 */
+.updated { font-size: 13.5px; color: var(--ink-400); margin-top: .6rem; }
+.updated b { font-family: var(--mono); color: var(--ink-500); font-weight: 400; }
+.baseline {
+  font-size: 14px; color: var(--ink-400);
+  border-left: 2px solid var(--rule); padding-left: .8rem; margin: .6rem 0 1rem;
+}
+.baseline b { font-family: var(--mono); font-weight: 400; color: var(--ink-500); }

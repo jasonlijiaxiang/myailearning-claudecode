@@ -17,7 +17,7 @@ window.KB = {
    "dir": "A2A",
    "layer": "协议层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "a2a-what-why",
@@ -166,7 +166,7 @@ window.KB = {
    "dir": "AI-Gateway",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "gw-what-why",
@@ -393,7 +393,7 @@ window.KB = {
    "dir": "AI-Infra-Compute",
    "layer": "算力底座层",
    "created": "2026-07-09",
-   "updated": "2026-07-13",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "aic-overview",
@@ -601,7 +601,7 @@ window.KB = {
    "dir": "AI-Infra-Platform",
    "layer": "算力底座层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "aip-overview",
@@ -755,7 +755,7 @@ window.KB = {
    "dir": "AI-Ops",
    "layer": "工程保障层",
    "created": "2026-07-10",
-   "updated": "2026-07-15",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "ops-what-why",
@@ -936,7 +936,7 @@ window.KB = {
    "dir": "Agent",
    "layer": "应用模式层",
    "created": "2026-07-07",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "agent-what-why",
@@ -1245,7 +1245,7 @@ window.KB = {
    "dir": "Data-Engineering",
    "layer": "数据底座层",
    "created": "2026-07-11",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "de-what-why",
@@ -1384,7 +1384,7 @@ window.KB = {
    "dir": "Evaluation",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "eval-why-hard",
@@ -1584,7 +1584,7 @@ window.KB = {
    "dir": "Fine-tuning",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "ft-when",
@@ -1783,7 +1783,7 @@ window.KB = {
    "dir": "LLM",
    "layer": "基础层",
    "created": "2026-07-08",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "llm-why-transformer",
@@ -1925,7 +1925,7 @@ window.KB = {
    "dir": "LLM-Inference",
    "layer": "基础层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "llminf-anatomy",
@@ -2123,7 +2123,7 @@ window.KB = {
    "dir": "LLM-Training",
    "layer": "基础层",
    "created": "2026-07-08",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "llmtrain-overview",
@@ -2320,7 +2320,7 @@ window.KB = {
    "dir": "MCP",
    "layer": "协议层",
    "created": "2026-07-08",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "mcp-what-why",
@@ -2461,7 +2461,7 @@ window.KB = {
    "dir": "Model-Landscape",
    "layer": "解决方案层",
    "created": "2026-07-10",
-   "updated": "2026-07-10",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "ml-map",
@@ -2713,7 +2713,7 @@ window.KB = {
    "dir": "Multimodal",
    "layer": "应用模式层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "mm-what-why",
@@ -2950,7 +2950,7 @@ window.KB = {
    "dir": "Prompt-Engineering",
    "layer": "基础层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "pe-what-why",
@@ -3084,7 +3084,7 @@ window.KB = {
    "dir": "RAG",
    "layer": "应用模式层",
    "created": "2026-07-07",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "rag-what-why",
@@ -3300,7 +3300,7 @@ window.KB = {
    "dir": "Security",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-12",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "sec-landscape",
@@ -3524,7 +3524,7 @@ window.KB = {
    "dir": "Solution-Patterns",
    "layer": "解决方案层",
    "created": "2026-07-10",
-   "updated": "2026-07-11",
+   "updated": "2026-07-20",
    "chapters": [
     {
      "id": "sp-what-why",
