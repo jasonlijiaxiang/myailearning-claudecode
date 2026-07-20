@@ -424,3 +424,35 @@ footer a { color: var(--link); }
   html { scroll-behavior: auto; }
   * { animation: none !important; transition: none !important; }
 }
+
+/* ============ 关系网 / 保鲜看板 ============ */
+.net-lead { font-size: 15.5px; color: var(--ink-500); margin: .6rem 0 1rem; }
+table.net td, table.fresh td { font-size: 15px; line-height: 1.7; }
+table.net td:first-child { white-space: nowrap; }
+table.net a { text-decoration: none; border-bottom: 1px solid transparent; }
+table.net a:hover { border-bottom-color: var(--gold); }
+table.net .none { color: var(--ink-400); }
+table.fresh td:first-child { white-space: nowrap; }
+table.fresh tr.over td { background: #FBEDE9; }
+.badge.over {
+  background: #F6DCD5; color: #8C2F1A; border: 1px solid #E0A491;
+}
+
+/* 问答四要素 */
+.qa summary { padding-right: 5.5rem; }
+.qa-tag {
+  position: absolute; right: 1.6rem; top: .95rem;
+  font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+  letter-spacing: .06em; color: var(--gold);
+  border: 1px solid var(--gold-lt); padding: 0 .4rem; border-radius: 2px;
+}
+.qa .a p { margin: .5rem 0; }
+.qa-why { color: var(--ink-500); }
+.qa-next { border-left: 2px solid var(--gold); padding-left: .7rem; }
+.qa-next b { font-family: var(--sans); font-size: 13px; letter-spacing: .06em; color: var(--gold); }
+.qa-src { font-size: 13.5px; color: var(--ink-400); }
+.qa-src a { color: var(--ink-500); }
+@media (max-width: 680px) {
+  .qa summary { padding-right: 0; padding-bottom: 1.6rem; }
+  .qa-tag { right: auto; left: 0; top: auto; bottom: .55rem; }
+}

@@ -783,46 +783,97 @@ if __name__ == "__main__":
     顺序反了会浪费大量时间：模型「不肯用」和 server「跑不通」是两类完全不同的问题。</p>
 
   <h3>现场高频追问</h3>
+  <p>只收会改变某个决定的问题——右侧标签标出它改变的是什么。每题给结论、给背后的机制或权衡、给一个可执行的下一步，并回链依据。</p>
   <div class="qa">
     <details>
-      <summary>MCP 和 Function Calling 到底什么关系，是不是替代？</summary>
-      <div class="a"><p>不替代。Function Calling 是模型「决定调哪个工具」的能力，MCP 是「工具怎么被标准接入」的协议；
-        MCP 内部仍用 function calling 做决策，二者叠加。展开见<a href="#mcp-what-why">是什么 / 为什么</a>。</p></div>
+      <summary>MCP 和 Function Calling 到底什么关系，是不是替代？<span class="qa-tag" title="会改变技术方案">方案</span></summary>
+      <div class="a">
+        <p>不替代，是叠加。Function Calling 是模型「决定调哪个工具」的能力，MCP 是「工具怎么被标准接入」的协议；MCP 内部仍然用 function calling 做决策。</p>
+        <p class="qa-why">问混的代价是选型错位：以为二选一，就会在「已经有 FC 了」的理由下否掉 MCP，也就丢掉跨应用复用这件事本身。</p>
+        <p class="qa-next"><b>下一步</b>　让对方说出他那套工具将来要被几个应用接——一个就别上，两个以上再谈。</p>
+        <p class="qa-src">依据　<a href="#mcp-what-why">是什么 / 为什么</a></p>
+      </div>
     </details>
     <details>
-      <summary>这是不是 Anthropic 的私有协议，用了会被锁定吗？</summary>
-      <div class="a"><p>不会。2025 年底已捐给中立的 AAIF 基金会、开放治理，主流大模型应用与厂商都在支持。
-        接入它反而降低单一厂商绑定。</p></div>
+      <summary>这是不是 Anthropic 的私有协议，用了会被锁定吗？<span class="qa-tag" title="会改变对客沟通">沟通</span></summary>
+      <div class="a">
+        <p>不会。2025 年 12 月已捐给中立的 AAIF 基金会（Linux 基金会旗下），开放治理，变更走公开的 SEP 提案流程。</p>
+        <p class="qa-why">这个问题问的其实不是治理结构，是「三年后还在不在」。答的时候要落到两个可验证的点：治理是否中立、演进是否公开——这两点它都占。</p>
+        <p class="qa-next"><b>下一步</b>　现场可以直接翻 aaif.io 的治理页与 SEP 列表给对方看，比口头保证有用。</p>
+        <p class="qa-src">依据　<a href="#mcp-what-why">治理</a> · <a href="#src-aaif">src-aaif</a></p>
+      </div>
     </details>
     <details>
-      <summary>我们已经在用 Function Calling 了，还有必要上 MCP 吗？</summary>
-      <div class="a"><p>看复用面。工具只服务一个应用，直接写就好；一旦要被多应用或多团队反复接，
-        MCP 能省掉成倍的重复对接。三条替代路径见<a href="#boundary">什么时候不该上 MCP</a>。</p></div>
+      <summary>我们已经在用 Function Calling 了，还有必要上 MCP 吗？<span class="qa-tag" title="会改变技术方案">方案</span></summary>
+      <div class="a">
+        <p>看复用面。工具只服务一个应用，直接写就好；一旦要被多应用或多团队反复接，MCP 才收得回这层标准的成本。</p>
+        <p class="qa-why">标准的价值来自复用面，没有复用面就只剩额外一层协议和一层部署。反过来，出现「两个以上 AI 应用要接」「工具方与应用方不是同一个团队」「要集中治理和审计」任一条，就值得上。</p>
+        <p class="qa-next"><b>下一步</b>　拿他手上三个真实集成场景逐个套这条判据，当场分出该上和不该上的。</p>
+        <p class="qa-src">依据　<a href="#boundary">什么时候不该上 MCP</a></p>
+      </div>
     </details>
     <details>
-      <summary>月底新版发布，我现在的 server 要立刻改代码吗？</summary>
-      <div class="a"><p>不必立刻。稳定版仍是 2025-11-25，新旧版本有兼容期，SDK 同时支持新旧协议；
-        按 12 个月弃用缓冲从容规划即可。<span class="badge recheck">2026-07-28 后需复核</span></p></div>
+      <summary>能不能不让模型自己决定调用？我们不放心。<span class="qa-tag" title="会改变技术方案">方案</span></summary>
+      <div class="a">
+        <p>能，而且这正是三原语的设计意图。工具（Tools）是模型控制的，但资源（Resources）由应用挂载、提示词（Prompts）由用户显式选用——把能力放在哪个原语上，就决定了谁来触发它。</p>
+        <p class="qa-why">这是全册最影响架构的一处：控制面决定展示方式、确认时机、权限与审计责任。把一个有副作用的动作做成资源，就绕过了本该有的确认环节；反过来，把只读上下文做成工具，就白白引入了模型误调的风险。</p>
+        <p class="qa-next"><b>下一步</b>　把他要接的每个能力过一遍「谁该触发它」，再决定落到哪个原语，而不是一律做成工具。</p>
+        <p class="qa-src">依据　<a href="#mcp-protocol">三大原语：两把刀</a></p>
+      </div>
     </details>
     <details>
-      <summary>开发一个 MCP server 到底要多少工作量？</summary>
-      <div class="a"><p>有现成 API 的话，核心是描述工具、转调后端、整理返回、加鉴权，一个中等 server
-        通常几人天，不是重写业务系统。</p></div>
+      <summary>月底新版发布，我现在的 server 要立刻改代码吗？<span class="qa-tag" title="会改变下一步行动">下一步</span></summary>
+      <div class="a">
+        <p>不必立刻。当前稳定版仍是 2025-11-25，新旧有兼容期，SDK 同时支持两版；弃用政策承诺任何特性从弃用到移除至少留 12 个月。</p>
+        <p class="qa-why">真正要提前做的不是改代码，是做影响评估：盘出有没有依赖 Roots / Sampling / Logging 的地方——这三项在新版被列入弃用。</p>
+        <p class="qa-next"><b>下一步</b>　盘一遍现有集成对这三项的依赖，列出替代方案，排进 12 个月缓冲期内的迭代。</p>
+        <p class="qa-src">依据　<a href="#mcp-transport">传输与版本演进</a> · <a href="#src-rc">src-rc</a></p>
+      </div>
     </details>
     <details>
-      <summary>员工乱接外面的 server 怎么治？</summary>
-      <div class="a"><p>上 MCP 网关做统一入口：白名单放行、集中审计、按部门限权。别让每个客户端各连各的、
-        无人管控。</p></div>
+      <summary>开发一个 MCP server 到底要多少工作量？<span class="qa-tag" title="会改变验收方法">验收</span></summary>
+      <div class="a">
+        <p>有现成 API 的话，一个中等复杂度的 server 通常几人天：描述工具、转调后端、整理返回、加鉴权，四件事，不是重写业务系统。</p>
+        <p class="qa-why">工作量的大头往往不在代码，在把工具描述写准——描述含糊会导致模型误调或不调，返工成本比写代码高。</p>
+        <p class="qa-next"><b>下一步</b>　先挑一个现成 REST 接口做包装原型，用 Inspector 点通，拿实测人天去报价。</p>
+        <p class="qa-src">依据　<a href="#mcp-server">动手写 server</a></p>
+      </div>
     </details>
     <details>
-      <summary>我们内部系统的 server 能放到官方 Registry 吗？</summary>
-      <div class="a"><p>不能。官方 Registry 只收公开 server 且仍是 preview。内部 server 要自建私有 registry，
-        数据不出门、集中管理。</p></div>
+      <summary>员工乱接外面的 server 怎么治？<span class="qa-tag" title="会改变风险判断">风险</span></summary>
+      <div class="a">
+        <p>上 MCP 网关做统一入口：白名单放行、集中审计、按部门限权。别让每个客户端各连各的、无人管控。</p>
+        <p class="qa-why">这个问题的实质是供应链风险——恶意 server 可以把攻击指令藏在工具描述里，客户端一连上、模型一读描述就被注入，发生在任何实际调用之前。网关是唯一能在流量层拦住它的位置。</p>
+        <p class="qa-next"><b>下一步</b>　画一张目标架构图：客户端 → 网关 → 若干 server，标出认证、审计、白名单各在哪一层。这张图是售前现场最常被要求画的。</p>
+        <p class="qa-src">依据　<a href="#mcp-production">为什么要一个 MCP 网关</a> · <a href="#mcp-security">安全</a></p>
+      </div>
     </details>
     <details>
-      <summary>MCP 出了这么多 CVE，还能用吗？</summary>
-      <div class="a"><p>能，且要用对姿势。CVE 多恰恰说明它被广泛使用、被认真审视；官方已有安全指引和修复机制。
-        关键是默认设防、及时更新——<b>裸暴露公网与全自动批准才是事故直通车</b>。</p></div>
+      <summary>我们内部系统的 server 能放到官方 Registry 吗？<span class="qa-tag" title="会改变风险判断">风险</span></summary>
+      <div class="a">
+        <p>不能。官方 Registry 只收公开 server，且仍是 preview、未正式发布。内部 server 必须自建私有 registry。</p>
+        <p class="qa-why">还有一层容易被忽略：官方 Registry 只是元数据货架，不托管代码、也不做安全审查——就算能放，也不该把它当企业应用商店用。</p>
+        <p class="qa-next"><b>下一步</b>　把「涉不涉及内部数据或私有网络」当判据，划出哪些 server 必须进私有目录。</p>
+        <p class="qa-src">依据　<a href="#mcp-production">去哪儿发现 server</a> · <a href="#src-registry">src-registry</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>MCP 出了这么多 CVE，还能用吗？<span class="qa-tag" title="会改变风险判断">风险</span></summary>
+      <div class="a">
+        <p>能，但要用对姿势。CVE 多恰恰说明它被广泛使用、被认真审视；官方已有安全指引和修复机制，关键是默认设防、及时更新。</p>
+        <p class="qa-why">两条几乎是事故直通车，也最容易避免：把 server 无鉴权裸暴露公网，以及图省事开全自动批准。注意 84.2% 那个投毒成功率有前提——它测的是「开启自动批准」的场景，关掉之后不适用，引用时必须带上这个限定。</p>
+        <p class="qa-next"><b>下一步</b>　对照 NSA/CISA 指引做一次安全自查表，逐条打勾或标注缺口——这张表是应对客户安全评审最有力的交付物。</p>
+        <p class="qa-src">依据　<a href="#mcp-security">安全</a> · <a href="#src-cve">src-cve</a> · <a href="#src-mcptox">src-mcptox</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>上线之后出了问题，怎么定位是谁的责任？<span class="qa-tag" title="会改变验收方法">验收</span></summary>
+      <div class="a">
+        <p>先分层：用 Inspector 单独跑 server 排除模型变量，再接客户端复现。协议层与业务层的失败也要分清——JSON-RPC 的 error 表示调用没走通（方法不存在、参数不合法），result.isError 表示调用到了但工具自己执行失败。</p>
+        <p class="qa-why">能不能定位，取决于上线前有没有留下回放能力。终极判断是一句话：任意一次调用都能回放「谁、经哪个版本、调了什么、为何被允许、结果如何」——五个字段缺一个，事后就说不清。</p>
+        <p class="qa-next"><b>下一步</b>　对照生产验收五条检查证据是否齐备：初始化记录、策略日志、审计记录、压测报告、评测集。</p>
+        <p class="qa-src">依据　<a href="#mcp-production">上线前的五条验收线</a> · <a href="#wire">报文字段</a></p>
+      </div>
     </details>
   </div>
 </section>
