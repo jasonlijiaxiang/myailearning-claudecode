@@ -1,0 +1,65 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>学习路径 · 三条取用路线</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:940px;margin:2rem auto;padding:0 1rem;color:#1a2733;background:#fff}
+ h1{text-align:center;margin-bottom:.2rem}
+ .tagline{text-align:center;color:#555;margin:.2rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0}
+ h2 .sub{font-size:.62em;color:#8194a5;font-weight:400;margin-left:.6rem}
+ table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .7rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .day{font-weight:700;color:#0e4d64;white-space:nowrap}
+ .note{background:#fffbea;border:1px dashed #d6b656;border-radius:10px;padding:.7rem 1rem;font-size:.9em}
+ ol{line-height:1.8}
+ a{color:#2b6cb0;text-decoration:none}
+ a.back{display:inline-block;margin-bottom:.6rem}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ .foot{margin:2rem 0 1rem;font-size:.82em;color:#9fb3c0;text-align:center}
+</style></head><body>
+<a class="back" href="../README.html">← 返回知识库首页</a>
+<h1>学习路径 · 三条取用路线</h1>
+<p class="tagline">19 模块 / 1600+ 页——这页解决「怎么读」：系统学习走七天，见客户前看 30 分钟，大战之前冲一晚</p>
+
+<h2>路线一 · 七天通读<span class="sub">每天 2–3 小时；读讲义 + 做每章「动手做」第 1 题</span></h2>
+<table>
+ <tr><th style="width:3.2rem">天</th><th style="width:9rem">主题</th><th>读什么</th><th style="width:15rem">目标</th></tr>
+ <tr><td class="day">D1</td><td>先拿地图</td><td><a href="./全库一页纸.html">全库一页纸</a> → Solution-Patterns 第 1–2 章（场景×积木、五层架构、三本账、口径鉴别）→ Model-Landscape 第 1 章（三大阵营）</td><td>建立全局坐标系：读任何模块都知道它在哪一格</td></tr>
+ <tr><td class="day">D2</td><td>基础层：发动机原理</td><td>LLM 原理第 1、2、4 章（Transformer、QKV、KV 缓存）→ LLM-Training 第 1、3 章 → LLM-Inference 第 1、2 章（推理怎么跑、显存账）</td><td>能答 F 组原理题：token 计费、流式输出、并发上限</td></tr>
+ <tr><td class="day">D3</td><td>应用层 I：知识</td><td>RAG 第 1–7 章（基础五件套 + 最小管线 + 混合检索）</td><td>能画 RAG 架构图、讲清切分/重排/混合的取舍</td></tr>
+ <tr><td class="day">D4</td><td>应用层 II：行动与感官</td><td>Agent 第 1–5 章 → RAG 第 8 章（Agentic RAG）→ Multimodal 第 1、3 章（感知全景、模态怎么拼）</td><td>能讲 agent vs 工作流边界、上下文工程四板斧</td></tr>
+ <tr><td class="day">D5</td><td>协议与保障</td><td>MCP 第 1、6 章 → A2A 第 1 章 → Security 第 1、2、5 章（威胁、注入、Agent 安全）→ Evaluation 第 1、4、5 章（为什么难、判官、自建）</td><td>能答 D/E 组：注入防不住怎么办、评估怎么起步</td></tr>
+ <tr><td class="day">D6</td><td>解决方案层深读</td><td>Solution-Patterns 第 3–9 章（七场景）→ Model-Landscape 第 2–6 章（名片、开源、中国、许可证、价格）</td><td>七场景图纸能默画；模型格局名字与量级张口就来</td></tr>
+ <tr><td class="day">D7</td><td>运维与底座 + 收口</td><td>AI-Ops 第 1、3、8 章（新学科、在线评估、运营包）→ AI-Gateway 第 1、8 章 → AI-Infra-Compute 第 1、8 章 → AI-Infra-Platform 第 1、8 章 → <b>通刷<a href="./实战包.html">《实战包》</a>55 题</b></td><td>运营包讲得出五件套；实战包盲测 45+/55</td></tr>
+</table>
+<div class="note"><b>跳读许可：</b>LLM-Training 4–6 章、LLM-Inference 4–7 章、Infra 两模块中段、Multimodal 4–7 章、Agent 6–10 章（第 10 章速查除外）、Fine-tuning 全册——第一遍可跳，按需回补；跳过的每册先读其「售前速查」章兜底。</div>
+
+<h2>路线二 · 对客前 30 分钟<span class="sub">按客户场景查，顺序即优先级</span></h2>
+<table>
+ <tr><th style="width:9.5rem">客户场景</th><th>必翻</th><th style="width:15rem">顺手带一句</th></tr>
+ <tr><td><b>智能客服</b></td><td>SP 第 3 章 → Multimodal 第 8 章（要语音）→ 实战包 B4/C2</td><td>解决率口径战场（自报 vs 独立 41.2%）</td></tr>
+ <tr><td><b>企业知识库 / AI 搜索</b></td><td>SP 第 4 章 → RAG 第 7 章 → Security 第 3 章 → 实战包 B5</td><td>权限感知检索、越权测试集</td></tr>
+ <tr><td><b>营销内容生成</b></td><td>SP 第 5 章 → Multimodal 第 5 章 → 实战包 B6</td><td>商业安全与 IP 赔付（Firefly 模式）</td></tr>
+ <tr><td><b>AI Coding</b></td><td>SP 第 6 章 → Model-Landscape 第 2 章 → 实战包 D 组</td><td>三个第一（用户/收入/满意度）+ 试点度量法</td></tr>
+ <tr><td><b>数字人</b></td><td>SP 第 7 章 → Multimodal 第 8 章 → 实战包 B6/C2</td><td>合规三问（形象授权 / 标识 / 声音）</td></tr>
+ <tr><td><b>ChatBI / 数据分析</b></td><td>SP 第 8 章 → RAG 第 12 章 → 实战包 B10</td><td>准确率的真相在语义层（10–21% vs 90%+）</td></tr>
+ <tr><td><b>会议与办公助手</b></td><td>SP 第 9 章 → Multimodal 第 4/8 章</td><td>三层口径：转写 / 忠实度 / 行动项召回</td></tr>
+ <tr><td><b>模型选型咨询</b></td><td>Model-Landscape 第 8→9 章（方法 + 速查）→ 实战包 A 组</td><td>五约束决策树、两道防线</td></tr>
+ <tr><td><b>私有化 / 算力</b></td><td>AI-Infra-Compute 第 8 章 → AI-Infra-Platform 第 8 章 → LLM-Inference 第 8 章</td><td>利用率盈亏线 40–50%</td></tr>
+ <tr><td><b>数据很乱 / 数据就绪</b></td><td>Data-Engineering 第 1 章四问 → 第 2 章解析 → SP 第 2 章数据坑</td><td>把隐性数据成本变成显性报价项</td></tr>
+ <tr><td><b>上线后运维 / 续费</b></td><td>AI-Ops 第 8 章（运营包五件套）→ 实战包 D5</td><td>月度质量报告是续费的价值证明</td></tr>
+</table>
+
+<h2>路线三 · 交锋前夜<span class="sub">约 2.5 小时；大拜访、竞标、评审、面试通用</span></h2>
+<ol>
+ <li><b><a href="./实战包.html">《实战包》</a>55 题全刷</b>（60 分钟）：盲答 → 对照 → 标记弱项维度。</li>
+ <li><b>Model-Landscape 第 9 章速查五页</b>（20 分钟）：家族总表、价格卡、许可证卡背量级——先看「保鲜声明」页确认数字没过期。</li>
+ <li><b>Solution-Patterns 第 10 章速查</b>（15 分钟）：场景→积木总表 + 分诊决策树，任何场景问题 30 秒内定位。</li>
+ <li><b>框架背诵</b>（15 分钟）：过一遍各模块的「框架深潜页 + 生产验收清单」——RAG 六段诊断矩阵、Agent 六层工具契约、Evaluation 四道发布门、各模块「生产验收清单」。这些框架可背诵、可核查，被追细节时最扛打（实战包 B13/D10/D11 就是它们的电梯版）。</li>
+ <li><b>弱项回源</b>（25 分钟）：按实战包「深潜」指针回对应章节的完整对练页。</li>
+ <li>睡前一句：所有数字带日期与出处，被追问就翻源头——不论对面坐的是客户还是面试官，这都是专业素养本身。</li>
+</ol>
+
+<p class="foot">章节引用用稳定 ID，模块改版不影响本路径 · 时效机制见 _prep/MANIFEST.md · 生成于 2026-07-10 · 末次更新 2026-07-15</p>
+</body></html>

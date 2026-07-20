@@ -1,0 +1,25 @@
+# A2A · 精选电子书书单
+
+> 面向"售前技术"角色（有 Python/API 基础，重底层概念与取舍，不啃重理论）。可免费下载的已存入 `./ebooks/`。
+> 时效性事实核实日期：2026-07-09（依据见 `raw-data/2026-07-09-A2A是什么与相关知识.md`）。
+
+| # | 书名/资料 | 作者/机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | A2A 官方规范 + Core Concepts | Linux Foundation / A2A Project | 🛠️实践 | 唯一权威：五大对象、三种传输、全部方法都在这，v1.0 现行版 | 协议解剖, 发现与传输, 全模块 | 🔗 规范：https://a2a-protocol.org/latest/specification/ ｜ 概念：https://a2a-protocol.org/latest/topics/key-concepts/ |
+| 2 | A2A 官方 SDK & samples | A2A Project (GitHub) | 🛠️实践 | Python/JS/Java/Go/.NET 五语言 SDK + 可跑样例，接入最短路径 | 动手做协作 | 🔗 https://github.com/a2aproject |
+| 3 | 《What is Agent2Agent (A2A)?》 | IBM Think | 🛠️实践 | 概念讲得清、图好懂，给客户做科普的现成底稿 | 是什么/为什么 | 🔗 https://www.ibm.com/think/topics/agent2agent-protocol |
+| 4 | A2A 一周年里程碑报告 | Linux Foundation | 🛠️实践 | 采用度/云支持/治理/生产案例，讲"生态成熟度"的弹药 | 生产落地·上云 | 🔗 https://www.linuxfoundation.org/press/a2a-protocol-surpasses-150-organizations-lands-in-major-cloud-platforms-and-sees-enterprise-production-use-in-first-year |
+| 5 | 《A2A Protocol: Architecture & Technical Specification》 | Tyk | 🛠️实践 | 架构图清晰，讲传输绑定与 Task 生命周期很好用 | 协议解剖, 发现与传输 | 🔗 https://tyk.io/learning-center/a2a-protocol-architecture-and-technical-specification/ |
+| 6 | 《MCP vs A2A：AI Agent Protocol Comparison (2026)》 | Intuz | 🛠️实践 | 直接回答客户最爱问的"和 MCP 啥区别"，两层架构讲透 | 是什么/为什么 | 🔗 https://www.intuz.com/blog/mcp-vs-a2a |
+| 7 | AP2（Agent Payments Protocol）官方介绍 | Google / A2A Project | 🛠️实践 | A2A 之上的支付扩展，讲"Agent 之间怎么付钱"的落地想象 | 生产落地·上云 | 🔗 https://ap2-protocol.org/ |
+| 8 | 《Building A Secure Agentic AI Application Leveraging A2A》 | Habler / Huang / Narajala (A2RS) | 🛠️实践 | 用 A2A 搭安全应用的实践 + 威胁面分析，安全章底稿 | 安全, 动手做协作 | ✅ 已下载 `./ebooks/arXiv-2504.16902-Secure-Agentic-App-with-A2A.pdf` |
+| 9 | 《Security Analysis of Agentic AI Communication Protocols》 | Louck & Stulman | 📖理论·可选读 | A2A/MCP/ACP/ANP 安全横向对比；想深入协议安全再看 | 安全, 生态全景 | ✅ 已下载 `./ebooks/arXiv-2511.03841-Security-Analysis-Agent-Protocols.pdf` |
+| 10 | 《A Layered Protocol Architecture for the Internet of Agents》 | Cisco Research | 📖理论·可选读 | 智能体互联网的分层协议全景，看 A2A 生态位置；偏架构理论，可选读 | 生态全景 | ✅ 已下载 `./ebooks/arXiv-2511.19699-Internet-of-Agents-Layered-Architecture.pdf` |
+
+## 阅读建议（按售前真实场景排优先级）
+
+1. **客户问得最多的先看 6 + 1**：先读《MCP vs A2A》(#6) 把"接工具 vs 接 Agent"的分工讲顺——这是被问概率最高的一题；再翻官方规范/概念页 (#1) 把五大对象和方法过一遍，概念才立得住。
+2. **要做 demo / 讲接入看 #2**：官方 SDK samples 是跑通第一个 server+client 的最短路径，客户问"接入要改多少"时你心里有数。
+3. **被问安全/合规查 #8**：以 A2A 搭安全应用的实践 + 威胁面，正好覆盖"冒充怎么防、签名名片管什么用"这类尖锐追问；想再深入协议间安全对比看 #9。
+4. **讲"生态成熟度 / 谁在用"翻 #4**：LF 一周年报告里的组织数、云支持、生产案例，是回应"这东西靠不靠谱"最有力的数据。
+5. **想把视野拉到全景再看 #10**：把 A2A 放进 ACP/ANP/AP2 的"智能体互联网"里看位置；偏理论，行有余力再读，不影响上手。

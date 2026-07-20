@@ -1,0 +1,70 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>Model-Landscape · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">解决方案层 · Solution Layer</span></p>
+<h1>Model-Landscape · 模型格局与选型</h1>
+<p class="sub">讲「发动机市场」本身：谁在造模型、格局怎么分、许可证与价格是什么约束、该怎么选。三大阵营地图（闭源旗舰 / 开放权重 / 端侧）→ 五张闭源名片 + 中国四强与豆包 → 许可证/价格/能力三道硬约束 → 多模型选型方法论。位于「解决方案层」（面向对客决策的知识，与 Solution-Patterns 同层）。</p>
+
+<div class="warn">
+ ⚠️ <b>保鲜警告：本模块是全库最易过期的一册。</b>版本号与价格赏味期 1–3 个月、榜单数周、份额半年。
+ 讲义所有数字为 <b>2026-07-10 口径</b>；引用前先查活水源（Artificial Analysis / 各官网价格页），巡检时本模块优先核。
+</div>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>Model-Landscape-讲义.pptx</code>（主力成品，98 页，✅ 已完成）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，含 3 个"活水源"类条目）+ <code>ebooks/</code>（已归档 3 份 arXiv PDF）<br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-10 联网核实笔记，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>全景地图</td><td>三大阵营（闭源/开放权重/端侧）；企业 vs 消费两市场分裂（40/27/21 vs 74%）；一年三变局（降价/追平/Meta 转向）</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>闭源旗舰家族图谱</td><td>五张名片：OpenAI GPT-5.6 三档、Anthropic Claude 5 家族、Google Gemini 3.1、xAI Grok 4.3、Meta Muse Spark；三档家族定价范式</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>开放权重格局</td><td>榜首中国四强（DeepSeek/GLM/Kimi/Qwen）；西方线收尾（Llama 终局/Mistral 转宽松/Gemma 下沉）；追平机制 = MoE+蒸馏+合成数据</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>中国格局与豆包定位</td><td>四强横评；豆包家族树（2.1 Pro/Turbo + Seed 双专线）与定价（¥6/¥30）；场景化选型口径；昇腾全国产与出海双轨两个战略题</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>许可证与合规边界</td><td>open weight ≠ open source（OSAID）；三级分类（MIT/Apache · 社区证 · 仅 API）；Llama 两个雷；商用四问清单</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>价格带与成本工程</td><td>$0.10–$30 光谱（跨 300 倍）；三档家族制；缓存经济学（读 -90%）；报价纪律四要素</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>能力矩阵与推理模型</td><td>上下文 128K→1M→10M（窗口≠有效窗口）；多模态原生 vs 拼接矩阵；思考预算两旋钮；overthinking 陷阱</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>8</td><td>选型方法论</td><td>多模型组合默认解（Walmart/ServiceNow 案例、Gartner 网关趋势）；三层路由（1:8:1）；五约束决策树；不信榜 + 评估集终审两道防线</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>9</td><td>国内平台格局</td><td>方舟/百炼/千帆/腾讯四平台画像、自研主轴 vs 全家桶两种货架哲学、价格锚点与口径警示、平台选型三问（2026-07-17 口径）</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>10</td><td>售前速查</td><td>家族总表、价格速查卡、许可证速查卡、<b>口径与保鲜声明</b>、跨模块串联地图</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块位于解决方案层，是「选型知识」的收口处：
+ <ul>
+  <li><b>最强串联 — <a href="../Evaluation/README.html">Evaluation</a></b>：榜单的坑（饱和、Leaderboard Illusion）与自建评估集终审方法在那边，本模块的选型方法论以它为终审（双向互指）。</li>
+  <li><a href="../AI-Gateway/README.html">AI-Gateway</a>：三层路由与成本治理的工程落地件（<code>ml-selection/ml-price → gw-route/gw-cost</code>，双向）。</li>
+  <li><a href="../LLM/README.html">LLM 原理</a> / <a href="../LLM-Inference/README.html">LLM-Inference</a>：MoE 是追平叙事的架构根源；思考预算与长上下文的成本机制。</li>
+  <li><a href="../RAG/README.html">RAG</a>：「1M 窗口 vs RAG」互为弹药；<a href="../Fine-tuning/README.html">Fine-tuning</a>：开放权重是私有化微调前提。</li>
+  <li><a href="../Solution-Patterns/README.html">Solution-Patterns</a>：各场景章的模型选型格子引用本模块；「模型是可替换件」叙事同源。</li>
+ </ul>
+</div>
+
+<div class="future"><b>可增补方向：</b>具身/机器人模型格局、图像视频生成模型格局深潜（与 Multimodal 合璧）、模型出海与地缘专章、以及与未来「中国合规」章的联动（备案与商用边界）。将来任意加一章，沿用本模块每章结构即可。</div>
+</body></html>

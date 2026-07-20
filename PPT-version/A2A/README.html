@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>A2A · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">协议层 · Protocol Layer</span></p>
+<h1>A2A · 智能体间协议</h1>
+<p class="sub">A2A（Agent2Agent Protocol）：让不同厂商、不同框架、不同平台造出来的 AI Agent 能互相"发现对方、委派任务、同步进度、交换结果"的开放协议。与 MCP 是协议层两兄弟——<b>MCP 接工具（纵向），A2A 接 Agent（横向）</b>。面向售前技术，讲清"协议长什么样、怎么跑通一次协作、生产怎么落地、客户会怎么问"。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>A2A-讲义.pptx</code>（主力成品，83 页，<span class="ok">✅ 已完成</span>）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，偏实践）+ <code>ebooks/</code>（已归档 3 份免费 arXiv PDF：A2A 安全应用、协议安全对比、智能体互联网架构）<span class="ok">✅</span><br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-09 联网核实底稿，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>A2A 是什么 / 为什么</td><td>"公司间协作规范"类比、M×N→M+N 搬到 Agent 层、与 MCP 分工（对照表 + 协同实景"差旅审批" + 误区与选型）、Google→Linux Foundation 治理简史</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>协议解剖</td><td>五大对象 Agent Card / Task / Message / Part / Artifact、Task 有状态生命周期、真实 Agent Card JSON</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>发现与传输</td><td>well-known URI 发现、三绑定（JSON-RPC 2.0 / gRPC / HTTP+JSON-REST）、SSE 流式、推送通知回调</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>动手做：跑通一次协作</td><td>官方 SDK 起 server+client、message/send 真实报文、五语言 SDK 一览</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>多智能体协作</td><td>opaque agents（不暴露内部）、任务委派、A2A vs 框架内编排、与 Agent 模块握手</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>生产落地 · 上云</td><td>企业多租户、可观测、三大云托管（Azure/Bedrock/Vertex）、AP2 支付扩展、采用度</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>安全 · 售前速查</td><td>Signed Agent Cards、OAuth2/mTLS、授权范围、与 MCP 安全对照、一页速查</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>库内 <a href="../MCP/README.html">MCP</a> 模块是协议层另一半——A2A 第 1 章与 MCP 第 1 章双向互引"接工具 vs 接 Agent"分工；
+ <a href="../Agent/README.html">Agent</a> 模块第 3 章《编排模式》讲框架内多 Agent 协作，本模块第 5 章讲跨框架/跨厂商的标准化协作，天然衔接（Agent 第 4 章已登记的 A2A 事实由本模块深入承接）。
+</div>
+</body></html>

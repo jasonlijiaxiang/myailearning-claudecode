@@ -1,0 +1,63 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>AI-Ops · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">工程保障层 · Engineering Assurance</span><span class="chip ext">关联扩展</span></p>
+<h1>AI-Ops · LLM 可观测与运维</h1>
+<p class="sub">上线之后的日子怎么过：传统 APM 之外的两根新轴（质量、token 成本）→ 四大运维动作（在线评估 / 漂移巡检 / 发布管理 / 事故响应）→ 打包成可续费的「运营包」。位于「工程保障层」。<b>边界纪律</b>：网关计量引 AI-Gateway、离线评估引 Evaluation、GPU 利用率引 AI-Infra-Platform——本模块只讲三片之间的生命周期线。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>AI-Ops-讲义.pptx</code>（主力成品，71 页，✅ 已完成）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，活水源文档为主）+ <code>ebooks/</code>（1 份 arXiv PDF + 1 份引用 Security 模块）<br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-10 联网核实笔记，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>为什么是新学科</td><td>两根新轴（质量/token 成本）、静默退化、边界地图、观测自身的成本工程（遥测 10–50×、账单 +40–200%）</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>Tracing 与 OTel GenAI</td><td>span 四类（client span 已稳定）、一条 RAG 请求的 trace 旅程与排障三板斧、PII 三开关</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>在线评估与反馈回流</td><td>与离线的分工、采样 5–10% 异步打分、评估漏斗四级、闭环三件套（告警/评审队列/数据集晋升）</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>漂移与静默退化</td><td>三类漂移（含供应商静默换模）、全绿仪表盘为什么骗人、检测组合拳与日/周/月巡检节奏</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>发布管理</td><td>提示词是生产工件：六件入册、评估门禁、金丝雀（必须跑自动评估）、回滚=改指针、环境与 A/B</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>事故响应</td><td>AI runbook 四问、成本尖峰是第一信号、急停开关、HITL 三分级、事故分级与 SLA</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>工具格局与选型</td><td>六平台锚定（Langfuse 2026-01 入 ClickHouse）、Braintrust/AgentOps、APM 系 vs 专用系分工、上云对照</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>8</td><td>售前速查</td><td><b>运营包五件套</b>（每件对应一章 + 报价口径）、指标速查卡（日/周/月）、选型速查卡、串联地图</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块是工程保障层第五员，为「三片可观测」补生命周期线：
+ <ul>
+  <li><b>最强串联 — <a href="../Evaluation/README.html">Evaluation</a></b>：离线建集与判官方法在那边，在线采样运营在本模块，共享判分器定义——离线验收 × 在线巡逻（双向互指）。</li>
+  <li><a href="../AI-Gateway/README.html">AI-Gateway</a>：网关是数据源与统一采集层，本模块是消费与行动层，trace id 两层贯通（双向）。</li>
+  <li><a href="../Security/README.html">Security</a>：事故响应「被攻破」章的防护弹药；<a href="../Prompt-Engineering/README.html">PE</a>：提示词版本化升级为发布工程。</li>
+  <li><a href="../Solution-Patterns/README.html">Solution-Patterns</a>：<b>运营包五件套 = SP「人力账」的展开</b>——那边说要卖，这边说卖什么（双向）。</li>
+  <li><a href="../Model-Landscape/README.html">Model-Landscape</a>：供应商静默换模的回归验证是「保持可换」的运维面。</li>
+ </ul>
+</div>
+
+<div class="future"><b>可增补方向：</b>SLO/错误预算的 AI 化专章、多租户成本分摊与计费、观测数据的合规存储（与未来中国合规章联动）、AgentOps 深潜（长任务 agent 的专属运维）。将来任意加一章，沿用本模块每章结构即可。</div>
+</body></html>

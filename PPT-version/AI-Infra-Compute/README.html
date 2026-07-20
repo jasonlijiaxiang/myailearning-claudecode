@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>AI-Infra-Compute · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">算力与数据底座 · Compute · Platform · Data</span></p>
+<h1>AI-Infra-Compute · 算力硬件与网络</h1>
+<p class="sub">AI 基础设施的硬件底座：GPU/加速器到底是怎样一台机器（SM、HBM、Tensor Core）、显存与算力怎么算账、芯片选型格局（NVIDIA 各代 / TPU / 国产芯片），以及把上万张卡连成一台"超级计算机"的互联网络（NVLink / InfiniBand / RoCE）、集群拓扑、高性能存储与数据管线。面向售前技术，讲清这些硬件为什么这样搭、钱花在哪、选型时怎么取舍。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>AI-Infra-Compute-讲义.pptx</code>（主力成品，<span class="ok">✅ 86 页</span>）<br>
+ · 精选电子书书单：<code>电子书书单.md</code> + <code>ebooks/</code>（<span class="ok">✅ 10 项，5 份 PDF 落地</span>）<br>
+ · 原始素材留痕：<code>raw-data/</code>（2026-07-09 起）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>全景总览</td><td>五层栈、AI Infra vs 传统 IDC、训练与推理两条需求曲线</td><td class="ok">✅</td></tr>
+ <tr><td>2</td><td>GPU 解剖</td><td>吞吐机器、Tensor Core、精度阶梯 FP32→FP4、Roofline、MFU</td><td class="ok">✅</td></tr>
+ <tr><td>3</td><td>显存与 HBM</td><td>HBM 堆叠、HBM4 量产格局、训练/推理两本显存账</td><td class="ok">✅</td></tr>
+ <tr><td>4</td><td>芯片格局与选型</td><td>NVIDIA 年更、CUDA 护城河、AMD/TPU/Trainium/昇腾、上云卡型对照</td><td class="ok">✅</td></tr>
+ <tr><td>5</td><td>Scale-up 互联</td><td>NVLink 5、NVSwitch、NVL72 机柜解剖、UALink 挑战者</td><td class="ok">✅</td></tr>
+ <tr><td>6</td><td>Scale-out 网络</td><td>RDMA、NCCL 集合通信、IB vs RoCE vs UEC、胖树/轨道优化拓扑</td><td class="ok">✅</td></tr>
+ <tr><td>7</td><td>存储与数据管线</td><td>训练 IO 两副面孔、并行文件系统图鉴、对象存储分层、KV Cache 外置</td><td class="ok">✅</td></tr>
+ <tr><td>8</td><td>算力经济学与售前速查</td><td>TCO 拆账、电与冷却、建 vs 租 vs API、两张速查表</td><td class="ok">✅</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块是"算力底座层"的硬件半边，姊妹模块 <a href="../AI-Infra-Platform/README.html">AI-Infra-Platform</a> 讲平台半边（调度与多租户）。向上衔接 <a href="../LLM-Training/README.html">LLM-Training</a> 第 7 章（训练基础设施与算力账）与 <a href="../LLM-Inference/README.html">LLM-Inference</a>（KV 显存账、精度阶梯、P/D 分离）——那两处讲"工作负载怎么用算力"，本模块讲"算力本身长什么样"。机器可读的章节 ID、时效性事实与串联出边见 <code>MANIFEST.md</code>。
+</div>
+</body></html>

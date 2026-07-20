@@ -1,0 +1,25 @@
+# LLM-Inference · 精选电子书书单
+
+> 面向"售前技术"角色。可免费下载的已存入 ./ebooks/。
+> 时效性事实核实日期：2026-07-09（依据见 raw-data/2026-07-09-联网核实笔记.md）。
+
+| # | 书名 | 作者/机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 《LLM Inference Handbook》 | BentoML | 🛠️实践 | 推理服务的"新华字典"：从 TTFT/TPOT 指标到 continuous batching、prefix caching、部署形态全覆盖，CC BY 4.0 持续更新 | 推理原理, 推理优化, 生产化 | 🔗 免费在线：https://bentoml.com/llm/ |
+| 2 | vLLM 官方文档 | vLLM 项目 | 🛠️实践 | 事实默认推理引擎的一手资料，从 quickstart 到量化/投机解码配置都有可跑示例 | 推理框架, 推理优化 | 🔗 免费在线：https://docs.vllm.ai/ |
+| 3 | SGLang 官方文档 | SGLang 项目 | 🛠️实践 | 第二主流引擎，RadixAttention 前缀缓存与结构化输出的权威讲法 | 推理框架 | 🔗 免费在线：https://docs.sglang.ai/ |
+| 4 | 《Mastering LLM Techniques: Inference Optimization》 | NVIDIA 技术博客 | 🛠️实践 | 一页讲全推理优化技术地图（批处理/量化/注意力优化），建立整体框架首选 | 推理优化 | 🔗 免费在线：https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/ |
+| 5 | 《How to Scale Your Model》第 7 章 "All About Transformer Inference" | Google DeepMind | 🛠️实践（带公式） | 教会"推理算术"：KV 大小、带宽瓶颈、P/D 分离怎么心算，售前当场算账的底气来源 | 推理原理, 分布式推理 | 🔗 免费在线：https://jax-ml.github.io/scaling-book/inference/ |
+| 6 | 《Efficient Memory Management for LLM Serving with PagedAttention》（vLLM 论文，SOSP'23） | Kwon et al., UC Berkeley | 🛠️实践 | 看它是为了懂所有现代引擎的显存管理核心：KV 分页如何把碎片打到近零 | 推理优化, KV Cache | ✅ 已下载 `./ebooks/arXiv-2309.06180-vLLM-PagedAttention.pdf` |
+| 7 | 《Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving》（FAST'25 最佳论文） | 月之暗面 Kimi | 🛠️实践 | 生产级 P/D 分离的真实复盘：Kimi 线上集群怎么用 KVCache 为中心的架构扛流量，讲成本账最有说服力 | P/D 分离, 分布式推理 | ✅ 已下载 `./ebooks/arXiv-2407.00079-Mooncake-KVCache-Disaggregation.pdf` |
+| 8 | NVIDIA Dynamo 官方文档 | NVIDIA | 🛠️实践 | 集群级推理编排的当前答案（2026-03 GA）：P/D 分离部署、KV 感知路由、NIXL 传输 | P/D 分离, 生产化 | 🔗 免费在线：https://docs.dynamo.nvidia.com/ |
+| 9 | 《AI Engineering》 | Chip Huyen（O'Reilly, 2025） | 🛠️实践 | 把推理优化放进 AI 工程全景（评估/数据/部署）里讲，最贴近售前的叙事方式 | 推理优化, 生产化 | 🔗 正规渠道购买：https://www.oreilly.com/library/view/ai-engineering/9781098166298/ |
+| 10 | 《Taming the Titans: A Survey of Efficient LLM Inference Serving》 | Zhen et al. | 📖理论·可选读 | 想系统盘点实例级/集群级全部优化方向再看，偏学术综述 | 推理优化全景 | ✅ 已下载 `./ebooks/arXiv-2504.19720-Taming-Titans-Inference-Serving-Survey.pdf` |
+
+## 阅读建议
+
+1. **先读 #1（BentoML Handbook）的 basics + optimization 两部**：客户问得最多的"为什么慢/为什么贵/怎么降本"全在里面，读完就能接住八成问题。
+2. **要现场算账，精读 #5（scaling-book 第 7 章）**：KV Cache 显存、带宽瓶颈、每 token 成本的心算方法都在这一章，售前算账的硬底气；公式不难，跟着算一遍即可。
+3. **要做 demo 或 PoC，翻 #2（vLLM 文档）**：一条 `vllm serve` 起 OpenAI 兼容服务，加参数开量化/投机解码，客户面前十分钟出效果。
+4. **被问"大规模上生产怎么架构"，看 #7（Mooncake）+ #8（Dynamo 文档）**：一个是国产大厂真实案例（讲故事用），一个是 NVIDIA 官方方案（讲落地用），组合出击。
+5. **#6（PagedAttention）值得通读一次**，理解"显存当虚拟内存管"这个所有引擎的共同底座；#10 综述留作查漏补缺的地图，#9 付费书按需入。

@@ -1,0 +1,32 @@
+# RAG · 精选电子书书单
+
+> 面向"售前技术"角色（有 Python/API 基础、重底层概念与取舍）。偏实践、少理论。
+> 可合法免费下载的已存入 `./ebooks/`（arXiv 论文五篇已落地，详见 `./ebooks/README.txt`）；
+> 在线文档类资料本体持续更新，列官方链接。**全程只列正规渠道，绝不盗版。**
+
+| # | 书名 / 资料 | 作者 / 机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Pinecone《Retrieval Augmented Generation》学习系列 | Pinecone | 🛠️实践 | 从零讲清 RAG 全流程，附大量可运行 notebook，售前入门首选 | RAG 是什么/为什么, 向量检索 | 🔗 官方免费在线：https://www.pinecone.io/learn/series/rag/ |
+| 2 | Anthropic Cookbook · RAG（含 Contextual Retrieval） | Anthropic | 🛠️实践 | 官方可跑代码 + "上下文检索"实战，实测把检索失败率降 49%~67% | chunking, 检索, reranking | 🔗 GitHub 开源免费：https://github.com/anthropics/claude-cookbooks（third_party/Pinecone、skills/contextual-embeddings） |
+| 3 | LlamaIndex 官方文档（RAG 全栈） | LlamaIndex | 🛠️实践 | 工程化 RAG 的事实标准框架文档：加载→切分→索引→检索→重排→评估一条龙 | 全部子主题 | 🔗 官方免费在线：https://docs.llamaindex.ai/ |
+| 4 | LangChain 官方文档 · Retrieval / RAG | LangChain | 🛠️实践 | 另一主流框架的检索与 RAG 章节，接口视角看清各环节可插拔组件 | 向量检索, chunking, reranking | 🔗 官方免费在线：https://python.langchain.com/docs/concepts/rag/ |
+| 5 | OpenAI Cookbook · Embeddings & RAG | OpenAI | 🛠️实践 | 官方 embedding 用法、检索问答、评估示例，API 使用者的速查手册 | 向量检索 & Embedding, 评估 | 🔗 官方免费在线：https://cookbook.openai.com/ |
+| 6 | Cohere 文档 · Rerank / Embed / RAG 指南 | Cohere | 🛠️实践 | 把"两阶段检索 + 重排序"讲成产品化流水线的最佳一手材料 | reranking, 向量检索 | 🔗 官方免费在线：https://docs.cohere.com/docs/reranking |
+| 7 | Ragas 官方文档（RAG 评估） | Ragas / Exploding Gradients | 🛠️实践 | 免 ground-truth 的 RAG 评估事实标准，faithfulness / context precision 等指标即插即用 | 评估方法 | 🔗 官方免费在线：https://docs.ragas.io/ |
+| 8 | 《RAG-Driven Generative AI》 | Denis Rothman（Packt） | 🛠️实践 | 系统讲用 LlamaIndex + Pinecone + Deep Lake 搭生产级 RAG 的实战书 | 全部子主题 | 🔗 出版社/正规购买：https://www.packtpub.com/ ；Amazon Kindle：https://www.amazon.com/dp/B0CW18RC6F |
+| 9 | 《Retrieval-Augmented Generation for LLMs: A Survey》 | Gao et al. | 📖理论·可选读 | 想系统梳理 RAG 全景（Naive/Advanced/Modular）再看，偏综述 | RAG 是什么/为什么 | ✅ 已下载 `./ebooks/2312.10997-rag-survey.pdf` |
+| 10 | 《BGE M3-Embedding》论文 | BAAI | 📖理论·可选读 | 想搞懂开源多语言 embedding 底层再看；决定要不要自建 embedding 时的关键依据 | 向量检索 & Embedding | ✅ 已下载 `./ebooks/2402.03216-bge-m3-embedding.pdf` |
+| 11 | 《Agentic RAG: A Survey》 | Singh et al. | 🛠️实践 | Router/ReAct/Self-RAG 等 agentic 模式的权威出处；看它是为了给"我的场景该上哪种模式"找分类依据 | Agentic RAG | ✅ 已下载 `./ebooks/2501.09136-agentic-rag-survey.pdf` |
+| 12 | Elasticsearch 官方文档 · Hybrid Search / RRF | Elastic | 🛠️实践 | RRF 融合的原生实现与调参（k 值）一手资料，生产混合检索最常用载体之一 | 混合检索 | 🔗 官方免费在线：https://www.elastic.co/docs/solutions/search/hybrid-search |
+| 13 | Qdrant 官方文档 · Hybrid Queries | Qdrant | 🛠️实践 | 向量库侧做混合检索（稠密+稀疏+RRF）的主流路线，与 ES 路线互为对照 | 混合检索 | 🔗 官方免费在线：https://qdrant.tech/documentation/concepts/hybrid-queries/ |
+| 14 | LangGraph 官方教程 · Agentic RAG | LangChain | 🛠️实践 | Router/CRAG/Self-RAG 的可运行实现，动手搭 agentic 检索环的直接抄本 | Agentic RAG, 最小管线 | 🔗 官方免费在线：https://langchain-ai.github.io/langgraph/tutorials/rag/langgraph_agentic_rag/ |
+| 15 | Langfuse 官方文档 · RAG 可观测性 | Langfuse | 🛠️实践 | 开源 LLM/RAG 追踪与监控事实标准之一；"答非所问查哪环"的落地工具书 | 生产化落地 | 🔗 官方免费在线：https://langfuse.com/docs |
+| 16 | 《From Local to Global》GraphRAG 论文 | Edge et al.（Microsoft） | 🛠️实践 | GraphRAG 原始出处：社区检测+分层摘要怎么解"全局问题"；看它是为了给图谱路线找方法依据 | GraphRAG | ✅ 已下载 `./ebooks/2404.16130-graphrag-local-to-global.pdf` |
+| 17 | Microsoft GraphRAG 官方文档 | Microsoft | 🛠️实践 | 开源实现的索引管线与配置一手资料，含 LazyGraphRAG 低成本路线 | GraphRAG | 🔗 官方免费在线：https://microsoft.github.io/graphrag/ |
+| 18 | 《ColPali》论文 | Faysse et al. | 🛠️实践 | "页面当图检索"奠基作：免 OCR、MaxSim 晚交互；看它是为了做多模态选型时算清收益与存储代价 | 多模态 RAG | ✅ 已下载 `./ebooks/2407.01449-colpali.pdf` |
+| 19 | HuggingFace 教程 · ColPali + Milvus 多模态 RAG | HuggingFace 社区 | 🛠️实践 | 可跑通的多模态检索实战：从页面截图入库到 MaxSim 检索一条龙 | 多模态 RAG | 🔗 官方免费在线：https://huggingface.co/blog/saumitras/colpali-milvus-multimodal-rag |
+| 20 | dbt 博客 · Semantic Layer vs Text-to-SQL 2026 基准 | dbt Labs | 🛠️实践 | 裸 Text-to-SQL 与语义层准确率对照的一手数据（50–70% vs 85–95%），给客户讲取舍的弹药 | 结构化数据 RAG | 🔗 官方免费在线：https://docs.getdbt.com/blog/semantic-layer-vs-text-to-sql-2026 |
+
+**说明**：类型列仅 2 本 `📖理论·可选读`（第 9、10），其余 18 份均为 `🛠️实践`，符合"偏实践、理论≤2"的口味。
+第 11–15 条为 2026-07-08 实践篇（第 6–9 章）追加；第 16–20 条为 2026-07-09 进阶篇（第 10–12 章）追加；
+五篇 arXiv 论文 PDF 均已落地 `./ebooks/`。

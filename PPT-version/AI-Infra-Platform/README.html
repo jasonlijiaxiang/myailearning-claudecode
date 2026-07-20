@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>AI-Infra-Platform · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">算力与数据底座 · Compute · Platform · Data</span></p>
+<h1>AI-Infra-Platform · 集群平台与调度</h1>
+<p class="sub">把一堆 GPU 变成一个好用的平台：Kubernetes + GPU 的组合怎么落地、训练/推理作业怎么调度（Slurm / Volcano / Kueue / KAI）、一张卡怎么切给多个租户（MIG / 时间片 / HAMi）、大规模训练怎么容错与断点续训、集群怎么可观测，以及云上算力的几种形态（GPU 裸金属 / 托管 K8s / 托管训练 / API）各适合什么客户。面向售前技术，讲清平台层每个环节解决什么痛、方案之间怎么选。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>AI-Infra-Platform-讲义.pptx</code>（主力成品，<span class="ok">✅ 81 页</span>）<br>
+ · 精选电子书书单：<code>电子书书单.md</code> + <code>ebooks/</code>（<span class="ok">✅ 10 项，1 份 PDF 落地；平台层多为在线文档，以链接为主</span>）<br>
+ · 原始素材留痕：<code>raw-data/</code>（2026-07-09 起）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>平台全景</td><td>裸机之痛四种浪费、四大职责（调度/隔离/容错/观测）、为什么是 K8s</td><td class="ok">✅</td></tr>
+ <tr><td>2</td><td>K8s + GPU 基础</td><td>原生资源模型、device plugin 三天花板、DRA（1.34 GA）、GPU Operator</td><td class="ok">✅</td></tr>
+ <tr><td>3</td><td>作业调度</td><td>gang scheduling、碎片与 bin-packing、Kueue/Volcano/KAI/Slurm 分层、配额抢占</td><td class="ok">✅</td></tr>
+ <tr><td>4</td><td>GPU 切分与多租户</td><td>MIG / 时间片 / MPS / HAMi 对比、三把尺子选型、DRA 统一编排</td><td class="ok">✅</td></tr>
+ <tr><td>5</td><td>训练容错工程</td><td>故障是常态、checkpoint 两难、自愈循环、托管训练容错</td><td class="ok">✅</td></tr>
+ <tr><td>6</td><td>可观测性与利用率</td><td>利用率三层口径、MFU/goodput、四大黑洞、DCGM 与成本分摊</td><td class="ok">✅</td></tr>
+ <tr><td>7</td><td>推理服务平台化</td><td>推理 vs 训练调度、KServe/llm-d/Dynamo 承载、弹性扩缩容信号</td><td class="ok">✅</td></tr>
+ <tr><td>8</td><td>云上形态与售前速查</td><td>四种算力形态、三问定档、责任递交线、两张速查表</td><td class="ok">✅</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块是"算力底座层"的平台半边，姊妹模块 <a href="../AI-Infra-Compute/README.html">AI-Infra-Compute</a> 讲硬件半边（GPU、网络、存储）。向上衔接 <a href="../LLM-Training/README.html">LLM-Training</a>（训练作业是调度与容错的头号负载）与 <a href="../LLM-Inference/README.html">LLM-Inference</a>（推理引擎与 P/D 分离在那本讲机制，本模块第 7 章讲平台承载）——云上算力形态一章与全库"上云落地"挂钩最紧。机器可读的章节 ID、时效性事实与串联出边见 <code>MANIFEST.md</code>。
+</div>
+</body></html>

@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>MCP · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">协议层 · Protocol Layer</span></p>
+<h1>MCP · 模型上下文协议</h1>
+<p class="sub">MCP（Model Context Protocol）：让大模型应用与外部工具/数据源之间的接入从 M×N 的定制胶水，变成 M+N 的标准插座。面向售前技术，讲清"协议长什么样、server/client 怎么写、生产怎么落地、客户会怎么问"。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>MCP-讲义.pptx</code>（主力成品，74 页，✅ 已完成，2026-07-11 增第 7 章速查）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，偏实践）+ <code>ebooks/</code>（已归档 2 份免费 PDF：NSA/CISA 安全指引、MCPTox 论文）<span class="ok">✅</span><br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-08 联网核实笔记，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>MCP 是什么 / 为什么</td><td>USB-C 类比、M×N→M+N、与 Function Calling 是分工非替代、简史与 AAIF 治理、与 Agent 模块承上启下</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>协议解剖</td><td>Host/Client/Server 三角色、JSON-RPC 2.0 基座、生命周期、三大原语 Tools/Resources/Prompts、真实 tools/call 报文</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>传输与版本演进</td><td>stdio vs Streamable HTTP、五版脉络、2026-07-28 无状态核心、Extensions/Tasks/MCP Apps 与弃用政策</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>动手写 server 与 client</td><td>Python SDK（FastMCP）、定义工具/资源/提示词、MCP Inspector 调试、接入 Claude Desktop、把 REST 包成 MCP</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>生产落地：鉴权/部署/Registry</td><td>OAuth 2.0/OIDC、MCP 网关集中管控、官方 Registry（preview）vs 企业私有 registry、上云怎么落地</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>安全：威胁面与防护</td><td>工具投毒/rug pull/confused deputy/裸奔、2026 年 40+ CVE、NSA/CISA 指引、防护组合拳</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>售前速查</td><td>高频问题电梯版、上手四步与排错三板斧、安全五条、版本口径（稳定版 2025-11-25 / 新版 2026-07-28）、串联地图</td><td class="ok">✅ 已完成（2026-07-11 新增）</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>库内 <a href="../Agent/README.html">Agent</a> 模块第 4 章《工具接入与 MCP》
+ 已从 agent 视角讲过 M×N→M+N 与 Host/Client/Server——那章是"为什么需要标准接口"，
+ 本模块是"这个标准接口本身长什么样、怎么用好"。两边天然互链。
+</div>
+</body></html>

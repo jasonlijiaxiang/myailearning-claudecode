@@ -1,0 +1,75 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>RAG · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">应用模式层 · Application Patterns</span></p>
+<h1>RAG · 检索增强生成</h1>
+<p class="sub">检索增强生成（Retrieval-Augmented Generation）：给大模型外挂一个"随时可查、可更新、可溯源"的知识库。面向售前技术，讲清"为什么用、每一步怎么落地、上云对应什么服务、客户会怎么问"。原理五章（懂）+ 实践四章（跑）+ 进阶三章（广）。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>RAG-讲义.pptx</code>（主力成品，128 页：原理 5 章 + 实践 4 章 + 进阶 3 章）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（20 份，偏实践）+ <code>ebooks/</code>（5 篇 arXiv 论文 PDF 已归档）<br>
+ · 原始素材留痕：<code>raw-data/</code>
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>RAG 是什么 / 为什么</td><td>大模型的"记忆"短板、幻觉与知识过期、RAG 三步（检索→增强→生成）、RAG vs 微调</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>向量检索与 Embedding</td><td>嵌入把语义变坐标、相似度、ANN、主流 embedding 选型、向量库选型</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>切分策略 Chunking</td><td>为什么切、按什么切、块大小与重叠、上下文检索、常见坑</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>重排序 Reranking</td><td>两阶段检索、双编码器 vs 交叉编码器、主流 reranker、收益与成本</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>常见评估方法</td><td>检索侧/生成侧指标、faithfulness、context precision/recall、Ragas/DeepEval/TruLens</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>动手搭一条最小 RAG 管线</td><td>离线建库/在线查询两条腿、几十行可运行代码、框架选型（LlamaIndex/LangGraph/Langfuse 组合）</td><td class="ok">✅ 已完成（2026-07-08 实践篇增补）</td></tr>
+ <tr><td>7</td><td>混合检索 Hybrid Search</td><td>BM25 与向量各自盲区、RRF 倒数排名融合（k≈60）、双路召回→融合→重排两阶段管线</td><td class="ok">✅ 已完成（2026-07-08 实践篇增补）</td></tr>
+ <tr><td>8</td><td>Agentic RAG</td><td>朴素 RAG 天花板、五大生产模式（Router/ReAct/计划-执行/多智能体/Self-RAG）、CRAG 纠错环、与 Agent 模块串联页</td><td class="ok">✅ 已完成（2026-07-08 实践篇增补）</td></tr>
+ <tr><td>9</td><td>生产化落地与常见坑</td><td>三大生产病（漂移/尖刺/黑盒）、全链路 Trace、三层缓存与成本公式、检索层 ACL 权限</td><td class="ok">✅ 已完成（2026-07-08 实践篇增补）</td></tr>
+ <tr><td>10</td><td>GraphRAG：图谱增强检索</td><td>全局问题盲区、四步（抽取→建图→社区检测→分层摘要）、成本账与 LazyGraphRAG/LightRAG、向量+图谱路由</td><td class="ok">✅ 已完成（2026-07-09 进阶篇增补）</td></tr>
+ <tr><td>11</td><td>多模态 RAG</td><td>纯文本管线的信息丢失、三条路线（转述/统一嵌入/ColPali 页面当图）、MaxSim 与存储代价、选型口诀、与 Multimodal 模块串联页</td><td class="ok">✅ 已完成（2026-07-10 加 Multimodal 串联页）</td></tr>
+ <tr><td>12</td><td>结构化数据 RAG</td><td>查文 vs 查数、裸 Text-to-SQL 50–70% 与静默错误、语义层口径手册（85–95%）、RAG 检索层+语义层回答层</td><td class="ok">✅ 已完成（2026-07-09 进阶篇增补）</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-what-why</code>，提示词 vs RAG 选型 + 检索内容要塞进提示词）。 库内已有 <a href="../Agent/README.html">Agent</a> 模块，二者存在<b>真实交点</b>——
+ "检索"是 agent 最常用的工具之一，RAG 给模型供"知识"、Agent 给模型供"工具与编排"，
+ <b>Agentic RAG</b> 正是两模块的天然接缝（RAG 的检索管线 ↔ Agent 的工具使用/编排）。
+ <b>该串联已双向落地</b>：本模块第 8 章配"与 Agent 模块的关系"专页，Agent 模块第 5 章亦有 Agentic RAG 串联页。<br>
+ <b>新增串联（2026-07-10，双向）：</b>第 11 章多模态 RAG ↔ <a href="../Multimodal/README.html"><b>Multimodal</b></a> 模块——本章讲「多模态内容怎么检索」（三条路线），那边讲「模型怎么看懂图」（视觉编码、融合、能力边界），第 11 章已加「与 Multimodal 模块的关系」专页（↔ <code>multimodal#mm-fusion</code>）。<br>
+ <b>新增串联（2026-07-08）：</b>"长上下文 vs RAG"之争 ↔ <a href="../LLM/README.html"><b>LLM 原理</b></a> 模块第 4 章——
+ 那边给出架构论据（标称 1M ≠ 有效 1M、全量塞入的平方级成本、权限只能在检索层做），与本模块第 1 章互为弹药。<br>
+ <b>已转正串联（相应模块已建成，2026-07-09）：</b>
+ <ul>
+  <li>第 5 章检索质量指标 ↔ <a href="../Evaluation/README.html"><b>Evaluation</b></a> 模块的评估指标体系</li>
+  <li>第 1 章"改知识 vs 改行为"的取舍 ↔ <a href="../Fine-tuning/README.html"><b>Fine-tuning</b></a> 模块</li>
+ </ul>
+ <b>候选串联（仅预留，不虚构实链接）：</b>
+ <ul>
+  <li>工具接入的协议细节 ↔ <a href="../MCP/README.html"><b>MCP</b></a> 模块（已建成；待有真实交点章节时再补实链接）</li>
+ </ul>
+</div>
+
+<div class="future"><b>可增补方向：</b>长上下文 vs RAG 的边界、RAG 安全（检索投毒 / 提示注入）——将来任意加一章，沿用本模块每章结构即可。（混合检索、Agentic RAG、生产化已作为第 7/8/9 章落地；GraphRAG、多模态、结构化数据已于 2026-07-09 作为第 10/11/12 章落地。）</div>
+</body></html>

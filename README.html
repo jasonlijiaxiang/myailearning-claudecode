@@ -1,0 +1,147 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>我的 AI 知识库</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:940px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.55}
+ h1{text-align:center;margin:.2rem 0 .3rem;letter-spacing:.02em}
+ .sub{color:#556575;text-align:center;max-width:640px;margin:.2rem auto 1.4rem}
+ h2{margin:2.4rem 0 .9rem;padding-left:.6rem;border-left:5px solid #2b6cb0}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ td:first-child a{font-weight:600;text-decoration:none;color:#2b6cb0}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .future{background:#fffbea;border:1px dashed #d6b656;padding:.8rem 1.1rem;border-radius:10px}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ .daily{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:1rem 1.2rem;margin:1.2rem 0 1.6rem;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .daily-title{font-weight:700;color:#0b2540;margin-bottom:.5rem}
+ .daily a{font-weight:700;color:#1a5fa8;text-decoration:none}
+ .daily li{margin:.3rem 0;list-style:none}
+ .daily ul{margin:.2rem 0;padding:0}
+ .daily .d{color:#556575}
+ .plumb{color:#8194a5;font-size:.85em;margin-top:1.6rem;border-top:1px solid #e6edf3;padding-top:1rem}
+ .kmap-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem;margin:2.4rem 0 .6rem}
+ .kmap-head h2{margin:0;padding-left:.6rem;border-left:5px solid #2b6cb0}
+ .kmap-cap{color:#8194a5;font-size:.88em}
+ .legend{display:flex;gap:.6rem;flex-wrap:wrap;margin:.4rem 0 1rem}
+ .lg{display:inline-flex;align-items:center;gap:.45rem;background:#f5f8fb;border:1px solid #e3ecf4;border-radius:999px;padding:.28rem .85rem;font-size:.85em;color:#3a4a58}
+ .lg .sw{width:22px;height:14px;border-radius:4px;background:#eef5fc;border:1.5px solid #9ec5e8}
+ .lg .sw.dash{background:#fdf8e8;border:2px dashed #d9a62d}
+ .lg .dot{width:9px;height:9px;border-radius:50%;background:#2f855a}
+ .krow{display:flex;gap:.9rem;margin:.9rem 0;align-items:stretch}
+ .klayer{flex:0 0 168px;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);border-radius:14px;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:1rem 1.1rem}
+ .klayer b{font-size:1.12em;letter-spacing:.02em}
+ .klayer span{color:#c9ddf2;font-size:.8em;margin-top:.35rem}
+ .kcards{flex:1;display:flex;gap:.9rem;flex-wrap:wrap}
+ .kcard{box-sizing:border-box;flex:1 1 0;min-width:150px;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:14px;padding:.85rem 1rem;display:flex;flex-direction:column;gap:.2rem}
+ .klayer{box-sizing:border-box}
+ .kcard:hover{background:#e9f3fc}
+ .kcard b{color:#0b2540;font-size:1.02em}
+ .kcard .en{color:#51606e;font-size:.83em}
+ .kcard .meta{margin-top:auto;padding-top:.55rem;display:flex;justify-content:space-between;align-items:center;gap:.4rem;flex-wrap:wrap}
+ .kcard .meta a{color:#2b6cb0;text-decoration:none;font-size:.83em}
+ .pill{display:inline-flex;align-items:center;gap:.35rem;background:#e6f4ea;color:#2f855a;border-radius:999px;padding:.14rem .6rem;font-size:.76em;font-weight:600;white-space:nowrap}
+ .pill::before{content:'';width:7px;height:7px;border-radius:50%;background:#2f855a}
+ .kcard.ext{background:#fdf8e8;border:2px dashed #d9a62d}
+ .kcard.ext:hover{background:#fbf2d8}
+ .kcard.ext .meta a{color:#8a5c12}
+
+ .faces{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:1rem 0 .4rem}
+ .face{display:flex;flex-direction:column;gap:.35rem;padding:1rem 1.1rem;border:1.5px solid #9ec5e8;border-radius:14px;background:linear-gradient(180deg,#f4faff,#fdfeff);text-decoration:none;color:inherit;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .face:hover{border-color:#2b6cb0;background:#eef6ff}
+ .face b{color:#0b2540;font-size:1.05em}
+ .face .d{color:#556575;font-size:.88em;line-height:1.5}
+ .face .st{font-size:.8em;font-weight:600;margin-top:.15rem}
+ .face .st.ok{color:#2f855a}
+ .face .st.soon{color:#8a5c12}
+ .face.soon{border-color:#d9a62d;border-style:dashed;background:linear-gradient(180deg,#fdf8e8,#fffdf6)}
+ .face.soon:hover{border-color:#b8860b;background:#fbf2d8}
+ @media(max-width:680px){.faces{grid-template-columns:1fr}}
+</style></head><body>
+<h1>我的 AI 知识库</h1>
+<p class="sub">面向"售前技术"角色的持续扩充知识库。一套知识、两面呈现：<b>PPT 面</b>是内容真源（讲义 + 书单），<b>Web 面</b>是网页延伸。下面的知识地图与每日取用两面通用。</p>
+
+<div class="daily">
+ <div class="daily-title">🎯 每日取用</div>
+ <ul>
+  <li><a href="./_prep/实战包.html">实战包</a><span class="d"> —— 对客交锋 55 题：把每次和客户的"交锋"当一场面试；每题带源指针与 ⏳ 时效标注</span></li>
+  <li><a href="./_prep/学习路径.html">学习路径</a><span class="d"> —— 七天通读 / 对客前 30 分钟（9 场景）/ 交锋前夜冲刺</span></li>
+  <li><a href="./_prep/全库一页纸.html">全库一页纸</a><span class="d"> —— 19 个模块一页尽览、五条串联主动脉、保鲜看板（定点复查日历）</span></li>
+ </ul>
+</div>
+
+<h2>两面入口</h2>
+<div class="faces">
+ <a class="face" href="./PPT-version/README.html">
+  <b>PPT 面 · 讲义总览</b>
+  <span class="d">内容真源：19 个模块的讲义式 PPT 与精选书单，共 1732 页。逐模块独立学习、更新与巡检。</span>
+  <span class="st ok">19 个模块 · 已完成</span>
+ </a>
+ <a class="face soon" href="./Web-version/">
+  <b>Web 面 · 网页版</b>
+  <span class="d">PPT 面的延伸增强：同一批事实换一种信息节奏呈现，配可交互件。两面共用 MANIFEST 账本。</span>
+  <span class="st soon">试点建设中 · 首站 MCP 册</span>
+ </a>
+</div>
+
+<div class="kmap-head"><h2>知识地图</h2><span class="kmap-cap">实线卡片表示核心模块，虚线卡片表示关联扩展；19 个模块均可独立学习、更新与巡检。</span></div>
+<div class="legend"><span class="lg"><span class="sw"></span>核心模块</span><span class="lg"><span class="sw dash"></span>关联扩展</span><span class="lg"><span class="dot"></span>已完成</span></div>
+ <div class="krow">
+  <div class="klayer"><b>解决方案层</b><span>Solution Layer</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./PPT-version/Solution-Patterns/README.html" style="text-decoration:none"><b>场景方案库</b><span class="en">Solution-Patterns</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/Model-Landscape/README.html" style="text-decoration:none"><b>模型格局与选型</b><span class="en">Model-Landscape</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>应用模式层</b><span>Application Patterns</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./PPT-version/RAG/README.html" style="text-decoration:none"><b>RAG</b><span class="en">Retrieval-Augmented Generation</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/Agent/README.html" style="text-decoration:none"><b>Agent</b><span class="en">AI Agent</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/Multimodal/README.html" style="text-decoration:none"><b>多模态</b><span class="en">Multimodal</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>协议层</b><span>Protocol Layer</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./PPT-version/MCP/README.html" style="text-decoration:none"><b>MCP</b><span class="en">Model Context Protocol</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/A2A/README.html" style="text-decoration:none"><b>A2A</b><span class="en">Agent2Agent Protocol</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>工程保障层</b><span>Engineering Assurance</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./PPT-version/Fine-tuning/README.html" style="text-decoration:none"><b>Fine-tuning</b><span class="en">模型微调</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/Evaluation/README.html" style="text-decoration:none"><b>Evaluation</b><span class="en">评测与质量门禁</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/Security/README.html" style="text-decoration:none"><b>Security</b><span class="en">安全与治理</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/AI-Gateway/README.html" style="text-decoration:none"><b>AI 网关</b><span class="en">AI-Gateway</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard ext" href="./PPT-version/AI-Ops/README.html" style="text-decoration:none"><b>AI-Ops</b><span class="en">观测与运营</span><span class="meta"><span style="color:#8a5c12;font-size:.83em">关联扩展 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>基础层</b><span>Foundation Layer</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./PPT-version/LLM/README.html" style="text-decoration:none"><b>LLM 原理</b><span class="en">LLM Principles</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/LLM-Training/README.html" style="text-decoration:none"><b>Training</b><span class="en">模型训练</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/LLM-Inference/README.html" style="text-decoration:none"><b>Inference</b><span class="en">模型推理</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/Prompt-Engineering/README.html" style="text-decoration:none"><b>Prompt</b><span class="en">提示词工程</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>算力与数据底座</b><span>Compute · Platform · Data</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./PPT-version/AI-Infra-Compute/README.html" style="text-decoration:none"><b>Infra-Compute</b><span class="en">算力、网络与调度</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./PPT-version/AI-Infra-Platform/README.html" style="text-decoration:none"><b>Infra-Platform</b><span class="en">平台与服务化底座</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard ext" href="./PPT-version/Data-Engineering/README.html" style="text-decoration:none"><b>Data-Engineering</b><span class="en">数据与知识底座</span><span class="meta"><span style="color:#8a5c12;font-size:.83em">关联扩展 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+
+<p class="plumb">
+ 库目录约定（v4.0 一源两面）：<code>PPT-version/</code> 是内容真源所在地，模块目录整体在此；
+ <code>Web-version/</code> 是网页派生站点；电子书集中在库级馆藏 <code>_reference/ebooks/</code>，两面共用、整库打包不重复；
+ <code>_prep/</code> 放库级取用产物，<code>_maintenance/</code> 放巡检报告与门禁脚本。
+ 巡检范围包含 <code>_prep/MANIFEST.md</code>——它以「引用映射」挂靠各源模块，源模块事实刷新后需同步顶部三份取用文档。
+ 知识地图为<b>展示口径</b>（六行 + 关联扩展标记，2026-07-11 定版）；层归属的<b>机器口径</b>以 <code>KB-CONFIG.md</code> 与各模块 <code>MANIFEST.md</code> 为准（七层），两者差异为有意设计、勿"修正"。
+</p>
+</body></html>

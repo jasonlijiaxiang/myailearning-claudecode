@@ -1,0 +1,25 @@
+# LLM 原理 · 精选电子书书单
+
+> 面向"售前技术"角色。可免费下载的已存入 ./ebooks/。
+> 时效性事实核实日期：2026-07-08（依据见 raw-data/2026-07-08-联网核实笔记.md）。
+
+| # | 书名 | 作者/机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 《动手学深度学习》（中文版·PyTorch）注意力机制章 | 阿斯顿·张、李沐等 / d2l.ai | 🛠️实践 | 中文教材+可运行代码，从零实现缩放点积注意力、多头注意力和 Transformer，动手入门首选 | 注意力机制, Transformer 实现 | ✅ 已下载 `./ebooks/D2L-Dive-into-Deep-Learning-zh-PyTorch.pdf`（第 10、11 章） |
+| 2 | The Illustrated Transformer | Jay Alammar | 🛠️实践 | 全网被引用最多的 Transformer 图解，一步一图建立直觉，给客户画白板前先看它 | Transformer 总览, 注意力直觉 | 🔗 免费网页：https://jalammar.github.io/illustrated-transformer/ |
+| 3 | The Annotated Transformer | Harvard NLP（Rush 等） | 🛠️实践 | 原论文逐段配可运行 PyTorch 代码，"论文即代码"的标杆读法 | Transformer 实现, 训练细节 | 🔗 免费网页：https://nlp.seas.harvard.edu/annotated-transformer/ |
+| 4 | Build a Large Language Model (From Scratch) | Sebastian Raschka / Manning | 🛠️实践 | 从空白文件写出一个能跑的 GPT，第 3 章把注意力从单头写到多头因果，循序渐进最扎实 | 注意力实现, decoder-only 架构 | 🔗 正版：https://www.manning.com/books/build-a-large-language-model-from-scratch （配套代码免费：github.com/rasbt/LLMs-from-scratch） |
+| 5 | Let's build GPT: from scratch + nanoGPT | Andrej Karpathy | 🛠️实践 | 2 小时视频从零写到能训练的 GPT，把第 2、3 章讲的每个组件亲手敲一遍 | 注意力实现, 自回归生成 | 🔗 免费：https://www.youtube.com/watch?v=kCc8FmEb1nY + github.com/karpathy/nanoGPT |
+| 6 | Attention in transformers, visually explained | 3Blue1Brown | 🛠️实践 | QKV 与多头注意力的动画可视化（有中文字幕），白板讲解的画法可以直接抄它 | 注意力直觉, 多头注意力 | 🔗 免费视频：https://www.youtube.com/watch?v=eMlx5fFNoYc |
+| 7 | A Visual Guide to Attention Variants in Modern LLMs | Sebastian Raschka | 🛠️实践 | 2026 年注意力变体全景图解：MQA/GQA/MLA/滑窗/稀疏/混合谁在用、各解决什么，讲义第 5 章的主参考 | 注意力变体, KV 缓存优化 | 🔗 免费网页：https://magazine.sebastianraschka.com/p/visual-attention-variants |
+| 8 | DeepSeek-V2 技术报告（MLA 出处） | DeepSeek-AI | 🛠️实践 | 看它是为了答"DeepSeek 为什么便宜"：MLA 如何把 KV 缓存压到约 1/10，工程动机写得很直白 | MLA, KV 缓存优化, MoE | ✅ 已下载 `./ebooks/arXiv-2405.04434-DeepSeek-V2-MLA.pdf` |
+| 9 | Attention Is All You Need | Vaswani 等 / Google | 📖理论·可选读 | 一切的源头；不必通读，看架构图（图 1）与 3.2 节缩放点积注意力即可，想深入再全文 | Transformer 原始架构 | ✅ 已下载 `./ebooks/arXiv-1706.03762-Attention-Is-All-You-Need.pdf` |
+| 10 | 《图解大模型》（Hands-On Large Language Models 中文版） | Jay Alammar、Maarten Grootendorst | 🛠️实践 | 图解风格的成书版：从 token 到注意力到应用一条线讲完，适合系统性补全 | Transformer 全景, 应用视角 | 🔗 正版：https://www.oreilly.com/library/view/hands-on-large-language-models/9781098150952/ （中文版见人民邮电出版社） |
+
+## 阅读建议
+
+1. **只有 30 分钟、明天就要见客户**：先看 #2（Illustrated Transformer）再看 #6（3B1B 动画）——两份都是纯直觉，看完就能在白板上把注意力画明白。
+2. **客户问得最多的两件事**（"为什么按 token 收费/长上下文贵"、"DeepSeek 为什么便宜"）：读 #7 的变体全景 + #8 的 MLA 动机部分，配合讲义第 4、5 章食用。
+3. **要做 demo 或想真正吃透**：跟着 #5（Karpathy 视频）敲一遍，卡住时查 #1（d2l 中文，可当字典用）；想再系统一遍读 #4。
+4. **被问到"和原论文说法不一样"时**：翻 #9 原论文对应小节核对原文，#3（Annotated Transformer）帮你把论文语言翻译成代码语言。
+5. **想成体系收藏一本纸书**：#10 中文版，图多代码全，适合放在手边随时翻。

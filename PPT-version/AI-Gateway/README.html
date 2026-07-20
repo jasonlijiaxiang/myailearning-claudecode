@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>AI-Gateway · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">工程保障层 · Engineering Assurance</span></p>
+<h1>AI-Gateway · AI 网关</h1>
+<p class="sub">一旦你不止调用一个模型，"多对多"的接入、成本、安全就会失控。本模块把 AI 网关讲成一条运营主线：认清定位（统一入口 + 运营管控层）→ 统一接入 → 智能路由与容灾 → 按 token 管成本 → 挂上安全护栏 → 全链路可观测 → 连上 MCP 与 Agent → 会选型上云。面向售前技术，重取舍与落地，用"配电箱"类比讲活每个概念。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>AI-Gateway-讲义.pptx</code>（主力成品，85 页，<span class="ok">✅ 已完成</span>，第 7 章「AI 网关 + MCP 网关」按需展开，2026-07-10 增补授权时序深潜 3 页）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，偏实践）+ <code>ebooks/</code>（已归档 2 份免费 PDF：RouteLLM、FrugalGPT；其余为官方文档链接）<span class="ok">✅</span><br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-09 与 2026-07-10 两份联网核实笔记，时效性事实以此为准；历史版本在 <code>raw-data/history/</code>）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>是什么·为什么</td><td>多对多之痛（M×N 私接线）、AI 网关=统一入口+运营管控层、LLM 专属六件套、与 MCP/A2A/推理服务/API 网关的边界辨析</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>统一接入与协议转换</td><td>OpenAI 兼容层、参数映射/能力协商/优雅降级、工具调用格式统一、虚拟密钥（一把逻辑钥匙管多真钥匙）</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>路由·负载·容灾</td><td>为什么路由、五策略（成本/延迟/质量/复杂度/语义）、fallback+重试+熔断控爆炸半径、RouteLLM/FrugalGPT 省钱实证</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>流量与成本治理</td><td>为什么按 token 而非按请求、配额/预算/花费归集、精确 vs 语义缓存原理、语义缓存的坑（阈值/串答）、三云对照</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>安全·合规·护栏（挂载点）</td><td>网关作统一安全落地位、鉴权/多租户/密钥托管、护栏 pre/post 钩子（PII/注入/内容安全）、与 Security 模块串联、三云内容安全对照</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>可观测</td><td>网关是天然观测点、三支柱+AI 特有维度（token/成本/质量）、OpenTelemetry GenAI 语义约定 / OpenInference 标准化</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>AI 网关 + MCP 网关（展开章）</td><td>从"管模型"到"管工具与 Agent"、MCP 网关六职责、openapi-to-mcp、MCP 授权（OIDC token 交换）、<b>授权时序深潜</b>（六步时序图 RFC 8693/8707 · OAuth 2.1 规范现状 · 三大反模式：token 透传/混淆代理/万能钥匙）、模型+MCP+Agent 三合一、与 MCP/A2A/Agent 串联</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>8</td><td>选型与上云·售前速查</td><td>自托管 vs 托管决策、六大开源网关横评、三云托管对照、一页速查（能力→在网关怎么配→上云用什么）、综合问答</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>AI 网关是全库多条工程线的"落地枢纽"——第 5 章把 <a href="../Security/README.html">Security</a> 的护栏/审计/最小权限落到网关这层（一处挂、处处生效）；第 7 章把 <a href="../MCP/README.html">MCP</a>、<a href="../A2A/README.html">A2A</a>、<a href="../Agent/README.html">Agent</a> 的工具与智能体流量统一代理治理；第 3/6 章的路由降级与观测质量接 <a href="../Evaluation/README.html">Evaluation</a> 打分；成本治理章说明网关在 <a href="../LLM-Inference/README.html">LLM-Inference</a> 之上做多模型统一治理（逐条见 MANIFEST 串联出边）。</p>
+</div>
+</body></html>

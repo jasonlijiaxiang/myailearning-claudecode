@@ -1,0 +1,27 @@
+# Prompt Engineering · 精选电子书书单
+
+> 面向"售前技术"角色（有 Python/API 基础，重底层概念与取舍，偏实践少理论）。可免费下载的已存入 `./ebooks/`。
+> 时效性事实核实日期：2026-07-09（依据见 `raw-data/2026-07-09-联网核实笔记.md`）。
+
+| # | 书名 | 作者/机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 《Prompt Engineering》白皮书 v4（60+页） | Lee Boonstra / Google·Kaggle | 🛠️实践 | 一份就系统覆盖全部主流技巧（zero/few-shot、CoT、self-consistency、ToT、ReAct、自动提示工程），40 万+ 下载的经典免费入门 | 核心技巧, 进阶推理, 工程化 | ✅ 已下载 `./ebooks/Google-Kaggle-Prompt-Engineering-Whitepaper.pdf` |
+| 2 | Prompt Engineering Interactive Tutorial | Anthropic | 🛠️实践 | 官方交互式教程，9 章 Jupyter 练习带答案，边写边学最快上手 | 提示词解剖, 核心技巧, 动手实战 | ✅ 已下载 `./ebooks/Anthropic-Prompt-Eng-Interactive-Tutorial.zip` |
+| 3 | Prompt Engineering Guide | Brex | 🛠️实践 | 从"模型到底是什么"讲起的工程师视角入门，直觉清晰、无废话 | 是什么/为什么, 提示词解剖 | ✅ 已下载 `./ebooks/Brex-Prompt-Engineering-Guide.zip` |
+| 4 | OWASP Top 10 for LLM Applications 2025 | OWASP GenAI | 🛠️实践·安全 | 提示词注入的权威分类与防护清单（LLM01 连续两版第一），安全章的一手依据 | 安全与风险 | ✅ 已下载 `./ebooks/OWASP-Top10-LLM-Applications-2025.pdf` |
+| 5 | The Prompt Report: A Systematic Survey of Prompting Techniques | Schulhoff 等 | 📖理论·可选读 | 58 种提示技巧的分类综述，想系统了解技巧全谱再翻，**日常可跳过** | 核心技巧, 进阶推理 | ✅ 已下载 `./ebooks/arXiv-2406.06608-The-Prompt-Report.pdf` |
+| 6 | Prompt Engineering Guide + Cookbook | OpenAI | 🛠️实践 | GPT/推理模型的官方口径：推理模型 vs 通用模型怎么分别提示 | 进阶推理, 核心技巧 | 🔗 官方在线：https://developers.openai.com/api/docs/guides/prompt-engineering ｜ https://github.com/openai/openai-cookbook |
+| 7 | Prompt Engineering 文档（+ extended thinking 技巧） | Anthropic | 🛠️实践 | Claude 的提示优先级顺序、XML 结构化、推理模型技巧，最常更新 | 提示词解剖, 进阶推理 | 🔗 官方在线：https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview |
+| 8 | Prompt Engineering Guide | DAIR.AI | 🛠️实践 | 技巧全景的常青参考站，中英双语、示例多 | 核心技巧, 进阶推理 | 🔗 官方在线：https://www.promptingguide.ai |
+| 9 | DSPy 官方文档（MIPROv2 / GEPA） | Stanford / DSPy | 🛠️实践 | 把"手写提示词"变成"程序化自动优化"的上手文档 | 工程化与自动优化 | 🔗 官方在线：https://dspy.ai |
+| 10 | Learn Prompting | LearnPrompting.org | 🛠️实践 | 从入门到进阶的结构化免费课程，适合系统过一遍 | 全模块系统学习 | 🔗 官方在线：https://learnprompting.org |
+
+> 类型说明：`🛠️实践` = 能上手能落地；`📖理论·可选读` = 偏综述/原理，想深入再看（全库理论类克制，本模块仅 1 本 #5）。
+
+## 阅读建议（售前场景取用顺序）
+
+1. **最快建立体系，先读 #1 Google 白皮书**——一份就把 zero/few-shot、CoT、ReAct、自动提示工程串起来，读完就能和客户聊得起来，是性价比最高的第一份。
+2. **要动手做 demo，配 #2 Anthropic 交互教程**——9 章练习直接在 notebook 里改提示词看效果，比只看文字快得多；讲义第 2、3 章的动手做可直接用它。
+3. **客户问"你们怎么防提示词注入"，翻 #4 OWASP**——直接引用 LLM01 的直接/间接注入分类和"RAG/微调都治不了注入"这句权威结论，最有说服力（对应讲义第 6 章）。
+4. **要跟客户讲"提示词也能自动优化/上云托管"，看 #9 DSPy 文档 + #6/#7 官方指南**——DSPy 讲自动优化的原理，官方指南给推理模型时代的最新口径（这两块最容易过期，以在线版为准）。
+5. **#5 The Prompt Report 是"深潜备用"**——只有当你需要一个技巧的准确定义/出处时再查，不必通读。

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 _maintenance/dump_pages.py *)",
+      "Bash(npm test)",
+      "Bash(python3 _maintenance/scan_candidates.py *)",
+      "Bash(python3 _maintenance/audit_pptx.py *)",
+      "Bash(unzip -l *)",
+      "Bash(python3 _maintenance/check_html_links.py)",
+      "Bash(python3 _maintenance/check_page_ledger.py *)",
+      "Bash(python3 _maintenance/check_ebook_ledger.py *)",
+      "mcp__scheduled-tasks__list_scheduled_tasks"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+# Data-Engineering · 精选电子书书单
+
+> 面向"售前技术"角色。可免费下载的已存入 ./ebooks/。选取标准：偏实践、少理论。
+> 时效性事实核实日期：2026-07-11（依据见 raw-data/2026-07-11-联网核实笔记.md）。
+
+| # | 书名 | 作者/机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 《Docling Technical Report》 | IBM Research / arXiv 2408.09869 | 🛠️实践 | 开源解析头部方案的技术报告：AI 版面检测与语义保真的做法 | 第 2 章解析 | ✅ 已下载 `./ebooks/arXiv-2408.09869-Docling-Technical-Report.pdf` |
+| 2 | 《MinerU Technical Report》 | OpenDataLab / arXiv 2409.18839 | 🛠️实践 | CJK 复杂版面最强开源解析器的技术报告，中文文档场景必读 | 第 2 章解析 | ✅ 已下载 `./ebooks/arXiv-2409.18839-MinerU-Technical-Report.pdf` |
+| 3 | 文档解析工具横评（2026） | mixpeek / pdfmux / themenonlab | 🛠️实践 | 四强对比与 opendataloader-bench 基准口径的出处 | 第 2 章选型 | 🔗 免费：<https://mixpeek.com/curated-lists/best-document-parsing-tools> · <https://pdfmux.com/blog/pdfmux-vs-llamaparse-vs-docling-vs-unstructured-2026/> |
+| 4 | 向量库对比指南（2026） | firecrawl / encore / layerbase | 🛠️实践 | pgvector/Qdrant/Milvus/ES 的选型口径与规模上限出处 | 第 4 章向量库 | 🔗 免费：<https://www.firecrawl.dev/blog/best-vector-databases> · <https://layerbase.com/blog/vector-databases-compared-2026> |
+| 5 | Unstructured / LlamaParse 官方文档 | Unstructured / LlamaIndex | 🛠️实践 | 托管解析管线的一手实操与计费口径 | 第 2/3 章 | 🔗 免费：<https://docs.unstructured.io> · <https://docs.llamaindex.ai> |
+| 6 | 各云文档智能服务文档 | AWS / Azure / Google | 🛠️实践 | Textract / Document Intelligence / Document AI——企业客户最常见起点 | 第 2 章云对照 | 🔗 官方文档（三家） |
+| 7 | dbt / Airbyte 数据管线文档 | dbt Labs / Airbyte | 🛠️实践 | 连接器与增量同步的成熟工程参照（AI 数据管线大量复用其模式） | 第 3 章管线 | 🔗 免费：<https://docs.getdbt.com> · <https://docs.airbyte.com> |
+| 8 | 《Fundamentals of Data Engineering》 | Reis & Housley / O'Reilly | 📖体系·可选读 | 数据工程通识纸书：AI 数据底座是它的特化，想补全貌再读 | 全模块 | 🔗 付费，正规渠道：<https://www.oreilly.com/library/view/fundamentals-of-data-engineering/9781098108298/> |
+
+## 阅读建议（按售前场景排优先级）
+
+1. **中文文档项目先读 2**（MinerU 报告）：CJK 版面是国内项目的第一道坎，读完能答"扫描件、图纸、红头文件怎么办"。
+2. **做解析选型时用 3 对照 1/2**：横评给格局、技术报告给底气；记住分水岭是表格保真与阅读顺序。
+3. **向量库被问到就翻 4**：pgvector 上限、Qdrant 过滤、Milvus 规模——三个口径背下来够用 90% 对话。
+4. **报连接器工程量前扫 7**：dbt/Airbyte 的连接器模式就是工程量估算的参照系。
+5. **8 留作体系补全**，可跳过。

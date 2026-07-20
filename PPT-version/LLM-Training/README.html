@@ -1,0 +1,57 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>LLM-Training · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">基础层 · Foundation Layer</span></p>
+<h1>LLM-Training · LLM 训练全景</h1>
+<p class="sub">一个大模型怎么从随机权重变成可用助手：数据、预训练、后训练（SFT / 对齐 / RLVR）、基础设施与评估的完整流程。面向售前技术，讲清每道工序的「为什么」、真实案例的账本，和「客户会怎么问」。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>LLM-Training-讲义.pptx</code>（主力成品，84 页，<span class="ok">✅ 已完成</span>）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，偏实践）+ <code>ebooks/</code>（已归档 5 份免费 PDF：RLHF Book、Tülu 3、Kimi K2、DeepSeek-V3、Foundations of LLMs）<span class="ok">✅</span><br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-08 联网核实笔记，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>全景总览：从随机权重到可用助手</td><td>六道工序一张地图、「培养一名医生」类比、base/instruct/reasoning 三形态、训练 vs 推理两笔账</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>数据：模型的粮食</td><td>语料来源与量级、清洗去重（FineWeb）、分词 BPE 与中文 token 溢价、数据墙与合成数据</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>预训练：压缩互联网</td><td>下一词预测与幻觉根源、Scaling Laws 三代、MoE 主流化、FP8/Muon 降本组合拳、DeepSeek-V3 账本</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>后训练 I · SFT：教会听话</td><td>示范教学与对话模板、LIMA 质量>数量、蒸馏造数据、微调 vs RAG 决策树、LoRA 与托管微调</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>后训练 II · 对齐：教会分寸</td><td>3H 与 InstructGPT、奖励模型与 Reward Hacking、RLHF/PPO 到 DPO、对齐税与误拒平衡</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>后训练 III · RLVR 与推理模型：教会思考</td><td>思维链与推理时扩展、RLVR 可验证奖励、GRPO、R1 涌现实验、蒸馏与路由分流选型</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>训练基础设施与算力账</td><td>16 字节/参数显存账、四种并行（DP/TP/PP/EP）、6ND 成本心算、集群三大件与自建 vs 租云</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>8</td><td>评估与发布：怎么知道练成了</td><td>评估三层体系、污染与刷榜、模型卡五盯点、企业自建评估集配方</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>与 <a href="../LLM/README.html">LLM 原理</a> 模块互为前置——那边讲架构（发动机舱），本模块讲训练（流水线）；
+ 第 4 章「微调 vs RAG」与 <a href="../RAG/README.html">RAG</a> 模块第 1 章互为镜像；
+ 第 6 章推理模型是 <a href="../Agent/README.html">Agent</a> 模块「模型为什么能当大脑」的训练侧答案；
+ 第 8 章评估与 RAG 第 5 章、Agent 第 6 章共同构成三条评估线，待未来 Evaluation 模块收编。
+</div>
+</body></html>

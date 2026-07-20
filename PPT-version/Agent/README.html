@@ -1,0 +1,71 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>Agent · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">应用模式层 · Application Patterns</span></p>
+<h1>Agent · 智能体与编排</h1>
+<p class="sub">AI Agent（智能体）：让大模型不止"回答"，而是带着工具在循环里"做事"——感知、规划、行动、反思。面向售前技术，讲清"什么是 agent、什么时候真需要 agent、编排怎么选、客户会怎么问"。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>Agent-讲义.pptx</code>（主力成品，122 页，✅ 已完成，2026-07-17 增第 10 章 Sub-agent 编排，速查顺延第 11 章）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（16 项，偏实践）+ <code>ebooks/</code>（已归档 6 份 PDF）<br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-07/10/11 联网核实笔记，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>Agent 是什么 / 为什么</td><td>LLM + 工具 + 循环；agent vs 工作流 vs 聊天机器人；何时该用、何时不该用；停机条件</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>核心组件</td><td>规划 Planning、记忆 Memory、工具使用 Tool Use；真实 tool_use/tool_result 报文；工具设计的坑；多模态感知串联页（computer use 前提）</td><td class="ok">✅ 已完成（2026-07-10 加 Multimodal 串联页）</td></tr>
+ <tr><td>3</td><td>编排模式</td><td>五种经典模式、multi-agent 成本账（约 15 倍 token）、A2A v1.0</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>工具接入与 MCP</td><td>M×N→M+N、Host/Client/Server、tools/call 报文、2026-07 版本现状与 AAIF 治理</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>上下文工程</td><td>context rot、四板斧（压缩/笔记/即时检索/子 agent）、Agentic RAG 串联页</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>评估、可观测性与安全护栏</td><td>评估三刻度（结果/轨迹/pass^k）、LangSmith/Langfuse 选型、OWASP Agentic Top 10 与防护组合拳</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>低代码 Agent 平台</td><td>四平台画像（Coze/扣子、Dify、n8n、HiAgent）、按主负载选型、许可证商用边界（Apache 2.0/附加条款/fair-code）、与 code-first 的分水岭三问、「平台做壳节点下沉」范式</td><td class="ok">✅ 已完成（2026-07-10 新增）</td></tr>
+ <tr><td>8</td><td>记忆系统</td><td>四种记忆分层（小核心常驻+检索层+遗忘策略）、框架四强（Mem0/Letta/Zep/LangMem）、与 RAG 边界、记忆投毒 OWASP ASI06 三道防线</td><td class="ok">✅ 已完成（2026-07-11 新增）</td></tr>
+ <tr><td>9</td><td>Computer Use 与 GUI Agent</td><td>三条路线（全桌面/DOM 浏览器/macOS 并行）、基准两口径（短窄 83.5% vs 长程 20.6%）、与 RPA 混合、安全四件（沙箱/最小权限/人审/屏幕即注入面）</td><td class="ok">✅ 已完成（2026-07-11 新增）</td></tr>
+ <tr><td>10</td><td>多智能体 / Sub-agent 编排</td><td>三层框架（模型/运行时/产品）、三个关键性质（独立上下文/窄带通信/深度上限）、Claude Code 与 Codex 实操对照、四层触发机制、派与不派决策账（≈15× token 换 90.2% 提升）</td><td class="ok">✅ 已完成（2026-07-17 新增）</td></tr>
+ <tr><td>11</td><td>售前速查</td><td>高频问题电梯版、六个「什么时候上」启用条件决策树、串联地图（替代原全书串联页）</td><td class="ok">✅ 已完成（2026-07-11 新增，2026-07-17 顺延为第 11 章）</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-advanced-reasoning</code>，ReAct/上下文工程是提示词技巧的循环化应用）。 库内已有 <a href="../RAG/README.html">RAG</a> 模块，存在真实交点——
+ "检索"是 agent 最常用的工具之一，<b>Agentic RAG</b> 正是两模块的天然接缝（本模块"工具使用/编排"↔ RAG 模块的检索管线）。
+ <b>该串联已双向落地</b>（2026-07-08）：RAG 模块新增第 8 章 Agentic RAG，配"与 Agent 模块的关系"专页。<br>
+ <b>已补实链接（2026-07-08）：</b>本模块第 4 章工具接入 ↔ <a href="../MCP/README.html"><b>MCP</b> 模块</a>——
+ 本章讲"为什么需要标准接口"，MCP 模块讲"这标准本身怎么用好、怎么上生产、怎么保安全"，两端互补。<br>
+ <b>已补实链接（2026-07-08）：</b>本模块第 5 章上下文工程 ↔ <a href="../LLM/README.html"><b>LLM 原理</b></a> 模块第 4 章——
+ 那边给出上下文工程的架构根源（O(n²) 成本、KV 缓存、有效窗口约束），本章讲工程做法，互为"为什么"与"怎么做"。<br>
+ <b>已补实链接（2026-07-10，双向）：</b>本模块第 2 章核心组件 ↔ <a href="../Multimodal/README.html"><b>Multimodal</b></a> 模块——
+ 第 2 章新增「多模态感知：agent 长出眼睛之后」页：视觉成为新的工具入参、computer use 的前提（↔ <code>multimodal#mm-what-why</code>），护栏设计要算上视觉幻觉（<code>multimodal#mm-production</code>）。<br>
+ <b>已补实链接（2026-07-10）：</b>agent 评估 ↔ <a href="../Evaluation/README.html"><b>Evaluation</b></a> 模块第 6 章场景验收（turn/milestone/trajectory 评估在那边展开）；
+ 第 7 章低代码平台 ↔ <a href="../MCP/README.html">MCP</a>（平台工具接入标准化）、<a href="../RAG/README.html">RAG</a>（Dify 内置 RAG = 最小管线产品化）、<a href="../Multimodal/README.html">Multimodal</a> 第 8 章（平台 bot 上语音的实时链路）。<br>
+ <b>已补实链接（2026-07-10）：</b>第 7 章低代码平台 ↔ <a href="../Solution-Patterns/README.html"><b>Solution-Patterns</b></a> 场景解决方案库——平台是各场景方案的落地工具层，其分诊树「有没有平台」指回本章。<br>
+ <b>模块内串联（2026-07-17）：</b>第 10 章 Sub-agent 编排 ↔ 第 3 章编排模式（orchestrator-workers 是蓝图，sub-agent 是车间）、第 5 章上下文工程（上下文隔离是「子 agent」板斧的机制展开）。
+</div>
+
+<div class="future"><b>可增补方向：</b>代码执行 agent、生产化部署与成本控制——将来任意加一章，沿用本模块每章结构即可。（A2A 已独立成模块；低代码平台、记忆系统、Computer Use 已落地为第 7–9 章；多智能体 / Sub-agent 编排已落地为第 10 章，售前速查顺延第 11 章。）</div>
+</body></html>

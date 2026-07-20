@@ -1,0 +1,63 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>Data-Engineering · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">算力与数据底座 · Compute · Platform · Data</span><span class="chip ext">关联扩展</span></p>
+<h1>Data-Engineering · AI 数据工程</h1>
+<p class="sub">数据底座层首模块：把客户的烂数据搞就绪。全库五处（SP 的 POC 数据坑、连接器报价、AI-Ops 的 GIGO……）都指向的那个坑，这册负责接住——四问评估 → 解析 → 连接同步 → 向量库 → 质量运营，把隐性成本变成显性工程件。<b>边界纪律</b>：切分在 RAG、合成数据配方在 Fine-tuning、权限规则在 Security，引用不重讲。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>Data-Engineering-讲义.pptx</code>（主力成品，61 页，✅ 已完成）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（8 项）+ <code>ebooks/</code>（2 份 arXiv PDF：Docling / MinerU 技术报告）<br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-11 联网核实笔记）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>数据就绪度是第一风险</td><td>全库五处证据、四问评估（在哪/格式/权限/变更频率）、管线总图与报价项</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>文档解析管线</td><td>四强格局（LlamaParse/Docling/MinerU/Unstructured）+ 云文档智能、基准口径、表格保真分水岭、用客户最难 20 份自测</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>3</td><td>连接器与增量同步</td><td>连接器五件事、增量三模式（轮询/webhook/CDC）、去重与失效两件脏活</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>向量库选型深潜</td><td>五锚点（pgvector 50–100M 上限/Qdrant/Milvus/ES 混合/托管）、按规模演进、迁移纪律</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>数据质量与覆盖率</td><td>质量四指标仪表盘、坏答案回流（修数据不改提示词）、覆盖率清单 = 治理入口</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>标注与合成数据运营</td><td>预算三去向（种子/扩量/抽检）、评估集与训练集双线、坏例分流口诀</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>7</td><td>治理与权限衔接</td><td>三执行点（ACL 映射/采集点脱敏/联动删除）、越权测试门禁、向量化≠匿名化</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>8</td><td>售前速查</td><td>管线总图、工具速查卡、八坑清单、串联地图</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块是全库多条线的上游：
+ <ul>
+  <li><a href="../Solution-Patterns/README.html">Solution-Patterns</a>：SP 说「数据坑是第一风险」「连接器是报价大头」，本模块给工程清单与报价明细（双向）。</li>
+  <li><a href="../RAG/README.html">RAG</a>：解析产物交给切分（第 3 章）、向量库承载检索（第 2 章）——上游供给关系（双向）。</li>
+  <li><a href="../AI-Ops/README.html">AI-Ops</a>：坏答案回流归因到数据层；质量运营与运维包同节奏合并交付。</li>
+  <li><a href="../Fine-tuning/README.html">Fine-tuning</a> / <a href="../Evaluation/README.html">Evaluation</a>：合成数据配方与评估集方法在那边，本模块管预算与双线运营。</li>
+  <li><a href="../Security/README.html">Security</a>：规则在那边，数据管线三执行点在这边。</li>
+ </ul>
+</div>
+
+<div class="future"><b>可增补方向：</b>数据治理/合规专章（地图占位中，与未来中国合规章联动）、多模态数据管线（图纸/音视频入库）、数据集市与特征store 视角。将来任意加一章，沿用本模块每章结构即可。</div>
+</body></html>

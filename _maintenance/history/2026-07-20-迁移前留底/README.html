@@ -1,0 +1,267 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>我的 AI 知识库</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:940px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.55}
+ h1{text-align:center;margin:.2rem 0 .3rem;letter-spacing:.02em}
+ .sub{color:#556575;text-align:center;max-width:640px;margin:.2rem auto 1.4rem}
+ h2{margin:2.4rem 0 .9rem;padding-left:.6rem;border-left:5px solid #2b6cb0}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ td:first-child a{font-weight:600;text-decoration:none;color:#2b6cb0}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .future{background:#fffbea;border:1px dashed #d6b656;padding:.8rem 1.1rem;border-radius:10px}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ .daily{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:1rem 1.2rem;margin:1.2rem 0 1.6rem;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .daily-title{font-weight:700;color:#0b2540;margin-bottom:.5rem}
+ .daily a{font-weight:700;color:#1a5fa8;text-decoration:none}
+ .daily li{margin:.3rem 0;list-style:none}
+ .daily ul{margin:.2rem 0;padding:0}
+ .daily .d{color:#556575}
+ .plumb{color:#8194a5;font-size:.85em;margin-top:1.6rem;border-top:1px solid #e6edf3;padding-top:1rem}
+ .kmap-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem;margin:2.4rem 0 .6rem}
+ .kmap-head h2{margin:0;padding-left:.6rem;border-left:5px solid #2b6cb0}
+ .kmap-cap{color:#8194a5;font-size:.88em}
+ .legend{display:flex;gap:.6rem;flex-wrap:wrap;margin:.4rem 0 1rem}
+ .lg{display:inline-flex;align-items:center;gap:.45rem;background:#f5f8fb;border:1px solid #e3ecf4;border-radius:999px;padding:.28rem .85rem;font-size:.85em;color:#3a4a58}
+ .lg .sw{width:22px;height:14px;border-radius:4px;background:#eef5fc;border:1.5px solid #9ec5e8}
+ .lg .sw.dash{background:#fdf8e8;border:2px dashed #d9a62d}
+ .lg .dot{width:9px;height:9px;border-radius:50%;background:#2f855a}
+ .krow{display:flex;gap:.9rem;margin:.9rem 0;align-items:stretch}
+ .klayer{flex:0 0 168px;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);border-radius:14px;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:1rem 1.1rem}
+ .klayer b{font-size:1.12em;letter-spacing:.02em}
+ .klayer span{color:#c9ddf2;font-size:.8em;margin-top:.35rem}
+ .kcards{flex:1;display:flex;gap:.9rem;flex-wrap:wrap}
+ .kcard{box-sizing:border-box;flex:1 1 0;min-width:150px;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:14px;padding:.85rem 1rem;display:flex;flex-direction:column;gap:.2rem}
+ .klayer{box-sizing:border-box}
+ .kcard:hover{background:#e9f3fc}
+ .kcard b{color:#0b2540;font-size:1.02em}
+ .kcard .en{color:#51606e;font-size:.83em}
+ .kcard .meta{margin-top:auto;padding-top:.55rem;display:flex;justify-content:space-between;align-items:center;gap:.4rem;flex-wrap:wrap}
+ .kcard .meta a{color:#2b6cb0;text-decoration:none;font-size:.83em}
+ .pill{display:inline-flex;align-items:center;gap:.35rem;background:#e6f4ea;color:#2f855a;border-radius:999px;padding:.14rem .6rem;font-size:.76em;font-weight:600;white-space:nowrap}
+ .pill::before{content:'';width:7px;height:7px;border-radius:50%;background:#2f855a}
+ .kcard.ext{background:#fdf8e8;border:2px dashed #d9a62d}
+ .kcard.ext:hover{background:#fbf2d8}
+ .kcard.ext .meta a{color:#8a5c12}
+</style></head><body>
+<h1>我的 AI 知识库</h1>
+<p class="sub">面向"售前技术"角色的持续扩充知识库。每个模块含：精选电子书书单 + 讲义式 PPT。一个模块一个模子，随时可单独增补或更新任意一块。</p>
+
+<div class="daily">
+ <div class="daily-title">🎯 每日取用</div>
+ <ul>
+  <li><a href="./_prep/实战包.html">实战包</a><span class="d"> —— 对客交锋 55 题：把每次和客户的"交锋"当一场面试；每题带源指针与 ⏳ 时效标注</span></li>
+  <li><a href="./_prep/学习路径.html">学习路径</a><span class="d"> —— 七天通读 / 对客前 30 分钟（9 场景）/ 交锋前夜冲刺</span></li>
+  <li><a href="./_prep/全库一页纸.html">全库一页纸</a><span class="d"> —— 19 个模块一页尽览、五条串联主动脉、保鲜看板（定点复查日历）</span></li>
+ </ul>
+</div>
+
+<div class="kmap-head"><h2>知识地图</h2><span class="kmap-cap">实线卡片表示核心模块，虚线卡片表示关联扩展；19 个模块均可独立学习、更新与巡检。</span></div>
+<div class="legend"><span class="lg"><span class="sw"></span>核心模块</span><span class="lg"><span class="sw dash"></span>关联扩展</span><span class="lg"><span class="dot"></span>已完成</span></div>
+ <div class="krow">
+  <div class="klayer"><b>解决方案层</b><span>Solution Layer</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./Solution-Patterns/README.html" style="text-decoration:none"><b>场景方案库</b><span class="en">Solution-Patterns</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./Model-Landscape/README.html" style="text-decoration:none"><b>模型格局与选型</b><span class="en">Model-Landscape</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>应用模式层</b><span>Application Patterns</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./RAG/README.html" style="text-decoration:none"><b>RAG</b><span class="en">Retrieval-Augmented Generation</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./Agent/README.html" style="text-decoration:none"><b>Agent</b><span class="en">AI Agent</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./Multimodal/README.html" style="text-decoration:none"><b>多模态</b><span class="en">Multimodal</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>协议层</b><span>Protocol Layer</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./MCP/README.html" style="text-decoration:none"><b>MCP</b><span class="en">Model Context Protocol</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./A2A/README.html" style="text-decoration:none"><b>A2A</b><span class="en">Agent2Agent Protocol</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>工程保障层</b><span>Engineering Assurance</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./Fine-tuning/README.html" style="text-decoration:none"><b>Fine-tuning</b><span class="en">模型微调</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./Evaluation/README.html" style="text-decoration:none"><b>Evaluation</b><span class="en">评测与质量门禁</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./Security/README.html" style="text-decoration:none"><b>Security</b><span class="en">安全与治理</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./AI-Gateway/README.html" style="text-decoration:none"><b>AI 网关</b><span class="en">AI-Gateway</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard ext" href="./AI-Ops/README.html" style="text-decoration:none"><b>AI-Ops</b><span class="en">观测与运营</span><span class="meta"><span style="color:#8a5c12;font-size:.83em">关联扩展 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>基础层</b><span>Foundation Layer</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./LLM/README.html" style="text-decoration:none"><b>LLM 原理</b><span class="en">LLM Principles</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./LLM-Training/README.html" style="text-decoration:none"><b>Training</b><span class="en">模型训练</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./LLM-Inference/README.html" style="text-decoration:none"><b>Inference</b><span class="en">模型推理</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./Prompt-Engineering/README.html" style="text-decoration:none"><b>Prompt</b><span class="en">提示词工程</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+ <div class="krow">
+  <div class="klayer"><b>算力与数据底座</b><span>Compute · Platform · Data</span></div>
+  <div class="kcards">
+  <a class="kcard" href="./AI-Infra-Compute/README.html" style="text-decoration:none"><b>Infra-Compute</b><span class="en">算力、网络与调度</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard" href="./AI-Infra-Platform/README.html" style="text-decoration:none"><b>Infra-Platform</b><span class="en">平台与服务化底座</span><span class="meta"><span style="color:#2b6cb0;font-size:.83em">核心模块 · 查看</span><span class="pill">已完成</span></span></a>
+  <a class="kcard ext" href="./Data-Engineering/README.html" style="text-decoration:none"><b>Data-Engineering</b><span class="en">数据与知识底座</span><span class="meta"><span style="color:#8a5c12;font-size:.83em">关联扩展 · 查看</span><span class="pill">已完成</span></span></a>
+  </div>
+ </div>
+
+<h2>模块列表</h2>
+<table>
+ <tr><th>模块</th><th>主题一句话</th><th>电子书</th><th>讲义 PPT</th><th>更新日期</th></tr>
+ <tr>
+   <td><a href="./RAG/README.html">RAG</a></td>
+   <td>检索增强生成的原理与实践：原理五章（为什么用、向量检索、切分、重排序、评估）+ 实践四章（最小管线、混合检索、Agentic RAG、生产化）+ 进阶三章（GraphRAG、多模态、结构化数据）</td>
+   <td class="ok">✅ 书单已建（20 份，5 篇 PDF 落地）</td>
+   <td class="ok">✅（128 页）</td>
+   <td>2026-07-12</td>
+ </tr>
+ <tr>
+   <td><a href="./Agent/README.html">Agent</a></td>
+   <td>智能体与编排：十一章覆盖 agent vs workflow、核心组件、编排模式、MCP、上下文工程、评估与护栏、低代码平台、记忆系统（框架四强/投毒 ASI06）、Computer Use（基准两口径/RPA 混合）、多智能体 / Sub-agent 编排（三层框架/决策账）、售前速查</td>
+   <td class="ok">✅ 书单已建（16 项，6 份 PDF 落地）</td>
+   <td class="ok">✅（122 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./Multimodal/README.html">Multimodal</a></td>
+   <td>多模态：让模型看图 / 听声 / 读文档 / 看视频并能生成，九章覆盖感知面全景（理解 vs 生成）、机器怎么看（ViT/CLIP）、模态怎么拼（投影/交叉注意力/Q-Former + 原生 vs 拼管线，灵魂章）、理解侧盘点（SOTA 格局）、生成侧盘点（扩散 vs 自回归）、选型动手做（成本/延迟/精度）、生产落地与坑、语音与实时交互（延迟预算/级联 vs 端到端/打断/RTC）、视频生成（四家旗舰/成本账/标识合规）、售前速查</td>
+   <td class="ok">✅ 书单已建（13 项，6 份 PDF 落地）</td>
+   <td class="ok">✅（115 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./Solution-Patterns/README.html">Solution-Patterns</a></td>
+   <td>场景解决方案库（全库的场景索引层）：方案 = 场景 × 积木，十章覆盖方法底座（五层参考架构、POC 三要素、成本三本账、口径鉴别术）+ 七大场景图纸（智能客服、企业知识库与 AI 搜索、营销内容生成、AI Coding、数字人、ChatBI 数据分析、会议与办公助手）+ 售前速查（七场景→积木总表、分诊决策树、成本速查卡）</td>
+   <td class="ok">✅ 书单已建（12 项，3 份 PDF 落地）</td>
+   <td class="ok">✅（100 页）</td>
+   <td>2026-07-13</td>
+ </tr>
+ <tr>
+   <td><a href="./Model-Landscape/README.html">Model-Landscape</a></td>
+   <td>模型格局与选型（⚠️ 全库最易过期，巡检优先）：三大阵营地图与企业/消费市场分裂（40/27/21 vs 74%）、五张闭源名片（GPT-5.6/Claude 5/Gemini 3.1/Grok 4.3/Muse Spark）、开放权重中国四强、豆包家族与定位、许可证三级分类、$0.10–$30 价格光谱与缓存经济学、能力矩阵与思考预算、多模型选型方法论（三层路由/五约束决策树/两道防线）、国内平台格局（方舟/百炼/千帆/腾讯）、售前速查含保鲜声明</td>
+   <td class="ok">✅ 书单已建（10 项，3 份 PDF 落地）</td>
+   <td class="ok">✅（98 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./AI-Ops/README.html">AI-Ops</a></td>
+   <td>LLM 可观测与运维（上线之后的日子怎么过）：两根新轴（质量/token 成本）与静默退化、Tracing 与 OTel GenAI（client span 已稳定）、在线评估与反馈回流（采样 5–10% 异步打分、数据集晋升）、漂移监测（供应商静默换模）、发布管理（版本注册表/评估门禁/金丝雀/回滚）、事故响应（runbook 四问/急停/HITL/SLA 分级）、工具格局（六平台 + APM vs 专用分工）、售前速查含运营包五件套</td>
+   <td class="ok">✅ 书单已建（10 项，1 份 PDF 落地 + 1 份引用 Security）</td>
+   <td class="ok">✅（71 页）</td>
+   <td>2026-07-13</td>
+ </tr>
+ <tr>
+   <td><a href="./Data-Engineering/README.html">Data-Engineering</a></td>
+   <td>AI 数据工程（数据底座层首模块，把客户的烂数据搞就绪）：数据就绪度四问、文档解析管线（LlamaParse/Docling/MinerU 格局与基准）、连接器五件事与增量同步、向量库选型深潜（pgvector 上限/Qdrant/Milvus）、质量四指标与坏答案回流、标注与合成数据运营、治理三执行点、售前速查含八坑清单</td>
+   <td class="ok">✅ 书单已建（8 项，2 份 PDF 落地）</td>
+   <td class="ok">✅（61 页）</td>
+   <td>2026-07-13</td>
+ </tr>
+ <tr>
+   <td><a href="./MCP/README.html">MCP</a></td>
+   <td>模型上下文协议：M×N→M+N 的标准插座，七章覆盖协议机制、server/client 实践、传输演进、生产落地、安全与售前速查</td>
+   <td class="ok">✅ 书单已建（10 项，2 份 PDF 落地）</td>
+   <td class="ok">✅（74 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./A2A/README.html">A2A</a></td>
+   <td>智能体间协议：让不同厂商/框架的 Agent 互相发现、委派、协作（MCP 接工具，A2A 接 Agent），七章覆盖与 MCP 分工（含协同实景+误区选型）、五大对象、发现与传输、动手做协作、多智能体协作、生产上云与安全</td>
+   <td class="ok">✅ 书单已建（10 项，3 份 PDF 落地）</td>
+   <td class="ok">✅（83 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./LLM/README.html">LLM 原理</a></td>
+   <td>大模型的发动机舱：原理三章（序列问题与 Transformer、QKV 注意力、架构全解剖）+ 工程三章（KV 缓存与上下文窗口、注意力变体进化、售前速查）</td>
+   <td class="ok">✅ 书单已建（10 项，3 份 PDF 落地）</td>
+   <td class="ok">✅（91 页）</td>
+   <td>2026-07-12</td>
+ </tr>
+ <tr>
+   <td><a href="./LLM-Training/README.html">LLM-Training</a></td>
+   <td>LLM 训练全景：从随机权重到可用助手的完整流水线，八章覆盖数据、预训练（Scaling Laws/MoE）、SFT、对齐、RLVR 推理训练、基础设施与评估</td>
+   <td class="ok">✅ 书单已建（10 项，5 份 PDF 落地）</td>
+   <td class="ok">✅（84 页）</td>
+   <td>2026-07-12</td>
+ </tr>
+ <tr>
+   <td><a href="./LLM-Inference/README.html">LLM-Inference</a></td>
+   <td>LLM 推理服务：训练好的模型怎么又快又省地跑起来，八章覆盖推理原理（prefill/decode 与 KV Cache）、推理框架（vLLM/SGLang/TensorRT-LLM/Ollama）、推理优化（批处理、量化、投机解码、P/D 分离）与生产化速查</td>
+   <td class="ok">✅ 书单已建（10 项，3 份 PDF 落地）</td>
+   <td class="ok">✅（94 页）</td>
+   <td>2026-07-12</td>
+ </tr>
+ <tr>
+   <td><a href="./Fine-tuning/README.html">Fine-tuning</a></td>
+   <td>微调工程实践：拿自己的数据定制模型，八章覆盖何时微调（vs 提示词/RAG）、全参与 LoRA/QLoRA、数据准备与合成、训练框架、DPO/RFT 对齐、托管服务与上云、评估部署与售前速查</td>
+   <td class="ok">✅ 书单已建（10 项，4 份 PDF 落地）</td>
+   <td class="ok">✅（89 页）</td>
+   <td>2026-07-12</td>
+ </tr>
+ <tr>
+   <td><a href="./Evaluation/README.html">Evaluation</a></td>
+   <td>LLM 评估体系：八章覆盖为什么评估难、模型基准全景（含 Agent 基准与榜单争议）、判分四法、LLM-as-a-Judge 深潜、自建评估与错误分析、RAG/Agent/微调场景验收、工具链与生产闭环、售前速查，汇合全库评估线</td>
+   <td class="ok">✅ 书单已建（10 项，4 份 PDF 落地）</td>
+   <td class="ok">✅（99 页）</td>
+   <td>2026-07-12</td>
+ </tr>
+ <tr>
+   <td><a href="./Security/README.html">Security</a></td>
+   <td>AI 安全：九章覆盖威胁全景（OWASP LLM Top 10 / MITRE ATLAS）、提示注入与越狱（EchoLeak）、数据与隐私、供应链与模型来源、Agent 与工具安全、护栏/双 LLM/红队防护工程、NIST + EU AI Act 治理合规、中国监管合规（双备案/内容标识/安全国标/数据出境）、售前速查</td>
+   <td class="ok">✅ 书单已建（10 项，8 份 PDF 落地）</td>
+   <td class="ok">✅（89 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./AI-Gateway/README.html">AI-Gateway</a></td>
+   <td>AI 网关：多模型系统的统一入口与运营管控层（工程保障层运营面），八章覆盖是什么/为什么（多对多之痛·边界辨析）、统一接入与协议转换（OpenAI 兼容层·虚拟密钥）、路由容灾（五策略·fallback）、按 token 成本治理（预算·语义缓存）、安全护栏挂载点（串联 Security）、可观测（OTel GenAI）、AI 网关+MCP 网关（展开章，含授权时序深潜，串联 MCP/A2A/Agent）、选型与上云速查</td>
+   <td class="ok">✅ 书单已建（10 项，2 份 PDF 落地）</td>
+   <td class="ok">✅（85 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./AI-Infra-Compute/README.html">AI-Infra-Compute</a></td>
+   <td>算力硬件与网络：八章覆盖五层栈全景、GPU 解剖（精度阶梯/Roofline/MFU）、显存与 HBM 账、芯片选型格局、NVLink/InfiniBand/RoCE/UEC 两级互联与集群拓扑、并行文件系统与数据管线、算力经济学（建 vs 租 vs API）</td>
+   <td class="ok">✅ 书单已建（10 项，5 份 PDF 落地）</td>
+   <td class="ok">✅（86 页）</td>
+   <td>2026-07-13</td>
+ </tr>
+ <tr>
+   <td><a href="./Prompt-Engineering/README.html">Prompt Engineering</a></td>
+   <td>和大模型对话的接口层：最便宜、最快见效的能力杠杆——不改权重、不搭检索就能把模型能力调出来，七章覆盖是什么/为什么、提示词解剖、核心技巧（zero/few-shot·CoT·结构化输出）、进阶推理与编排（ReAct·推理模型时代）、工程化与自动优化（DSPy·缓存）、安全与风险（提示词注入·OWASP）、售前收拢</td>
+   <td class="ok">✅ 书单已建（10 项，5 份 PDF 落地）</td>
+   <td class="ok">✅（82 页）</td>
+   <td>2026-07-17</td>
+ </tr>
+ <tr>
+   <td><a href="./AI-Infra-Platform/README.html">AI-Infra-Platform</a></td>
+   <td>集群平台与调度：八章覆盖平台四大职责、K8s+GPU（DRA 1.34 GA）、作业调度（gang/Kueue/Volcano/KAI/Slurm）、GPU 切分多租户（MIG/HAMi）、训练容错自愈、可观测与利用率（MFU/goodput）、推理服务平台化、云上四种算力形态</td>
+   <td class="ok">✅ 书单已建（10 项，1 份 PDF 落地）</td>
+   <td class="ok">✅（81 页）</td>
+   <td>2026-07-13</td>
+ </tr>
+</table>
+
+<div class="future">
+ <b>预留扩充位（这是个会长大的库）：</b>七层书架已铺满（19 个模块）。新模块照 RAG 的结构照抄一份骨架即可。
+ <ul style="margin:.5rem 0 0">
+   <li><b>用户决策中：</b><b>火山引擎对照</b>（KB-CONFIG 工作场景挂钩调整，用户表示等等；中国合规章已于 2026-07-17 落地为 Security 第 8 章）</li>
+   <li><b>远期预留：</b><b>数据治理/合规</b>（数据底座层第二模块占位）· <b>MLOps/AI 开发平台</b>（从 AI-Infra-Platform 拆出的产品面）</li>
+ </ul>
+</div>
+
+<p class="plumb">
+ 目录约定：每个模块自成一个子文件夹，固定含
+ <code>README.html</code>、<code>MANIFEST.md</code>、<code>电子书书单.md</code>、<code>ebooks/</code>、<code>raw-data/</code>（含 <code>history/</code> 成品历史版本）、<code>&lt;模块名&gt;-讲义.pptx</code>；
+ 库级巡检报告在 <code>_maintenance/</code>。
+ 巡检范围包含 <code>_prep/MANIFEST.md</code>——它以「引用映射」挂靠各源模块，源模块事实刷新后需同步顶部三份取用文档。
+ 知识地图为<b>展示口径</b>（六行 + 关联扩展标记，2026-07-11 定版）；层归属的<b>机器口径</b>以 <code>KB-CONFIG.md</code> 与各模块 <code>MANIFEST.md</code> 为准（七层），两者差异为有意设计、勿"修正"。
+</p>
+</body></html>

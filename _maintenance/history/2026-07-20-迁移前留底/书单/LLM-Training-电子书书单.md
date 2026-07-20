@@ -1,0 +1,25 @@
+# LLM-Training · 精选电子书书单
+
+> 面向"售前技术"角色。可免费下载的已存入 ./ebooks/。
+> 时效性事实核实日期：2026-07-08（依据见 raw-data/2026-07-08-联网核实笔记.md）。
+
+| # | 书名 | 作者/机构 | 类型 | 一句话简介 | 覆盖子主题 | 获取方式 / 文件位置 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 《The Smol Training Playbook》 | Hugging Face（SmolLM 团队） | 🛠️实践 | 200+ 页真实训练团队的全流程实录——"什么有效、什么没效"全写出来了，训练全景第一读物 | 全流程、数据、预训练、后训练 | 🔗 免费网页版：https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook |
+| 2 | 《RLHF Book（RLHF and Post-Training）》 | Nathan Lambert | 🛠️实践 | 后训练最系统的免费教材：SFT、奖励模型、DPO、RLVR、蒸馏、合成数据一书打通；2026-01 版已对齐 Manning 印刷版结构 | SFT、对齐、RLVR、蒸馏 | ✅ 已下载 `./ebooks/Lambert-RLHF-Book.pdf`（在线版 https://rlhfbook.com/） |
+| 3 | 《The Ultra-Scale Playbook》 | Hugging Face（nanotron 团队） | 🛠️实践 | 4000+ 组实验、最高 512 GPU 的分布式训练工程手册：5D 并行、ZeRO、算子优化，"基础设施"章的标准参考 | 分布式并行、算力账 | 🔗 免费网页版：https://huggingface.co/spaces/nanotron/ultrascale-playbook |
+| 4 | 《Build a Large Language Model (From Scratch)》 | Sebastian Raschka / Manning | 🛠️实践 | 不借助现成框架、用 PyTorch 从零手搓一个 GPT 并做 SFT——亲手码一遍才真懂训练流水线 | 预训练、SFT | 🔗 官方购买：https://www.manning.com/books/build-a-large-language-model-from-scratch （GitHub 代码全开源：https://github.com/rasbt/LLMs-from-scratch） |
+| 5 | 《Build a Reasoning Model (From Scratch)》 | Sebastian Raschka / Manning | 🛠️实践 | 上一本的续作：从预训练模型出发实现推理时扩展、RL 训练与蒸馏，正是 2025–2026 推理模型范式的动手版 | RLVR、推理模型、蒸馏 | 🔗 官方购买：https://www.manning.com/books/build-a-reasoning-model-from-scratch |
+| 6 | Stanford CS336《Language Modeling from Scratch》（Spring 2026） | Stanford | 🛠️实践 | "从零训语言模型"全程公开课：分词、架构、并行、数据、对齐五大作业链，视频与作业全部免费公开 | 全流程（课程主线） | 🔗 课程站：https://cs336.stanford.edu/ （YouTube 全程 + GitHub 作业公开） |
+| 7 | 《Tülu 3: Pushing Frontiers in Open Language Model Post-Training》 | Allen AI（AI2） | 🛠️实践 | 唯一把数据、代码、评估、配方全部开源的后训练完整复盘，RLVR 一词的出处，照着能复现 | SFT、DPO、RLVR、评估 | ✅ 已下载 `./ebooks/arXiv-2411.15124-Tulu-3-Post-Training.pdf` |
+| 8 | 《Kimi K2: Open Agentic Intelligence》技术报告 | Moonshot AI | 🛠️实践 | 1T 参数 MoE 的真实"训练账本"：MuonClip 优化器、15.5T token 零 loss spike，大规模训练工程的一手案例 | 预训练、优化器、基础设施 | ✅ 已下载 `./ebooks/arXiv-2507.20534-Kimi-K2-Technical-Report.pdf` |
+| 9 | 《DeepSeek-V3 Technical Report》 | DeepSeek | 🛠️实践 | MoE + FP8 + 极致工程的标杆之作，"为什么他们训得便宜"的标准答案，客户必问案例 | MoE、FP8、算力账 | ✅ 已下载 `./ebooks/arXiv-2412.19437-DeepSeek-V3-Technical-Report.pdf` |
+| 10 | 《Foundations of Large Language Models》 | Tong Xiao & Jingbo Zhu（东北大学 NLP Lab） | 📖理论·可选读 | 231 页学院派免费教材（预训练/生成模型/提示/对齐/推理五章），想系统补原理再看 | 底层原理 | ✅ 已下载 `./ebooks/arXiv-2501.09223-Foundations-of-LLMs.pdf` |
+
+## 阅读建议
+
+1. **只有半天时间**：先读 #1 Smol Training Playbook 的前三分之一（数据+预训练部分）——它把"一个模型怎么训出来"的全景讲得最直白，正好对应讲义第 1–3 章；客户问"模型怎么训的"，答案八成在这里。
+2. **客户在纠结"微调还是 RAG"、追问对齐细节**：读 #2 RLHF Book 的 SFT 与 DPO 两章，答案能直接说出口；这也是被问"对齐税""模型会不会被调笨"时的弹药库。
+3. **被问成本和算力（最尖锐的售前问题）**：#9 DeepSeek-V3 报告 + #8 Kimi K2 报告连读——两份真实账本在手，"训一个大模型要多少钱多少卡"就有据可答；工程细节查 #3 Ultra-Scale Playbook。
+4. **要做 demo 或亲手跑一遍**：#4 Raschka 从零手搓（GitHub 代码免费），跑通一个 mini GPT 比读十篇综述都管用；推理模型方向接 #5。
+5. **想长期系统深入**：跟 #6 CS336 公开课当主线，#10 Foundations 当理论字典备查——这两个不急，有余力再上。

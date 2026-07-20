@@ -1,0 +1,57 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<title>LLM 原理 · 模块索引</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:2.2rem auto;padding:0 1rem;color:#1a2733;background:#fff;line-height:1.6}
+ a.back{display:inline-block;margin-bottom:1.2rem;color:#2b6cb0;text-decoration:none;background:#f3f8fd;border:1.5px solid #b9d2ea;border-radius:999px;padding:.32rem .95rem;font-size:.88em}
+ a.back:hover{background:#e9f3fc}
+ .crumb{margin:.1rem 0 .5rem}
+ .chip{display:inline-block;background:linear-gradient(160deg,#2b6cb0,#1c4f8a);color:#fff;border-radius:999px;padding:.24rem .85rem;font-size:.8em;letter-spacing:.03em;margin-right:.4rem}
+ .chip.ext{background:#fdf8e8;border:2px dashed #d9a62d;color:#8a5c12;padding:.18rem .8rem}
+ h1{margin:.2rem 0 .5rem;color:#0b2540;letter-spacing:.02em}
+ .sub{color:#556575;margin:.3rem 0 1.2rem}
+ h2{margin:2rem 0 .8rem;padding-left:.6rem;border-left:5px solid #2b6cb0;color:#0b2540}
+ table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93em}
+ th,td{border:1px solid #dde6ee;padding:.55rem .75rem;text-align:left;vertical-align:top}
+ th{background:#0e4d64;color:#fff;font-weight:600}
+ tr:nth-child(even) td{background:#f7fafc}
+ .ok{color:#2f855a;font-weight:600}
+ .todo{color:#c05621;font-weight:600}
+ .card{background:linear-gradient(180deg,#eef6ff,#f7fbff);border:1.5px solid #9ec5e8;border-radius:14px;padding:.9rem 1.15rem;margin:1.1rem 0;box-shadow:0 1px 3px rgba(11,37,64,.06)}
+ .future{background:#fdf8e8;border:2px dashed #d9a62d;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ .warn{background:#fff5f2;border:1.5px solid #f0b9a5;border-radius:14px;padding:.85rem 1.1rem;margin:1.1rem 0}
+ code{background:#f4f6f8;padding:.08rem .35rem;border-radius:5px;font-size:.92em}
+ ul{padding-left:1.25rem}
+ li{margin:.25rem 0}
+</style></head><body>
+<a class="back" href="../../README.html">← 返回知识库首页</a>
+<p class="crumb"><span class="chip">基础层 · Foundation Layer</span></p>
+<h1>LLM 原理</h1>
+<p class="sub">大模型的发动机舱：Transformer 架构与注意力机制（Attention）——模型凭什么理解上下文、凭什么能并行训练，上下文窗口、推理成本与各家价格差又是从哪来的。面向售前技术，讲清原理与取舍，是上层 RAG、Agent、MCP 模块共同的地基。</p>
+
+<div class="card">
+ <b>本模块产出物：</b><br>
+ · 讲义式 PPT：<code>LLM-讲义.pptx</code>（主力成品，91 页，<span class="ok">✅ 已完成</span>）<br>
+ · 精选电子书书单：<code>电子书书单.md</code>（10 项，偏实践，含阅读建议）+ <code>ebooks/</code>（已归档 3 份免费 PDF：《动手学深度学习》中文版、Attention Is All You Need 原论文、DeepSeek-V2 论文）<span class="ok">✅</span><br>
+ · 原始素材留痕：<code>raw-data/</code>（含 2026-07-08 联网核实笔记，时效性事实以此为准）
+</div>
+
+<h2>章节列表与状态</h2>
+<table>
+ <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
+ <tr><td>1</td><td>从序列问题到 Transformer</td><td>长距离依赖、RNN 传声筒三宗罪、2017 分水岭、圆桌会议总览、RNN vs Transformer 对比表</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>2</td><td>注意力机制：QKV 拆解</td><td>图书馆检索类比、三步计算逐页拆（点积→缩放 softmax→加权求和）、3 token 手算、因果掩码、多头会诊、承上启下·与 Multimodal（ViT 就是注意力吃图像）</td><td class="ok">✅ 已完成（2026-07-10 加 Multimodal 串联页）</td></tr>
+ <tr><td>3</td><td>Transformer 全解剖</td><td>Embedding 语义 GPS、RoPE、FFN 知识仓库（参数大头）、残差高速公路、decoder-only 三理由、MoE、7B 参数账</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>4</td><td>从架构到推理：上下文窗口与 KV 缓存</td><td>prefill/decode、KV 显存账（32K 缓存＞权重）、O(n²)、标称 1M vs 有效 200K、与 RAG/Agent 承上启下、云落地</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>5</td><td>注意力的工程进化</td><td>三条战线（压 KV/减计算/榨硬件）、GQA/MLA/滑窗/DSA 稀疏/线性混合/FlashAttention 1→4、变体总表、价格差拆解</td><td class="ok">✅ 已完成</td></tr>
+ <tr><td>6</td><td>售前视角收拢</td><td>客户问题→架构解释速查表、「要被取代了吗」三段答法、选型七问、知识库串联图、白板综合演练</td><td class="ok">✅ 已完成</td></tr>
+</table>
+
+<div class="card">
+ <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-anatomy</code> / <code>pe-advanced-reasoning</code>，提示词工程的架构基础）。 本模块是基础层，向上支撑两条已建实链——
+ 第 4 章「与 RAG 的关系」页给出「1M 窗口不是 RAG 终结者」的架构论据（↔ <a href="../RAG/README.html">RAG</a> 第 1 章）；
+ 「与 Agent 的关系」页解释上下文工程的架构根源（↔ <a href="../Agent/README.html">Agent</a> 第 5 章）。
+ <b>新增（2026-07-10，双向）：</b>第 2 章「承上启下 · 与 Multimodal」页——ViT 就是注意力吃图像（patch 即 token、QKV 原样复用、O(n²) 同样成立），↔ <a href="../Multimodal/README.html"><b>Multimodal</b></a> 模块第 2 章（<code>multimodal#mm-encoder</code>）。
+ 同层的 <a href="../LLM-Training/README.html">LLM-Training</a> 模块与本模块互为前置——那边讲「发动机怎么造」（训练流水线），本模块讲「发动机怎么转」（架构与推理）；
+ 本模块第 3 章的 MoE/参数账 ↔ 其第 3 章预训练（Scaling Laws、MoE 训练），串联已双向落账（2026-07-08）。
+</div>
+</body></html>

@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# 电子书馆藏：第三方版权材料，不对外分发；且体积 302M
+_reference/ebooks/
+
+# 讲义历史快照：pptx 为二进制不可 diff，每次提交会存整份副本，
+# 版本历史交给 git 本身承担。本地文件保留，只是不上传。
+PPT-version/*/raw-data/history/
+
+# 本机绝对路径与个人权限配置
+.claude/settings.local.json
+
+# PowerPoint 打开时产生的锁文件
+~$*.pptx
+~$*.docx
