@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP 模型上下文协议 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">
+      <a href="../../README.html">知识库首页</a> ·
+      <a href="../index.html">网页版</a> ·
+      协议层
+    </p>
+    <h1>MCP，Model Context Protocol</h1>
+    <p class="lede">给 AI 应用和外部工具之间装一个标准插座：工具方写一次 server，应用方实现一次
+      client，双方各做一次就能互通。本页是这一册的网页面，讲义 PPT 见页脚链接。</p>
+    <p class="lede" style="margin-top:.6rem">
+      <span class="badge ok">当前稳定规范 2025-11-25</span>
+      <span class="badge recheck">2026-07-28 新版发布 · 待复查</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#mcp-what-why">1 · 是什么 / 为什么</a></li>
+    <li><a href="#boundary">什么时候不该上 MCP</a></li>
+    <li><a href="#mcp-protocol">2 · 协议解剖</a></li>
+    <li><a href="#mcp-transport">3 · 传输与版本演进</a></li>
+    <li><a href="#mcp-server">4 · 动手写 server</a></li>
+    <li><a href="#mcp-production">5 · 生产落地</a></li>
+    <li><a href="#mcp-security">6 · 安全</a></li>
+    <li><a href="#mcp-cheatsheet">7 · 上手路径与排错</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="mcp-what-why">
+  <h2>是什么 / 为什么<a class="anchor" href="#mcp-what-why">#mcp-what-why</a></h2>
+
+  <div class="lead">
+    <p>MCP 是一套开放标准，规定 AI 应用与外部工具之间「怎么发现能力、怎么调用、怎么回传结果」。
+      它解决的是集成复杂度：没有标准时，M 个应用接 N 个工具要写 M×N 套定制对接；有了标准，
+      工具方写一个 server、应用方实现一个 client，各做一次即可，复杂度塌缩成 M+N。</p>
+  </div>
+
+  <h3>为什么是「标准」而不是「又一个模型能力」</h3>
+  <p>把它想成 USB-C。在通用接口出现之前，每个设备配一根专用线，充电线、数据线、视频线各不通用；
+    约定一个通用口之后，M 个电器加 N 个国家，各自符合标准一次就够。AI 世界原本的问题一模一样：
+    同一个 GitHub 工具，要为 Claude 写一遍、为 Cursor 写一遍、为每个 IDE 再写一遍。</p>
+  <p>做成一个 MCP server 之后，任何支持 MCP 的客户端都能直接接上去读 issue、提 PR——工具方
+    和应用方解耦，各做各的。生态越大，省得越多，这是它区别于「多一个模型功能」的地方。</p>
+
+  <h3>和 Function Calling 是分工，不是替代</h3>
+  <p>这是现场最容易问混的一处。两者作用在不同层：</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>维度</th><th>函数调用（Function Calling）</th><th>MCP</th></tr></thead>
+    <tbody>
+      <tr><td>解决什么</td><td>让模型决定调哪个函数、传什么参数</td><td>让工具「怎么被发现、被调用」跨应用标准化</td></tr>
+      <tr><td>作用层</td><td>模型能力层：一次推理里的一步</td><td>集成协议层：应用与工具之间的通道</td></tr>
+      <tr><td>谁定义工具</td><td>每个应用自己在代码里声明一遍</td><td>工具方在 server 里声明一次，人人可用</td></tr>
+      <tr><td>换个应用怎么办</td><td>要重写对接</td><td>做成 server 后，任何 MCP 客户端直接接</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>关系是叠加：MCP 内部仍然靠模型的 function calling 做决策，它做的是把那「一次调用」
+    标准化、跨厂商化。二者不是二选一。</p>
+
+  <h3>治理：它不是某一家的私有协议</h3>
+  <p>2024 年 11 月由 Anthropic 首次开源，2025 年被主流 AI 应用与 IDE 快速采用，
+    2025 年 12 月捐给 Agentic AI Foundation（AAIF）——Linux 基金会旗下的中立基金会，
+    由 Anthropic、Block、OpenAI 等共同发起。协议变更走 SEP（Specification Enhancement
+    Proposal，规范增强提案）公开流程。</p>
+  <p class="ev">核实 2026-07-08，来源 <a href="#src-aaif">aaif.io 官方博客</a>。
+    这一条对客户的用处很直接：接入 MCP 不等于绑定某一家大模型厂商。</p>
+</section>
+
+<!-- ============ 边界（网页面新增） ============ -->
+<section class="sec" id="boundary">
+  <h2>什么时候不该上 MCP<a class="anchor" href="#boundary">#boundary</a></h2>
+
+  <div class="lead">
+    <p>判断尺子只有一条：<b>这套工具会不会被多个应用或多个团队复用</b>。会复用，MCP 这层标准
+      才收得回成本；只服务一个应用，直接写 Function Calling 更省事。标准的价值来自复用面，
+      没有复用面就只剩额外一层。</p>
+  </div>
+
+  <p>三条替代路径，各自适用的场景不同：</p>
+  <div class="grid">
+    <div class="box">
+      <h4>直接写 Function Calling</h4>
+      <p>工具只服务一个应用、由同一个团队维护、短期内不打算给别人用。少一层协议、少一层部署，
+        调试路径也短。</p>
+    </div>
+    <div class="box">
+      <h4>内部 SDK 或共享库</h4>
+      <p>多个应用要复用，但都在同一技术栈、同一代码仓里。共享库的类型检查和重构支持比跨进程
+        协议强，没必要为内部复用付出协议的代价。</p>
+    </div>
+    <div class="box">
+      <h4>直接暴露 OpenAPI</h4>
+      <p>消费方不是 AI 应用，或者已有成熟的 API 治理体系而 AI 只是其中一个消费者。这时把
+        MCP 当作 API 之上的可选适配层，而不是替代品。</p>
+    </div>
+  </div>
+
+  <p>反过来，出现下面任一条就值得上：工具要被两个以上 AI 应用接入；工具方与应用方不是同一个
+    团队；需要让工具能力可被发现、可被集中治理和审计。</p>
+  <p class="ev">本节是网页面在讲义之外补的：讲义把这个判断散在对练与动手做里，没有正面展开
+    替代路径。判据本身来自讲义已有口径，未引入新的外部事实。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="mcp-protocol">
+  <h2>协议解剖<a class="anchor" href="#mcp-protocol">#mcp-protocol</a></h2>
+
+  <div class="lead">
+    <p>三个角色各管一件事：<b>Host 管权限、Client 管连接、Server 管能力</b>。通信底座是
+      JSON-RPC 2.0。服务端对外提供三类东西——工具、资源、提示词，区别在于「谁触发」。</p>
+  </div>
+
+  <h3>三个角色</h3>
+  <p>主机（Host）是用户面对的 AI 应用，如 Claude Desktop 或 IDE，负责权限与用户交互；
+    客户端（Client）是 Host 内部为每个 server 建的连接器，一对一维护会话；
+    服务端（Server）是工具与数据的提供方，声明自己能做什么。</p>
+  <p>一个 Host 可以挂多个 Client，每个 Client 专线连一个 Server。Claude Desktop 里同时接了
+    filesystem 和 GitHub 两个 server，它内部就起两个 client，各连一个，互不干扰。</p>
+
+  <h3>一次连接怎么开始</h3>
+  <p>经典流程三步：初始化握手（<code>initialize</code>）双方交换协议版本与能力清单 →
+    能力发现，客户端拉取 <code>tools/list</code>、<code>resources/list</code>、
+    <code>prompts/list</code> → 正常调用。握手时 server 说「我支持 tools 和 resources、
+    不支持 prompts」，client 就只去拉这两类，能力协商避免瞎调。</p>
+  <div class="box warn">
+    <p><span class="badge recheck">2026-07-28 待复查</span>
+      新版把这套握手改成无状态，删掉 initialize 与会话 ID，上下文随每个请求走。
+      理解经典三步仍是基础，但届时这一节的机制描述需要改写——细节见
+      <a href="#mcp-transport">传输与版本演进</a>。</p>
+  </div>
+
+  <h3>三大原语：两把刀切同一件事</h3>
+  <p>第一把刀按「能做什么」切：</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>原语</th><th>是什么</th><th>谁触发</th><th>典型例子</th></tr></thead>
+    <tbody>
+      <tr><td>工具 Tools</td><td>模型可调用的动作，会执行、可能改状态</td><td>模型自主决定</td><td>查数据库、发邮件、创建 issue</td></tr>
+      <tr><td>资源 Resources</td><td>可读取的数据或上下文，只读无副作用</td><td>应用或用户挂载引用</td><td>一个文件、一段记录、一份文档</td></tr>
+      <tr><td>提示词 Prompts</td><td>预置的对话模板，把最佳用法固化</td><td>用户显式选用</td><td>「代码审查」「总结会议纪要」模板</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>第二把刀按「谁控制」切，决定的是责任落点——这一刀比上一刀更影响架构：</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>原语</th><th>谁控制</th><th>责任落点</th></tr></thead>
+    <tbody>
+      <tr><td>工具 Tools</td><td>模型控制（model-controlled）</td><td>确认弹窗、权限与审计都要按「模型会乱调」设防</td></tr>
+      <tr><td>资源 Resources</td><td>应用控制（application-controlled）</td><td>数据可见性由应用负责，越权看数据在这层查</td></tr>
+      <tr><td>提示词 Prompts</td><td>用户控制（user-controlled）</td><td>入口放在界面让用户主动挑，不由模型代选</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>控制者决定展示方式、确认时机、权限与审计责任。<b>选错控制面，用户体验和审计责任就会错位</b>
+    ——比如把一个有副作用的动作做成资源，就绕过了本该有的确认环节。</p>
+  <p class="ev">口径依据官方规范 2025-11-25，核实 2026-07-12，来源
+    <a href="#src-spec">modelcontextprotocol.io 规范页</a>。</p>
+
+  <h3>反向能力与弃用走向</h3>
+  <p>除服务端三原语外，协议还定义了反向能力：Sampling（服务端反过来请客户端的模型帮忙生成）、
+    Elicitation（服务端向用户追问补充信息）、Roots（客户端告知可访问的目录范围）。</p>
+  <div class="box warn">
+    <p><span class="badge recheck">2026-07-28 待复查</span>
+      新版把 Roots、Sampling、Logging 正式列入弃用（Deprecated），建议改用工具参数、
+      直连模型 API、stderr 或 OpenTelemetry 等替代，保留至少 12 个月缓冲。
+      选型时不要把架构压在这几项上。</p>
+  </div>
+
+  <h3 id="wire">真实报文：一次 tools/call 的来回</h3>
+  <p>下面是一次完整往返。点任一高亮字段看它的作用与它牵到哪一节；未启用 JavaScript 时，
+    全部字段说明以列表形式在报文下方给出。</p>
+
+  <div class="wire">
+    <div class="wire-grid">
+      <div>
+        <p class="cap">① 客户端 → 服务端：调用工具</p>
+        <pre>{
+  "<span class="f" data-f="jsonrpc">jsonrpc</span>": "2.0",
+  "<span class="f" data-f="id">id</span>": 7,
+  "<span class="f" data-f="method">method</span>": "tools/call",
+  "params": {
+    "<span class="f" data-f="name">name</span>": "query_db",
+    "<span class="f" data-f="arguments">arguments</span>": {
+      "sql": "SELECT region, SUM(rev) FROM sales GROUP BY region"
+    }
+  }
+}</pre>
+        <p class="cap">② 服务端 → 客户端：返回结果</p>
+        <pre>{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "<span class="f" data-f="result">result</span>": {
+    "<span class="f" data-f="content">content</span>": [
+      { "type": "text", "text": "[{\"region\":\"华东\",\"rev\":10200000}, ...]" }
+    ],
+    "<span class="f" data-f="isError">isError</span>": false
+  }
+}</pre>
+      </div>
+      <div class="wire-live">
+        <div class="wire-note" role="region" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <dl class="wire-all">
+      <dt data-f="jsonrpc">jsonrpc</dt>
+      <dd>协议版本标识，恒为 <code>"2.0"</code>。MCP 的所有通信都是标准 JSON-RPC 2.0 报文，
+        不是自造格式——这正是它能被现有 API 治理体系直接接管的原因。</dd>
+
+      <dt data-f="id">id</dt>
+      <dd>把一问一答配对起来的编号。响应必须带回同一个 <code>id</code>，所以同一条连接上可以有
+        多个请求并行往返而不会串线。日志里靠它把一次调用的两端串起来。</dd>
+
+      <dt data-f="method">method</dt>
+      <dd>方法名，决定这是哪一类操作。<code>tools/list</code> 列工具、<code>tools/call</code>
+        调用工具、<code>resources/list</code> 列资源。前缀就是
+        <a href="#mcp-protocol">三大原语</a>的名字。</dd>
+
+      <dt data-f="name">params.name</dt>
+      <dd>要调用哪个工具。这个名字来自 server 在 <code>tools/list</code> 里声明的清单，
+        模型只能在清单范围内选——能力协商在这里兑现。</dd>
+
+      <dt data-f="arguments">params.arguments</dt>
+      <dd>结构化参数，由模型根据工具描述填出来。<b>这里是工具描述质量的直接后果</b>：
+        描述含糊，模型就会传错参数或在不该调的时候调用。写 docstring 要当成写给模型的
+        产品说明，见<a href="#mcp-server">动手写 server</a>。也正因为模型能自主构造这一段，
+        它是<a href="#mcp-security">安全</a>那一节里最需要设防的位置。</dd>
+
+      <dt data-f="result">result</dt>
+      <dd>成功时的返回体。与之互斥的是 <code>error</code>——JSON-RPC 用哪个字段出现来区分
+        协议层面的成败，两者不会同时出现。</dd>
+
+      <dt data-f="content">result.content</dt>
+      <dd>回传内容，是一个数组，每项带 <code>type</code>。工具返回的不只是纯文本，这个结构
+        为多种内容类型留了位置。</dd>
+
+      <dt data-f="isError">result.isError</dt>
+      <dd>业务层面的失败标记。注意它和 JSON-RPC 的 <code>error</code> 是两件事：
+        <code>error</code> 表示这次调用在协议层就没走通（方法不存在、参数不合法），
+        <code>isError: true</code> 表示调用成功抵达、但工具自己执行失败（如 SQL 报错）。
+        排错时先分清是哪一类，能省掉大半时间。</dd>
+    </dl>
+  </div>
+
+  <p>整段就是标准 JSON-RPC：可读、可校验、可审计。这也是「为什么选 JSON-RPC」的答案——
+    简单、语言无关、天然可序列化，MCP 流量因此能轻松纳入现有 API 治理。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="mcp-transport">
+  <h2>传输与版本演进<a class="anchor" href="#mcp-transport">#mcp-transport</a></h2>
+
+  <div class="lead">
+    <p>同一套报文可以本地进程直连，也可以走 HTTP 远程。选型口诀：<b>只在本机用、碰本地资源
+      走 stdio；要多人或多应用共享、跨网络走 Streamable HTTP</b>。但真正要先定的不是传输，
+      是信任模型。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>维度</th><th>stdio（标准输入输出）</th><th>Streamable HTTP（可流式 HTTP）</th></tr></thead>
+    <tbody>
+      <tr><td>跑在哪</td><td>本地：Host 把 server 当子进程拉起</td><td>远程：server 是独立 HTTP 服务</td></tr>
+      <tr><td>适合谁</td><td>本地工具（读本地文件、跑本地命令）</td><td>团队共享、SaaS 化、跨网络的 server</td></tr>
+      <tr><td>鉴权</td><td>靠本地进程边界，通常无需额外认证</td><td>需要 OAuth 等认证</td></tr>
+      <tr><td>部署</td><td>随客户端启动，零运维</td><td>像普通 Web 服务：容器或函数计算</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>语法相同不代表信任相同</h3>
+  <p>这是这一章最值钱的一句。stdio 的边界是进程隔离，凭据走环境变量或本地文件，
+    信任前提是「你启动的那个命令及其来源」——本地不自动等于安全。Streamable HTTP 的边界是
+    网络策略，靠 TLS、Origin 校验、OAuth 的 audience 限定，信任前提是网络边界与授权配置。</p>
+  <p><b>换传输等于换一整套进程、网络、凭据边界</b>。从 stdio 迁到 HTTP 时鉴权设计要重做，
+    不是改个 URL。所以顺序应该是先定信任模型，再选传输形态。</p>
+  <p class="ev">口径依据官方规范 2025-11-25，核实 2026-07-12。Streamable HTTP 自 2025 年 3 月
+    起取代旧的 HTTP+SSE（Server-Sent Events），是当前的标准传输。</p>
+
+  <h3>五版脉络：一路在解决「企业规模化」</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>版本</th><th>带来什么</th></tr></thead>
+    <tbody>
+      <tr><td>2024-11</td><td>首发</td></tr>
+      <tr><td>2025-03</td><td>Streamable HTTP、OAuth 授权</td></tr>
+      <tr><td>2025-06</td><td>Elicitation、结构化输出</td></tr>
+      <tr><td>2025-11-25</td><td><b>当前稳定版</b>，生产可用的基线</td></tr>
+      <tr><td>2026-07-28</td><td><span class="badge recheck">待复查</span> 无状态核心、Extensions、Tasks、MCP Apps、授权加固、正式弃用政策</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>早期几版解决「能跑通」，后面几版全在解决「多车道、能鉴权、能规模化扩容」——协议在稳步
+    往企业基础设施的方向走。</p>
+
+  <h3>无状态核心：新版改动最大的一处</h3>
+  <p>旧的有状态模型要先 initialize 握手拿会话 ID，整通会话认一个实例，于是需要会话粘连
+    （sticky session）或共享会话存储，「这个会话归哪台机器」得一直记着。</p>
+  <p>无状态之后，每个请求自带协议版本与客户端信息，像每封信都写全地址，谁收都能处理。
+    前面挂一个普通轮询负载均衡就行，任意请求打任意实例。<b>结果是 MCP server 可以像普通
+    无状态 Web 服务一样扩容</b>，这是「向企业规模化倾斜」最实的一步。</p>
+
+  <h3>三个扩展方向</h3>
+  <div class="grid">
+    <div class="box">
+      <h4>Extensions</h4>
+      <p>把非核心能力拆成独立、可单独版本化的扩展（反向 DNS 命名），核心保持精简，
+        生态各自演进。</p>
+    </div>
+    <div class="box">
+      <h4>Tasks</h4>
+      <p>长任务从实验特性转为官方扩展，提供任务句柄：发起后可查询、更新、取消，
+        不必卡在一次同步调用里。</p>
+    </div>
+    <div class="box">
+      <h4>MCP Apps</h4>
+      <p>server 可下发交互式 HTML 界面，在沙箱 iframe 里渲染，界面与工具调用走同一套协议
+        ——工具返回不再只能是纯文本。</p>
+    </div>
+  </div>
+  <p>加上正式弃用政策（Active → Deprecated → Removed，至少 12 个月缓冲），新版给客户两个
+    安心点：能力可扩展、变更有节奏。</p>
+  <p class="ev">核实 2026-07-12，来源 <a href="#src-rc">MCP 官方博客 RC 发布文</a>。
+    RC 已于 5 月锁定，给 SDK 十周验证窗口。
+    <b>本节是全册时效性最强的一处，2026-07-28 后需整节复核。</b></p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="mcp-server">
+  <h2>动手写 server<a class="anchor" href="#mcp-server">#mcp-server</a></h2>
+
+  <div class="lead">
+    <p>写 server 的核心工作不是写代码，是<b>想清楚哪些是动作（工具）、哪些是只读上下文（资源）、
+      哪些是可复用模板（提示词）</b>。代码本身用官方 Python SDK 几行就能跑起来。</p>
+  </div>
+
+  <h3>最小可运行的 server</h3>
+  <pre style="background:var(--bg-2);padding:.9rem 1rem;border-radius:10px;overflow-x:auto;font-size:14px;line-height:1.8"><code>pip install "mcp[cli]"
+
+from mcp.server.fastmcp import FastMCP
+mcp = FastMCP("demo-weather")          # 起个 server 名
+
+@mcp.tool()
+def get_weather(city: str) -&gt; str:
+    """查询某城市的当前天气（示例返回假数据）"""
+    return f"{city}：晴，26°C"
+
+if __name__ == "__main__":
+    mcp.run()                          # 默认走 stdio 传输</code></pre>
+
+  <p>装饰器 <code>@mcp.tool()</code> 会自动把函数签名、类型注解和 docstring 转成规范的工具
+    描述——客户端在 <code>tools/list</code> 里看到的就是它。所以<b>函数注释是写给模型看的</b>，
+    要写清什么时候用、参数是什么。这一点直接决定
+    <a href="#wire">报文里 <code>arguments</code> 那一段</a>填得对不对。</p>
+
+  <p>另外两个装饰器对应另外两个原语：<code>@mcp.resource("file://readme")</code> 暴露只读上下文，
+    <code>@mcp.prompt()</code> 把一段最佳用法固化成模板。同一个 server 里三类能力可以齐活。</p>
+
+  <h3>开发顺序：先单测 server，再接模型</h3>
+  <p>官方调试工具 MCP Inspector 相当于电工的万用表：<code>npx @modelcontextprotocol/inspector</code>
+    连上你的 server，用图形界面查看它暴露了什么、逐个点击调用、看真实的报文往返。</p>
+  <p>先用 Inspector 把 server 单独调通，排除模型这个变量，再接进真实客户端。
+    <b>把「server 对不对」和「模型会不会用」拆成两件事排查，定位速度差一个数量级。</b></p>
+
+  <h3>最常见的落地姿势：把现有 REST API 包一层</h3>
+  <p>像给老电器配一个转接头：后端不改、业务不重写，套一层标准口就能插进所有 MCP 客户端。
+    包装层做四件事——描述、转调、整理返回、鉴权。</p>
+  <p>已有「查订单」接口，就写一个 <code>query_order</code> 工具，内部转调它、把 JSON 里的
+    关键字段挑出来返回。<b>给客户的工作量口径：有现成 API 时，一个中等复杂度的 server
+    通常几人天，不是重写业务系统。</b></p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="mcp-production">
+  <h2>生产落地<a class="anchor" href="#mcp-production">#mcp-production</a></h2>
+
+  <div class="lead">
+    <p>demo 跑通只是起点。企业里要回答三个问题：远程 server 怎么鉴权、怎么部署与集中管控、
+      去哪儿发现可信的 server。三个答案分别是：标准 OAuth、MCP 网关、私有 registry。</p>
+  </div>
+
+  <h3>鉴权：就是标准 OAuth，不是另起一套</h3>
+  <p>本地 server 靠进程边界就安全；远程 server 暴露在网络上，必须认证「谁在调、有没有权」。
+    MCP 采用 OAuth 2.0 与 OIDC（OpenID Connect）：客户端拿令牌访问，server 校验令牌与权限。
+    像进写字楼——本地 server 是自家客厅，进门即信任；远程 server 是办公楼，得先在前台换访客证，
+    刷卡才能进对应楼层。</p>
+  <p>关键话术：<b>能直接对接客户现有的身份与访问管理（IAM，Identity and Access Management）体系</b>。
+    新版进一步向 OAuth/OIDC 对齐，要求客户端校验令牌签发方、注册时声明应用类型、凭据绑定签发方
+    ——都是在堵「令牌被张冠李戴」的坑。</p>
+
+  <h3>为什么要一个 MCP 网关</h3>
+  <p>企业里 server 会越来越多，还有员工想接外部 server。网关在客户端与众多 server 之间做统一
+    入口：集中认证、限流、审计、按策略放行或拦截。相当于公司的统一收发室，所有进出的流量都在
+    这里登记、安检、留档，而不是每个工位各收各的。</p>
+  <p>有了网关才谈得上「这个部门只能用这几个 server」「所有调用留审计日志」「外部 server 先过
+    白名单」。治理有了着落。</p>
+
+  <h3>去哪儿发现 server</h3>
+  <p>官方 Registry 是公开 server 的元数据仓库，记录每个 server 叫什么、在哪、怎么装。
+    它像应用商店的货架说明卡：<b>不托管代码，也不替你做安全审查</b>。</p>
+  <div class="box warn">
+    <p><span class="badge recheck">建议复查</span>
+      官方 Registry 仍是 preview、未正式发布（GA），可能有破坏性变更，且<b>不收私有 server</b>。
+      企业内网的 server 必须自建私有 registry——可实现同一套接口以复用生态工具。
+      这是数据不出门与合规的必然要求，也是「企业要自建私有目录」这个立项的依据。</p>
+    <p class="ev">核实 2026-07-08，来源 <a href="#src-registry">registry 官方页</a>。</p>
+  </div>
+
+  <h3>上线前的五条验收线</h3>
+  <p>Inspector 里调通只是联调，不是生产结论。终极判断是一句话：<b>任意一次调用都能回放
+    「谁、经哪个版本、调了什么、为何被允许、结果如何」</b>。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>验收线</th><th>查什么</th><th>要什么证据</th></tr></thead>
+    <tbody>
+      <tr><td>版本与协商</td><td>锁定稳定基线、能力协商取交集、未知能力要拒绝</td><td>初始化记录、版本兼容表、错误路径用例</td></tr>
+      <tr><td>身份与授权</td><td>Origin 校验、令牌 audience 限定、scope 最小化、后端二次授权</td><td>负向测试、策略日志、审计记录</td></tr>
+      <tr><td>供应链与工具安全</td><td>server 来源可信、版本哈希锁定、副作用受控、高危操作要确认</td><td>来源清单、红队用例、审批与补偿记录</td></tr>
+      <tr><td>可靠性</td><td>超时、限流、熔断、容量、故障恢复</td><td>压测报告、告警配置、演练记录</td></tr>
+      <tr><td>业务质量</td><td>输出正确、权限正确、用户可验收</td><td>评测集、人工抽检、反馈闭环</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>对应到云上</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>技术环节</th><th>代表性做法（多厂商，非绑定）</th></tr></thead>
+    <tbody>
+      <tr><td>Server 托管</td><td>函数计算或容器服务跑自建 server；主流云与平台提供托管运行时与目录</td></tr>
+      <tr><td>统一鉴权</td><td>API 网关加 OAuth，对接各云 IAM 做认证、限流、审计</td></tr>
+      <tr><td>远程接入</td><td>部分厂商提供远程 MCP 托管与 Streamable HTTP 出口</td></tr>
+      <tr><td>现成生态</td><td>官方 servers 仓库加各厂商官方 server（数据库、SaaS 类）</td></tr>
+      <tr><td>私有目录</td><td>自建私有 registry 管理内部 server，数据不出门</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="ev">只列有真实关联的环节，同一环节给多厂商代表性选项，不绑死单一供应商。
+    各云的具体服务能力以 2026 年现状为准，<b>属于变动最快的一类信息，引用前先核日期</b>；
+    完整清单见讲义第 5 章。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="mcp-security">
+  <h2>安全<a class="anchor" href="#mcp-security">#mcp-security</a></h2>
+
+  <div class="lead">
+    <p>MCP 让工具即插即用，也把「插进来的东西可信吗」变成头等问题。风险不是理论上可能，
+      是已经大规模发生。但每一类都有对应防护，关键是<b>默认就要设防</b>。</p>
+  </div>
+
+  <h3>四类特有威胁</h3>
+  <div class="grid">
+    <div class="box">
+      <h4>工具投毒（Tool Poisoning）</h4>
+      <p>恶意 server 把攻击指令藏在工具描述里，客户端一连上、模型一读描述就被注入
+        ——<b>发生在任何实际调用之前</b>。描述即攻击面。</p>
+    </div>
+    <div class="box">
+      <h4>地毯式抽换（Rug Pull）</h4>
+      <p>一开始是正常 server，赢得信任后偷偷把工具行为或描述改成恶意。先立牌坊后作恶。</p>
+    </div>
+    <div class="box">
+      <h4>混淆代理（Confused Deputy）</h4>
+      <p>server 借用客户端或用户的权限，去做用户没有授权的事，权限被越权放大。</p>
+    </div>
+    <div class="box">
+      <h4>裸奔 server</h4>
+      <p>把 server 无鉴权直接暴露公网，等于把内部能力开放给所有人。</p>
+    </div>
+  </div>
+
+  <h3>风险有多真实</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>数字</th><th>说明</th><th>边界</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>40+ CVE</td>
+        <td>2026 年 1–4 月 MCP 生态披露，横跨各语言 SDK 与参考实现，受影响组件合计下载量约 1.5 亿，官方参考 server 也中招</td>
+        <td>统计窗口为 2026 年 1–4 月，不可外推为全年或当前值</td>
+      </tr>
+      <tr>
+        <td>84.2%</td>
+        <td>MCPTox 基准下工具投毒攻击成功率</td>
+        <td><b>限定条件是「开启自动批准」</b>；关掉自动批准后此数字不适用，引用时必须带上这个前提</td>
+      </tr>
+      <tr>
+        <td>CVE-2025-6514</td>
+        <td>mcp-remote 的远程执行漏洞，恶意端点经构造授权 URL 达成</td>
+        <td>特定组件的特定版本，不代表协议本身有此缺陷</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="ev">核实 2026-07-08，来源 <a href="#src-cve">dev.to 汇总</a>与
+    <a href="#src-mcptox">arXiv 2508.14925</a>。上面第三列是这些数字的<b>不可外推边界</b>
+    ——带出门时必须连边界一起带，否则就成了误导。</p>
+
+  <h3>官方指引</h3>
+  <p>2026 年 6 月，NSA 与 CISA 等发布《MCP: Security Design Considerations》，从架构设计角度
+    给出安全建议，覆盖认证授权、供应链可信、注入面防护、部署边界。客户问「你们凭什么说 MCP
+    能安全落地」时，可以直接引用它作背书，并对照说明方案覆盖了其中哪几条。</p>
+  <p class="ev">获取方式见本模块<a href="../../PPT-version/MCP/电子书书单.md">电子书书单</a>第 4 条。</p>
+
+  <h3>防护组合拳：威胁与对策一一对位</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>对策</th><th>治哪一类</th><th>要点</th></tr></thead>
+    <tbody>
+      <tr><td>人在环上</td><td>工具投毒</td><td>高危操作（删数据、发钱、对外发消息）默认人工审批，<b>绝不开全自动批准</b>——这一招最立竿见影</td></tr>
+      <tr><td>来源可信并锁版本</td><td>rug pull、投毒</td><td>只用可信来源的 server，锁定版本，连接前审查工具描述</td></tr>
+      <tr><td>最小权限</td><td>confused deputy</td><td>每个 server 只给完成任务所需的最小权限与数据范围，能只读就别给写</td></tr>
+      <tr><td>集中管控与审计</td><td>裸奔 server</td><td>走 MCP 网关统一认证、限流、留痕，别裸暴露公网，持续监控异常调用</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>最容易被忽视也最致命的两条：<b>无鉴权裸暴露公网</b>，以及<b>图省事开全自动批准</b>。
+    这两条几乎是事故直通车，也最容易避免。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="mcp-cheatsheet">
+  <h2>上手路径与排错<a class="anchor" href="#mcp-cheatsheet">#mcp-cheatsheet</a></h2>
+
+  <div class="lead">
+    <p>从零到能上生产的四步，以及出问题时的排查顺序。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>阶段</th><th>做什么</th><th>这一步验证了什么</th></tr></thead>
+    <tbody>
+      <tr><td>① stdio 起步</td><td>本机跑通最小 server</td><td>零运维地验证「这件事有没有价值」</td></tr>
+      <tr><td>② Inspector 调通</td><td>官方调试器单测工具</td><td>server 本身对不对，排除模型变量</td></tr>
+      <tr><td>③ HTTP 化加鉴权</td><td>OAuth/OIDC 接现有 IAM</td><td>能不能被多人多应用共享</td></tr>
+      <tr><td>④ 网关治理</td><td>白名单、审计、限权</td><td>能不能规模化，这是上生产的前提</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>排错三板斧</h3>
+  <p>先用 Inspector 单测 server → 再接客户端分层定位 → 最后查工具描述是不是让模型误调。
+    顺序反了会浪费大量时间：模型「不肯用」和 server「跑不通」是两类完全不同的问题。</p>
+
+  <h3>现场高频追问</h3>
+  <div class="qa">
+    <details>
+      <summary>MCP 和 Function Calling 到底什么关系，是不是替代？</summary>
+      <div class="a"><p>不替代。Function Calling 是模型「决定调哪个工具」的能力，MCP 是「工具怎么被标准接入」的协议；
+        MCP 内部仍用 function calling 做决策，二者叠加。展开见<a href="#mcp-what-why">是什么 / 为什么</a>。</p></div>
+    </details>
+    <details>
+      <summary>这是不是 Anthropic 的私有协议，用了会被锁定吗？</summary>
+      <div class="a"><p>不会。2025 年底已捐给中立的 AAIF 基金会、开放治理，主流大模型应用与厂商都在支持。
+        接入它反而降低单一厂商绑定。</p></div>
+    </details>
+    <details>
+      <summary>我们已经在用 Function Calling 了，还有必要上 MCP 吗？</summary>
+      <div class="a"><p>看复用面。工具只服务一个应用，直接写就好；一旦要被多应用或多团队反复接，
+        MCP 能省掉成倍的重复对接。三条替代路径见<a href="#boundary">什么时候不该上 MCP</a>。</p></div>
+    </details>
+    <details>
+      <summary>月底新版发布，我现在的 server 要立刻改代码吗？</summary>
+      <div class="a"><p>不必立刻。稳定版仍是 2025-11-25，新旧版本有兼容期，SDK 同时支持新旧协议；
+        按 12 个月弃用缓冲从容规划即可。<span class="badge recheck">2026-07-28 后需复核</span></p></div>
+    </details>
+    <details>
+      <summary>开发一个 MCP server 到底要多少工作量？</summary>
+      <div class="a"><p>有现成 API 的话，核心是描述工具、转调后端、整理返回、加鉴权，一个中等 server
+        通常几人天，不是重写业务系统。</p></div>
+    </details>
+    <details>
+      <summary>员工乱接外面的 server 怎么治？</summary>
+      <div class="a"><p>上 MCP 网关做统一入口：白名单放行、集中审计、按部门限权。别让每个客户端各连各的、
+        无人管控。</p></div>
+    </details>
+    <details>
+      <summary>我们内部系统的 server 能放到官方 Registry 吗？</summary>
+      <div class="a"><p>不能。官方 Registry 只收公开 server 且仍是 preview。内部 server 要自建私有 registry，
+        数据不出门、集中管理。</p></div>
+    </details>
+    <details>
+      <summary>MCP 出了这么多 CVE，还能用吗？</summary>
+      <div class="a"><p>能，且要用对姿势。CVE 多恰恰说明它被广泛使用、被认真审视；官方已有安全指引和修复机制。
+        关键是默认设防、及时更新——<b>裸暴露公网与全自动批准才是事故直通车</b>。</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。这些模块目前只有 PPT 面。</p>
+  <div class="rel">
+    <a href="../../PPT-version/Agent/README.html">
+      <div class="nm">Agent · 第 4 章</div>
+      <div class="why">入口视角：智能体为什么需要标准接口。那边讲动机，本册讲这标准本身怎么用好。</div>
+    </a>
+    <a href="../../PPT-version/AI-Gateway/README.html">
+      <div class="nm">AI-Gateway</div>
+      <div class="why">治理面：MCP 流量的代理、发现、鉴权、限流、审计由网关承接。协议归本册，治理归那册。</div>
+    </a>
+    <a href="../../PPT-version/A2A/README.html">
+      <div class="nm">A2A（Agent2Agent）</div>
+      <div class="why">协议层兄弟：MCP 接工具（纵向），A2A 接 Agent（横向）。两者的安全共识也可对照看。</div>
+    </a>
+    <a href="../../PPT-version/Security/README.html">
+      <div class="nm">Security</div>
+      <div class="why">工具描述投毒与供应链风险在那册深化，本册只讲协议侧防线。</div>
+    </a>
+    <a href="../../PPT-version/RAG/README.html">
+      <div class="nm">RAG</div>
+      <div class="why">弱关联：检索也可以包成一个 MCP 工具，建好的知识库在 agent 眼里就是一个可调用的 server。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/MCP/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-08 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-aaif"><td><code>src-aaif</code></td><td>aaif.io 官方博客</td><td>治理归属、SEP 机制、捐赠时间</td><td>不涉及协议技术细节</td></tr>
+      <tr id="src-spec"><td><code>src-spec</code></td><td>modelcontextprotocol.io 规范页</td><td>当前稳定版口径、三原语与控制面定义</td><td>不代表尚未发布的新版行为</td></tr>
+      <tr id="src-rc"><td><code>src-rc</code></td><td>MCP 官方博客 RC 发布文</td><td>2026-07-28 版的改动清单与时间表</td><td>RC 锁定不等于正式发布，条款可能微调</td></tr>
+      <tr id="src-sdk"><td><code>src-sdk</code></td><td>modelcontextprotocol.io/docs/sdk</td><td>官方 SDK 支持等级与语言覆盖</td><td>支持等级是承诺，不是安全认证</td></tr>
+      <tr id="src-registry"><td><code>src-registry</code></td><td>registry 官方页</td><td>Registry 的定位与 preview 状态</td><td>不能作为企业级目录方案的依据</td></tr>
+      <tr id="src-cve"><td><code>src-cve</code></td><td>dev.to 汇总</td><td>2026 年 1–4 月 CVE 体量与代表案例</td><td>二次汇总，单条 CVE 细节以官方通告为准</td></tr>
+      <tr id="src-mcptox"><td><code>src-mcptox</code></td><td>arXiv 2508.14925（MCPTox）</td><td>自动批准场景下的投毒成功率</td><td>基准环境结论，不可外推到关闭自动批准的部署</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="box warn" style="margin-top:1rem">
+    <p><b>下一次定点复查：2026-07-28。</b>新版规范正式发布，需整体复核的是
+      <a href="#mcp-protocol">协议解剖</a>的生命周期一节、
+      <a href="#mcp-transport">传输与版本演进</a>整节，以及页顶的版本状态条。
+      本页所有带 <span class="badge recheck">待复查</span> 标记的位置就是复查清单。</p>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/MCP/MCP-讲义.pptx">MCP-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/MCP/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/MCP/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页面与 PPT 面共享事实、术语、边界与来源关系，不共享目录与信息节奏——
+    两面按各自的读法组织，账本只有一份。</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
