@@ -13,7 +13,8 @@ NEWRELS = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\r\n'
            '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
            '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" '
            'Target="../slideLayouts/slideLayout1.xml"/></Relationships>')
-_TMP = "/Users/lijiaxiang/project/myAILearning/_maintenance/_kbins_new.pptx"
+import tempfile
+_TMP = tempfile.mkstemp(prefix="_kbins_", suffix=".pptx")[1]
 
 def _gen_slide_xmls(draw_fns):
     prs = Presentation(); prs.slide_width = Inches(13.333); prs.slide_height = Inches(7.5)

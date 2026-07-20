@@ -9,7 +9,14 @@
   1. 每个条目行的「获取方式」列至少含一个 http(s) 链接——没链接的条目等于没法取用;
   2. 书单不得残留本地馆藏痕迹（`_reference/ebooks`、`✅ 已下载`、指向 .pdf/.zip 的相对路径）
      ——馆藏撤除后这类残留一律是坏账，读者会照着去找一个不存在的文件;
-  3. 链接形态基本合法（有 host、非明显占位符）。
+  3. 链接形态基本合法（有 host、非明显占位符）;
+  4. **链接与条目的身份一致**（v4.3.1 新增轴）——链接得指向"这一条"，不是随便一个能打开的页面：
+     a. 行内若写了 arXiv 号（书名/作者列常写「arXiv 2106.09685」），必须与链接里的 arXiv 号相同;
+     b. 同一册书单内两条以上共用同一链接，判账实不符（跨模块共用同一份资料是合法的，不查）;
+     c. 「获取方式」列括号未闭合——尾注被截断的信号，多半意味着这条是机器回写时出的错。
+     增设动机：2026-07-20 撤馆藏回写出处时，5 条出处被填成了邻行的链接（Security 3 条、
+     AI-Infra-Compute 2 条），前三轴全部放行——契约重心已从"文件在不在"转成"链接对不对"，
+     判据必须跟着转。
 
 不做联网可达性探测：巡检要求纯离线秒级，且 404 与限流难以区分；链接失效由季度巡检的
 「建议复查日」人工轴兜底。
@@ -21,7 +28,9 @@ import os
 import re
 import sys
 
-URL_RE = re.compile(r'https?://([^\s，,）)、|]+)')
+# 链接边界须含中文标点：一格里常写「主链接；导读：另一链接」或「链接（版本注）」，
+# 少一个终止符就会把两条链接连成一串，重复链接检查随之失效（2026-07-20 回归验证发现）。
+URL_RE = re.compile(r'https?://([^\s，,；;：（）()、|【】]+)')
 # 馆藏撤除后的坏账痕迹
 STALE_PATTERNS = [
     (re.compile(r'_reference/ebooks'), "残留馆藏路径 _reference/ebooks"),
@@ -29,6 +38,9 @@ STALE_PATTERNS = [
     (re.compile(r'(?:\.\./|\./)[^\s|`]+\.(?:pdf|zip)', re.I), "残留指向本地文件的相对路径"),
 ]
 PLACEHOLDER_RE = re.compile(r'(?:example\.com|localhost|TODO|xxx)', re.I)
+# 身份一致性轴
+ARXIV_RE = re.compile(r'\b(\d{4}\.\d{4,5})\b')
+UNCLOSED_RE = re.compile(r'[（(][^）)]*$')
 
 
 def resolve_module_root(root):
@@ -61,6 +73,7 @@ def check_module(mod_root, mod):
     text = open(path, encoding="utf-8", errors="replace").read()
     issues = []
     n_entries = 0
+    seen_urls = {}  # 归一化链接 -> 首次出现的条目号
 
     for i, line in enumerate(text.split("\n"), 1):
         for rx, label in STALE_PATTERNS:
@@ -76,6 +89,25 @@ def check_module(mod_root, mod):
             issues.append(f"条目 {num}：「获取方式」列无链接")
         elif PLACEHOLDER_RE.search(m.group(0)) or "." not in m.group(1).split("/")[0]:
             issues.append(f"条目 {num}：链接疑似占位或非法（{m.group(0)[:60]}）")
+
+        # —— 轴 4：链接与条目的身份一致 ——
+        if UNCLOSED_RE.search(acquire):
+            issues.append(f"条目 {num}：「获取方式」列括号未闭合，尾注疑似被截断")
+        if m:
+            # a. 行内 arXiv 号 vs 链接 arXiv 号
+            row_ids = set(ARXIV_RE.findall(" ".join(cells[:-1])))
+            link_ids = set(ARXIV_RE.findall(m.group(0)))
+            if row_ids and link_ids and not (row_ids & link_ids):
+                issues.append(f"条目 {num}：行内 arXiv 号 {sorted(row_ids)} 与链接 "
+                              f"{sorted(link_ids)} 不一致，链接可能指向别的资料")
+            # b. 同册内共用同一链接（一格可能写多条链接，逐条登记）
+            for u in URL_RE.finditer(acquire):
+                key = u.group(0).rstrip("/")
+                if key in seen_urls:
+                    issues.append(f"条目 {num}：链接与条目 {seen_urls[key]} 完全相同"
+                                  f"（{key[:60]}），至少有一条填错了")
+                else:
+                    seen_urls[key] = num
 
     if n_entries == 0:
         issues.append("未解析到任何条目行（表格结构可能已变）")
