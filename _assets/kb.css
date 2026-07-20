@@ -563,3 +563,69 @@ table.fresh tr.over td { background: #FBEDE9; }
 .daily .d, .face .d { color: var(--ink-500); }
 .face .st.ok { color: var(--ok); }
 .face .st.soon { color: var(--gold); }
+
+/* ============ 模块 README 与 _prep 三件套 ============ */
+
+/* 模块 README：产出物块用 .card（是 div 不是链接，这里覆盖掉链接态） */
+div.card { display: block; padding: 1rem 1.2rem; line-height: 1.9; }
+div.card:hover { background: var(--paper); }
+div.card b { font-family: var(--serif); }
+
+/* h2 里的补充说明（学习路径用） */
+h2 .sub { font-size: 14px; font-weight: 400; color: var(--ink-400);
+          margin: 0 0 0 .7rem; display: inline; font-family: var(--sans); }
+
+/* 全库一页纸：层名单元格 / 模块名 / 页数 */
+td.layer {
+  font-family: var(--serif); font-weight: 700; font-size: 16px;
+  color: #F2EFE8; background: var(--ink-800); vertical-align: middle;
+  margin: 0; white-space: nowrap;
+}
+td.mod a { font-weight: 600; text-decoration: none; }
+td.mod a:hover { color: var(--gold); }
+.pg { font-size: 13px; color: var(--ink-400); white-space: nowrap; }
+td.day {
+  font-family: var(--mono); font-weight: 700; color: var(--gold);
+  background: var(--ink-800); text-align: center; white-space: nowrap;
+}
+
+/* 分区导航条 */
+.navbar { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.4rem 0; }
+.navbar .chip {
+  background: var(--paper); color: var(--ink-700);
+  border: 1px solid var(--rule); text-decoration: none;
+  padding: .25rem .7rem; font-size: 13.5px; letter-spacing: 0;
+}
+.navbar .chip:hover { background: var(--gold-bg); border-color: var(--gold-lt); color: var(--ink-900); }
+
+/* 实战包的题目块：结构是 .qa > .q + .a + .src，与网页版的 .qa details 并存 */
+.qa .q {
+  font-family: var(--serif); font-weight: 700; font-size: 17px;
+  color: var(--ink-900); margin: 1.4rem 0 .4rem; line-height: 1.6;
+}
+.qa .q .num {
+  display: inline-block; font-family: var(--mono); font-size: 12.5px;
+  font-weight: 400; color: #F2EFE8; background: var(--ink-800);
+  padding: .1rem .45rem; margin-right: .55rem; vertical-align: 2px;
+}
+.qa .q span.fresh {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 400;
+  color: #8A6410; background: var(--gold-bg); border: 1px solid var(--gold-lt);
+  padding: 0 .4rem; margin-left: .5rem; white-space: nowrap;
+}
+.qa > .a { padding: 0; font-size: 16px; color: var(--ink-700); line-height: 1.85; }
+.qa .src { font-size: 13.5px; color: var(--ink-400); margin: .35rem 0 1.2rem; }
+.qa .src a { color: var(--ink-500); }
+/* _prep 的 .qa 是逐题容器，不该有网页版那条顶边 */
+.qa:not(:has(details)) { border-top: 0; margin: 0; }
+
+/* 章节锚点标题 */
+h2[id^="sec-"] { scroll-margin-top: 1rem; }
+
+/* h2 内的行内小注（实战包分区标题、学习路径路线标题）——覆盖块级提示框样式 */
+h2 .hint, h2 .sub, h2 .note {
+  display: inline; background: none; border: 0; padding: 0;
+  margin: 0 0 0 .8rem;
+  font-family: var(--sans); font-size: 14px; font-weight: 400;
+  color: var(--ink-400); letter-spacing: 0;
+}
