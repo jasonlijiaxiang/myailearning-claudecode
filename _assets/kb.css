@@ -629,3 +629,12 @@ h2 .hint, h2 .sub, h2 .note {
   font-family: var(--sans); font-size: 14px; font-weight: 400;
   color: var(--ink-400); letter-spacing: 0;
 }
+
+/* 新增标注（library-rules「新增标注」）——历史不变量，写下不再改 */
+.added {
+  display: inline-block; font-family: var(--mono); font-size: 11.5px;
+  letter-spacing: .02em; white-space: nowrap; vertical-align: 2px;
+  color: #8A6410; background: var(--gold-bg); border: 1px solid var(--gold-lt);
+  padding: 0 .4rem; margin-left: .55rem; font-weight: 400;
+}
+h2 .added, h3 .added { vertical-align: 4px; }
