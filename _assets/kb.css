@@ -8,6 +8,10 @@
    ③ 页面本身绝不横向滚，宽内容在自己的容器里滚。
    色板由 library-rules「门户六角色」起步，本面在此定版令牌表（web-design-system §三授权）。 */
 
+/* 字号纪律（web-design-system §二）：中文连续正文/问答/机制解释/表格正文 ≥16px，
+   次级「解释文字」≥14px。**标签、徽章、面包屑、目录项、代码块不属于"解释文字"**，
+   可以小于 14px——它们是导航与标记，不承载需要连读的内容。改字号前先分清是哪一类。 */
+
 :root {
   /* 主导色：墨 */
   --ink-900: #071A2C;
@@ -139,7 +143,7 @@ body {
 }
 .hits a:hover, .hits a:focus { background: var(--gold-bg); outline: none; }
 .hits .k { color: var(--ink-400); font-size: 13px; }
-.nojs-note { font-size: 13.5px; color: #7E8C99; margin: .6rem 0 0; }
+.nojs-note { font-size: 14px; color: #7E8C99; margin: .6rem 0 0; }
 
 /* ============ 版式 ============ */
 main { padding: 2.6rem 0 4rem; }
@@ -444,7 +448,7 @@ table.fresh tr.over td { background: #FBEDE9; }
 .qa-why { color: var(--ink-500); }
 .qa-next { border-left: 2px solid var(--gold); padding-left: .7rem; }
 .qa-next b { font-family: var(--sans); font-size: 13px; letter-spacing: .06em; color: var(--gold); }
-.qa-src { font-size: 13.5px; color: var(--ink-400); }
+.qa-src { font-size: 14px; color: var(--ink-400); }
 .qa-src a { color: var(--ink-500); }
 
 /* ============================================================
@@ -495,7 +499,7 @@ table.fresh tr.over td { background: #FBEDE9; }
 .kmap-head h2 { margin: 0; border-bottom: 0; padding-bottom: 0; }
 .kmap-cap { font-size: 14px; color: var(--ink-400); }
 .legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: .6rem 0 1.4rem;
-          font-size: 13.5px; color: var(--ink-500); }
+          font-size: 14px; color: var(--ink-500); }
 .lg { display: inline-flex; align-items: center; gap: .45rem; }
 .lg .sw { width: 20px; height: 12px; background: var(--paper);
           box-shadow: 0 0 0 1px var(--rule); }
@@ -536,7 +540,7 @@ table.fresh tr.over td { background: #FBEDE9; }
 
 /* 页脚小字 */
 .plumb, .foot {
-  font-size: 13.5px; color: var(--ink-400); line-height: 1.8;
+  font-size: 14px; color: var(--ink-400); line-height: 1.8;
   border-top: 1px solid var(--rule); padding-top: 1rem; margin-top: 2.6rem;
 }
 
@@ -604,7 +608,7 @@ td.day {
   padding: 0 .4rem; margin-left: .5rem; white-space: nowrap;
 }
 .qa > .a { padding: 0; font-size: 16px; color: var(--ink-700); line-height: 1.85; }
-.qa .src { font-size: 13.5px; color: var(--ink-400); margin: .35rem 0 1.2rem; }
+.qa .src { font-size: 14px; color: var(--ink-400); margin: .35rem 0 1.2rem; }
 .qa .src a { color: var(--ink-500); }
 /* _prep 的 .qa 是逐题容器，不该有网页版那条顶边 */
 .qa:not(:has(details)) { border-top: 0; margin: 0; }
@@ -630,7 +634,7 @@ h2 .hint, h2 .sub, h2 .note {
 h2 .added, h3 .added { vertical-align: 4px; }
 
 /* 模块页页脚的最近改动 / 问答基线声明 */
-.updated { font-size: 13.5px; color: var(--ink-400); margin-top: .6rem; }
+.updated { font-size: 14px; color: var(--ink-400); margin-top: .6rem; }
 .updated b { font-family: var(--mono); color: var(--ink-500); font-weight: 400; }
 .baseline {
   font-size: 14px; color: var(--ink-400);
@@ -644,4 +648,23 @@ table.net .c-all { display: none; }
 @media (max-width: 780px) {
   table.net .c-out, table.net .c-in { display: none; }
   table.net .c-all { display: table-cell; }
+}
+
+/* 打印/导出：动画在打印上下文不执行，而 animation-fill-mode:both 会把元素停在
+   起始帧（opacity:0）——2026-07-20 导 PDF 时页头标题整个消失。屏幕截图看不出来，
+   必须导一次 PDF 才发现。这里强制复位，并给打印一套朴素样式。 */
+@media print {
+  * { animation: none !important; opacity: 1 !important; transform: none !important; }
+  body { background: #fff; }
+  .top { background: #fff; color: var(--ink-900); }
+  .top::after { display: none; }
+  .top h1, .top .lede { color: var(--ink-900); }
+  .top h1 .en, .crumb, .crumb a { color: var(--ink-500); }
+  .search, .toc { display: none; }
+  a { text-decoration: underline; }
+  .wire pre { background: var(--paper-2); color: var(--ink-900); }
+  .wire .f { color: var(--ink-900); }
+  th { background: var(--paper-2); color: var(--ink-900); }
+  td.layer, td.day, .klayer { background: var(--paper-2); color: var(--ink-900); }
+  .klayer b { color: var(--ink-900); }
 }
