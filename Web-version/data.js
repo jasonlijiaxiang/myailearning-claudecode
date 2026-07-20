@@ -2414,6 +2414,20 @@ window.KB = {
      "verified": "2026-07-08",
      "source": "aaif.io 官方博客",
      "recheck": "—"
+    },
+    {
+     "text": "MCP 工具定义随每条消息进上下文（非每会话一次）；GitHub 官方 server 94 工具 ≈ 17,600 tokens，描述压缩后可降至约 3,900（低压缩）／约 500（最激进）",
+     "chapter": "mcp-production",
+     "verified": "2026-07-20",
+     "source": "Atlassian 工程博客《MCP Compression》2026-03-29（未公布模型与计数方法）",
+     "recheck": "2026-10-31"
+    },
+    {
+     "text": "MCP 流量经网关一跳的额外延迟：加密迭代调至约 100 次后 1–2ms／会话；默认 10 万次 KDF 迭代下为数十毫秒",
+     "chapter": "mcp-production",
+     "verified": "2026-07-20",
+     "source": "Envoy AI Gateway 官方基准 2025-12-08（MacBook Pro M1 八核、echo 工具、按会话计）",
+     "recheck": "2026-10-31"
     }
    ],
    "edges": [
