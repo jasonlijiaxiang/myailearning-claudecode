@@ -17,7 +17,7 @@
     </p>
     <h1><span class="en">Protocol Layer · Dossier 01</span>MCP，模型上下文协议</h1>
     <p class="lede">给 AI 应用和外部工具之间装一个标准插座：工具方写一次 server，应用方实现一次
-      client，双方各做一次就能互通。本页是这一册的网页面，讲义 PPT 见页脚链接。</p>
+      client，双方各做一次就能互通。本页是这一册的网页版，讲义 PPT 见页脚链接。</p>
     <div class="hr"></div>
     <p class="lede" style="margin-top:0">
       <span class="badge ok">当前稳定规范 2025-11-25</span>
@@ -89,12 +89,12 @@
     这一条对客户的用处很直接：接入 MCP 不等于绑定某一家大模型厂商。</p>
 </section>
 
-<!-- ============ 边界（网页面新增） ============ -->
+<!-- ============ 边界（网页版新增） ============ -->
 <section class="sec" id="boundary">
   <h2><span class="num">02</span>什么时候不该上 MCP<a class="anchor" href="#boundary">#boundary</a></h2>
 
   <div class="lead">
-    <p>判断尺子只有一条：<b>这套工具会不会被多个应用或多个团队复用</b>。会复用，MCP 这层标准
+    <p>判断的法则只有一条：<b>这套工具会不会被多个应用或多个团队复用</b>。会复用，MCP 这层标准
       才收得回成本；只服务一个应用，直接写 Function Calling 更省事。标准的价值来自复用面，
       没有复用面就只剩额外一层。</p>
   </div>
@@ -120,7 +120,7 @@
 
   <p>反过来，出现下面任一条就值得上：工具要被两个以上 AI 应用接入；工具方与应用方不是同一个
     团队；需要让工具能力可被发现、可被集中治理和审计。</p>
-  <p class="ev">本节是网页面在讲义之外补的：讲义把这个判断散在对练与动手做里，没有正面展开
+  <p class="ev">这一节是网页版在讲义之外补的：讲义把这个判断散在对练与动手做里，没有正面展开
     替代路径。判据本身来自讲义已有口径，未引入新的外部事实。</p>
 </section>
 
@@ -830,7 +830,7 @@ if __name__ == "__main__":
 <!-- ============ 相关模块 ============ -->
 <section class="sec" id="related">
   <h2><span class="num">09</span>相关模块<a class="anchor" href="#related">#related</a></h2>
-  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。这些模块目前只有 PPT 面。</p>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。这些模块目前只有讲义。</p>
   <div class="rel">
     <a href="../../PPT-version/Agent/README.html">
       <div class="nm">Agent · 第 4 章</div>
@@ -893,8 +893,8 @@ if __name__ == "__main__":
     电子书书单：<a href="../../PPT-version/MCP/电子书书单.md">电子书书单.md</a> ·
     模块账本：<a href="../../PPT-version/MCP/MANIFEST.md">MANIFEST.md</a>
   </p>
-  <p>网页面与 PPT 面共享事实、术语、边界与来源关系，不共享目录与信息节奏——
-    两面按各自的读法组织，账本只有一份。</p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，
+    账本只有一份。</p>
 </footer>
 
 <script src="../data.js"></script>
