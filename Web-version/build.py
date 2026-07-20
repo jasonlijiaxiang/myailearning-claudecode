@@ -88,10 +88,8 @@ def read_module(dirname):
     for c in rows("章节清单", text):
         if len(c) < 3:
             continue
-        # 「新增」是第 6 列（library-rules「新增标注」），存量行没有这列，取不到就留空。
         chapters.append({"id": c[0], "no": c[1], "title": c[2],
-                         "verified": c[4] if len(c) > 4 else "",
-                         "added": c[5] if len(c) > 5 and c[5] != "—" else ""})
+                         "verified": c[4] if len(c) > 4 else ""})
 
     facts = []
     for c in rows("时效性事实（巡检盘查对象）", text) or rows("时效性事实", text):

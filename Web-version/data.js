@@ -23,50 +23,43 @@ window.KB = {
      "id": "a2a-what-why",
      "no": "第 1 章",
      "title": "是什么/为什么（与 MCP 分工）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "a2a-protocol",
      "no": "第 2 章",
      "title": "协议解剖（五大对象与生命周期）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "a2a-transport",
      "no": "第 3 章",
      "title": "发现与传输（Agent Card 发现·三绑定·流式）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "a2a-handson",
      "no": "第 4 章",
      "title": "动手做：跑通一次 A2A 协作",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "a2a-orchestration",
      "no": "第 5 章",
      "title": "多智能体协作（opaque agents·任务委派）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "a2a-production",
      "no": "第 6 章",
      "title": "生产落地·上云",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "a2a-security",
      "no": "第 7 章",
      "title": "安全 · 售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -179,57 +172,49 @@ window.KB = {
      "id": "gw-what-why",
      "no": "第 1 章",
      "title": "是什么·为什么(从 API 网关到 AI 网关)",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "gw-unify",
      "no": "第 2 章",
      "title": "统一接入与协议转换",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "gw-route",
      "no": "第 3 章",
      "title": "路由·负载·容灾",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "gw-cost",
      "no": "第 4 章",
      "title": "流量与成本治理",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "gw-guardrail",
      "no": "第 5 章",
      "title": "安全·合规·护栏(挂载点)",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "gw-observe",
      "no": "第 6 章",
      "title": "可观测",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "gw-mcp",
      "no": "第 7 章",
      "title": "AI 网关 + MCP 网关(展开章,含授权时序深潜)",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "gw-cheatsheet",
      "no": "第 8 章",
      "title": "选型与上云·售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -414,57 +399,49 @@ window.KB = {
      "id": "aic-overview",
      "no": "第 1 章",
      "title": "全景总览：从一张卡到一座 AI 工厂",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-gpu",
      "no": "第 2 章",
      "title": "GPU 解剖：为什么 AI 计算长在 GPU 上",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-hbm",
      "no": "第 3 章",
      "title": "显存与 HBM：AI 时代最贵的房地产",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-chips",
      "no": "第 4 章",
      "title": "芯片格局与选型：NVIDIA 之内与之外",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-scaleup",
      "no": "第 5 章",
      "title": "Scale-up 互联：把 72 张卡焊成一张大卡",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-scaleout",
      "no": "第 6 章",
      "title": "Scale-out 网络：把一万张卡连成集群",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-storage",
      "no": "第 7 章",
      "title": "存储与数据管线：别让 GPU 等数据",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aic-econ",
      "no": "第 8 章",
      "title": "算力经济学与售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -630,57 +607,49 @@ window.KB = {
      "id": "aip-overview",
      "no": "第 1 章",
      "title": "平台全景：从「一堆卡」到「一个平台」",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-k8s-gpu",
      "no": "第 2 章",
      "title": "K8s + GPU 基础：从数卡到懂卡",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-scheduling",
      "no": "第 3 章",
      "title": "作业调度：让最贵的卡不空转",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-sharing",
      "no": "第 4 章",
      "title": "GPU 切分与多租户",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-faulttol",
      "no": "第 5 章",
      "title": "训练容错工程：万卡集群故障是常态",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-observability",
      "no": "第 6 章",
      "title": "可观测性与利用率运营",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-serving",
      "no": "第 7 章",
      "title": "推理服务平台化",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "aip-cloud",
      "no": "第 8 章",
      "title": "云上算力形态与售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -792,57 +761,49 @@ window.KB = {
      "id": "ops-what-why",
      "no": "第 1 章",
      "title": "为什么 LLM 应用的 Ops 是新学科（两根新轴 / 静默退化 / 边界地图 / 观测成本）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-tracing",
      "no": "第 2 章",
      "title": "Tracing 与 OTel GenAI 深潜（span 四类 / trace 旅程 / PII 三开关）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-online-eval",
      "no": "第 3 章",
      "title": "在线评估与反馈回流（采样异步打分 / 评估漏斗 / 闭环三件套）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-drift",
      "no": "第 4 章",
      "title": "漂移与静默退化监测（三类漂移 / 检测组合拳 / 巡检节奏）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-release",
      "no": "第 5 章",
      "title": "发布管理（版本注册表 / 评估门禁 / 金丝雀 / 回滚 / 环境与 A/B）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-incident",
      "no": "第 6 章",
      "title": "事故响应（AI runbook 四问 / 急停 / HITL 分级 / 事故分级 SLA）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-tooling",
      "no": "第 7 章",
      "title": "工具格局与选型（六平台 / Braintrust · AgentOps / APM vs 专用 / 上云）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ops-cheatsheet",
      "no": "第 8 章",
      "title": "售前速查（运营包五件套 / 指标速查 / 选型卡 / 串联地图）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     }
    ],
    "facts": [
@@ -981,78 +942,67 @@ window.KB = {
      "id": "agent-what-why",
      "no": "第 1 章",
      "title": "是什么/为什么",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "agent-components",
      "no": "第 2 章",
      "title": "核心组件",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "agent-orchestration",
      "no": "第 3 章",
      "title": "编排模式",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "agent-tools-mcp",
      "no": "第 4 章",
      "title": "工具接入与 MCP",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "agent-context",
      "no": "第 5 章",
      "title": "上下文工程",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "agent-eval-guardrails",
      "no": "第 6 章",
      "title": "评估与护栏",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "agent-lowcode",
      "no": "第 7 章",
      "title": "低代码 Agent 平台（Coze/Dify/n8n/HiAgent 与 code-first 边界）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "agent-memory",
      "no": "第 8 章",
      "title": "记忆系统（四种记忆分层 / 框架四强 / 记忆投毒 ASI06）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "agent-computer-use",
      "no": "第 9 章",
      "title": "Computer Use 与 GUI Agent（三路线 / 基准两口径 / RPA 混合 / 安全四件）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "agent-subagent",
      "no": "第 10 章",
      "title": "多智能体 / Sub-agent 编排（三层框架 / 三性质 / CC·Codex 实操 / 四层触发 / 决策账）",
-     "verified": "2026-07-17",
-     "added": ""
+     "verified": "2026-07-17"
     },
     {
      "id": "agent-cheatsheet",
      "no": "第 11 章",
      "title": "售前速查（高频问题 / 启用条件决策树 / 串联地图；替代原全书串联页）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     }
    ],
    "facts": [
@@ -1301,57 +1251,49 @@ window.KB = {
      "id": "de-what-why",
      "no": "第 1 章",
      "title": "数据就绪度是第一风险（四问 / 管线总图 / 报价项）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-parsing",
      "no": "第 2 章",
      "title": "文档解析管线（四强格局 / 基准口径 / 选型分水岭）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-pipeline",
      "no": "第 3 章",
      "title": "连接器与增量同步（五件事 / 增量三模式 / 去重失效）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-vectordb",
      "no": "第 4 章",
      "title": "向量库选型深潜（五锚点 / 按规模演进 / 迁移纪律）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-quality",
      "no": "第 5 章",
      "title": "数据质量与覆盖率（四指标 / 坏答案回流 / 运营节奏）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-labeling",
      "no": "第 6 章",
      "title": "标注与合成数据运营（预算三去向 / 双线运营 / 分流口诀）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-governance",
      "no": "第 7 章",
      "title": "治理与权限衔接（三执行点 / 越权测试 / 向量化≠匿名化）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "de-cheatsheet",
      "no": "第 8 章",
      "title": "售前速查（管线总图 / 工具速查 / 八坑清单 / 串联）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     }
    ],
    "facts": [
@@ -1448,57 +1390,49 @@ window.KB = {
      "id": "eval-why-hard",
      "no": "第 1 章",
      "title": "为什么评估这么难",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-benchmarks",
      "no": "第 2 章",
      "title": "模型基准测试全景",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-methods",
      "no": "第 3 章",
      "title": "评估方法谱系",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-judge",
      "no": "第 4 章",
      "title": "LLM-as-a-Judge 深潜",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-build",
      "no": "第 5 章",
      "title": "自建评估:数据集与指标设计",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-scenarios",
      "no": "第 6 章",
      "title": "场景验收:RAG / Agent / 微调",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-tooling",
      "no": "第 7 章",
      "title": "评估工具链与生产闭环",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "eval-cheatsheet",
      "no": "第 8 章",
      "title": "售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -1656,57 +1590,49 @@ window.KB = {
      "id": "ft-when",
      "no": "第 1 章",
      "title": "什么时候该微调",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-methods",
      "no": "第 2 章",
      "title": "微调方法谱系（全参 / LoRA / QLoRA）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-data",
      "no": "第 3 章",
      "title": "数据准备：微调成败在此",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-training",
      "no": "第 4 章",
      "title": "训练实操与框架图鉴",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-alignment",
      "no": "第 5 章",
      "title": "偏好对齐落地（DPO / RFT）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-cloud",
      "no": "第 6 章",
      "title": "托管微调服务与上云落地",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-eval-deploy",
      "no": "第 7 章",
      "title": "评估与部署",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "ft-field-guide",
      "no": "第 8 章",
      "title": "售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -1863,43 +1789,37 @@ window.KB = {
      "id": "llm-why-transformer",
      "no": "第 1 章",
      "title": "从序列问题到 Transformer",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llm-attention-qkv",
      "no": "第 2 章",
      "title": "注意力机制：QKV 拆解",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llm-architecture",
      "no": "第 3 章",
      "title": "Transformer 全解剖",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llm-inference-kv",
      "no": "第 4 章",
      "title": "从架构到推理：上下文窗口与 KV 缓存",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llm-attention-zoo",
      "no": "第 5 章",
      "title": "注意力的工程进化",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llm-presales-map",
      "no": "第 6 章",
      "title": "售前视角收拢",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     }
    ],
    "facts": [
@@ -2011,57 +1931,49 @@ window.KB = {
      "id": "llminf-anatomy",
      "no": "第 1 章",
      "title": "推理是怎么跑起来的",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-kv-budget",
      "no": "第 2 章",
      "title": "KV Cache 与显存账",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-batching",
      "no": "第 3 章",
      "title": "把 GPU 喂饱：批处理与调度",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-engines",
      "no": "第 4 章",
      "title": "推理框架图鉴",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-quant",
      "no": "第 5 章",
      "title": "让模型变小：量化",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-speculative",
      "no": "第 6 章",
      "title": "让模型变快：投机解码与算法加速",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-disagg",
      "no": "第 7 章",
      "title": "集群级：P/D 分离与分布式推理",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "llminf-production",
      "no": "第 8 章",
      "title": "生产化与售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -2217,57 +2129,49 @@ window.KB = {
      "id": "llmtrain-overview",
      "no": "第 1 章",
      "title": "全景总览：从随机权重到可用助手",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-data",
      "no": "第 2 章",
      "title": "数据：模型的粮食",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-pretrain",
      "no": "第 3 章",
      "title": "预训练：压缩互联网",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-sft",
      "no": "第 4 章",
      "title": "后训练 I · SFT：教会听话",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-alignment",
      "no": "第 5 章",
      "title": "后训练 II · 对齐：教会分寸",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-reasoning",
      "no": "第 6 章",
      "title": "后训练 III · RLVR 与推理模型：教会思考",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-infra",
      "no": "第 7 章",
      "title": "训练基础设施与算力账",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "llmtrain-eval",
      "no": "第 8 章",
      "title": "评估与发布：怎么知道练成了",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     }
    ],
    "facts": [
@@ -2422,50 +2326,43 @@ window.KB = {
      "id": "mcp-what-why",
      "no": "第 1 章",
      "title": "是什么/为什么",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "mcp-protocol",
      "no": "第 2 章",
      "title": "协议解剖",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "mcp-transport",
      "no": "第 3 章",
      "title": "传输与演进",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "mcp-server",
      "no": "第 4 章",
      "title": "动手写 server",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "mcp-production",
      "no": "第 5 章",
      "title": "生产落地",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "mcp-security",
      "no": "第 6 章",
      "title": "安全",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "mcp-cheatsheet",
      "no": "第 7 章",
      "title": "售前速查（高频问题 / 上手排错 / 版本口径与串联；2026-07-11 补齐全库速查惯例）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     }
    ],
    "facts": [
@@ -2570,71 +2467,61 @@ window.KB = {
      "id": "ml-map",
      "no": "第 1 章",
      "title": "全景地图（三大阵营 / 两个市场 / 一年三变局）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-closed",
      "no": "第 2 章",
      "title": "闭源旗舰家族图谱（五张名片 + 对比总表）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-open",
      "no": "第 3 章",
      "title": "开放权重格局（中国四强榜首 / 西方线 / 追平叙事）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-china",
      "no": "第 4 章",
      "title": "中国格局与豆包定位（四强横评 / 豆包家族 / 场景口径）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-license",
      "no": "第 5 章",
      "title": "许可证与合规边界（open weight vs open source / 三级分类）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-price",
      "no": "第 6 章",
      "title": "价格带与成本工程（光谱 / 三档制 / 缓存经济学）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-capability",
      "no": "第 7 章",
      "title": "能力矩阵与推理模型（窗口 / 模态 / 思考预算 / overthinking）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-selection",
      "no": "第 8 章",
      "title": "选型方法论（多模型默认解 / 三层路由 / 两道防线）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "ml-platforms",
      "no": "第 9 章",
      "title": "国内平台格局（方舟/百炼/千帆/腾讯四平台画像、货架哲学、价格锚点、选型三问）",
-     "verified": "2026-07-17",
-     "added": ""
+     "verified": "2026-07-17"
     },
     {
      "id": "ml-cheatsheet",
      "no": "第 10 章",
      "title": "售前速查（总表 / 价格卡 / 许可证卡 / 保鲜声明 / 串联）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     }
    ],
    "facts": [
@@ -2832,71 +2719,61 @@ window.KB = {
      "id": "mm-what-why",
      "no": "第 1 章",
      "title": "是什么 / 为什么（感知面全景、理解 vs 生成）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-encoder",
      "no": "第 2 章",
      "title": "机器怎么「看」（ViT / CLIP / 编码器选型）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-fusion",
      "no": "第 3 章",
      "title": "模态怎么「拼」（三路线 + 原生 vs 拼管线）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-understanding",
      "no": "第 4 章",
      "title": "理解侧能力盘点（图 / 文档 / 视频 / 语音 + 格局）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-generation",
      "no": "第 5 章",
      "title": "生成侧能力盘点（扩散 vs 自回归 / 视频 / 语音）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-selection",
      "no": "第 6 章",
      "title": "选型与动手做（成本 / 延迟 / 精度、调用、部署）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-production",
      "no": "第 7 章",
      "title": "生产落地与坑（成本 / 幻觉 / 评估 / 安全）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "mm-voice-realtime",
      "no": "第 8 章",
      "title": "语音与实时交互（延迟预算 / 级联 vs 端到端 / 打断 / RTC 框架）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "mm-video-generation",
      "no": "第 9 章",
      "title": "视频生成（四家旗舰格局、按秒计价成本账、工作流与标识合规）",
-     "verified": "2026-07-17",
-     "added": ""
+     "verified": "2026-07-17"
     },
     {
      "id": "mm-cheatsheet",
      "no": "第 10 章",
      "title": "售前速查（术语 / 决策树 / 串联地图）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -3079,50 +2956,43 @@ window.KB = {
      "id": "pe-what-why",
      "no": "第 1 章",
      "title": "是什么 / 为什么",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "pe-anatomy",
      "no": "第 2 章",
      "title": "提示词解剖（角色/四要素/分隔符）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "pe-core-techniques",
      "no": "第 3 章",
      "title": "核心技巧（zero/few-shot、CoT、结构化输出、清晰指令）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "pe-advanced-reasoning",
      "no": "第 4 章",
      "title": "进阶推理与编排（自洽性、ReAct、提示词链、推理模型时代）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "pe-engineering",
      "no": "第 5 章",
      "title": "工程化与自动优化（版本化、评估驱动、DSPy、缓存）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "pe-security",
      "no": "第 6 章",
      "title": "安全与风险（提示词注入、越狱、OWASP、纵深防御）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "pe-presales-map",
      "no": "第 7 章",
      "title": "售前视角收拢（问题速查、选型树、上云全景、串联）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -3220,85 +3090,73 @@ window.KB = {
      "id": "rag-what-why",
      "no": "第 1 章",
      "title": "是什么/为什么",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "rag-embedding",
      "no": "第 2 章",
      "title": "向量检索与 Embedding",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "rag-chunking",
      "no": "第 3 章",
      "title": "切分策略 Chunking",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "rag-reranking",
      "no": "第 4 章",
      "title": "重排序 Reranking",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "rag-evaluation",
      "no": "第 5 章",
      "title": "常见评估方法",
-     "verified": "2026-07-07",
-     "added": ""
+     "verified": "2026-07-07"
     },
     {
      "id": "rag-pipeline",
      "no": "第 6 章",
      "title": "最小 RAG 管线",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "rag-hybrid",
      "no": "第 7 章",
      "title": "混合检索",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "rag-agentic",
      "no": "第 8 章",
      "title": "Agentic RAG",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "rag-production",
      "no": "第 9 章",
      "title": "生产化与常见坑",
-     "verified": "2026-07-08",
-     "added": ""
+     "verified": "2026-07-08"
     },
     {
      "id": "rag-graphrag",
      "no": "第 10 章",
      "title": "GraphRAG：图谱增强检索",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "rag-multimodal",
      "no": "第 11 章",
      "title": "多模态 RAG",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "rag-structured",
      "no": "第 12 章",
      "title": "结构化数据 RAG（Text-to-SQL 与语义层）",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -3448,64 +3306,55 @@ window.KB = {
      "id": "sec-landscape",
      "no": "第 1 章",
      "title": "为什么 AI 安全是新问题(威胁全景)",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-prompt-injection",
      "no": "第 2 章",
      "title": "提示注入与越狱",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-data-privacy",
      "no": "第 3 章",
      "title": "数据与隐私安全",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-supply-chain",
      "no": "第 4 章",
      "title": "供应链与模型来源",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-agentic",
      "no": "第 5 章",
      "title": "Agent 与工具安全",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-defense",
      "no": "第 6 章",
      "title": "防护工程:护栏·模式·红队",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-governance",
      "no": "第 7 章",
      "title": "治理与合规框架",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     },
     {
      "id": "sec-china",
      "no": "第 8 章",
      "title": "中国监管合规",
-     "verified": "2026-07-17",
-     "added": ""
+     "verified": "2026-07-17"
     },
     {
      "id": "sec-cheatsheet",
      "no": "第 9 章",
      "title": "售前速查",
-     "verified": "2026-07-09",
-     "added": ""
+     "verified": "2026-07-09"
     }
    ],
    "facts": [
@@ -3681,71 +3530,61 @@ window.KB = {
      "id": "sp-what-why",
      "no": "第 1 章",
      "title": "从技术轴到场景轴（方案 = 场景 × 积木）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-method",
      "no": "第 2 章",
      "title": "方案共性方法（五层架构 / POC 三要素 / 三本账 / 口径鉴别）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-customer-service",
      "no": "第 3 章",
      "title": "智能客服（三层漏斗 / 解决率口径 / 语音客服）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-knowledge-search",
      "no": "第 4 章",
      "title": "企业知识库与 AI 搜索（权限命门 / Glean 模式）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-content-gen",
      "no": "第 5 章",
      "title": "营销与内容生成（品牌工程 / 商业安全 / 人审）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-ai-coding",
      "no": "第 6 章",
      "title": "AI Coding 与研发提效（双层格局 / 企业三关注）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-digital-human",
      "no": "第 7 章",
      "title": "数字人（离线 vs 实时 / 合规红线）",
-     "verified": "2026-07-10",
-     "added": ""
+     "verified": "2026-07-10"
     },
     {
      "id": "sp-chatbi",
      "no": "第 8 章",
      "title": "ChatBI 与数据分析（语义层口径战场 / 三道闸 / 产品格局）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "sp-meeting",
      "no": "第 9 章",
      "title": "会议与办公助手（记忆库资产 / 三层口径 / 合规红线）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     },
     {
      "id": "sp-cheatsheet",
      "no": "第 10 章",
      "title": "售前速查（七场景→积木总表 / 分诊树 / 成本卡）",
-     "verified": "2026-07-11",
-     "added": ""
+     "verified": "2026-07-11"
     }
    ],
    "facts": [
