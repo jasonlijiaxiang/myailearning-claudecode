@@ -456,3 +456,110 @@ table.fresh tr.over td { background: #FBEDE9; }
   .qa summary { padding-right: 0; padding-bottom: 1.6rem; }
   .qa-tag { right: auto; left: 0; top: auto; bottom: .55rem; }
 }
+
+/* ============================================================
+   门户页组件（根总纲 / PPT 总览 / 模块 README / _prep 三件套）
+   ------------------------------------------------------------
+   这些 class 沿用各页原有命名，只把配色与版式统一到本文件顶部的令牌上。
+   为什么保留旧 class 名：改样式不改结构，风险低、可逐批推进；
+   为什么不再各页内联 <style>：28 个副本必然漂移，而 file:// 下相对路径
+   的样式表本来就能加载——被浏览器拦的是 fetch 与 ES module，不是 CSS。
+   ============================================================ */
+
+/* 面包屑返回链 */
+.back, .crumb a.back {
+  display: inline-block; font-size: 13.5px; color: var(--ink-500);
+  text-decoration: none; margin-bottom: 1rem;
+}
+.back:hover { color: var(--gold); }
+
+/* 副标题 / 说明 */
+.sub {
+  font-size: 16.5px; color: var(--ink-500); line-height: 1.8;
+  max-width: 68ch; margin: .4rem 0 1.6rem;
+}
+.tagline { font-size: 15.5px; color: var(--ink-500); }
+
+/* 状态字 */
+.ok   { color: var(--ok); font-weight: 600; }
+.todo { color: #A0561A; font-weight: 600; }
+
+/* 扩展位 / 提示块 */
+.future, .note, .hint, .principle {
+  background: var(--gold-bg); border-left: 3px solid var(--gold);
+  padding: .9rem 1.2rem; margin: 1.4rem 0; font-size: 16px;
+}
+.warn { background: var(--gold-bg); }
+
+/* 小标签 */
+.chip, .pill {
+  display: inline-block; font-size: 12px; letter-spacing: .04em;
+  padding: 0 .4rem; white-space: nowrap;
+  color: var(--ok); border: 1px solid #B7CFC0; background: var(--ok-bg);
+}
+.chip.hot, .pill.hot { color: #8C2F1A; border-color: #E0A491; background: #F6DCD5; }
+
+/* 知识地图：层带 + 模块卡 */
+.kmap-head { display: flex; justify-content: space-between; align-items: baseline;
+             flex-wrap: wrap; gap: .5rem; margin: 3rem 0 .4rem; }
+.kmap-head h2 { margin: 0; border-bottom: 0; padding-bottom: 0; }
+.kmap-cap { font-size: 14px; color: var(--ink-400); }
+.legend { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: .6rem 0 1.4rem;
+          font-size: 13.5px; color: var(--ink-500); }
+.lg { display: inline-flex; align-items: center; gap: .45rem; }
+.lg .sw { width: 20px; height: 12px; background: var(--paper);
+          box-shadow: 0 0 0 1px var(--rule); }
+.lg .sw.dash { background: var(--gold-bg); box-shadow: 0 0 0 1px var(--gold-lt); }
+.lg .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+
+.krow { display: flex; gap: 1px; margin: 1px 0 0; align-items: stretch; }
+.klayer {
+  flex: 0 0 11rem; background: var(--ink-800); color: #F2EFE8;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 1rem 1.1rem; box-shadow: 0 0 0 1px var(--ink-800);
+}
+.klayer b { font-family: var(--serif); font-size: 17px; letter-spacing: .02em;
+            color: #F2EFE8; }   /* 覆盖基础规则 b{color:ink-900}，深底上必须给亮色 */
+.klayer span { font-size: 12px; letter-spacing: .1em; color: var(--gold-lt); margin-top: .3rem; }
+.kcards { flex: 1; display: flex; gap: 1px; flex-wrap: wrap; }
+.kcard {
+  box-sizing: border-box; flex: 1 1 12rem; min-width: 11rem;
+  background: var(--paper); box-shadow: 0 0 0 1px var(--rule);
+  padding: .85rem 1rem; display: flex; flex-direction: column; gap: .15rem;
+  text-decoration: none; color: inherit;
+}
+.kcard:hover { background: var(--gold-bg); }
+.kcard b { font-family: var(--serif); font-size: 16.5px; color: var(--ink-900); }
+.kcard .en { font-size: 12.5px; color: var(--ink-400); letter-spacing: .02em; }
+.kcard .meta { margin-top: auto; padding-top: .6rem; display: flex;
+               justify-content: space-between; align-items: center;
+               gap: .4rem; flex-wrap: wrap; }
+.kcard .meta a, .kcard .meta > span:first-child {
+  color: var(--link); font-size: 13px; text-decoration: none;
+}
+.kcard.ext { background: var(--gold-bg); box-shadow: 0 0 0 1px var(--gold-lt); }
+.kcard.ext:hover { background: #F7EDD4; }
+
+/* 模块 README 的章节卡 */
+.mod { font-family: var(--serif); font-size: 17px; color: var(--ink-900); }
+.pg  { font-size: 13.5px; color: var(--ink-400); }
+
+/* 页脚小字 */
+.plumb, .foot {
+  font-size: 13.5px; color: var(--ink-400); line-height: 1.8;
+  border-top: 1px solid var(--rule); padding-top: 1rem; margin-top: 2.6rem;
+}
+
+@media (max-width: 780px) {
+  .krow { flex-direction: column; }
+  .klayer { flex: none; }
+  .kcard { flex: 1 1 100%; }
+}
+
+/* 每日取用（根总纲是列表形态，网页版首页是单行形态，共用同一块底） */
+.daily ul { margin: .3rem 0 0; padding: 0; list-style: none; }
+.daily li { margin: .35rem 0; font-size: 16px; }
+.daily-title { font-family: var(--serif); font-weight: 700; color: var(--ink-900); margin-bottom: .4rem; }
+.daily .d, .face .d { color: var(--ink-500); }
+.face .st.ok { color: var(--ok); }
+.face .st.soon { color: var(--gold); }

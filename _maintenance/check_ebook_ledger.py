@@ -17,10 +17,14 @@
      增设动机：2026-07-20 撤馆藏回写出处时，5 条出处被填成了邻行的链接（Security 3 条、
      AI-Infra-Compute 2 条），前三轴全部放行——契约重心已从"文件在不在"转成"链接对不对"，
      判据必须跟着转。
-  5. **讲义正文不得指向馆藏**（v4.3.2 新增轴）——书单干净不代表讲义干净：撤馆藏时只回写了
+  5. **讲义正文与 HTML 成品都不得指向馆藏**（v4.3.2 新增轴，v4.3.3 扩到 HTML）——书单干净不代表别处干净：撤馆藏时只回写了
      `电子书书单.md`，讲义正文里「已入库 ebooks/」「本模块 ebooks/ 已归档该 PDF」之类的
      表述留在原地，8 册共 12 处，四门禁全绿而讲义照旧指着一个不存在的目录（2026-07-20
      建 Web 面试点时顺带发现）。故本轴直接扫 `<模块>-讲义.pptx` 的 slide XML。
+     **第二次同类漏网**：PPT 总览 README 的模块表里还写着「N 篇 PDF 落地」19 处，同样是撤馆藏
+     时没刷到，而本轴当时只扫讲义 XML、不扫 HTML，照样全绿（2026-07-20 统一门户配色时目检发现）。
+     故本轴同时扫库内 HTML 成品——判据是"契约变了，所有登记这条契约的地方都要跟着变"，
+     而不是"只改最显眼的那一处"。
 
 不做联网可达性探测：巡检要求纯离线秒级，且 404 与限流难以区分；链接失效由季度巡检的
 「建议复查日」人工轴兜底。
@@ -108,6 +112,47 @@ def check_deck(mod_root, mod):
     return hits
 
 
+# 轴 5 的 HTML 侧：库内对外页面同样不得残留馆藏口径。
+HTML_STALE = [
+    (re.compile(r"PDF 落地"), "残留「PDF 落地」旧口径（v4.3 起不再下载文件）"),
+    (re.compile(r"_reference/ebooks"), "残留馆藏路径 _reference/ebooks"),
+    (re.compile(r"✅\s*已下载"), "残留「✅ 已下载」标记"),
+]
+
+
+# 说明历史决定时提到旧馆藏是合法的（"早先的 _reference/ebooks/ 已撤除"），不算坏账。
+# 判据：同一句里出现下列任一词，视为历史陈述而非活指针。机械替换会误伤，这是判定口径的一部分。
+HISTORICAL = re.compile(r"(撤除|已删|不再|原馆藏|早先)")
+
+
+def check_html(root):
+    """扫库内对外 HTML（跳过留痕与技能源目录），返回 [(相对路径, 说明)]。"""
+    skip = ("raw-data", "_reference", "_skill-source", "_maintenance")
+    hits = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in skip and not d.startswith(".")]
+        for fn in filenames:
+            if not fn.endswith(".html"):
+                continue
+            full = os.path.join(dirpath, fn)
+            try:
+                text = open(full, encoding="utf-8", errors="replace").read()
+            except OSError:
+                continue
+            for rx, label in HTML_STALE:
+                live = 0
+                for m in rx.finditer(text):
+                    # 取命中处所在的一句，判断是不是在讲历史
+                    s = text.rfind("。", 0, m.start()) + 1
+                    e = text.find("。", m.end())
+                    sentence = text[s:e if e > 0 else m.end() + 60]
+                    if not HISTORICAL.search(sentence):
+                        live += 1
+                if live:
+                    hits.append((os.path.relpath(full, root), "%s（%d 处）" % (label, live)))
+    return hits
+
+
 def check_module(mod_root, mod):
     path = os.path.join(mod_root, mod, "电子书书单.md")
     text = open(path, encoding="utf-8", errors="replace").read()
@@ -170,7 +215,8 @@ def main(argv):
         print(f"[提示] {os.path.relpath(legacy, root)} 仍存在——v4.3 起库不再落地电子书文件，"
               f"确认无用后可删除（出处存档见 _maintenance/）。")
 
-    print(f"扫描 {len(mods)} 个模块的书单与讲义"
+    html_hits = check_html(root)
+    print(f"扫描 {len(mods)} 个模块的书单与讲义，以及库内 HTML 成品"
           f"（判据：每条给出正规渠道链接 + 书单与讲义均无本地馆藏残留）")
     bad = 0
     total = 0
@@ -187,8 +233,14 @@ def main(argv):
             bad += 1
         else:
             print(f"{mod}（{n} 条）: 条条有链接，书单与讲义均无残留")
-    print(f"\n共 {len(mods)} 个模块 {total} 条资料，{bad} 个模块存在账实不符。"
-          if bad else f"\n全部 {len(mods)} 个模块（{total} 条资料）账实一致。")
+    if html_hits:
+        bad += 1
+        print("\n===== 库内 HTML 成品: 残留馆藏口径 =====")
+        for path, label in html_hits:
+            print(f"  [账实不符] {path}：{label}")
+
+    print(f"\n共 {len(mods)} 个模块 {total} 条资料，{bad} 处账实不符。"
+          if bad else f"\n全部 {len(mods)} 个模块（{total} 条资料）与库内 HTML 成品均账实一致。")
     return 1 if bad else 0
 
 
