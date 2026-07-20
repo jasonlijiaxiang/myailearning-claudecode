@@ -1,7 +1,7 @@
 ---
 name: knowledge-base-builder
 metadata:
-  version: "4.1"
+  version: "4.2"
 description: >-
   维护一个持续扩充、持续更新的个人知识库（领域可配置，默认 AI 技术）：每个主题模块固定产出①精选电子书书单（含可合法免费下载的文件）+②讲义式 PPT，并可建网页版。读者画像与口味由库根 KB-CONFIG.md 配置（默认 AI 平台"售前技术"角色）。六种情况务必使用本技能，即使用户没点名"知识库"或"技能"：(1) 新增主题模块——"再加一章 X / 建个 X 的知识库 / 帮我整理 X 的资料"；(2) 已有模块增补或更新——"更新 X 那一节 / 补充 X / X 有新版本了"，或不点名模块说"结合最新的参考材料更新对应模块"（走参考路由，扫描库内 _reference/ 判断对应模块）；(3) 保鲜巡检——用户或定时任务说"巡检 / 体检 / 保鲜 / 查查哪些过期了"；(4) 初始化或迁移——"帮我建个知识库"、目标目录没有 KB-CONFIG.md、或库为旧布局待迁移；(5) 给已有讲义配图——"配图 / 配信息图 / 加几张图 / 图太少 / 文字太多"（含"全库都配"，走配图分支）；(6) 网页版（Web 面）建设与增补——"做网页版 / 网页版样板 / 某模块网页版"（一源两面：PPT 为基底、网页为延伸增强，MANIFEST 唯一账本，portable 铁律，动手前先跑布局就位检查）。输入可以很随意——一个概念、一个名词、一段用户与大模型的对话、一份资料；本技能自动判断该新增还是更新哪个模块，模糊时先反问。凡涉及"整理学习资料 / 做电子书书单 / 做讲义 PPT / 配信息图 / 建网页版 / 把某个概念或对话沉淀进知识库 / 扩充更新这个知识库"的请求，都应触发本技能，以保证结构、风格、命名一致。
 ---
@@ -234,7 +234,9 @@ raw-data 里；成品（PPT、书单、README、MANIFEST）是长期资产，用
   （迁移步骤见 init-rules），同样随库复制进 `_maintenance/`。
 - `scripts/check_page_ledger.py` + `scripts/check_ebook_ledger.py` — 巡检「页数账实核对」与
   「书单账实核对」两轴的固定脚本（零依赖）：前者自动比对模块 README／顶层 README／`_prep/`
-  一页纸／模块 MANIFEST 四面派生页数账与讲义放映序实测，后者自动比对电子书书单✅标记与
+  一页纸／模块 MANIFEST 四面派生页数账与讲义放映序实测，**并兼查全库总页数轴**（v4.2：
+  各册实测求和 vs 库根 README.html/README.md、一页纸标题与页脚、`_prep/MANIFEST.md`
+  的总数声明），后者自动比对电子书书单✅标记与
   `ebooks/` 实际文件；巡检时随 `audit_pptx.py`/`check_html_links.py` 一起跑，同样随库复制进
   `_maintenance/`。
 - `scripts/kb_draw.py` + `scripts/kb_insert.py` — 配图任务的绘图库与 zip 级插页嫁接器（依赖
@@ -253,7 +255,8 @@ raw-data 里；成品（PPT、书单、README、MANIFEST）是长期资产，用
 照此执行。将来技能大改后，据此列出"哪些模块还是老规范产出的"，决定要不要重刷（重刷走 B 类，
 旧版自动进 history）。
 
-- v4.1（2026-07-20，当前版）：索引按面中立/面特有拆两层——根 README＝总纲（知识地图＋每日取用＋两面入口），模块表下沉 `PPT-version/README.html`＝PPT 面总览；check_page_ledger 模块表账改从面总览取并硬化静默跳过，并修 v4.0 遗漏的 _prep 一页纸账双布局兼容。
+- v4.2（2026-07-20，当前版）：页数账补第二根轴「全库总页数」——check_page_ledger 兼查各册实测求和 vs 四文件五处总数声明（此前无覆盖，单模块四账全绿而总数可整体停在旧值）＋库根 README.md 作为同步 GitHub 的在线门面入账（可选面）。
+- v4.1（2026-07-20）：索引按面中立/面特有拆两层——根 README＝总纲（知识地图＋每日取用＋两面入口），模块表下沉 `PPT-version/README.html`＝PPT 面总览；check_page_ledger 模块表账改从面总览取并硬化静默跳过，并修 v4.0 遗漏的 _prep 一页纸账双布局兼容。
 - v4.0（2026-07-20）：一源两面架构定版——库目录布局入规（PPT-version/Web-version/电子书馆藏）＋KB-CONFIG 三新字段＋布局就位检查 check_kb_layout.py＋账实脚本双布局兼容＋布局迁移指引；同版修订：references 按 DRY 分四层重组（shared/ppt/web/tasks），新设 core-rules（横切原则唯一出处）与 writing-rules（对外文字纪律），module-template 改名 library-rules。
 - v3.16（2026-07-20）：网页版（Web 面）任务面并入（web-rules / web-design-system，四项裁决，试点先行）＋同版并入自省三件：XML 库回写禁令与 audit 检查项 18、落档禁止静默覆盖与 kb_archive.py、反 AI 腔征兆密度体检。
 - v3.15（2026-07-20）：反 AI 腔写作纪律（一切对外文字，兼文案打磨类任务标准）＋小画布插页字号预抬档＋克隆定位用 shape id＋版本历史收敛每版一行。

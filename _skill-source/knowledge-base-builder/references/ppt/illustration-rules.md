@@ -66,7 +66,15 @@
    （`unzip -l x.pptx | grep -cE 'ppt/slides/slide[0-9]+\.xml$'`）；
 2. **模块 `README.html`**：`（主力成品，NN 页…）`（个别册页数嵌在 `✅ NN 页` span 内）改到实测；
 3. **顶层 `README.html`** 模块表该行 `✅（NN 页）`；
-4. **`_prep/` 库级产物**：`全库一页纸.html` 该模块 `<span class="pg">NN 页</span>`；若全库总数变，改一页纸标题/页脚总数与 `_prep/MANIFEST.md`。
+4. **`_prep/` 库级产物**：`全库一页纸.html` 该模块 `<span class="pg">NN 页</span>`。
+
+**外加总数轴（v4.2）**：任何一册页数变了，全库总数必然跟着变——总数另挂在四个文件五处，
+措辞还各不相同，逐处回刷：`_prep/全库一页纸.html`（标题 `实测 NN 页` + 页脚 `共 NN 页` **两处**）、
+`_prep/MANIFEST.md`（prep-map 行 `共 NN 页`）、库根 `README.html`（`共 NN 页`）、
+库根 `README.md`（`NN 页讲义`，同步 GitHub 的库才有，无则跳过）。
+这根轴在 v4.2 前无任何脚本覆盖，四面单模块账可以各自一致而总数整体停在旧值
+（2026-07-20 同步 GitHub 补库根 README.md 时识别）；现已并入 `check_page_ledger.py`，
+收尾跑一次即可两轴同验。
 
 一次配图多册就逐册过一遍。**只改页数、不改内容日期**：配图/删页是呈现回刷、模块内容没变——README「更新日期」、
 MANIFEST 内容态维持原样，别假装内容改过。册多时可写一段临时脚本按「模块→实测页数」映射批量回刷（改完即删），
