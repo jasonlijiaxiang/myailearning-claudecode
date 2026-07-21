@@ -55,7 +55,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.2rem; }
+/* 左锚定，不居中（2026-07-21 定版）：居中布局的内容左缘 = (窗口宽−1200)/2，
+   随窗口宽度移动——用户以浏览器书签栏为标尺，发现"AI 知识库"每页/每窗口位置不同，
+   读作"不统一"。工具站左锚定：内容永远从左侧固定位置开始，任何窗口宽度下位置恒定。 */
+.wrap { max-width: var(--maxw); margin: 0; padding: 0 1.6rem 0 2rem; }
 
 /* ============ 页头 ============ */
 .top { background: var(--card); border-bottom: 1px solid var(--line); padding: 1.5rem 0 1.4rem; }
@@ -456,7 +459,7 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
    窄屏侧栏塌成一堆药丸还和正文重复——用户逐页指出后统一成这一条。 */
 .topbar { position: sticky; top: 0; z-index: 50; background: var(--card);
           border-bottom: 1px solid var(--line); }
-.topbar .tb { max-width: var(--maxw); margin: 0 auto; padding: .4rem 1.2rem;
+.topbar .tb { max-width: var(--maxw); margin: 0; padding: .4rem 1.6rem .4rem 2rem;
               display: flex; align-items: center; gap: .15rem; flex-wrap: wrap; }
 .topbar .brand { font-weight: 700; font-size: 15.5px; color: var(--ink-900);
                  text-decoration: none; margin-right: .7rem; white-space: nowrap; }
