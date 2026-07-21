@@ -17,7 +17,7 @@ window.KB = {
    "dir": "A2A",
    "layer": "协议层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "a2a-what-why",
@@ -159,7 +159,7 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": ""
+   "web": "./a2a/index.html"
   },
   {
    "id": "ai-gateway",
@@ -2123,7 +2123,7 @@ window.KB = {
    "dir": "LLM-Training",
    "layer": "基础层",
    "created": "2026-07-08",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "llmtrain-overview",
@@ -2313,7 +2313,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./llm-training/index.html"
   },
   {
    "id": "mcp",
@@ -3342,7 +3342,7 @@ window.KB = {
    "dir": "Security",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "sec-landscape",
@@ -3559,7 +3559,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./security/index.html"
   },
   {
    "id": "solution-patterns",

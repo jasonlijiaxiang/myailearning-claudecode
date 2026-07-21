@@ -41,7 +41,11 @@ MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html"),
              "rag": os.path.join(HERE, "rag", "index.html"),
              "llm": os.path.join(HERE, "llm", "index.html"),
              "fine-tuning": os.path.join(HERE, "fine-tuning", "index.html"),
-             "pe": os.path.join(HERE, "prompt-engineering", "index.html")}
+             "pe": os.path.join(HERE, "prompt-engineering", "index.html"),
+             "llm-training": os.path.join(HERE, "llm-training", "index.html"),
+             "security": os.path.join(HERE, "security", "index.html"),
+             "a2a": os.path.join(HERE, "a2a", "index.html"),
+}
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
 MOD_END = "<!-- UPDATED:END -->"
@@ -83,7 +87,11 @@ WEB_PAGES = {"mcp": "./mcp/index.html",
              "rag": "./rag/index.html",
              "llm": "./llm/index.html",
              "fine-tuning": "./fine-tuning/index.html",
-             "pe": "./prompt-engineering/index.html"}
+             "pe": "./prompt-engineering/index.html",
+             "llm-training": "./llm-training/index.html",
+             "security": "./security/index.html",
+             "a2a": "./a2a/index.html",
+}
 
 
 def rows(section, text):

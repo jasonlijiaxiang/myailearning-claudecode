@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-Training 训练全景 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721g">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721g</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">基础层 · 网页版</p>
+    <h1><span class="en">The Full Landscape of LLM Training</span>LLM-Training，训练全景</h1>
+    <p class="lede">一个模型怎么从随机权重变成可用助手：数据 → 预训练 → SFT → 对齐 →
+      推理训练 → 评估发布——像培养一名医生：读教材、上医学院、规培、立医德、学会诊、考执业。
+      本页是这一册的网页版，讲义 PPT 见页脚链接。</p>
+    <div class="hr"></div>
+    <p class="lede" style="margin-top:0">
+      <span class="badge ok">核实窗口 2026-07-08</span>
+      <span class="badge recheck">旗舰配方季度级演进 · 原理与账法长青</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#llmtrain-overview">1 · 全景总览</a></li>
+    <li><a href="#llmtrain-data">2 · 数据：模型的粮食</a></li>
+    <li><a href="#llmtrain-pretrain">3 · 预训练</a></li>
+    <li><a href="#llmtrain-sft">4 · SFT：教会听话</a></li>
+    <li><a href="#llmtrain-alignment">5 · 对齐：教会分寸</a></li>
+    <li><a href="#llmtrain-reasoning">6 · RLVR 与推理模型</a></li>
+    <li><a href="#llmtrain-infra">7 · 基础设施与算力账（含速算器）</a></li>
+    <li><a href="#llmtrain-eval">8 · 评估与发布</a></li>
+    <li><a href="#qa">问答</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="llmtrain-overview">
+  <h2><span class="num">01</span>全景总览<a class="anchor" href="#llmtrain-overview">#llmtrain-overview</a></h2>
+
+  <div class="lead">
+    <p>流水线六道工序：数据准备 → 预训练 → （中期训练）→ SFT → 偏好对齐 → 推理训练，评估
+      贯穿全程当质检。预训练造「博学但不会聊天」的底座，后训练教「听话、分寸、思考」——
+      <b>市面模型的差距大头在后训练</b>。</p>
+  </div>
+
+  <p>三种出厂形态对应工序深度：<b>base</b>（仅预训练——只会接着往下写，问它问题可能反问你，
+    适合二次开发底座）、<b>instruct</b>（+SFT+对齐——日常用的 ChatGPT 类产品，企业应用主力）、
+    <b>reasoning</b>（再加 RLVR——答题前先想，慢而准、贵而强）。「同尺寸为什么能力差很多」：
+    数据质量 × 训练配方 × 后训练深度，参数量只是一个变量。</p>
+  <p><b>训练 vs 推理的两笔账</b>要先分清：训练是「改权重」——几千张卡跑数周的一次性资本投入
+    （建电厂）；推理是「用权重」——按 token 持续计费（发电卖电），客户日常账单的 99% 在推理侧。
+    行业测算 2030 年推理算力占 AI 总算力约 75%。权重发布后是冻结的，不会「越用越聪明」——
+    更新知识走 RAG 或增量微调。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="llmtrain-data">
+  <h2><span class="num">02</span>数据：模型的粮食<a class="anchor" href="#llmtrain-data">#llmtrain-data</a></h2>
+
+  <div class="lead">
+    <p>「Garbage in, garbage out」在大模型时代被放大一万倍：旗舰模型的饭量在 15–30 万亿 token
+      （Kimi K2 吃了 15.5T、MiMo-V2.5-Pro 27T）。语料三大件：网页打量、书籍论文提质、
+      代码练逻辑——<b>原料人人有，清洗去重的手艺才是护城河</b>。</p>
+  </div>
+
+  <p>清洗去重是最值钱的环节：重复数据让模型死记硬背、浪费算力、放大隐私风险——FineWeb 把
+    公开的 Common Crawl 反复过滤去重做出 15T 高质量语料，同源数据、更好的洗法、明显更强的
+    模型，是数据工程的公开教科书。<b>分词</b>是模型的切菜刀：BPE 从语料统计出词表，常见词
+    整颗下锅、生僻词切成碎末——<b>同样内容中文通常比英文多花 30–100% 的 token</b>，直接影响
+    账单和有效上下文；估成本别拿英文基准直接换算中文。</p>
+  <p><b>数据墙</b>已至：互联网高质量文本存量约 10–50 万亿 token，按 Chinchilla 训 1T 参数就要
+    约 20T——新一代模型把公开好数据基本吃完了。三条出路：精耕存量、多轮复用（收益递减）、
+    <b>合成数据</b>（强模型生成教材级文本，已是重要成分）。合成的风险要讲透：模型吃自己生成
+    的数据可能「近亲繁殖」（模型坍缩）——真实数据打底、合成增强、严格过滤。给客户的叙事：
+    数据红利期结束，竞争转向数据工程和后训练——这解释了主旋律从「更大」变成「更会想」。</p>
+  <p class="ev">数据墙口径核实 2026-07-08，来源 <a href="#src-data">多方分析</a>。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="llmtrain-pretrain">
+  <h2><span class="num">03</span>预训练<a class="anchor" href="#llmtrain-pretrain">#llmtrain-pretrain</a></h2>
+
+  <div class="lead">
+    <p>一个简单到不可思议的任务——「猜下一个词」——重复几万亿次后，模型学会了语法、事实、
+      代码和推理的雏形。两个视角：<b>无限量完形填空</b>（填对「因为下雨他带了__」要懂因果，
+      被迫学会世界的规律）与<b>有损压缩</b>（几十 TB 文本压进几百 GB 权重——压缩即理解，
+      解压失真即幻觉——所以需要 RAG 配「可翻的资料柜」）。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>Scaling Laws 三代</th><th>核心主张</th><th>一句话记忆</th></tr></thead>
+    <tbody>
+      <tr><td>Kaplan 2020</td><td>能力随参数/数据/算力按幂律可预测提升，参数优先</td><td>「做大就完了」</td></tr>
+      <tr><td>Chinchilla 2022</td><td>同算力下参数与数据要配平：约 20 token/参数</td><td>「吃饱再长个」</td></tr>
+      <tr><td>推理感知 2024–</td><td>把推理服务成本算进最优解：小而多训总账更划算</td><td>「好养活才是真便宜」</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>2026 年旗舰开源模型几乎全是<b>稀疏 MoE</b>：DeepSeek V4-Pro 总参 1.6T/激活仅 49B、
+    Llama 4 Maverick 400B/17B、Qwen 3.5 397B/17B——像会诊制医院，分诊台只动用 2% 的医生，
+    但医院整体什么都懂。看 MoE 先分清两个数：总参数（知识容量、显存门槛）与激活参数（每次
+    计算的成本）——<b>MoE 省的是计算不是显存</b>，专家轮流干活但都得在场，这正是私有化部署
+    报价的关键差异。</p>
+  <p><b>降本组合拳</b>（「DeepSeek 为什么训得便宜」的标准结构）：架构省（MoE 稀疏激活）+
+    精度省（FP8 混合精度，显存带宽近乎减半，已进主流实践）+ 算法省（Muon 优化器计算效率约
+    2 倍，Kimi K2 用 MuonClip 在 15.5T token 上零训练崩溃，PyTorch 2.9 已原生内置）+ 工程省
+    （通信计算重叠，把每张卡榨干）——是精打细算，不是偷工减料。架构侧的「发动机舱」在
+    <a href="../llm/index.html">LLM 网页版</a>：那边讲机器是什么，本页讲机器怎么被造出来。</p>
+  <p class="ev">MoE/FP8/Muon 格局核实 2026-07-08，来源 <a href="#src-pretrain">OpenRouter
+    盘点 / PyTorch 官方博客</a>。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="llmtrain-sft">
+  <h2><span class="num">04</span>SFT：教会听话<a class="anchor" href="#llmtrain-sft">#llmtrain-sft</a></h2>
+
+  <div class="lead">
+    <p>base 模型像博学的书呆子：问「北京有什么好玩的」，它可能接着写「？这是游客最常问的
+      问题之一」。SFT 用「指令→示范回答」的成对数据告诉它：你的新工作是当助手——
+      <b>是雕刻，不是浇筑</b>：不灌新知识，只定型行为，知识上限仍由预训练决定。</p>
+  </div>
+
+  <p>数据量比预训练小四五个数量级（几万到几百万条），且<b>质量碾压数量</b>：LIMA 实验仅用
+    1,000 条精选示范就逼近几十倍数据的效果——模型的知识在预训练已就位，SFT 只是「唤醒格式」。
+    好数据主流靠<b>蒸馏</b>：强模型批量生成候选、过滤改写、人工抽检（Tülu 3 把整条配方开源）。
+    两个坑：示范里塞模型「其实不会」的知识会教出自信的胡说；风格单一会把模型训「僵」。
+    容易被忽略的细节是<b>对话模板</b>（Chat Template）：用特殊标记包住各角色，模型才分清
+    「谁在说话、我该在哪开口」——<b>用错模板是开源模型部署后胡言乱语的头号原因</b>。</p>
+  <p>选型口诀与镜像模块：「改知识用 RAG、改行为用微调、先试提示词」——应用侧在
+    <a href="../rag/index.html#rag-what-why">RAG 网页版</a>，落地工程（LoRA/QLoRA/托管服务）
+    在 <a href="../fine-tuning/index.html">Fine-tuning 网页版</a>——本页只讲训练侧原理。</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="llmtrain-alignment">
+  <h2><span class="num">05</span>对齐：教会分寸<a class="anchor" href="#llmtrain-alignment">#llmtrain-alignment</a></h2>
+
+  <div class="lead">
+    <p>「答得像样」不等于「答得好」：好回答的标准只存在于人类偏好里——有用、诚实、无害（3H）
+      常互相打架，「分寸」写不成规则。InstructGPT 的开山证明：13 亿参数加上调教，在人类评价中
+      赢过 1750 亿的原版——<b>调教的价值能顶两个数量级的参数</b>，后训练时代由此开启。</p>
+  </div>
+
+  <p><b>RLHF 三件套</b>：偏好数据（人类说不清「好」的定义，但两个答案摆面前挑得出更好的）→
+    奖励模型（把品味蒸馏成可无限调用的自动评委——米其林评委说不出满分菜配方，但两道菜一尝
+    便知）→ PPO 强化学习（照评委分数练厨艺）。永恒软肋是<b>评委被钻空子</b>（Reward Hacking）：
+    模型发现「答得长、姿态谦逊、堆免责」能骗高分——古德哈特定律：指标一旦成为目标就不再是
+    好指标；工程上靠评委定期换届 + 多评委制衡缓解。<b>DPO 的暴力简化</b>：跳过奖励模型和 RL，
+    直接在偏好对上抬高好答案概率、压低差答案——简单稳定便宜，是开源与企业偏好定制的默认
+    起手式。<b>先 DPO，不够再上 RL</b>。</p>
+  <p><b>对齐税</b>真实存在但可调控：过度安全训练导致误拒、回答套路化（先共情再免责）、创造力
+    下降——像医院的免责文化，每条规定单看都合理，叠起来体验直线下降。工程平衡术：有用性与
+    安全性分开做奖励信号、边界案例训「该拒的拒、不该拒的别拒」、上线后跟踪误拒率。客户抱怨
+    「模型太怂」的专业回应：<b>这是对齐策略的选择不是能力缺陷</b>——可用系统提示词放宽或
+    自有偏好数据 DPO，把分寸调到业务需要的位置。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="llmtrain-reasoning">
+  <h2><span class="num">06</span>RLVR 与推理模型<a class="anchor" href="#llmtrain-reasoning">#llmtrain-reasoning</a></h2>
+
+  <div class="lead">
+    <p>推理模型＝先想后答：像「打草稿」替代「心算」——答题前生成思维链，慢思考换高正确率。
+      背后的训练革命是 <b>RLVR</b>：奖励不再来自评委的品味，而来自「答案对不对」这个机器可判
+      的铁标准——数学有标准答案、代码有单元测试，<b>讨好在这里失效</b>。</p>
+  </div>
+
+  <p>DeepSeek-R1 当时轰动的三点：证明纯 RL 能自发涌现反思验算等推理行为（R1-Zero 的
+    「aha moment」，没人教过）；用 <b>GRPO</b> 把训练成本打到零头（PPO 要额外训价值模型估
+    「这步值多少分」，GRPO 用组内平均分当基准——参照系来自同伴不来自裁判，省掉一整个裁判
+    系统）；全套 MIT 开源连蒸馏小模型一起放。技术叙事串起来：<b>DPO 砍掉奖励模型、GRPO 砍掉
+    价值模型——后训练平民化是开源快速追平的方法论基础</b>。完整配方是 SFT → DPO → RLVR
+    层层叠加：数学代码靠 RLVR 突飞猛进，写作共情仍靠偏好对齐。</p>
+  <p>产品化三件套：<b>蒸馏</b>装进小模型（特级教师的解题笔记——学生照着写满推导的笔记临摹，
+    成本是自己悟的零头，上限锁死在老师之下；企业想要私有推理模型，九成场景蒸馏够用）、
+    <b>路由</b>控成本（简单题快模型、难题升推理模型——推理模型是「更贵的档位」不是「更好的
+    模型」）、<b>思维链慎展示</b>（它是草稿不是审计日志，可能含试错与幻觉——把草稿当结论
+    呈现是常见产品事故）。推理模型让 decode 负载暴涨的推理侧后果在
+    <a href="../llm-inference/index.html#llminf-speculative">LLM-Inference 网页版</a>；
+    「agent 为什么现在能成」的模型侧原因也在这一步——规划、反思、多步工具使用都是 RL 里
+    练出来的。</p>
+  <p class="ev">后训练主流栈（SFT→DPO→RLVR，GRPO/DAPO 主力）核实 2026-07-08，来源
+    <a href="#src-posttrain">2026 后训练综述</a>。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="llmtrain-infra">
+  <h2><span class="num">07</span>基础设施与算力账<a class="anchor" href="#llmtrain-infra">#llmtrain-infra</a></h2>
+
+  <div class="lead">
+    <p>前六节讲「教什么」，这一节讲「教室和学费」。<b>显存账</b>：训练每参数约 16 字节
+      （权重 2 + 梯度 2 + 优化器状态 12）——70B 仅这三项就要约 1.1TB，单卡连零头都装不下；
+      这也是 LoRA（只训 1% 参数，优化器状态跟着缩 99%）能把门槛从集群打到单卡的原因。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>并行方式</th><th>怎么分</th><th>类比</th><th>代价</th></tr></thead>
+    <tbody>
+      <tr><td>数据并行 DP</td><td>每卡完整副本训不同数据，定期同步；ZeRO 把冗余状态切碎分摊</td><td>多个班用同套教材各自上课</td><td>每卡要装下模型（ZeRO 缓解）</td></tr>
+      <tr><td>张量并行 TP</td><td>单层大矩阵切到多卡合算</td><td>一张大桌子四人合抬</td><td>通信极密集，只适合机内 NVLink</td></tr>
+      <tr><td>流水线并行 PP</td><td>按层切段，数据流水过站</td><td>工厂流水线各管一段</td><td>有「气泡」空转要调度填满</td></tr>
+      <tr><td>专家并行 EP</td><td>MoE 专家散到多卡，token 按路由投递</td><td>各科室分楼办公</td><td>路由不均会忙闲不均</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="tool" id="calc6nd">
+    <h4>6ND 训练成本速算器</h4>
+    <p class="note">总算力 ≈ 6 × N（参数）× D（token）÷（卡数 × 单卡有效算力 × MFU）= 天数。
+      讲义第 7 章镇场公式的交互版——给量级不给保证；「正式一跑」通常只占总投入一半以下。</p>
+    <div class="controls">
+      <label class="ctl">参数量 N（B，十亿）
+        <input type="number" id="nd-n" value="70" min="0.5" step="1">
+      </label>
+      <label class="ctl">训练 token 数 D（T，万亿）
+        <input type="number" id="nd-d" value="15" min="0.1" step="1">
+      </label>
+      <label class="ctl">GPU 卡数
+        <input type="number" id="nd-gpu" value="10000" min="8" step="100">
+      </label>
+      <label class="ctl">单卡峰值算力（TFLOPs）
+        <input type="number" id="nd-flops" value="1000" min="10" step="100">
+      </label>
+      <label class="ctl">MFU（%，常见 30–50）
+        <input type="number" id="nd-mfu" value="40" min="10" max="60" step="5">
+      </label>
+    </div>
+    <div class="kpis" id="nd-out"></div>
+    <p class="note" id="nd-note"></p>
+  </div>
+
+  <p>集群不是「一堆卡」而是「一台超级机器」：GPU 算力 + 高速互联（节点内 NVLink、节点间
+    RDMA——张量并行对带宽极度敏感，这是 AI 集群与散租 GPU 的本质区别）+ 并行文件存储。
+    <b>容错是隐形主角</b>：训练是同步作业，一卡挂全队停——Llama 3 训练经历 466 次中断不是
+    意外是常态；恢复能力不是「有 checkpoint」，而是「演练过、对过账、敢按钮」，「有效训练
+    时间占比」（可到 95%+）值得写进算力采购 SLA。自建 vs 租云：训练是脉冲式负载租云弹性占优；
+    微调不需要这套重装备——<b>把「预训练级基建」和「微调级需求」分开，能帮客户砍掉九成
+    不必要的预算焦虑</b>。并行通信怎么被网络承载在
+    <a href="../../PPT-version/AI-Infra-Compute/README.html">AI-Infra-Compute</a>，作业怎么被
+    调度在 <a href="../../PPT-version/AI-Infra-Platform/README.html">AI-Infra-Platform</a>。</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="llmtrain-eval">
+  <h2><span class="num">08</span>评估与发布<a class="anchor" href="#llmtrain-eval">#llmtrain-eval</a></h2>
+
+  <div class="lead">
+    <p>评估三层像招聘三道关：<b>benchmark 是笔试</b>（标准化但可刷题）、<b>Arena 是群面
+      印象分</b>（会被口才带偏）、<b>场景实测是试用期</b>（唯一作数的）——只看笔试成绩发
+      offer，是选型翻车的标准姿势。</p>
+  </div>
+
+  <p>榜单通胀的三个病：<b>数据污染</b>（基准题泄进训练语料，「见过题」不等于「会解题」）、
+    <b>刷榜</b>（针对热门基准定向优化）、<b>饱和</b>（老基准 90+ 分区分度归零）。行业应对：
+    基准持续换代、私有保留集、污染检测。售前的分寸：引用榜单时主动说明局限，反而比无脑报
+    分数更建立信任。训练内部还有「过程评估」：每个阶段跑全套基准防「补了数学、塌了写作」。</p>
+  <p><b>模型卡五盯点</b>（五分钟读懂一次发布）：①许可证（Apache 2.0 已成主流、DeepSeek 用
+    MIT——「开源」不等于「随便商用」，法务看原文）②架构与激活参数 ③训练数据截止日期
+    ④上下文窗口 ⑤基准分数的评测条件（0-shot 和 5-shot 能差好几分，两家各报对自己有利的条件
+    是常态——对比时拉齐条件或看第三方统一复测）。企业自建评估集的最小配方（50–200 道真题、
+    业务专家评分、版本化管理）在 <a href="../evaluation/index.html">Evaluation 网页版</a>
+    展开成完整方法论。</p>
+  <p class="ev">许可格局核实 2026-07-08，来源 <a href="#src-eval-lt">OpenRouter 2026-06
+    盘点</a>。</p>
+</section>
+
+<!-- ============ 问答 ============ -->
+<section class="sec" id="qa">
+  <h2><span class="num">09</span>现场高频追问<a class="anchor" href="#qa">#qa</a></h2>
+  <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-08</b> 来自讲义首版对练页，
+    <b>2026-07-13</b> 来自训练恢复与生产验收深潜。</p>
+  <div class="qa">
+    <details>
+      <summary>你们的模型到底是怎么训出来的？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>两大阶段：先在数万亿词的语料上做「下一词预测」学出知识底座（预训练），再用示范教学、
+          人类偏好和可验证奖励三步调教成助手（后训练）——像培养医生：读万卷书、规培、纠偏、
+          考执业。</p>
+        <p class="qa-why">六道工序的地图是所有训练话题的坐标系：客户问到什么，先定位在哪道
+          工序再谈细节。</p>
+        <p class="qa-next"><b>下一步</b>　用「培养一名医生」90 秒讲完六道工序——类比的边界
+          也要讲（医生持续学习，权重发布即冻结）。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-overview">全景总览</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>训练一个大模型到底要多少钱多少卡？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>给量级不给保证：6ND 法则心算——70B 训 15T token ≈ 6.3e24 FLOPs，万卡 H100 级跑
+          15 天量级，仅算力就千万美元级；加实验和重跑翻倍。自研基座是头部玩家的游戏。</p>
+        <p class="qa-why">「正式那一跑」只占总投入一半以下（数据管线/失败重跑/消融实验/人力）
+          ——报价别只算理想值。</p>
+        <p class="qa-next"><b>下一步</b>　用<a href="#calc6nd">速算器</a>当场算给客户，
+          再对比「微调 + RAG」的费用——数字一摆，理性结论自然浮现。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-infra">6ND 法则</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>为什么 DeepSeek 能把训练成本压那么低？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>四层组合拳：MoE 稀疏架构、FP8 低精度（显存带宽近乎减半）、更高效的训练算法、
+          通信计算重叠的极致工程。是精打细算不是偷工减料——技术报告全公开，经受住复现检验。</p>
+        <p class="qa-why">「架构/精度/算法/工程」四个筐是拆任何一家训练成本的通用框架——
+          出口管制下的算力约束反而逼出极致工程，这个叙事客户很爱听。</p>
+        <p class="qa-next"><b>下一步</b>　推理侧的另一半答案（MLA+MoE 的服务成本）在 LLM
+          网页版第 5 节——两页合起来讲全「为什么便宜」。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-pretrain">降本组合拳</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>MoE 模型报的 400B 参数，跟稠密 70B 怎么比？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>比「激活参数」和实测：400B 总参的 MoE 每次推理可能只用 17B 的算力，推理成本接近
+          小模型、知识容量接近大模型。但显存要装下全部 400B——私有化部署的硬门槛。</p>
+        <p class="qa-why">「MoE 省的是计算不是显存」是高频考点：专家轮流干活但都得在场——
+          别被总参数唬住，也别用总参数唬客户。</p>
+        <p class="qa-next"><b>下一步</b>　报价表把「显存门槛（总参）」和「算力成本（激活参）」
+          分成两行写。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-pretrain">MoE</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>我们只有几千条数据，够微调吗？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>行为类微调够了——LIMA 证明一千条精品就能显著改变行为。关键不是条数是质量：
+          先花两周治理出 500–2000 条精品，比堆十万条杂数据效果好。</p>
+        <p class="qa-why">SFT 只是「唤醒格式」，知识在预训练已就位——示范里塞模型不会的
+          知识反而教出自信的胡说。</p>
+        <p class="qa-next"><b>下一步</b>　落地工程（LoRA 配方/数据流水线/验收）在
+          Fine-tuning 网页版——本页给训练侧依据。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-sft">质量碾压数量</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>对齐会不会把模型调笨？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>有代价，业内叫对齐税——主要体现在误拒和套路化回答。但可控：有用性与安全性分开
+          优化、监控误拒率。反过来说，没有对齐的模型根本不敢投产——必要成本，不是缺陷。</p>
+        <p class="qa-why">「同一个问题你们拒答、别家回答」是策略松紧不是能力差距——企业可
+          按业务把分寸调到合适位置（系统提示词放宽或自有数据 DPO）。</p>
+        <p class="qa-next"><b>下一步</b>　设计 5 个「合理但易被误拒」的边界问题测误拒率——
+          零成本的对齐质量评估小工具。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-alignment">对齐税</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>推理模型和普通模型到底差在哪？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>训练上多了 RLVR——在可判对错的任务上强化刷题；行为上先生成思维链打草稿。难题
+          正确率大幅上升，代价是更慢更贵。它是「更贵的档位」，不是全面升级。</p>
+        <p class="qa-why">值不值得付费认准一条：任务有没有「值得多想几步」的复杂度和「可验证
+          的对错」——闲聊摘要纯属浪费，路由分流能省一半以上。</p>
+        <p class="qa-next"><b>下一步</b>　思维链是草稿不是审计日志——产品上展示摘要版或只给
+          答案，别把草稿当结论呈现。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-reasoning">RLVR 与推理模型</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>榜单分数能信吗？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>能信一半：标准化笔试能快速淘汰不行的，但有污染和刷榜水分。三层走：榜单初筛、
+          Arena 看偏好、最后拿自己的真题实测——试用期表现才是唯一作数的。</p>
+        <p class="qa-why">「跑分很高用起来不行」三个常见原因：题型不匹配、评测条件不同
+          （榜单开思维链你线上关了）、污染虚高——解法就一条：自建评估集。</p>
+        <p class="qa-next"><b>下一步</b>　按模型卡五盯点做对比表；评估集方法在 Evaluation
+          网页版。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-eval">评估与发布</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>我们该自建集群还是用云？<span class="added">2026-07-13</span></summary>
+      <div class="a">
+        <p>看负载形态：训练是脉冲式的（训完即闲）租云弹性占优；7×24 推理长负载或数据主权硬
+          约束才是自建的理由。常见解是混合——预留保底、峰值弹性，按利用率盈亏点算账。</p>
+        <p class="qa-why">集群的卖点是「卡+互联+存储+容错运营」的整机能力——「有效训练时间
+          占比」写进 SLA，恢复能力要演练过才算有。</p>
+        <p class="qa-next"><b>下一步</b>　先分清需求档位：微调用不到预训练级基建——LoRA
+          单卡到几卡、托管服务开箱即用。</p>
+        <p class="qa-src">依据　<a href="#llmtrain-infra">上云与容错</a></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2><span class="num">10</span>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。</p>
+  <div class="rel">
+    <a href="../llm/index.html">
+      <div class="nm">LLM · 网页版</div>
+      <div class="why">那页讲「发动机舱」（架构与注意力），本页讲「流水线」（怎么造出来）——
+        互为前置。</div>
+    </a>
+    <a href="../fine-tuning/index.html">
+      <div class="nm">Fine-tuning · 网页版</div>
+      <div class="why">本页讲 SFT/对齐的原理，那页讲「拿自己数据落地」的工程实践。</div>
+    </a>
+    <a href="../llm-inference/index.html">
+      <div class="nm">LLM-Inference · 网页版</div>
+      <div class="why">「训练一次性重投入 vs 推理持续账单」两侧互指；RLVR 让 decode 暴涨是
+        推理优化成为刚需的原因。</div>
+    </a>
+    <a href="../evaluation/index.html">
+      <div class="nm">Evaluation · 网页版</div>
+      <div class="why">模型厂「炼模型时评什么」vs 应用方「选模型时评什么」——视角互补，
+        自建评估集方法在那页。</div>
+    </a>
+    <a href="../agent/index.html">
+      <div class="nm">Agent · 网页版</div>
+      <div class="why">推理模型/RLVR 是「agent 为什么现在能成」的模型侧原因——规划反思都是
+        RL 里练出来的。</div>
+    </a>
+    <a href="../../PPT-version/AI-Infra-Compute/README.html">
+      <div class="nm">AI-Infra-Compute</div>
+      <div class="why">并行策略产生的通信量决定网络怎么建；训练显存账的硬件地基在那册。</div>
+    </a>
+    <a href="../../PPT-version/AI-Infra-Platform/README.html">
+      <div class="nm">AI-Infra-Platform</div>
+      <div class="why">训练作业是集群调度与容错的头号负载——本页讲并行怎么切，那册讲作业
+        怎么被调度、崩了怎么续。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2><span class="num">11</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/LLM-Training/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-08。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-pretrain"><td><code>src-pretrain</code></td><td>OpenRouter 2026-06 盘点 /
+          PyTorch 官方博客 / arXiv 2507.20534</td><td>MoE 格局、FP8 实践、Muon 内置</td>
+          <td>旗舰配方季度级演进</td></tr>
+      <tr id="src-data"><td><code>src-data</code></td><td>多方分析（aimultiple 等）</td>
+          <td>数据墙量级（10–50T token 存量）</td><td>估算区间宽，量级参考</td></tr>
+      <tr id="src-posttrain"><td><code>src-posttrain</code></td><td>llm-stats 2026 后训练综述 /
+          arXiv 2407.16216</td><td>SFT→DPO→RLVR 主流栈与 GRPO 地位</td><td>算法族迭代快</td></tr>
+      <tr id="src-eval-lt"><td><code>src-eval-lt</code></td><td>OpenRouter 2026-06 盘点</td>
+          <td>开源许可格局（Apache 2.0 主流/DeepSeek MIT）</td><td>许可以各模型原文为准</td></tr>
+      <tr id="src-infra"><td><code>src-infra</code></td><td>HF Ultra-Scale Playbook /
+          行业综述</td><td>并行组合拳与 2030 推理算力 75% 预测</td><td>预测值非现状统计</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/LLM-Training/LLM-Training-讲义.pptx">LLM-Training-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/LLM-Training/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/LLM-Training/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <!-- UPDATED:END -->
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+/* 6ND 训练成本速算器：讲义第 7 章公式的交互版。总算力=6×N×D；天数=总算力÷(卡数×峰值×MFU)。
+   显存账按每参数 16 字节（混合精度+Adam 口径）。无 JS 时 .tool 隐藏，静态兜底是正文公式。 */
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("nd-out"), note = $("nd-note");
+  if (!out) return;
+  function kpi(label, val, warn) {
+    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
+    return open + label + '<b>' + val + '</b></div>';
+  }
+  function run() {
+    var n = Math.max(0.1, +$("nd-n").value || 0) * 1e9;
+    var d = Math.max(0.01, +$("nd-d").value || 0) * 1e12;
+    var gpus = Math.max(1, +$("nd-gpu").value || 0);
+    var peak = Math.max(1, +$("nd-flops").value || 0) * 1e12;
+    var mfu = Math.min(60, Math.max(10, +$("nd-mfu").value || 0)) / 100;
+    var flops = 6 * n * d;
+    var days = flops / (gpus * peak * mfu) / 86400;
+    var mem = n * 16 / 1e12;   // TB
+    var exp = Math.floor(Math.log10(flops));
+    out.innerHTML =
+      kpi("训练总算力", (flops / Math.pow(10, exp)).toFixed(1) + "e" + exp + " FLOPs", false) +
+      kpi("训练天数（MFU " + Math.round(mfu * 100) + "%）",
+          days >= 10 ? Math.round(days) + " 天" : (Math.round(days * 10) / 10) + " 天",
+          days > 60) +
+      kpi("全参训练显存账（×16 字节）",
+          mem >= 1 ? (Math.round(mem * 10) / 10) + " TB" : Math.round(mem * 1024) + " GB",
+          mem >= 1) +
+      kpi("Chinchilla 配平参考（20 token/参数）",
+          (n * 20 / 1e12 >= 1 ? (Math.round(n * 20 / 1e11) / 10) + "T" :
+           Math.round(n * 20 / 1e9) + "B") + " token", false);
+    note.textContent = "量级参考：数据管线、失败重跑、消融实验与人力另算——「正式那一跑」" +
+      "通常只占总投入一半以下。多数企业的理性路径是微调 + RAG，别为预训练级基建买单。";
+  }
+  ["nd-n", "nd-d", "nd-gpu", "nd-flops", "nd-mfu"].forEach(function (id) {
+    $(id).addEventListener("input", run);
+    $(id).addEventListener("change", run);
+  });
+  run();
+})();
+</script>
+</body>
+</html>
