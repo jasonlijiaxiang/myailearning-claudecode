@@ -47,6 +47,23 @@ BUILD_DATE = datetime.date.today().isoformat()
 LAYER_ORDER = ["解决方案层", "应用模式层", "协议层", "工程保障层", "基础层",
                "算力底座层", "数据底座层"]
 
+# 模块字标（卡片左侧的色块缩写，导航站的"favicon 位"）；缺省取前两个字母大写。
+MONO = {"A2A": "A2", "AI-Gateway": "GW", "AI-Infra-Compute": "IC",
+        "AI-Infra-Platform": "IP", "AI-Ops": "OP", "Agent": "AG",
+        "Data-Engineering": "DE", "Evaluation": "EV", "Fine-tuning": "FT",
+        "LLM": "LM", "LLM-Inference": "LI", "LLM-Training": "LT",
+        "MCP": "MC", "Model-Landscape": "ML", "Multimodal": "MM",
+        "Prompt-Engineering": "PE", "RAG": "RA", "Security": "SE",
+        "Solution-Patterns": "SP"}
+
+
+def mono(dirname):
+    if dirname in MONO:
+        return MONO[dirname]
+    letters = [c for c in dirname if c.isalnum()]
+    return "".join(letters[:2]).upper() or "KB"
+
+
 # 已建网页面的模块（试点先行：样板册定稿前不做全库转换）。
 # 值为站内相对路径；不在表内的模块在总览页显示为"仅 PPT"。
 WEB_PAGES = {"mcp": "./mcp/"}
@@ -192,7 +209,7 @@ def render_map(data, blurbs):
         mods = [m for m in data["modules"] if m["layer"] == layer]
         if not mods:
             continue
-        out.append('  <section class="layer" id="lay-%d">' % i)
+        out.append('  <section class="layer hue-%d" id="lay-%d">' % (i, i))
         out.append('   <h3>%s<span class="n">%d 个模块</span></h3>'
                    % (esc(layer), len(mods)))
         out.append('   <div class="cards">')
@@ -202,8 +219,9 @@ def render_map(data, blurbs):
             blurb = blurbs.get(m["dir"], "")
             out.append('    <a class="card" href="%s"%s>'
                        % (esc(href), (' title="%s"' % esc(blurb)) if blurb else ""))
-            out.append('     <div class="nm">%s <span class="tag %s">%s</span></div>'
-                       % (esc(m["dir"]), tag[0], tag[1]))
+            out.append('     <div class="chead"><span class="tile">%s</span>'
+                       '<span class="cname">%s</span><span class="tag %s">%s</span></div>'
+                       % (esc(mono(m["dir"])), esc(m["dir"]), tag[0], tag[1]))
             if blurb:
                 out.append('     <div class="blurb">%s</div>' % esc(blurb))
             out.append('     <div class="meta">%d 章 · 更新 %s</div>'
@@ -227,8 +245,9 @@ def render_side(data):
         n = sum(1 for m in data["modules"] if m["layer"] == layer)
         if not n:
             continue
-        o.append('   <a class="sl" href="#lay-%d">%s<span class="cnt">%d</span></a>'
-                 % (i, esc(layer), n))
+        o.append('   <a class="sl hue-%d" href="#lay-%d"><span class="lbl">%s</span>'
+                 '<span class="cnt">%d</span></a>'
+                 % (i, i, esc(layer), n))
     o.append('   <div class="sgroup">全库视图</div>')
     o.append('   <a class="sl" href="#net">关系网</a>')
     o.append('   <a class="sl" href="#fresh">保鲜看板</a>')

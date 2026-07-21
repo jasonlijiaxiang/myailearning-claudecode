@@ -88,6 +88,47 @@
     secs.forEach(function (s) { io.observe(s); });
   }
 
+  /* ---------- 首页统计条（装饰性增强：无 JS 时不显示，不影响阅读路径） ---------- */
+  var stats = document.getElementById("stats");
+  if (stats && window.KB) {
+    var kb2 = window.KB;
+    var chapters = 0, facts = 0, webs = 0;
+    kb2.modules.forEach(function (m) {
+      chapters += m.chapters.length; facts += m.facts.length;
+      if (m.web) webs += 1;
+    });
+    [[kb2.modules.length, "个模块"], [chapters, "章"],
+     [facts, "条已核实事实"], [webs, "册网页版"]].forEach(function (it) {
+      var s = document.createElement("span");
+      s.className = "stat";
+      var b = document.createElement("b"); b.textContent = it[0];
+      s.appendChild(b); s.appendChild(document.createTextNode(" " + it[1]));
+      stats.appendChild(s);
+    });
+  }
+
+  /* ---------- 侧栏滚动高亮 ---------- */
+  var side = document.querySelector(".side");
+  if (side && "IntersectionObserver" in window) {
+    var slinks = {}, stargets = [];
+    Array.prototype.forEach.call(side.querySelectorAll('a.sl[href^="#"]'), function (a) {
+      var el = document.getElementById(a.getAttribute("href").slice(1));
+      if (el) { slinks[el.id] = a; stargets.push(el); }
+    });
+    if (stargets.length) {
+      var sio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          Object.keys(slinks).forEach(function (k) {
+            slinks[k].classList.remove("on");
+          });
+          slinks[en.target.id].classList.add("on");
+        });
+      }, { rootMargin: "0px 0px -60% 0px", threshold: 0 });
+      stargets.forEach(function (s) { sio.observe(s); });
+    }
+  }
+
   /* ---------- 报文逐字段注释器 ---------- */
   var wire = document.querySelector(".wire");
   if (wire) {

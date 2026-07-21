@@ -449,3 +449,41 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
   .wire .cap { color: var(--blue-d); }
   .wire .f { color: var(--ink-900); }
 }
+
+/* ============ 层级色相（导航站的视觉节奏来源；七层七色，登记于 library-rules 令牌表） ============ */
+.hue-0 { --hue: #7C3AED; --hue-bg: #F3EFFE; }   /* 解决方案层 · 紫 */
+.hue-1 { --hue: #2563EB; --hue-bg: #EFF6FF; }   /* 应用模式层 · 蓝 */
+.hue-2 { --hue: #0891B2; --hue-bg: #ECFAFD; }   /* 协议层 · 青 */
+.hue-3 { --hue: #EA580C; --hue-bg: #FFF3EB; }   /* 工程保障层 · 橙 */
+.hue-4 { --hue: #16A34A; --hue-bg: #EFFBF2; }   /* 基础层 · 绿 */
+.hue-5 { --hue: #6366F1; --hue-bg: #F0F1FE; }   /* 算力底座层 · 靛 */
+.hue-6 { --hue: #D97706; --hue-bg: #FEF7E8; }   /* 数据底座层 · 琥珀 */
+
+.layer > h3::before { background: var(--hue, var(--blue)); }
+.layer .card:hover { border-color: var(--hue, var(--blue-ln)); }
+
+/* 模块字标块（favicon 位） */
+.chead { display: flex; align-items: center; gap: .55rem; min-width: 0; }
+.tile { flex: none; width: 32px; height: 32px; border-radius: 8px; text-align: center;
+        font-family: var(--mono); font-weight: 700; font-size: 12.5px; line-height: 32px;
+        color: #fff; background: var(--hue, var(--blue)); letter-spacing: .02em; }
+.cname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+         font-size: 15.5px; font-weight: 700; color: var(--ink-900); }
+
+/* 首页统计条（JS 增强；无 JS 时容器为空不占位） */
+.stats { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .9rem; }
+.stats:empty { display: none; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+        padding: .12rem .75rem; font-size: 13px; color: var(--ink-500); }
+.stat b { color: var(--ink-900); font-size: 14px; margin-right: .15rem; }
+
+/* 侧栏：层色点 + 滚动高亮 */
+.side a.sl .lbl { display: inline-flex; align-items: center; gap: .45rem; min-width: 0; }
+.side a[class*="hue-"] .lbl::before {
+  content: ""; flex: none; width: 8px; height: 8px; border-radius: 3px;
+  background: var(--hue);
+}
+.side a.sl.on { background: var(--blue-bg); color: var(--blue-d); font-weight: 600; }
+
+/* 页头轻渐变（所有页共用，给白顶一点纵深） */
+.top { background: linear-gradient(180deg, #F0F5FD 0%, var(--card) 78%); }
