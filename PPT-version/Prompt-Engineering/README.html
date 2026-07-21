@@ -2,12 +2,17 @@
 <title>Prompt Engineering · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">基础层 · Foundation Layer</span></p>
 <h1>Prompt Engineering</h1>
 <p class="sub">和大模型对话的「接口层」：同一个模型，提示词写得好不好，效果可以天差地别。这是最便宜、最快见效的能力杠杆——不改一行权重、不搭一套检索，就能把模型已有的能力调出来。面向售前技术，讲清「怎么写、为什么这么写、什么时候该换成 RAG / 微调」，是 LLM、Agent、RAG 各模块共同的前置。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>Prompt-Engineering-讲义.pptx</code>（主力成品，82 页，<span class="ok">✅ 已完成</span>）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>是什么 / 为什么</td><td>定义与「新同事/接口层」类比、为什么最便宜的杠杆、提示词/RAG/微调三手段对比与选型边界、80% 的效果问题出在提示词</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>提示词解剖</td><td>system/user/assistant 三角色、system prompt 一次设定通篇生效、四要素（指令+上下文+示例+格式）、分隔符、一条真实能跑的消息结构</td><td class="ok">✅ 已完成</td></tr>
@@ -25,7 +30,7 @@
  <tr><td>5</td><td>工程化与自动优化</td><td>提示词当代码（模板化/版本化）、评估驱动优化、DSPy（MIPROv2/GEPA）、提示词缓存省钱、各云提示词管理与优化服务</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>6</td><td>安全与风险</td><td>提示词注入（OWASP LLM01）、直接 vs 间接注入、越狱与系统提示词泄露、纵深防御清单（RAG/微调治不了）、云护栏</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>售前视角收拢</td><td>客户问题→概念速查、选型判断树、上云落地全景表、知识库串联图、白板综合演练</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>本模块是基础层的「通用接口」，向上支撑一堆应用模块（讲义第 1/4/7 章已埋串联点）——

@@ -2,12 +2,17 @@
 <title>Fine-tuning · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">工程保障层 · Engineering Assurance</span></p>
 <h1>Fine-tuning · 微调工程实践</h1>
 <p class="sub">拿自己的数据把微调落地：什么时候该微调（vs 提示词 / RAG）、全参与 LoRA/QLoRA 怎么选、数据怎么备、训练怎么跑、对齐什么时候上、托管服务与上云怎么落、效果怎么验收。与 LLM-Training 分工明确——那边讲「模型厂怎么炼模型」的原理，这边讲「用户拿自己数据定制模型」的工程实践。面向售前技术，讲清每个选择「为什么」和「客户会怎么问」。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>Fine-tuning-讲义.pptx</code>（主力成品，89 页，<span class="ok">✅ 已完成</span>）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>什么时候该微调</td><td>定制手段光谱（提示词→RAG→微调）、「知识 vs 行为」分界线、四条劝退清单、成本收益账</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>微调方法谱系</td><td>全参 vs LoRA vs QLoRA、LoRA 超参实务、显存账速查（7B/14B/70B）、「学得少也忘得少」取舍、DoRA 等变体</td><td class="ok">✅ 已完成</td></tr>
@@ -26,7 +31,7 @@
  <tr><td>6</td><td>托管微调服务与上云落地</td><td>自建 vs 托管三问、OpenAI 三方法、Claude 唯一路径（Bedrock+Haiku）、三大云对照、落地服务地图</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>评估与部署</td><td>验收四层、灾难性遗忘与回归门禁、合并权重 vs adapter 热插拔、迭代闭环</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>8</td><td>售前速查</td><td>决策树、成本心算模板、客户误区总表、全库串联图、综合面试题</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-what-why</code>，选型链两端：提示词到头才微调）。 与 <a href="../RAG/README.html">RAG</a> 互为「知识 vs 行为」的两侧（讲义第 1 章有专页）；

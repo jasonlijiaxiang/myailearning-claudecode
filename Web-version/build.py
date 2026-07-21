@@ -24,6 +24,9 @@ ROOT = os.path.dirname(HERE)
 PPT = os.path.join(ROOT, "PPT-version")
 OUT = os.path.join(HERE, "data.js")
 INDEX = os.path.join(HERE, "index.html")
+ROOT_INDEX = os.path.join(ROOT, "README.html")
+MAPR_BEGIN = "<!-- MAPR:BEGIN 由 build.py 从各模块 MANIFEST.md 生成，请勿手工编辑 -->"
+MAPR_END = "<!-- MAPR:END -->"
 MAP_BEGIN = ("<!-- MAP:BEGIN 本段由 Web-version/build.py 从各模块 MANIFEST.md 生成，"
              "请勿手工编辑 -->")
 MAP_END = "<!-- MAP:END -->"
@@ -66,7 +69,7 @@ def mono(dirname):
 
 # 已建网页面的模块（试点先行：样板册定稿前不做全库转换）。
 # 值为站内相对路径；不在表内的模块在总览页显示为"仅 PPT"。
-WEB_PAGES = {"mcp": "./mcp/"}
+WEB_PAGES = {"mcp": "./mcp/index.html"}   # 必须指到文件：file:// 下目录链接不会自动打开 index.html
 
 
 def rows(section, text):
@@ -202,8 +205,13 @@ def esc(s):
              .replace('"', "&quot;"))
 
 
-def render_map(data, blurbs):
-    """知识地图 → 导航站式卡片矩阵（生成期静态注入，无 JS 时仍完整可读）。"""
+def render_map(data, blurbs, ctx="web"):
+    """知识地图 → 导航站式卡片矩阵（生成期静态注入，无 JS 时仍完整可读）。
+
+    ctx="web"（网页版首页）与 ctx="root"（根总纲）只差链接前缀——同一套组件、
+    同一个生成器，根总纲的知识地图不再手工维护（2026-07-21 起，四类页面统一设计语言）。"""
+    ppt_fmt = ("../PPT-version/%s/README.html" if ctx == "web"
+               else "./PPT-version/%s/README.html")
     out = []
     for i, layer in enumerate(data["layers"]):
         mods = [m for m in data["modules"] if m["layer"] == layer]
@@ -214,7 +222,10 @@ def render_map(data, blurbs):
                    % (esc(layer), len(mods)))
         out.append('   <div class="cards">')
         for m in mods:
-            href = m["web"] or ("../PPT-version/%s/README.html" % m["dir"])
+            web_href = m["web"]
+            if web_href and ctx == "root":
+                web_href = "./Web-version/" + web_href[2:]
+            href = web_href or (ppt_fmt % m["dir"])
             tag = ("web", "网页版") if m["web"] else ("ppt", "仅 PPT")
             blurb = blurbs.get(m["dir"], "")
             out.append('    <a class="card" href="%s"%s>'
@@ -253,7 +264,7 @@ def render_side(data):
     o.append('   <a class="sl" href="#fresh">保鲜看板</a>')
     o.append('   <a class="sl" href="./fresh.html">完整保鲜看板</a>')
     o.append('   <div class="sgroup">入口</div>')
-    o.append('   <a class="sl" href="./mcp/">MCP 网页版<span class="cnt">样板</span></a>')
+    o.append('   <a class="sl" href="./mcp/index.html">MCP 网页版<span class="cnt">样板</span></a>')
     o.append('   <a class="sl" href="../PPT-version/README.html">PPT 总览</a>')
     o.append('   <a class="sl" href="../README.html">知识库首页</a>')
     o.append('  </nav>')
@@ -411,6 +422,9 @@ def main(argv):
         blurbs = load_blurbs()
         html_cur = open(INDEX, encoding="utf-8").read()
         html_new = inject(html_cur, MAP_BEGIN, MAP_END, render_map(data, blurbs), "MAP")
+        root_cur = open(ROOT_INDEX, encoding="utf-8").read()
+        root_new = inject(root_cur, MAPR_BEGIN, MAPR_END,
+                          render_map(data, blurbs, ctx="root"), "MAPR")
         html_new = inject(html_new, SIDE_BEGIN, SIDE_END, render_side(data), "SIDE")
         html_new = inject(html_new, NET_BEGIN, NET_END, render_network(data), "NET")
         html_new = inject(html_new, FRESH_BEGIN, FRESH_END, render_fresh(data), "FRESH")
@@ -442,6 +456,8 @@ def main(argv):
             bad.append("index.html 的生成区块（知识地图/关系网/保鲜看板）")
         if fp_cur != fp_new:
             bad.append("fresh.html")
+        if root_cur != root_new:
+            bad.append("库根 README.html 的知识地图")
         for path in mod_new:
             if mod_cur[path] != mod_new[path]:
                 bad.append("%s 的最近改动" % os.path.relpath(path, ROOT))
@@ -454,6 +470,7 @@ def main(argv):
     open(OUT, "w", encoding="utf-8").write(text)
     open(INDEX, "w", encoding="utf-8").write(html_new)
     open(FRESHPAGE, "w", encoding="utf-8").write(fp_new)
+    open(ROOT_INDEX, "w", encoding="utf-8").write(root_new)
     for path, content in mod_new.items():
         open(path, "w", encoding="utf-8").write(content)
     print("已生成 %s 与 index.html 的三个区块（知识地图/关系网/保鲜看板，%d 个模块）"

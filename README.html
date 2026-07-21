@@ -2,9 +2,15 @@
 <title>我的 AI 知识库</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./_assets/kb.css">
 </head><body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>我的 AI 知识库</h1>
+    <p class="lede">面向"售前技术"角色的持续扩充知识库。同一套知识做了两个版本：<b>PPT</b> 是内容出处（讲义 + 书单），<b>网页版</b> 是它的延伸。下面的知识地图与每日取用，两边通用。</p>
+  </div>
+</header>
+
 <main class="wrap">
-<h1>我的 AI 知识库</h1>
-<p class="sub">面向"售前技术"角色的持续扩充知识库。同一套知识做了两个版本：<b>PPT</b> 是内容出处（讲义 + 书单），<b>网页版</b> 是它的延伸。下面的知识地图与每日取用，两边通用。</p>
 
 <div class="daily">
  <div class="daily-title">🎯 每日取用</div>
@@ -24,7 +30,7 @@
  </a>
  <a class="face" href="./Web-version/index.html">
   <b>网页版</b>
-  <span class="d">讲义的延伸：同一批事实换一种节奏呈现，配可交互的部件。两边共用一份 MANIFEST 账本。</span>
+  <span class="d">讲义的延伸：可搜索、按层浏览，跨模块关系与保鲜一眼可见。两边共用一份 MANIFEST 账本。</span>
   <span class="st soon">已上线样板 · MCP（其余各册仍只有讲义）</span>
  </a>
  <a class="face" href="./开始使用.html">
@@ -34,64 +40,147 @@
  </a>
 </div>
 
-<div class="kmap-head"><h2>知识地图</h2><span class="kmap-cap">实线卡片表示核心模块，虚线卡片表示关联扩展；19 个模块均可独立学习、更新与巡检。</span></div>
-<div class="legend"><span class="lg"><span class="sw"></span>核心模块</span><span class="lg"><span class="sw dash"></span>关联扩展</span><span class="lg"><span class="dot"></span>已完成</span></div>
- <div class="krow">
-  <div class="klayer"><b>解决方案层</b><span>Solution Layer</span></div>
-  <div class="kcards">
-  <a class="kcard" href="./PPT-version/Solution-Patterns/README.html"><b>场景方案库</b><span class="en">Solution-Patterns</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/Model-Landscape/README.html"><b>模型格局与选型</b><span class="en">Model-Landscape</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  </div>
- </div>
- <div class="krow">
-  <div class="klayer"><b>应用模式层</b><span>Application Patterns</span></div>
-  <div class="kcards">
-  <a class="kcard" href="./PPT-version/RAG/README.html"><b>RAG</b><span class="en">Retrieval-Augmented Generation</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/Agent/README.html"><b>Agent</b><span class="en">AI Agent</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/Multimodal/README.html"><b>多模态</b><span class="en">Multimodal</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  </div>
- </div>
- <div class="krow">
-  <div class="klayer"><b>协议层</b><span>Protocol Layer</span></div>
-  <div class="kcards">
-  <a class="kcard" href="./PPT-version/MCP/README.html"><b>MCP</b><span class="en">Model Context Protocol</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/A2A/README.html"><b>A2A</b><span class="en">Agent2Agent Protocol</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  </div>
- </div>
- <div class="krow">
-  <div class="klayer"><b>工程保障层</b><span>Engineering Assurance</span></div>
-  <div class="kcards">
-  <a class="kcard" href="./PPT-version/Fine-tuning/README.html"><b>Fine-tuning</b><span class="en">模型微调</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/Evaluation/README.html"><b>Evaluation</b><span class="en">评测与质量门禁</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/Security/README.html"><b>Security</b><span class="en">安全与治理</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/AI-Gateway/README.html"><b>AI 网关</b><span class="en">AI-Gateway</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard ext" href="./PPT-version/AI-Ops/README.html"><b>AI-Ops</b><span class="en">观测与运营</span><span class="meta"><span>关联扩展 · 查看</span><span class="pill">已完成</span></span></a>
-  </div>
- </div>
- <div class="krow">
-  <div class="klayer"><b>基础层</b><span>Foundation Layer</span></div>
-  <div class="kcards">
-  <a class="kcard" href="./PPT-version/LLM/README.html"><b>LLM 原理</b><span class="en">LLM Principles</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/LLM-Training/README.html"><b>Training</b><span class="en">模型训练</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/LLM-Inference/README.html"><b>Inference</b><span class="en">模型推理</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/Prompt-Engineering/README.html"><b>Prompt</b><span class="en">提示词工程</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  </div>
- </div>
- <div class="krow">
-  <div class="klayer"><b>算力与数据底座</b><span>Compute · Platform · Data</span></div>
-  <div class="kcards">
-  <a class="kcard" href="./PPT-version/AI-Infra-Compute/README.html"><b>Infra-Compute</b><span class="en">算力、网络与调度</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard" href="./PPT-version/AI-Infra-Platform/README.html"><b>Infra-Platform</b><span class="en">平台与服务化底座</span><span class="meta"><span>核心模块 · 查看</span><span class="pill">已完成</span></span></a>
-  <a class="kcard ext" href="./PPT-version/Data-Engineering/README.html"><b>Data-Engineering</b><span class="en">数据与知识底座</span><span class="meta"><span>关联扩展 · 查看</span><span class="pill">已完成</span></span></a>
-  </div>
- </div>
+<h2>知识地图</h2>
+<p>按层看这个库长成什么样。标「网页版」的可以直接读网页，其余模块点进去是它的 PPT 索引。</p>
+<!-- MAPR:BEGIN 由 build.py 从各模块 MANIFEST.md 生成，请勿手工编辑 -->
+  <section class="layer hue-0" id="lay-0">
+   <h3>解决方案层<span class="n">2 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/Model-Landscape/README.html" title="模型格局与选型（⚠️ 全库最易过期，巡检优先）：三大阵营地图与企业/消费市场分裂（40/27/21 vs 74%）、五张闭源名片（GPT-5.6/Claude 5/Gemini 3.1/Grok 4.3/Muse Spark）、开放权重中国四强、豆包家族与定位、许可证三级分类、$0.10–$30 价格光谱与缓存经济学、能力矩阵与思考预算、多模型选型方法论（三层路由/五约束决策树/两道防线）、国内平台格局（方舟/百炼/千帆/腾讯）、售前速查含保鲜声明">
+     <div class="chead"><span class="tile">ML</span><span class="cname">Model-Landscape</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">模型格局与选型（⚠️ 全库最易过期，巡检优先）：三大阵营地图与企业/消费市场分裂（40/27/21 vs 74%）、五张闭源名片（GPT-5.6/Claude 5/Gemini 3.1/Grok 4.3/Muse Spark）、开放权重中国四强、豆包家族与定位、许可证三级分类、$0.10–$30 价格光谱与缓存经济学、能力矩阵与思考预算、多模型选型方法论（三层路由/五约束决策树/两道防线）、国内平台格局（方舟/百炼/千帆/腾讯）、售前速查含保鲜声明</div>
+     <div class="meta">10 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/Solution-Patterns/README.html" title="场景解决方案库（全库的场景索引层）：方案 = 场景 × 积木，十章覆盖方法底座（五层参考架构、POC 三要素、成本三本账、口径鉴别术）+ 七大场景图纸（智能客服、企业知识库与 AI 搜索、营销内容生成、AI Coding、数字人、ChatBI 数据分析、会议与办公助手）+ 售前速查（七场景→积木总表、分诊决策树、成本速查卡）">
+     <div class="chead"><span class="tile">SP</span><span class="cname">Solution-Patterns</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">场景解决方案库（全库的场景索引层）：方案 = 场景 × 积木，十章覆盖方法底座（五层参考架构、POC 三要素、成本三本账、口径鉴别术）+ 七大场景图纸（智能客服、企业知识库与 AI 搜索、营销内容生成、AI Coding、数字人、ChatBI 数据分析、会议与办公助手）+ 售前速查（七场景→积木总表、分诊决策树、成本速查卡）</div>
+     <div class="meta">10 章 · 更新 2026-07-20</div>
+    </a>
+   </div>
+  </section>
+  <section class="layer hue-1" id="lay-1">
+   <h3>应用模式层<span class="n">3 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/Agent/README.html" title="智能体与编排：十一章覆盖 agent vs workflow、核心组件、编排模式、MCP、上下文工程、评估与护栏、低代码平台、记忆系统（框架四强/投毒 ASI06）、Computer Use（基准两口径/RPA 混合）、多智能体 / Sub-agent 编排（三层框架/决策账）、售前速查">
+     <div class="chead"><span class="tile">AG</span><span class="cname">Agent</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">智能体与编排：十一章覆盖 agent vs workflow、核心组件、编排模式、MCP、上下文工程、评估与护栏、低代码平台、记忆系统（框架四强/投毒 ASI06）、Computer Use（基准两口径/RPA 混合）、多智能体 / Sub-agent 编排（三层框架/决策账）、售前速查</div>
+     <div class="meta">11 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/Multimodal/README.html" title="多模态：让模型看图 / 听声 / 读文档 / 看视频并能生成，九章覆盖感知面全景（理解 vs 生成）、机器怎么看（ViT/CLIP）、模态怎么拼（投影/交叉注意力/Q-Former + 原生 vs 拼管线，灵魂章）、理解侧盘点（SOTA 格局）、生成侧盘点（扩散 vs 自回归）、选型动手做（成本/延迟/精度）、生产落地与坑、语音与实时交互（延迟预算/级联 vs 端到端/打断/RTC）、视频生成（四家旗舰/成本账/标识合规）、售前速查">
+     <div class="chead"><span class="tile">MM</span><span class="cname">Multimodal</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">多模态：让模型看图 / 听声 / 读文档 / 看视频并能生成，九章覆盖感知面全景（理解 vs 生成）、机器怎么看（ViT/CLIP）、模态怎么拼（投影/交叉注意力/Q-Former + 原生 vs 拼管线，灵魂章）、理解侧盘点（SOTA 格局）、生成侧盘点（扩散 vs 自回归）、选型动手做（成本/延迟/精度）、生产落地与坑、语音与实时交互（延迟预算/级联 vs 端到端/打断/RTC）、视频生成（四家旗舰/成本账/标识合规）、售前速查</div>
+     <div class="meta">10 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/RAG/README.html" title="检索增强生成的原理与实践：原理五章（为什么用、向量检索、切分、重排序、评估）+ 实践四章（最小管线、混合检索、Agentic RAG、生产化）+ 进阶三章（GraphRAG、多模态、结构化数据）">
+     <div class="chead"><span class="tile">RA</span><span class="cname">RAG</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">检索增强生成的原理与实践：原理五章（为什么用、向量检索、切分、重排序、评估）+ 实践四章（最小管线、混合检索、Agentic RAG、生产化）+ 进阶三章（GraphRAG、多模态、结构化数据）</div>
+     <div class="meta">12 章 · 更新 2026-07-20</div>
+    </a>
+   </div>
+  </section>
+  <section class="layer hue-2" id="lay-2">
+   <h3>协议层<span class="n">2 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/A2A/README.html" title="智能体间协议：让不同厂商/框架的 Agent 互相发现、委派、协作（MCP 接工具，A2A 接 Agent），七章覆盖与 MCP 分工（含协同实景+误区选型）、五大对象、发现与传输、动手做协作、多智能体协作、生产上云与安全">
+     <div class="chead"><span class="tile">A2</span><span class="cname">A2A</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">智能体间协议：让不同厂商/框架的 Agent 互相发现、委派、协作（MCP 接工具，A2A 接 Agent），七章覆盖与 MCP 分工（含协同实景+误区选型）、五大对象、发现与传输、动手做协作、多智能体协作、生产上云与安全</div>
+     <div class="meta">7 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./Web-version/mcp/index.html" title="模型上下文协议：M×N→M+N 的标准插座，七章覆盖协议机制、server/client 实践、传输演进、生产落地、安全与售前速查">
+     <div class="chead"><span class="tile">MC</span><span class="cname">MCP</span><span class="tag web">网页版</span></div>
+     <div class="blurb">模型上下文协议：M×N→M+N 的标准插座，七章覆盖协议机制、server/client 实践、传输演进、生产落地、安全与售前速查</div>
+     <div class="meta">7 章 · 更新 2026-07-21</div>
+    </a>
+   </div>
+  </section>
+  <section class="layer hue-3" id="lay-3">
+   <h3>工程保障层<span class="n">5 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/AI-Gateway/README.html" title="AI 网关：多模型系统的统一入口与运营管控层（工程保障层运营面），八章覆盖是什么/为什么（多对多之痛·边界辨析）、统一接入与协议转换（OpenAI 兼容层·虚拟密钥）、路由容灾（五策略·fallback）、按 token 成本治理（预算·语义缓存）、安全护栏挂载点（串联 Security）、可观测（OTel GenAI）、AI 网关+MCP 网关（展开章，含授权时序深潜，串联 MCP/A2A/Agent）、选型与上云速查">
+     <div class="chead"><span class="tile">GW</span><span class="cname">AI-Gateway</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">AI 网关：多模型系统的统一入口与运营管控层（工程保障层运营面），八章覆盖是什么/为什么（多对多之痛·边界辨析）、统一接入与协议转换（OpenAI 兼容层·虚拟密钥）、路由容灾（五策略·fallback）、按 token 成本治理（预算·语义缓存）、安全护栏挂载点（串联 Security）、可观测（OTel GenAI）、AI 网关+MCP 网关（展开章，含授权时序深潜，串联 MCP/A2A/Agent）、选型与上云速查</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/AI-Ops/README.html" title="LLM 可观测与运维（上线之后的日子怎么过）：两根新轴（质量/token 成本）与静默退化、Tracing 与 OTel GenAI（client span 已稳定）、在线评估与反馈回流（采样 5–10% 异步打分、数据集晋升）、漂移监测（供应商静默换模）、发布管理（版本注册表/评估门禁/金丝雀/回滚）、事故响应（runbook 四问/急停/HITL/SLA 分级）、工具格局（六平台 + APM vs 专用分工）、售前速查含运营包五件套">
+     <div class="chead"><span class="tile">OP</span><span class="cname">AI-Ops</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">LLM 可观测与运维（上线之后的日子怎么过）：两根新轴（质量/token 成本）与静默退化、Tracing 与 OTel GenAI（client span 已稳定）、在线评估与反馈回流（采样 5–10% 异步打分、数据集晋升）、漂移监测（供应商静默换模）、发布管理（版本注册表/评估门禁/金丝雀/回滚）、事故响应（runbook 四问/急停/HITL/SLA 分级）、工具格局（六平台 + APM vs 专用分工）、售前速查含运营包五件套</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/Evaluation/README.html" title="LLM 评估体系：八章覆盖为什么评估难、模型基准全景（含 Agent 基准与榜单争议）、判分四法、LLM-as-a-Judge 深潜、自建评估与错误分析、RAG/Agent/微调场景验收、工具链与生产闭环、售前速查，汇合全库评估线">
+     <div class="chead"><span class="tile">EV</span><span class="cname">Evaluation</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">LLM 评估体系：八章覆盖为什么评估难、模型基准全景（含 Agent 基准与榜单争议）、判分四法、LLM-as-a-Judge 深潜、自建评估与错误分析、RAG/Agent/微调场景验收、工具链与生产闭环、售前速查，汇合全库评估线</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/Fine-tuning/README.html" title="微调工程实践：拿自己的数据定制模型，八章覆盖何时微调（vs 提示词/RAG）、全参与 LoRA/QLoRA、数据准备与合成、训练框架、DPO/RFT 对齐、托管服务与上云、评估部署与售前速查">
+     <div class="chead"><span class="tile">FT</span><span class="cname">Fine-tuning</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">微调工程实践：拿自己的数据定制模型，八章覆盖何时微调（vs 提示词/RAG）、全参与 LoRA/QLoRA、数据准备与合成、训练框架、DPO/RFT 对齐、托管服务与上云、评估部署与售前速查</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/Security/README.html" title="AI 安全：九章覆盖威胁全景（OWASP LLM Top 10 / MITRE ATLAS）、提示注入与越狱（EchoLeak）、数据与隐私、供应链与模型来源、Agent 与工具安全、护栏/双 LLM/红队防护工程、NIST + EU AI Act 治理合规、中国监管合规（双备案/内容标识/安全国标/数据出境）、售前速查">
+     <div class="chead"><span class="tile">SE</span><span class="cname">Security</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">AI 安全：九章覆盖威胁全景（OWASP LLM Top 10 / MITRE ATLAS）、提示注入与越狱（EchoLeak）、数据与隐私、供应链与模型来源、Agent 与工具安全、护栏/双 LLM/红队防护工程、NIST + EU AI Act 治理合规、中国监管合规（双备案/内容标识/安全国标/数据出境）、售前速查</div>
+     <div class="meta">9 章 · 更新 2026-07-20</div>
+    </a>
+   </div>
+  </section>
+  <section class="layer hue-4" id="lay-4">
+   <h3>基础层<span class="n">4 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/LLM/README.html" title="大模型的发动机舱：原理三章（序列问题与 Transformer、QKV 注意力、架构全解剖）+ 工程三章（KV 缓存与上下文窗口、注意力变体进化、售前速查）">
+     <div class="chead"><span class="tile">LM</span><span class="cname">LLM</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">大模型的发动机舱：原理三章（序列问题与 Transformer、QKV 注意力、架构全解剖）+ 工程三章（KV 缓存与上下文窗口、注意力变体进化、售前速查）</div>
+     <div class="meta">6 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/LLM-Inference/README.html" title="LLM 推理服务：训练好的模型怎么又快又省地跑起来，八章覆盖推理原理（prefill/decode 与 KV Cache）、推理框架（vLLM/SGLang/TensorRT-LLM/Ollama）、推理优化（批处理、量化、投机解码、P/D 分离）与生产化速查">
+     <div class="chead"><span class="tile">LI</span><span class="cname">LLM-Inference</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">LLM 推理服务：训练好的模型怎么又快又省地跑起来，八章覆盖推理原理（prefill/decode 与 KV Cache）、推理框架（vLLM/SGLang/TensorRT-LLM/Ollama）、推理优化（批处理、量化、投机解码、P/D 分离）与生产化速查</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/LLM-Training/README.html" title="LLM 训练全景：从随机权重到可用助手的完整流水线，八章覆盖数据、预训练（Scaling Laws/MoE）、SFT、对齐、RLVR 推理训练、基础设施与评估">
+     <div class="chead"><span class="tile">LT</span><span class="cname">LLM-Training</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">LLM 训练全景：从随机权重到可用助手的完整流水线，八章覆盖数据、预训练（Scaling Laws/MoE）、SFT、对齐、RLVR 推理训练、基础设施与评估</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/Prompt-Engineering/README.html" title="和大模型对话的接口层：最便宜、最快见效的能力杠杆——不改权重、不搭检索就能把模型能力调出来，七章覆盖是什么/为什么、提示词解剖、核心技巧（zero/few-shot·CoT·结构化输出）、进阶推理与编排（ReAct·推理模型时代）、工程化与自动优化（DSPy·缓存）、安全与风险（提示词注入·OWASP）、售前收拢">
+     <div class="chead"><span class="tile">PE</span><span class="cname">Prompt-Engineering</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">和大模型对话的接口层：最便宜、最快见效的能力杠杆——不改权重、不搭检索就能把模型能力调出来，七章覆盖是什么/为什么、提示词解剖、核心技巧（zero/few-shot·CoT·结构化输出）、进阶推理与编排（ReAct·推理模型时代）、工程化与自动优化（DSPy·缓存）、安全与风险（提示词注入·OWASP）、售前收拢</div>
+     <div class="meta">7 章 · 更新 2026-07-20</div>
+    </a>
+   </div>
+  </section>
+  <section class="layer hue-5" id="lay-5">
+   <h3>算力底座层<span class="n">2 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/AI-Infra-Compute/README.html" title="算力硬件与网络：八章覆盖五层栈全景、GPU 解剖（精度阶梯/Roofline/MFU）、显存与 HBM 账、芯片选型格局、NVLink/InfiniBand/RoCE/UEC 两级互联与集群拓扑、并行文件系统与数据管线、算力经济学（建 vs 租 vs API）">
+     <div class="chead"><span class="tile">IC</span><span class="cname">AI-Infra-Compute</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">算力硬件与网络：八章覆盖五层栈全景、GPU 解剖（精度阶梯/Roofline/MFU）、显存与 HBM 账、芯片选型格局、NVLink/InfiniBand/RoCE/UEC 两级互联与集群拓扑、并行文件系统与数据管线、算力经济学（建 vs 租 vs API）</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+    <a class="card" href="./PPT-version/AI-Infra-Platform/README.html" title="集群平台与调度：八章覆盖平台四大职责、K8s+GPU（DRA 1.34 GA）、作业调度（gang/Kueue/Volcano/KAI/Slurm）、GPU 切分多租户（MIG/HAMi）、训练容错自愈、可观测与利用率（MFU/goodput）、推理服务平台化、云上四种算力形态">
+     <div class="chead"><span class="tile">IP</span><span class="cname">AI-Infra-Platform</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">集群平台与调度：八章覆盖平台四大职责、K8s+GPU（DRA 1.34 GA）、作业调度（gang/Kueue/Volcano/KAI/Slurm）、GPU 切分多租户（MIG/HAMi）、训练容错自愈、可观测与利用率（MFU/goodput）、推理服务平台化、云上四种算力形态</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+   </div>
+  </section>
+  <section class="layer hue-6" id="lay-6">
+   <h3>数据底座层<span class="n">1 个模块</span></h3>
+   <div class="cards">
+    <a class="card" href="./PPT-version/Data-Engineering/README.html" title="AI 数据工程（数据底座层首模块，把客户的烂数据搞就绪）：数据就绪度四问、文档解析管线（LlamaParse/Docling/MinerU 格局与基准）、连接器五件事与增量同步、向量库选型深潜（pgvector 上限/Qdrant/Milvus）、质量四指标与坏答案回流、标注与合成数据运营、治理三执行点、售前速查含八坑清单">
+     <div class="chead"><span class="tile">DE</span><span class="cname">Data-Engineering</span><span class="tag ppt">仅 PPT</span></div>
+     <div class="blurb">AI 数据工程（数据底座层首模块，把客户的烂数据搞就绪）：数据就绪度四问、文档解析管线（LlamaParse/Docling/MinerU 格局与基准）、连接器五件事与增量同步、向量库选型深潜（pgvector 上限/Qdrant/Milvus）、质量四指标与坏答案回流、标注与合成数据运营、治理三执行点、售前速查含八坑清单</div>
+     <div class="meta">8 章 · 更新 2026-07-20</div>
+    </a>
+   </div>
+  </section>
+  <!-- MAPR:END -->
 
 <p class="plumb">
  库目录约定：<code>PPT-version/</code> 放模块目录，是内容出处；
  <code>Web-version/</code> 是网页派生站点；
  <code>_prep/</code> 放库级取用产物，<code>_maintenance/</code> 放巡检报告与门禁脚本。
  巡检范围包含 <code>_prep/MANIFEST.md</code>——它以「引用映射」挂靠各源模块，源模块事实刷新后需同步顶部三份取用文档。
- 知识地图为<b>展示口径</b>（六行 + 关联扩展标记，2026-07-11 定版）；层归属的<b>机器口径</b>以 <code>KB-CONFIG.md</code> 与各模块 <code>MANIFEST.md</code> 为准（七层），两者差异为有意设计、勿"修正"。
+ 知识地图由各模块 <code>MANIFEST.md</code> 自动生成，七层与机器口径一致（2026-07-21 起；此前手工维护的六行展示口径同日废止）。
 </p>
 
 <p class="plumb">

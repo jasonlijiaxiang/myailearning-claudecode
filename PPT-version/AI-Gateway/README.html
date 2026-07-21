@@ -2,12 +2,17 @@
 <title>AI-Gateway · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">工程保障层 · Engineering Assurance</span></p>
 <h1>AI-Gateway · AI 网关</h1>
 <p class="sub">一旦你不止调用一个模型，"多对多"的接入、成本、安全就会失控。本模块把 AI 网关讲成一条运营主线：认清定位（统一入口 + 运营管控层）→ 统一接入 → 智能路由与容灾 → 按 token 管成本 → 挂上安全护栏 → 全链路可观测 → 连上 MCP 与 Agent → 会选型上云。面向售前技术，重取舍与落地，用"配电箱"类比讲活每个概念。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>AI-Gateway-讲义.pptx</code>（主力成品，85 页，<span class="ok">✅ 已完成</span>，第 7 章「AI 网关 + MCP 网关」按需展开，2026-07-10 增补授权时序深潜 3 页）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>是什么·为什么</td><td>多对多之痛（M×N 私接线）、AI 网关=统一入口+运营管控层、LLM 专属六件套、与 MCP/A2A/推理服务/API 网关的边界辨析</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>统一接入与协议转换</td><td>OpenAI 兼容层、参数映射/能力协商/优雅降级、工具调用格式统一、虚拟密钥（一把逻辑钥匙管多真钥匙）</td><td class="ok">✅ 已完成</td></tr>
@@ -26,7 +31,7 @@
  <tr><td>6</td><td>可观测</td><td>网关是天然观测点、三支柱+AI 特有维度（token/成本/质量）、OpenTelemetry GenAI 语义约定 / OpenInference 标准化</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>AI 网关 + MCP 网关（展开章）</td><td>从"管模型"到"管工具与 Agent"、MCP 网关六职责、openapi-to-mcp、MCP 授权（OIDC token 交换）、<b>授权时序深潜</b>（六步时序图 RFC 8693/8707 · OAuth 2.1 规范现状 · 三大反模式：token 透传/混淆代理/万能钥匙）、模型+MCP+Agent 三合一、与 MCP/A2A/Agent 串联</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>8</td><td>选型与上云·售前速查</td><td>自托管 vs 托管决策、六大开源网关横评、三云托管对照、一页速查（能力→在网关怎么配→上云用什么）、综合问答</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>AI 网关是全库多条工程线的"落地枢纽"——第 5 章把 <a href="../Security/README.html">Security</a> 的护栏/审计/最小权限落到网关这层（一处挂、处处生效）；第 7 章把 <a href="../MCP/README.html">MCP</a>、<a href="../A2A/README.html">A2A</a>、<a href="../Agent/README.html">Agent</a> 的工具与智能体流量统一代理治理；第 3/6 章的路由降级与观测质量接 <a href="../Evaluation/README.html">Evaluation</a> 打分；成本治理章说明网关在 <a href="../LLM-Inference/README.html">LLM-Inference</a> 之上做多模型统一治理（逐条见 MANIFEST 串联出边）。</p>

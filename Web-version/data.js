@@ -2468,7 +2468,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./mcp/"
+   "web": "./mcp/index.html"
   },
   {
    "id": "model-landscape",

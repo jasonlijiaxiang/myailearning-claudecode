@@ -2,12 +2,17 @@
 <title>RAG · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">应用模式层 · Application Patterns</span></p>
 <h1>RAG · 检索增强生成</h1>
 <p class="sub">检索增强生成（Retrieval-Augmented Generation）：给大模型外挂一个"随时可查、可更新、可溯源"的知识库。面向售前技术，讲清"为什么用、每一步怎么落地、上云对应什么服务、客户会怎么问"。原理五章（懂）+ 实践四章（跑）+ 进阶三章（广）。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>RAG-讲义.pptx</code>（主力成品，128 页：原理 5 章 + 实践 4 章 + 进阶 3 章）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>RAG 是什么 / 为什么</td><td>大模型的"记忆"短板、幻觉与知识过期、RAG 三步（检索→增强→生成）、RAG vs 微调</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>向量检索与 Embedding</td><td>嵌入把语义变坐标、相似度、ANN、主流 embedding 选型、向量库选型</td><td class="ok">✅ 已完成</td></tr>
@@ -30,7 +35,7 @@
  <tr><td>10</td><td>GraphRAG：图谱增强检索</td><td>全局问题盲区、四步（抽取→建图→社区检测→分层摘要）、成本账与 LazyGraphRAG/LightRAG、向量+图谱路由</td><td class="ok">✅ 已完成（2026-07-09 进阶篇增补）</td></tr>
  <tr><td>11</td><td>多模态 RAG</td><td>纯文本管线的信息丢失、三条路线（转述/统一嵌入/ColPali 页面当图）、MaxSim 与存储代价、选型口诀、与 Multimodal 模块串联页</td><td class="ok">✅ 已完成（2026-07-10 加 Multimodal 串联页）</td></tr>
  <tr><td>12</td><td>结构化数据 RAG</td><td>查文 vs 查数、裸 Text-to-SQL 50–70% 与静默错误、语义层口径手册（85–95%）、RAG 检索层+语义层回答层</td><td class="ok">✅ 已完成（2026-07-09 进阶篇增补）</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-what-why</code>，提示词 vs RAG 选型 + 检索内容要塞进提示词）。 库内已有 <a href="../Agent/README.html">Agent</a> 模块，二者存在<b>真实交点</b>——

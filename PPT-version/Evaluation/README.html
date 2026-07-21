@@ -2,12 +2,17 @@
 <title>Evaluation · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">工程保障层 · Engineering Assurance</span></p>
 <h1>Evaluation · LLM 评估体系</h1>
 <p class="sub">怎么科学地回答「这个模型 / 这个应用到底好不好用」：从模型基准测试到应用级评估，覆盖评估方法（人工、自动指标、LLM-as-a-Judge）、评估数据集与工具链、以及 RAG / Agent / 微调各场景的验收之道。面向售前技术，讲清每种评估手段的适用边界与取舍。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>Evaluation-讲义.pptx</code>（主力成品，99 页，<span class="ok">✅ 已完成</span>）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>为什么评估这么难</td><td>非确定性输出、「感觉不错」不可规模化、评估三层分工（基准/应用/生产监控）、评估集=护城河、与 LLM-Inference 划清质量/性能边界</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>模型基准测试全景</td><td>基准原理、MMLU 饱和与 GPQA/HLE 接棒、Agent 基准（SWE-bench/τ²/BFCL v4）、数据污染、Arena 与 Leaderboard Illusion</td><td class="ok">✅ 已完成</td></tr>
@@ -26,7 +31,7 @@
  <tr><td>6</td><td>场景验收：RAG / Agent / 微调</td><td>RAG 三角（忠实度/精确率/召回率）、Agent 结果与轨迹双轨、微调回归门禁防遗忘、安全维度、护栏 vs 评估</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>评估工具链与生产闭环</td><td>开源三件套（Ragas/DeepEval/promptfoo）、平台选型、在线评估与 A/B、评估资产自持、三大云评估服务对照、质量飞轮</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>8</td><td>售前速查</td><td>「哪个模型最好」应答三步、POC 验收标准模板、客户误区总表、综合面试题、全库串联位置图</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-engineering</code>，提示词的评估驱动优化用本模块判分法）。 本模块是全库评估线的汇合点——<a href="../RAG/README.html">RAG</a> 的检索质量评估、<a href="../Agent/README.html">Agent</a> 的评估与护栏、<a href="../Fine-tuning/README.html">Fine-tuning</a> 的验收四层、<a href="../LLM-Training/README.html">LLM-Training</a> 的模型评估章，均可在此展开与回链（大纲确定后逐条登记到 MANIFEST）。

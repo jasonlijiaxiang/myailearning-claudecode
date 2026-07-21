@@ -2,12 +2,17 @@
 <title>LLM-Inference · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">基础层 · Foundation Layer</span></p>
 <h1>LLM-Inference · LLM 推理服务</h1>
 <p class="sub">训练好的模型怎么又快又省地跑起来：推理原理（prefill/decode 两阶段与 KV Cache 的核心矛盾）、主流推理框架（vLLM、SGLang、TensorRT-LLM、llama.cpp/Ollama）的定位与取舍、推理优化手段（批处理、量化、投机解码、P/D 分离）。面向售前技术，讲清每项技术「为什么」、成本账，和「客户会怎么问」。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>LLM-Inference-讲义.pptx</code>（主力成品，94 页，<span class="ok">✅ 已完成</span>）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>推理是怎么跑起来的</td><td>自回归生成、prefill（算力受限）/decode（带宽受限）两阶段、TTFT/TPOT/吞吐三指标、一次 API 调用的时间线</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>KV Cache 与显存账</td><td>承接 LLM 原理第 4 章、KV 大小心算公式（70B 级 ~0.3MB/token）、显存账本三大块、并发天花板、长上下文为什么贵</td><td class="ok">✅ 已完成</td></tr>
@@ -26,7 +31,7 @@
  <tr><td>6</td><td>让模型变快：投机解码与算法加速</td><td>起草-验证机制与无损性、EAGLE-3/MTP、接受率与收益边界、注意力侧加速回指、推理模型带来的新压力</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>集群级：P/D 分离与分布式推理</td><td>推理侧 TP/PP/EP、P/D 干扰与分离、Mooncake 生产案例、Dynamo/llm-d 生态格局、KV 分层存储</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>8</td><td>生产化与售前速查</td><td>按场景 SLO 参考表、压测方法与假数字识别、成本心算模板、自建 vs 托管三问、降本组合拳总表、全书速查页</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>与 <a href="../LLM/README.html">LLM 原理</a>、<a href="../LLM-Training/README.html">LLM-Training</a> 构成基础层「原理 → 训练 → 推理」三部曲——KV Cache 机制在 LLM 原理第 4 章、本模块第 2 章讲系统治理（讲义内有承上启下页）；

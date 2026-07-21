@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""门户面坏链检查（knowledge-base-builder v3.5，零第三方依赖）。
+"""门户面坏链检查（knowledge-base-builder v6.1，零第三方依赖）。
 
 检查知识库全部 HTML 门户页（顶层/模块 README、_prep/ 取用页）里的**相对链接**
 （href / src）是否都指向真实存在的文件——模块改名、文件挪位、"深潜→"源指针失效
@@ -9,6 +9,9 @@
 规则:
   - 只查相对链接; http(s)/mailto/tel/data:/纯锚点(#...) 跳过(外链探活归书单轴, 可选);
   - ?query 与 #fragment 剥掉后按文件存在性判定;
+  - **目录链接判坏**（v6.1）: href 指向目录（如 "./mcp/"）在 Web 服务器上会自动打开
+    index.html，但 file:// 下不会——浏览器只显示文件列表。2026-07-21 用户点 MCP 卡片
+    "点不进去"即此因，而旧判据只看"路径存在"，目录存在照样放行;
   - 跳过留痕与外部目录: raw-data/(含 history/)、_reference/、_skill-source/
     ——历史快照里的链接停在当年状态是设计使然, 不算坏链。
 
@@ -51,6 +54,10 @@ def check(root):
                 resolved = os.path.normpath(os.path.join(dirpath, target))
                 if not os.path.exists(resolved):
                     broken.append((path, link, resolved))
+                elif os.path.isdir(resolved):
+                    broken.append((path, link,
+                                   resolved + "（目录——file:// 下不会自动打开 index.html，"
+                                              "请链到具体文件）"))
     return n_files, n_links, broken
 
 

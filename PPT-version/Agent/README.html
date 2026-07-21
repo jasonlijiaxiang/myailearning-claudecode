@@ -2,12 +2,17 @@
 <title>Agent · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">应用模式层 · Application Patterns</span></p>
 <h1>Agent · 智能体与编排</h1>
 <p class="sub">AI Agent（智能体）：让大模型不止"回答"，而是带着工具在循环里"做事"——感知、规划、行动、反思。面向售前技术，讲清"什么是 agent、什么时候真需要 agent、编排怎么选、客户会怎么问"。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>Agent-讲义.pptx</code>（主力成品，122 页，✅ 已完成，2026-07-17 增第 10 章 Sub-agent 编排，速查顺延第 11 章）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>Agent 是什么 / 为什么</td><td>LLM + 工具 + 循环；agent vs 工作流 vs 聊天机器人；何时该用、何时不该用；停机条件</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>核心组件</td><td>规划 Planning、记忆 Memory、工具使用 Tool Use；真实 tool_use/tool_result 报文；工具设计的坑；多模态感知串联页（computer use 前提）</td><td class="ok">✅ 已完成（2026-07-10 加 Multimodal 串联页）</td></tr>
@@ -29,7 +34,7 @@
  <tr><td>9</td><td>Computer Use 与 GUI Agent</td><td>三条路线（全桌面/DOM 浏览器/macOS 并行）、基准两口径（短窄 83.5% vs 长程 20.6%）、与 RPA 混合、安全四件（沙箱/最小权限/人审/屏幕即注入面）</td><td class="ok">✅ 已完成（2026-07-11 新增）</td></tr>
  <tr><td>10</td><td>多智能体 / Sub-agent 编排</td><td>三层框架（模型/运行时/产品）、三个关键性质（独立上下文/窄带通信/深度上限）、Claude Code 与 Codex 实操对照、四层触发机制、派与不派决策账（≈15× token 换 90.2% 提升）</td><td class="ok">✅ 已完成（2026-07-17 新增）</td></tr>
  <tr><td>11</td><td>售前速查</td><td>高频问题电梯版、六个「什么时候上」启用条件决策树、串联地图（替代原全书串联页）</td><td class="ok">✅ 已完成（2026-07-11 新增，2026-07-17 顺延为第 11 章）</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-advanced-reasoning</code>，ReAct/上下文工程是提示词技巧的循环化应用）。 库内已有 <a href="../RAG/README.html">RAG</a> 模块，存在真实交点——

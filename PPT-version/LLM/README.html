@@ -2,12 +2,17 @@
 <title>LLM 原理 · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">基础层 · Foundation Layer</span></p>
 <h1>LLM 原理</h1>
 <p class="sub">大模型的发动机舱：Transformer 架构与注意力机制（Attention）——模型凭什么理解上下文、凭什么能并行训练，上下文窗口、推理成本与各家价格差又是从哪来的。面向售前技术，讲清原理与取舍，是上层 RAG、Agent、MCP 模块共同的地基。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>LLM-讲义.pptx</code>（主力成品，91 页，<span class="ok">✅ 已完成</span>）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>从序列问题到 Transformer</td><td>长距离依赖、RNN 传声筒三宗罪、2017 分水岭、圆桌会议总览、RNN vs Transformer 对比表</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>注意力机制：QKV 拆解</td><td>图书馆检索类比、三步计算逐页拆（点积→缩放 softmax→加权求和）、3 token 手算、因果掩码、多头会诊、承上启下·与 Multimodal（ViT 就是注意力吃图像）</td><td class="ok">✅ 已完成（2026-07-10 加 Multimodal 串联页）</td></tr>
@@ -24,7 +29,7 @@
  <tr><td>4</td><td>从架构到推理：上下文窗口与 KV 缓存</td><td>prefill/decode、KV 显存账（32K 缓存＞权重）、O(n²)、标称 1M vs 有效 200K、与 RAG/Agent 承上启下、云落地</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>5</td><td>注意力的工程进化</td><td>三条战线（压 KV/减计算/榨硬件）、GQA/MLA/滑窗/DSA 稀疏/线性混合/FlashAttention 1→4、变体总表、价格差拆解</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>6</td><td>售前视角收拢</td><td>客户问题→架构解释速查表、「要被取代了吗」三段答法、选型七问、知识库串联图、白板综合演练</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-anatomy</code> / <code>pe-advanced-reasoning</code>，提示词工程的架构基础）。 本模块是基础层，向上支撑两条已建实链——

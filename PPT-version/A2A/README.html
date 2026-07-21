@@ -2,12 +2,17 @@
 <title>A2A · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">协议层 · Protocol Layer</span></p>
 <h1>A2A · 智能体间协议</h1>
 <p class="sub">A2A（Agent2Agent Protocol）：让不同厂商、不同框架、不同平台造出来的 AI Agent 能互相"发现对方、委派任务、同步进度、交换结果"的开放协议。与 MCP 是协议层两兄弟——<b>MCP 接工具（纵向），A2A 接 Agent（横向）</b>。面向售前技术，讲清"协议长什么样、怎么跑通一次协作、生产怎么落地、客户会怎么问"。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>A2A-讲义.pptx</code>（主力成品，83 页，<span class="ok">✅ 已完成</span>）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>A2A 是什么 / 为什么</td><td>"公司间协作规范"类比、M×N→M+N 搬到 Agent 层、与 MCP 分工（对照表 + 协同实景"差旅审批" + 误区与选型）、Google→Linux Foundation 治理简史</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>协议解剖</td><td>五大对象 Agent Card / Task / Message / Part / Artifact、Task 有状态生命周期、真实 Agent Card JSON</td><td class="ok">✅ 已完成</td></tr>
@@ -25,7 +30,7 @@
  <tr><td>5</td><td>多智能体协作</td><td>opaque agents（不暴露内部）、任务委派、A2A vs 框架内编排、与 Agent 模块握手</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>6</td><td>生产落地 · 上云</td><td>企业多租户、可观测、三大云托管（Azure/Bedrock/Vertex）、AP2 支付扩展、采用度</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>安全 · 售前速查</td><td>Signed Agent Cards、OAuth2/mTLS、授权范围、与 MCP 安全对照、一页速查</td><td class="ok">✅ 已完成</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>库内 <a href="../MCP/README.html">MCP</a> 模块是协议层另一半——A2A 第 1 章与 MCP 第 1 章双向互引"接工具 vs 接 Agent"分工；

@@ -2,12 +2,17 @@
 <title>MCP · 模块索引</title><meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../_assets/kb.css">
 </head><body>
-<main class="wrap">
+
+<header class="top">
+  <div class="wrap">
 <a class="back" href="../../README.html">← 返回知识库首页</a>
 <p class="crumb"><span class="chip">协议层 · Protocol Layer</span></p>
 <h1>MCP · 模型上下文协议</h1>
 <p class="sub">MCP（Model Context Protocol）：让大模型应用与外部工具/数据源之间的接入从 M×N 的定制胶水，变成 M+N 的标准插座。面向售前技术，讲清"协议长什么样、server/client 怎么写、生产怎么落地、客户会怎么问"。</p>
+  </div>
+</header>
 
+<main class="wrap">
 <div class="card">
  <b>本模块产出物：</b><br>
  · 讲义式 PPT：<code>MCP-讲义.pptx</code>（主力成品，75 页，✅ 已完成，2026-07-11 增第 7 章速查）<br>
@@ -16,7 +21,7 @@
 </div>
 
 <h2>章节列表与状态</h2>
-<table>
+<div class="tw"><table>
  <tr><th>#</th><th>章节</th><th>要点</th><th>状态</th></tr>
  <tr><td>1</td><td>MCP 是什么 / 为什么</td><td>USB-C 类比、M×N→M+N、与 Function Calling 是分工非替代、简史与 AAIF 治理、与 Agent 模块承上启下</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>2</td><td>协议解剖</td><td>Host/Client/Server 三角色、JSON-RPC 2.0 基座、生命周期、三大原语 Tools/Resources/Prompts、真实 tools/call 报文</td><td class="ok">✅ 已完成</td></tr>
@@ -25,7 +30,7 @@
  <tr><td>5</td><td>生产落地：鉴权/部署/Registry</td><td>OAuth 2.0/OIDC、MCP 网关集中管控、官方 Registry（preview）vs 企业私有 registry、上云怎么落地</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>6</td><td>安全：威胁面与防护</td><td>工具投毒/rug pull/confused deputy/裸奔、2026 年 40+ CVE、NSA/CISA 指引、防护组合拳</td><td class="ok">✅ 已完成</td></tr>
  <tr><td>7</td><td>售前速查</td><td>高频问题电梯版、上手四步与排错三板斧、安全五条、版本口径（稳定版 2025-11-25 / 新版 2026-07-28）、串联地图</td><td class="ok">✅ 已完成（2026-07-11 新增）</td></tr>
-</table>
+</table></div>
 
 <div class="card">
  <b>串联：</b>库内 <a href="../Agent/README.html">Agent</a> 模块第 4 章《工具接入与 MCP》
