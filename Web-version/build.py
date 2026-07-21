@@ -32,7 +32,9 @@ NET_END = "<!-- NET:END -->"
 FRESH_BEGIN = "<!-- FRESH:BEGIN 由 build.py 从 MANIFEST 时效性事实生成，请勿手工编辑 -->"
 FRESH_END = "<!-- FRESH:END -->"
 # 模块页页脚的「最近改动」：同样从 MANIFEST 取，手写会漂。
-MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html")}
+MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html"),
+             "model-landscape": os.path.join(HERE, "model-landscape", "index.html"),
+             "llm-inference": os.path.join(HERE, "llm-inference", "index.html")}
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
 MOD_END = "<!-- UPDATED:END -->"
@@ -64,7 +66,10 @@ def mono(dirname):
 
 # 已建网页面的模块（试点先行：样板册定稿前不做全库转换）。
 # 值为站内相对路径；不在表内的模块在总览页显示为"仅 PPT"。
-WEB_PAGES = {"mcp": "./mcp/index.html"}   # 必须指到文件：file:// 下目录链接不会自动打开 index.html
+# 必须指到文件：file:// 下目录链接不会自动打开 index.html。
+WEB_PAGES = {"mcp": "./mcp/index.html",
+             "model-landscape": "./model-landscape/index.html",
+             "llm-inference": "./llm-inference/index.html"}
 
 
 def rows(section, text):

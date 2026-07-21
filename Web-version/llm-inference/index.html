@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-Inference 推理服务 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721g">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721g</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">基础层 · 网页版</p>
+    <h1><span class="en">LLM Inference</span>推理服务</h1>
+    <p class="lede">训练好的模型怎么又快又省地跑起来：先弄懂推理本身（两阶段与 KV Cache 的
+      核心矛盾），再看单机怎么榨干一张卡、引擎怎么选，然后量化、投机解码、P/D 分离三招提速降本，
+      最后收拢成 SLO、压测与成本账。本页是这一册的网页版，讲义 PPT 见页脚链接。</p>
+    <div class="hr"></div>
+    <p class="lede" style="margin-top:0">
+      <span class="badge ok">核实窗口 2026-07-09 至 07-12</span>
+      <span class="badge recheck">引擎版本一节过期最快 · 季度巡检优先</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#llminf-anatomy">1 · 推理是怎么跑起来的</a></li>
+    <li><a href="#llminf-kv-budget">2 · KV Cache 与显存账</a></li>
+    <li><a href="#calc">显存与并发计算器</a></li>
+    <li><a href="#llminf-batching">3 · 批处理与调度</a></li>
+    <li><a href="#llminf-engines">4 · 推理框架图鉴</a></li>
+    <li><a href="#llminf-quant">5 · 量化</a></li>
+    <li><a href="#llminf-speculative">6 · 投机解码</a></li>
+    <li><a href="#llminf-disagg">7 · P/D 分离与分布式</a></li>
+    <li><a href="#llminf-production">8 · 生产化与排错</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="llminf-anatomy">
+  <h2><span class="num">01</span>推理是怎么跑起来的<a class="anchor" href="#llminf-anatomy">#llminf-anatomy</a></h2>
+
+  <div class="lead">
+    <p>大模型生成文字是「一次一个 token」的自回归过程，且分成性格完全相反的两个阶段：
+      <b>prefill 读题飞快、吃算力；decode 写字很慢、吃显存带宽</b>。全书一半的优化都在对付
+      这条矛盾。</p>
+  </div>
+
+  <h3>自回归：为什么一个字一个字往外蹦</h3>
+  <p>模型每次只做一件事：看着前面所有 token 预测下一个，接到末尾再预测下一个。生成 500 字
+    ≈ 串行跑 500 次前向计算，后一步依赖前一步，天然无法并行。流式输出（Streaming）不是产品
+    设计，是把真实生成过程直接播给你看。训练可以整段并行、推理只能逐 token 串行——这条
+    不对称是推理成为独立工程领域的根源。</p>
+
+  <h3>两个阶段，性格相反</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 210" role="img" aria-label="prefill 与 decode 两阶段对照：prefill 并行读入吃算力决定首字延迟，decode 逐字生成吃带宽决定每字延迟">
+     <rect width="720" height="210" fill="#FFFFFF"/>
+     <rect x="24" y="28" width="330" height="130" fill="#fff" stroke="#0F172A"/>
+     <text x="42" y="56" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14.5" font-weight="700" fill="#0F172A">Prefill 预填充 · 读题</text>
+     <text x="42" y="80" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">所有输入 token 并行算，一次大矩阵乘</text>
+     <text x="42" y="100" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">瓶颈：算力受限（Compute-bound）</text>
+     <text x="42" y="120" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="#2563EB">决定 TTFT（首字延迟）</text>
+     <text x="42" y="142" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">读题快慢看「理解力」（算力）</text>
+     <rect x="366" y="28" width="330" height="130" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+     <text x="384" y="56" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14.5" font-weight="700" fill="#0F172A">Decode 解码 · 写字</text>
+     <text x="384" y="80" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">逐 token 生成，每步搬一遍全部权重</text>
+     <text x="384" y="100" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">瓶颈：带宽受限（Memory-bound）</text>
+     <text x="384" y="120" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="#2563EB">决定 TPOT（每字延迟）</text>
+     <text x="384" y="142" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">「不在算得慢，在搬得慢」——手速（带宽）</text>
+     <line x1="24" y1="176" x2="696" y2="176" stroke="#E2E8F0"/>
+     <text x="24" y="196" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">考试类比：读题可以一目十行（prefill），答题只能一个字一个字写（decode）——混在同一张卡上必然互相干扰（第 7 节的伏笔）</text>
+    </svg>
+   </div>
+   <figcaption>两阶段的账要分开算：prefill 拼算力利用率，decode 拼显存带宽。</figcaption>
+  </figure>
+
+  <h3>带宽墙：decode 慢在哪</h3>
+  <p>decode 每生成一个 token，理论上要把全部权重读一遍：70B 模型 FP16 权重约 140GB，
+    H100 带宽 3.35TB/s，光搬权重就限定单请求每秒最多约 24 个 token——算力再强也白搭。
+    单请求 decode 时 GPU 算力利用率往往不足 1%，几百 TFLOPS 的卡在陪显存散步。
+    <b>decode 速度上限 ≈ 显存带宽 ÷ 模型字节数</b>：要么摊薄搬运（批处理），要么减小字节
+    （量化）——全书一半优化都在改这个分子或分母。（「每 token 搬全量权重」是单请求的理想化
+    上界，实际有缓存与批处理摊薄，数量级判断成立。）</p>
+
+  <h3>三个仪表盘与一条时间线</h3>
+  <p><b>TTFT</b>（Time To First Token，首字延迟）由 prefill 决定；<b>TPOT</b>（Time Per Output
+    Token，每字延迟）由 decode 决定；<b>吞吐</b>由批处理决定，是摊成本的分母。一次真实调用
+    （500 token 提示、生成 300 token）：网络+排队 ~20ms → prefill ~80ms → decode 300 × ~25ms
+    ≈ 7.5s——<b>总耗时 95% 以上花在 decode</b>，这就是优化都围着 decode 转的原因。
+    批越大吞吐越高、单请求越慢：所有调度设计都是在这条曲线上选点。谈体验先问 TTFT/TPOT，
+    谈成本用吞吐，不要只问「一条请求几秒」。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="llminf-kv-budget">
+  <h2><span class="num">02</span>KV Cache 与显存账<a class="anchor" href="#llminf-kv-budget">#llminf-kv-budget</a></h2>
+
+  <div class="lead">
+    <p>KV Cache「为什么存在」（空间换时间）在 <a href="../../PPT-version/LLM/README.html">LLM
+      原理模块</a>第 4 章；本节讲它在服务系统里的新角色：<b>并发的天花板、长上下文账单的主角</b>。
+      「装得下模型」和「服务得了客户」是两回事。</p>
+  </div>
+
+  <h3>心算公式</h3>
+  <p>每 token 的 KV 字节数 = <b>2（K 和 V）× 层数 × KV 头数 × 每头维度 × 精度字节</b>。
+    以 Llama-3-70B 为例：2 × 80 层 × 8 个 KV 头（GQA，Grouped-Query Attention）× 128 维
+    × 2 字节（FP16）= 320KB/token。记结论：<b>主流 70B 级约 0.3MB/token，10 万 token 上下文
+    ≈ 30GB 显存</b>。没有 GQA（64 头全存）会是 8 倍；DeepSeek 系的 MLA（Multi-head Latent
+    Attention）又比 GQA 再省约 10 倍——模型架构的选择直接改写推理侧的成本表。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>显存去向</th><th>怎么算</th><th>占用（70B FP16 示例）</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>模型权重</td><td>70B 参数 × 2 字节</td><td>140GB</td><td>单卡装不下 → 至少 2 卡张量并行</td></tr>
+      <tr><td>KV Cache</td><td>0.32MB/token × 并发 × 长度</td><td>弹性：8K × 20 并发 ≈ 51GB</td><td>随并发与对话长度膨胀</td></tr>
+      <tr><td>激活/缓冲</td><td>运行时临时张量</td><td>~5–10GB</td><td>随 batch 波动</td></tr>
+      <tr><td><b>结论</b></td><td>2×H100 = 160GB，权重吃掉 140GB</td><td>剩 ~15GB</td><td>只够 ~6 路 8K 并发——<b>瓶颈是 KV 不是权重</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="tool" id="calc">
+    <h4>显存与并发计算器</h4>
+    <p class="note">按上面的心算公式实现（FP16 口径：8B ≈ 0.13、32B ≈ 0.26、70B ≈ 0.32 MB/token）。
+      MLA 架构（DeepSeek 系）不适用此公式，按官方数据另算。结果是容量直觉，报价以压测为准。</p>
+    <div class="controls">
+      <label class="ctl">模型规模
+        <select id="c-model">
+          <option value="8">8B（权重 16GB FP16）</option>
+          <option value="32">32B（权重 64GB FP16）</option>
+          <option value="70" selected>70B（权重 140GB FP16）</option>
+        </select>
+      </label>
+      <label class="ctl">权重精度
+        <select id="c-prec">
+          <option value="2">FP16（基准）</option>
+          <option value="1" selected>FP8（生产默认，损失 ~0.5–2%）</option>
+          <option value="0.55">INT4（AWQ/GPTQ，评测兜底）</option>
+        </select>
+      </label>
+      <label class="ctl">平均上下文（token）
+        <input type="number" id="c-ctx" value="8000" min="500" step="500">
+      </label>
+      <label class="ctl">并发活跃请求
+        <input type="number" id="c-conc" value="20" min="1" step="1">
+      </label>
+      <label class="ctl">单卡显存（GB）
+        <input type="number" id="c-gpu" value="80" min="16" step="8">
+      </label>
+      <label class="ctl chk"><input type="checkbox" id="c-kvfp8" checked> KV Cache 也用 FP8（减半）</label>
+    </div>
+    <div class="kpis" id="c-out"></div>
+    <p class="note" id="c-note"></p>
+  </div>
+
+  <h3>长上下文为什么贵：两头吃钱</h3>
+  <p><b>Prefill 端计算平方级涨</b>：输入 4K → 128K（32 倍），注意力计算量涨约 1000 倍，
+    TTFT 从零点几秒到几十秒，还独占算力挤压别的请求。<b>Decode 端显存与带宽线性涨</b>：
+    128K 的 KV ≈ 41GB，不仅占座、每生成一字还扫一遍。「把整本手册塞进上下文」每次提问为
+    10 万 token 付钱；「RAG 检索相关三页」每次只带几千 token——<b>能检索就别硬塞</b>，这正是
+    「1M 窗口不是 RAG 终结者」的推理侧论据。</p>
+
+  <h3>窗口是容量，命中是复用</h3>
+  <p>上下文窗口是「一次能装多少」的能力上限，像信用卡额度——额度高不等于每次刷满；缓存命中是
+    「装进去的东西要不要重算」的运行时效率。<b>命中率由 prompt 结构与请求模式决定，不由窗口
+    大小决定</b>：1M 窗口可以 0% 命中，200K 窗口也能 90%+（稳定前缀放开头、别在头部插时间戳）。
+    容量规划也别按会话数算：<b>按「并发活跃请求 × 实际长度」算</b>，任一时刻绝大多数会话离线、
+    占的只是可回收的缓存位；但要给真跑满超长窗口的请求做准入控制（并发配额、长度分级），
+    别让一个 1M 请求把整台机器的批处理能力挤瘦。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="llminf-batching">
+  <h2><span class="num">03</span>批处理与调度<a class="anchor" href="#llminf-batching">#llminf-batching</a></h2>
+
+  <div class="lead">
+    <p>把 GPU 利用率从 1% 拉到 40%+ 靠三件套：<b>连续批处理</b>（时间上不空转）、
+      <b>PagedAttention</b>（空间上不浪费）、<b>前缀缓存</b>（相同开头只算一次）。这是 vLLM 和
+      SGLang 起家的本钱，也是「同一张卡吞吐差数倍」的全部秘密。</p>
+  </div>
+
+  <h3>批处理：GPU 是大巴，不是出租车</h3>
+  <p>decode 的主要成本是把权重从显存搬进计算单元；一次搬运顺手算 1 路和算 32 路耗时几乎一样
+    ——把并发请求拼进同一批，吞吐近似 ×32 而单路延迟只略增。实测量级：单请求几十 token/s 的卡，
+    批到 32–64 路时整机吞吐能到几千 token/s，单路 TPOT 只慢 20–50%。演进三代：静态批
+    （旅游包车：人齐才发、全程同进退）→ 动态批 → <b>连续批处理</b>（地铁：每生成一步重新组批，
+    完成的立刻下车、新请求下一步就上车）。</p>
+
+  <h3>PagedAttention：显存当虚拟内存管</h3>
+  <p>旧做法按「最大可能长度」预留连续显存，实际只用 20%，研究测到 <b>60–80% 的 KV 显存被浪费</b>。
+    vLLM（SOSP'23）把 KV Cache 切成固定小页（如 16 token/页），逻辑连续、物理任意、页表映射、
+    按需分配——碎片近零、利用率逼近 100%，直接换来 2–4 倍吞吐。赠品：同一份前缀的页可以被多个
+    请求共享（copy-on-write），前缀缓存由此而来。</p>
+
+  <h3>前缀缓存：提示词结构 = 缓存命中率 = 账单</h3>
+  <p>两条请求开头相同（同一 system prompt、同一文档、同一多轮历史），前缀部分的 KV 完全一样
+    ——算过一次就存着，后来者直接命中，省掉整段 prefill，<b>TTFT 常见提速 3–10 倍</b>。
+    SGLang 的 RadixAttention 把所有请求的 KV 按前缀组织成基数树，自动发现公共前缀、自动共享。
+    最大受益者：多轮 Agent（每轮带全量历史，命中后每轮只算新增几百 token）和固定语料 RAG。
+    把「稳定不变的内容放提示词开头」从写作习惯升级为省钱手段。</p>
+
+  <h3>Chunked Prefill 与请求状态机</h3>
+  <p>长文档请求的 prefill 独占 GPU 几秒，批里所有 decode 用户集体卡顿（TPOT 尖刺）；反过来
+    永远让 decode 优先，长请求又饿死。分块预填充把长 prefill 切成小块（如每块 2K）与 decode
+    交替执行——长请求慢一点点，换全场平稳，现代引擎默认开启。更进一步，调度的本质是状态机
+    管理：每个请求在排队/Prefill/Decode/等待/终态九种状态之间流转，每个状态要有进入条件、
+    最大驻留时间、可观察事件——<b>平均吞吐很好看、P99 排队驻留 8 秒</b>的服务，仪表盘是绿的、
+    用户体感是崩的。调度验收同时看：队列驻留、批内 token、KV 压力、取消抢占率、用户 SLO。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="llminf-engines">
+  <h2><span class="num">04</span>推理框架图鉴<a class="anchor" href="#llminf-engines">#llminf-engines</a></h2>
+
+  <div class="lead">
+    <p>引擎是模型的运行时：向下榨硬件、向上暴露 OpenAI 兼容 API 这个事实标准——应用代码一行
+      不改就能在 GPT、Claude、自建 vLLM 之间切换。<b>绑标准接口、不绑具体引擎</b>，是给客户的
+      防锁定承诺。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th></th><th>vLLM v0.25</th><th>SGLang v0.5.15</th><th>TensorRT-LLM 1.x</th><th>llama.cpp / Ollama</th></tr></thead>
+    <tbody>
+      <tr><td>定位</td><td>通用默认引擎</td><td>前缀共享 / 结构化输出</td><td>NVIDIA 性能上限</td><td>本地 / 边缘</td></tr>
+      <tr><td>绝活</td><td>PagedAttention · 生态最大</td><td>RadixAttention · day-0 支持</td><td>内核级优化 · 新精度首发</td><td>CPU 可跑 · 零门槛</td></tr>
+      <tr><td>硬件</td><td>最广（含国产卡）</td><td>NVIDIA/AMD 为主</td><td>仅 NVIDIA</td><td>几乎任何设备</td></tr>
+      <tr><td>上手</td><td>pip 一条命令</td><td>pip 一条命令</td><td>较重、需调优</td><td>一条命令</td></tr>
+      <tr><td>适用</td><td>不知道选啥选它</td><td>Agent/RAG/DeepSeek 系</td><td>新卡 + 专职团队</td><td>demo / 隐私 / 离线</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>决策树一句话：NVIDIA 新卡 + 极致性能 → TensorRT-LLM；共享前缀多 / DeepSeek 系 → SGLang；
+    本地单机 / 桌面 → Ollama；<b>其余一律 vLLM 起步</b>——「它是这个领域的 Linux」。三兄弟类比：
+    vLLM 是什么路都能跑的丰田，SGLang 是特定赛道超快的改装车，TensorRT-LLM 是绑定自家赛道的 F1
+    （商业包装为 NIM，按 GPU 收订阅）。别拿 Ollama 的体验推断生产容量（无连续批处理，几十并发
+    吞吐差近一个数量级），也别拿 vLLM 的门槛吓退桌面用户——两个世界各自最优。</p>
+
+  <h3>云上三条路线</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>路线</th><th>形态</th><th>适合谁</th><th>代价</th></tr></thead>
+    <tbody>
+      <tr><td>托管模型 API</td><td>按 token 付费，开箱即用</td><td>快速上线、流量不稳</td><td>单价高、定制少</td></tr>
+      <tr><td>托管 GPU 自建</td><td>租 GPU/K8s，自跑 vLLM 等</td><td>流量稳定、要控制力</td><td>要运维团队</td></tr>
+      <tr><td>Serverless GPU</td><td>按秒计费、自动扩缩</td><td>波峰波谷明显</td><td>冷启动延迟</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>经验阈值：<b>GPU 月利用率能稳定 >40–50% 时，自建开始比按 token 买便宜</b>——成本模型见
+    <a href="#llminf-production">生产化</a>一节。</p>
+  <p class="ev">引擎版本核实 2026-07-12（vLLM v0.25.0 · SGLang v0.5.15、Spec V2 默认开启 ·
+    TensorRT-LLM 稳定版 v1.2.1），来源 <a href="#src-engines">GitHub releases</a>。
+    <b>这张表是本页过期最快的一处，季度巡检重点。</b></p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="llminf-quant">
+  <h2><span class="num">05</span>量化<a class="anchor" href="#llminf-quant">#llminf-quant</a></h2>
+
+  <div class="lead">
+    <p>量化直接改 decode 公式的分母：字节减半 = <b>显存减半 + 搬运变快 + 省出的空间喂给 KV
+      拼更大的批</b>——一份投入三重回报，是性价比最高的单项优化。神经网络几十亿参数的
+      「集体投票」淹没个体噪声，所以砍一半比特能力几乎不变，像无损音乐压成高码率 MP3。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>精度</th><th>每参数</th><th>70B 占用</th><th>质量损失</th><th>地位（2026-07）</th></tr></thead>
+    <tbody>
+      <tr><td>FP16/BF16</td><td>2 字节</td><td>140GB</td><td>基准</td><td>训练产物原始精度，推理侧已非默认</td></tr>
+      <tr><td><b>FP8</b></td><td>1 字节</td><td>70GB</td><td>~0.5–2%</td><td><b>生产默认</b>：Hopper/Blackwell 原生支持，主流引擎一等公民</td></tr>
+      <tr><td>INT4（AWQ/GPTQ）</td><td>~0.5 字节</td><td>~35–40GB</td><td>~1–5%</td><td>显存受限场景主力；大模型塞小卡的标准答案</td></tr>
+      <tr><td>FP4/NVFP4</td><td>~0.5 字节</td><td>~35GB</td><td>优于同位宽整型</td><td>Blackwell 原生格式，工具链成熟中，尚未大规模生产</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>方法各管一段：FP8 训练后转换 + 少量校准几乎免费，权重和 KV Cache 都能用（KV 减半 =
+    并发翻倍）；AWQ/GPTQ 用小批校准数据找「重要权重」，是 GPU 端 INT4 主流；GGUF 服务桌面
+    世界（llama.cpp 生态，2–8bit）。共同关键词是<b>校准</b>——拿几百条真实样本「试穿」，
+    不是盲目砍位数。</p>
+
+  <h3>什么时候收手</h3>
+  <p>损失不均匀：日常对话、摘要、客服几乎无感；<b>数学推理、代码生成、长链条逻辑对低比特敏感</b>，
+    INT4 可能掉 3–5 分甚至更多。反例警示：某场景 INT4 后客服话术无感，但工单里的金额计算开始
+    出错——败在评测集没覆盖算术。两条铁律：①用自己的业务评测集做上线门禁，不只信通用榜单；
+    ②分档使用——面客核心链路 FP8 起步，内部工具再下探 INT4。<b>量化不是「开不开」而是
+    「开到几档」</b>：FP8 近乎白捡，INT4 用评测换显存，再往下要业务拍板。</p>
+  <p class="ev">核实 2026-07-09，来源 <a href="#src-quant">2026 量化综述</a>。NVFP4 用块级缩放把
+    量化误差比 MXFP4 降 88%（NVIDIA 数据）——低比特损失的大头来自缩放粒度。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="llminf-speculative">
+  <h2><span class="num">06</span>投机解码<a class="anchor" href="#llminf-speculative">#llminf-speculative</a></h2>
+
+  <div class="lead">
+    <p>量化减小「每次搬多少」，投机解码减少「搬多少次」：<b>小草稿一口气猜 K 个 token，
+      大模型一次前向并行验证</b>——猜对了白赚，猜错了照旧。像秘书起草、老板审签：审批比逐字
+      口述快得多。</p>
+  </div>
+
+  <h3>为什么「无损」</h3>
+  <p>验证按大模型自己的概率分布逐 token 把关（拒绝采样），数学上可证输出分布与大模型独跑
+    <b>一模一样</b>——不是「差不多」，是分布级相等。猜错的 token 被拒绝重算，损失的只是那次
+    加速机会，不是质量。所以它敢进生产默认配置。</p>
+
+  <h3>三代草稿与接受率</h3>
+  <p>①独立小模型起草（要维护两个模型、词表对齐）→ ②EAGLE 系：在大模型内部特征上训轻量草稿头，
+    EAGLE-3 配树状草稿成当前主流 → ③MTP（Multi-Token Prediction）：DeepSeek 系把多 token 预测头
+    直接训进模型，原生自带。<b>接受率</b>是成败仪表盘：>80% 时整体 2–4 倍加速；草稿总被拒
+    反而白付验证开销。趋势：草稿能力从「外挂」走向「内生」，新模型自带 MTP/EAGLE 头是 2026 常态。</p>
+
+  <h3>收益边界</h3>
+  <p><b>低并发、延迟敏感时收益最大</b>（GPU 闲着，验证白嫖算力）；高并发吃满算力时收益缩水
+    甚至为负。代码、结构化文本接受率高，天马行空的创意写作接受率低。典型配置：在线聊天服务开
+    （保体验）、离线批量任务关（保吞吐），同一集群两套配置。一句话：投机解码是「拿闲置算力换
+    延迟」的交易。</p>
+
+  <h3>推理模型：优化从可选项变刚需</h3>
+  <p>RLVR 训出的推理模型靠「先想后答」提升解题力——同一个问题，普通模型答 300 token，推理模型
+    「想」5000 再答 300：<b>decode 负载 ×17</b>，且全部发生在最慢最贵的那段。行业预测 2030 年
+    推理占 AI 总算力 ~75%。这就是 2025–2026 推理优化集中爆发的原因：投机解码默认化、P/D 分离
+    标准化、NVIDIA 专门发布 Dynamo。售前叙事线：客户要更强的推理能力 → token 消耗数量级上涨 →
+    推理优化直接决定这件事经济上可不可行。</p>
+  <p class="ev">核实 2026-07-09，来源 <a href="#src-spec">2026 实测综述</a>（vLLM 报告 EAGLE-3
+    最高 ~2.5×）。三板斧正交且叠乘：FP8 + 连续批处理 + EAGLE 组合后，同硬件吞吐可达朴素部署的
+    5–10 倍。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="llminf-disagg">
+  <h2><span class="num">07</span>P/D 分离与分布式<a class="anchor" href="#llminf-disagg">#llminf-disagg</a></h2>
+
+  <div class="lead">
+    <p>单卡优化到头，战场转向集群：装不下就切开跑（并行），prefill 和 decode 互相干扰就分开跑
+      （P/D 分离），KV Cache 金贵到要建分层仓库（缓存池）。这是「千并发怎么架构」的标准答案
+      ——但<b>规模不够时别用</b>。</p>
+  </div>
+
+  <h3>推理侧三种并行</h3>
+  <p>张量并行 TP（一层切给多卡，单机内低延迟首选，NVLink 内不出机）、流水线并行 PP（按层分段，
+    跨机用）、专家并行 EP（MoE 的专家分布到多卡）。DeepSeek 系旗舰（671B 总参/37B 激活）权重
+    远超单机 8 卡容量，生产普遍 TP+EP、几十张卡为一个推理单元——<b>「部署单元」从单卡变成集群
+    是 2026 年旗舰模型常态</b>。MoE 激活少省的是每 token 计算量，但所有专家权重都要装在显存里
+    待命：省的是电费，不是卡数。</p>
+
+  <h3>P/D 分离：前厅后厨彻底分区</h3>
+  <p>prefill 是算力密集的「突发大活」，decode 是带宽密集的「持续细活」，混跑时两个 SLO 互相绑架
+    ——chunked prefill 只是止痛药，根治是分池部署：prefill 池专职读题产出 KV，KV 经高速网络
+    （NIXL 这类传输层）快递给 decode 池，两池可用不同型号 GPU、按各自负载独立扩缩。学术源头
+    DistServe（OSDI'24）证明分离可数倍提升 goodput；NVIDIA 口径 Dynamo 在 Blackwell 跑
+    DeepSeek-R1 吞吐最高 7×（厂商基准，理解量级即可）。<b>代价是 KV 搬运的网络开销：请求短、
+    KV 小时不划算</b>——它是「大集群 + 长上下文」的解药，不是万能默认。</p>
+
+  <h3>Mooncake：KVCache 从私产变公共资产</h3>
+  <p>Kimi 面对海量长文档对话，把整个推理平台围绕 KVCache 重构（FAST'25 最佳论文）：P/D 分池
+    各自调度；全集群闲置的显存、内存、SSD 统一成分布式 KVCache 池，算过的前缀全集群共享复用；
+    过载时按 SLO 主动拒载保住已接请求。真实负载下吞吐提升最高 5 倍级——「缓存换算力」在生产
+    规模被验证。这是推理架构从单机思维到平台思维的分水岭。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>方案</th><th>出品方</th><th>形态</th><th>一句话定位</th></tr></thead>
+    <tbody>
+      <tr><td>NVIDIA Dynamo v1.2.1</td><td>NVIDIA</td><td>开源编排层（1.0 于 2026-03 GTC GA）</td>
+          <td>vLLM 等引擎之上做 P/D 分池 + KV 感知路由；NVIDIA 全家桶首选</td></tr>
+      <tr><td>llm-d</td><td>红帽/谷歌/IBM 等</td><td>K8s 原生开源项目</td>
+          <td>P/D 分离、KV 感知调度做成 K8s 组件；已有 K8s 平台团队的自然选择</td></tr>
+      <tr><td>Mooncake（开源版）</td><td>月之暗面等</td><td>KVCache 传输/存储组件</td>
+          <td>分层 KV 池参考实现，常与 vLLM/SGLang 组合</td></tr>
+      <tr><td>各云托管推理</td><td>各大云厂商</td><td>托管服务</td>
+          <td>上述能力逐步内置——客户不想自己拼就买这个</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>配套拼图是 KV 分层存储（显存→内存→SSD）：热前缀留显存、温的下沉，命中即免 prefill——
+    「存储换计算」。<b>什么时候不用</b>：客户规模没到「多机集群 + 长上下文」之前，单机 vLLM +
+    chunked prefill 足够；过度架构是减分项，能讲出「什么时候不用」比「什么都用」更显专业。</p>
+  <p class="ev">核实 2026-07-12（Dynamo 稳定版 v1.2.1，2026-06-13），来源
+    <a href="#src-dynamo">NVIDIA 官方博客 / GitHub releases</a>；Mooncake 见
+    <a href="#src-mooncake">arXiv 2407.00079</a>。</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="llminf-production">
+  <h2><span class="num">08</span>生产化与排错<a class="anchor" href="#llminf-production">#llminf-production</a></h2>
+
+  <div class="lead">
+    <p>SLO 是推理服务的合同语言：先问场景，再报数字；离线任务只谈吞吐与单位成本。给客户的
+      容量数字，四份证据（负载、性能、质量、成本）齐了再签。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>场景</th><th>TTFT 目标（P90）</th><th>TPOT 目标</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td>在线聊天/客服</td><td>&lt; 1s（力争 500ms）</td><td>30–50 token/s</td><td>体感生死线：首字慢即「卡」</td></tr>
+      <tr><td>代码补全（IDE 内）</td><td>&lt; 300ms</td><td>越快越好</td><td>对 TTFT 最苛刻的场景</td></tr>
+      <tr><td>Agent 工具链（多步）</td><td>单步 &lt; 2s</td><td>适中即可</td><td>步数多，累计延迟才是体验</td></tr>
+      <tr><td>文档生成/摘要</td><td>&lt; 3s 可接受</td><td>20–30 token/s</td><td>用户预期本来就长</td></tr>
+      <tr><td>离线批处理</td><td>不设</td><td>不设</td><td>只谈吞吐与单位成本，夜间跑满</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>人的阅读速度约 5–10 token/s——TPOT 超过它太多，对阅读场景是浪费；同一集群分服务档，
+    在线池保延迟、离线池吃剩余算力（错峰混部提利用率 20–30 个百分点）。</p>
+
+  <h3>压测与成本心算</h3>
+  <p>压测三口诀：<b>真实流量、分位延迟、goodput 口径</b>——用 vllm bench serve / AIPerf
+    （v0.11.0 起接棒 GenAI-Perf）这类懂 token 级计时的压测器，流量画像照生产日志配；看
+    P50/P90/P99 TTFT、P90 TPOT、整机吞吐、goodput（满足 SLO 的那部分吞吐）；画「并发-延迟」
+    曲线找拐点，报价按拐点的 70–80% 留余量。三类假数字要拦：只报均值不报 P99、拿饱和吞吐当
+    可用容量、短输入压测冒充长文档场景。</p>
+  <p>成本公式：<b>每百万 token 成本 ≈ GPU 集群时租 ÷ 每小时产出</b>。示例：2×H100 跑 70B FP8，
+    时租约 $6，压测得 ~3000 token/s ≈ 每小时 1080 万 token → 约 $0.56/百万输出 token。对比
+    托管 API 常见 $2–5/百万输出 token：粗看自建便宜 5–10 倍，但要摊利用率、运维人力、峰值冗余
+    ——<b>利用率 40–50% 是常见盈亏线</b>。记三个数：H100 级时租 $2–3/卡、70B FP8 双卡
+    ~3000 token/s、盈亏线利用率 ~40%（2026 年中量级参考，报价以实测为准）。</p>
+
+  <h3>降本组合拳：按序叠加</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>招式</th><th>收益量级</th><th>代价/前提</th><th>机制在</th></tr></thead>
+    <tbody>
+      <tr><td>连续批处理 + PagedAttention</td><td>吞吐 2–4×</td><td>用现代引擎即免费自带</td><td><a href="#llminf-batching">第 3 节</a></td></tr>
+      <tr><td>Prefix Caching</td><td>TTFT 3–10×（命中时）</td><td>提示词结构要配合</td><td><a href="#llminf-batching">第 3 节</a></td></tr>
+      <tr><td>FP8 量化（权重+KV）</td><td>显存减半、吞吐 +50–100%</td><td>评测门禁；损失 0.5–2%</td><td><a href="#llminf-quant">第 5 节</a></td></tr>
+      <tr><td>投机解码（EAGLE-3）</td><td>延迟 2–2.5×</td><td>低并发收益大；需匹配草稿头</td><td><a href="#llminf-speculative">第 6 节</a></td></tr>
+      <tr><td>P/D 分离 + KV 池</td><td>goodput 数倍（大集群）</td><td>多机 + 长上下文才划算</td><td><a href="#llminf-disagg">第 7 节</a></td></tr>
+      <tr><td>错峰混部在线/离线</td><td>利用率 +20–30pp</td><td>调度与隔离要做好</td><td>本节</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>叠加不是简单相乘，但「现代引擎 + FP8 + prefix caching」三件套让多数场景的单位成本先降一半，
+    是性价比最高的起手式。自建还是托管，三问定方向：数据能不能出去？月 token 量到没到量级？
+    有没有人运维？——别替客户选立场，把两条路线的月账单摆出来，数字比立场有说服力。</p>
+
+  <h3>按症状排错</h3>
+  <p>这张表是网页版把全书速查从「按章翻」改成「按症状查」——机制都在上面各节，无新事实。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>症状</th><th>最可能的原因</th><th>先试什么</th></tr></thead>
+    <tbody>
+      <tr><td>首字慢（TTFT 高）</td><td>输入长、prefill 排队，或前缀没复用</td>
+          <td>prefix caching（稳定内容放开头）；长知识改 RAG 检索；chunked prefill 参数</td></tr>
+      <tr><td>逐字忽快忽慢（TPOT 尖刺）</td><td>长文档请求的 prefill 插队阻塞</td>
+          <td>确认 chunked prefill 开启、调块大小；规模够大上 P/D 分离</td></tr>
+      <tr><td>并发一高就排队</td><td>剩余显存装不下更多 KV——瓶颈是 KV 不是权重</td>
+          <td>FP8 权重 + FP8 KV 腾显存；用上方计算器复核容量；超长请求做准入控制</td></tr>
+      <tr><td>吞吐低、GPU 利用率低</td><td>没拼上批（流量少或引擎不带连续批处理）</td>
+          <td>换 vLLM/SGLang 类现代引擎；离线任务错峰填谷</td></tr>
+      <tr><td>账单高但延迟达标</td><td>全场开满档（旗舰模型 + 满预算 thinking）</td>
+          <td>按难度分流；聊天开投机解码；核缓存命中率——三件套按序过一遍</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="ev">SLO 与成本量级核实 2026-07-09、压测工具 07-12（AIPerf v0.11.0），来源
+    <a href="#src-aiperf">pypi/GitHub</a> 与 <a href="#src-cost">2026 年中多方评测量级归纳</a>
+    （讲义中已标注「参考」口径）。</p>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2><span class="num">09</span>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。</p>
+  <div class="rel">
+    <a href="../../PPT-version/LLM/README.html">
+      <div class="nm">LLM 原理 · 第 4/5 章</div>
+      <div class="why">KV Cache 为什么存在（机制）在那册，怎么管好（系统）在本页——互为前后篇；
+        FlashAttention/MLA 的架构侧也在那边。</div>
+    </a>
+    <a href="../../PPT-version/LLM-Training/README.html">
+      <div class="nm">LLM-Training</div>
+      <div class="why">「训练一次性重投入 vs 推理持续账单」同一事实两侧；RLVR 推理模型让 decode
+        暴涨的来龙去脉在其第 6 章。</div>
+    </a>
+    <a href="../../PPT-version/AI-Infra-Compute/README.html">
+      <div class="nm">AI-Infra-Compute</div>
+      <div class="why">KV 显存账的硬件地基：HBM 带宽、FP8/FP4 精度阶梯、KV 外置存储。</div>
+    </a>
+    <a href="../../PPT-version/AI-Infra-Platform/README.html">
+      <div class="nm">AI-Infra-Platform · 第 7 章</div>
+      <div class="why">P/D 分离的机制在本页，平台承载（编排/扩缩/路由）在那册；利用率与 goodput
+        的运营两侧互指。</div>
+    </a>
+    <a href="./../model-landscape/index.html">
+      <div class="nm">Model-Landscape · 网页版</div>
+      <div class="why">思考预算与价格档位的市场侧；自托管开放权重的选型判据在那页，显存账在本页。</div>
+    </a>
+    <a href="../../PPT-version/Agent/README.html">
+      <div class="nm">Agent</div>
+      <div class="why">Prefix Caching 的最大受益者是多轮 Agent——上下文工程在推理侧的回报。</div>
+    </a>
+    <a href="../../PPT-version/RAG/README.html">
+      <div class="nm">RAG</div>
+      <div class="why">长上下文两头吃钱是「1M 窗口不是 RAG 终结者」的推理侧论据。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2><span class="num">10</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/LLM-Inference/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-09 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-engines"><td><code>src-engines</code></td><td>GitHub releases / 2026 对比评测</td>
+          <td>四引擎版本号与格局（2026-07-12）</td><td>版本号周级过期；对比结论依赖负载画像</td></tr>
+      <tr id="src-quant"><td><code>src-quant</code></td><td>2026 量化综述（vrlatech/sesamedisk）</td>
+          <td>精度谱系地位与损失量级</td><td>具体任务的损失要用业务评测集实测</td></tr>
+      <tr id="src-spec"><td><code>src-spec</code></td><td>2026 实测综述（spheron/sesamedisk）</td>
+          <td>投机解码加速量级与接受率口径</td><td>加速比不能脱离并发与文本类型外推</td></tr>
+      <tr id="src-dynamo"><td><code>src-dynamo</code></td><td>NVIDIA 官方博客 / GitHub releases</td>
+          <td>Dynamo 版本与 GA 时间线</td><td>「最高 7×」为厂商基准，不能当生产承诺</td></tr>
+      <tr id="src-mooncake"><td><code>src-mooncake</code></td><td>arXiv 2407.00079（Mooncake）等</td>
+          <td>P/D 分离的生产验证与收益量级</td><td>论文负载与你的负载不同，量级参考</td></tr>
+      <tr id="src-aiperf"><td><code>src-aiperf</code></td><td>pypi.org/aiperf / GitHub</td>
+          <td>压测工具换代（AIPerf 接棒 GenAI-Perf）</td><td>不涉及具体容量结论</td></tr>
+      <tr id="src-cost"><td><code>src-cost</code></td><td>2026 年中多方评测量级归纳</td>
+          <td>时租/吞吐/盈亏线的量级直觉</td><td><b>不能当报价</b>——各云差异大，以实测与当期价格为准</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>现场高频追问</h3>
+  <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 的来自讲义首版对练页，
+    <b>2026-07-12</b> 的来自引擎版本复核，<b>2026-07-20</b> 的来自容量规划增补。</p>
+  <div class="qa">
+    <details>
+      <summary>为什么模型回答是一个字一个字往外蹦？能不能一次出全文？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>这是工作原理：每个词都依赖前面所有词算出来，本质串行，任何厂商都一样。流式输出反而是
+          优点——首字几百毫秒就到，用户不用对着转圈等。</p>
+        <p class="qa-why">这题是推理话题的入口：答清自回归，后面 TTFT/TPOT、批处理、投机解码的
+          讨论才有地基。</p>
+        <p class="qa-next"><b>下一步</b>　演示永远开流式；把对方的体验诉求翻译成 TTFT/TPOT 两个
+          可测数字。</p>
+        <p class="qa-src">依据　<a href="#llminf-anatomy">推理是怎么跑起来的</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>我买了 8 张卡，为什么并发一高就排队？显存明明够装模型。<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>装下权重只是入场券，真正的座位是剩余显存里的 KV Cache：每路对话占一段、还随轮次膨胀。
+          并发上限 ≈ 剩余显存 ÷ 每请求 KV。</p>
+        <p class="qa-why">「装得下模型 ≠ 服务得了客户」是本册最值钱的一句话——显存账本三大块
+          里，瓶颈几乎总在 KV 不在权重。</p>
+        <p class="qa-next"><b>下一步</b>　用<a href="#calc">计算器</a>按对方真实场景（模型/上下文/
+          并发）当场算这笔账，再谈加卡还是量化。</p>
+        <p class="qa-src">依据　<a href="#llminf-kv-budget">KV Cache 与显存账</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>128K 长上下文这么好，为什么按输入收费还这么贵？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>长输入两头吃资源：读入时计算量随长度平方涨，读完后每 10 万 token 还占约 30GB 显存
+          直到对话结束。定价反映真实成本——长知识用 RAG 检索，别整本塞窗口。</p>
+        <p class="qa-why">成本结构讲清了，「窗口大小竞赛」的营销话术就失效了——这题直接改变
+          客户的架构判断。</p>
+        <p class="qa-next"><b>下一步</b>　对必须长驻的前缀上 prefix caching 只付一次；其余改
+          检索喂料，两条路的月账各算一遍。</p>
+        <p class="qa-src">依据　<a href="#llminf-kv-budget">长上下文为什么贵</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>1000 个用户都开 1M 窗口，要备多少张卡？<span class="added">2026-07-20</span></summary>
+      <div class="a">
+        <p>按「并发活跃请求 × 实际长度」算，不按「会话数 × 窗口上限」算——任一时刻绝大多数会话
+          离线，占的只是可回收的缓存位。窗口上限是信用卡额度，不是预扣款。</p>
+        <p class="qa-why">把标称窗口当预留资源，容量估算会虚高几个数量级——这是容量规划里最贵的
+          一个误解。反面也要防：一个真跑满 1M 的请求 ≈ 几十路普通请求，要做准入控制。</p>
+        <p class="qa-next"><b>下一步</b>　拉对方生产日志里的「并发活跃 × 实际长度」分布，
+          用计算器出容量表，超长请求单列配额。</p>
+        <p class="qa-src">依据　<a href="#llminf-kv-budget">窗口是容量，命中是复用</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>vLLM 和 SGLang 到底选哪个？给句准话。<span class="added">2026-07-12</span></summary>
+      <div class="a">
+        <p>看流量画像：请求间共享前缀多（多轮 Agent、固定模板、RAG 固定语料）或主力是 DeepSeek 系
+          → SGLang；否则 vLLM——生态最大、坑最少。两者 API 兼容，切换成本低。</p>
+        <p class="qa-why">引擎选型的判据是流量画像不是排行榜——这也是「绑标准接口、不绑引擎」
+          防锁定承诺的底气。</p>
+        <p class="qa-next"><b>下一步</b>　拿真实流量各压一周再定；压测口径按第 8 节三口诀来。</p>
+        <p class="qa-src">依据　<a href="#llminf-engines">推理框架图鉴</a> · <a href="#src-engines">src-engines</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>量化会不会把模型「变笨」？我们业务敢用吗？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>FP8 校准后通用任务损失约 0.5–2%，日常场景基本无感，是 2026 年生产默认。稳妥做法：
+          拿业务评测集做上线门禁，通过就用——损失可测、可控，不是赌博。</p>
+        <p class="qa-why">损失不均匀才是要点：对话无感、算术翻车的反例说明，评测集覆盖面比
+          「量化损失多少」这个笼统数字更重要。</p>
+        <p class="qa-next"><b>下一步</b>　面客核心链路 FP8 起步、内部工具再下探 INT4；
+          评测集里补上数字计算类用例。</p>
+        <p class="qa-src">依据　<a href="#llminf-quant">量化</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>投机解码听着像「猜答案」，会不会导致质量下降？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>不会。草稿只是候选，每个 token 都经大模型按自己的分布验证，数学上保证输出分布与
+          大模型独跑完全一致——猜错的被拒绝重算，损失的只是那次加速机会。</p>
+        <p class="qa-why">「无损」是分布级相等不是「差不多」——这一点讲透，客户对默认开启的
+          顾虑就消了。压测只有 1.5× 而非宣传 3×，通常是并发高或文本难预测，不是坏了。</p>
+        <p class="qa-next"><b>下一步</b>　在线聊天开、离线批量关；用接受率指标（引擎 metrics
+          端点）确认草稿头真的生效。</p>
+        <p class="qa-src">依据　<a href="#llminf-speculative">投机解码</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>我们要支撑几千并发，直接堆卡行不行？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>堆卡解决容量，不解决干扰：prefill 和 decode 混跑时 SLO 互相绑架，堆再多也有尖刺。
+          正确路径分层：先单机榨干（批处理+量化），再分池部署独立扩缩——同样的卡数，架构对了
+          吞吐差数倍。</p>
+        <p class="qa-why">「加卡」是最贵的默认答案；组合拳表里前三招几乎免费。P/D 分离只在
+          「大集群 + 长上下文」才划算——会说「不用」更专业。</p>
+        <p class="qa-next"><b>下一步</b>　按组合拳表从上往下过一遍现状，标出还没吃到的免费收益，
+          再谈扩容。</p>
+        <p class="qa-src">依据　<a href="#llminf-disagg">P/D 分离</a> · <a href="#llminf-production">降本组合拳</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>你们能承诺多少并发？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>并发本身不是好指标——同样 1000 并发，128 token 短问答和 50K 长文档差百倍资源。
+          按流量画像承诺三件事：TTFT/TPOT 的 P90 SLO、goodput 容量、超量时的降级策略。</p>
+        <p class="qa-why">裸并发数是最容易被拿来对比也最容易失真的数字；goodput（满足 SLO 的
+          吞吐）才是能签进合同的口径。</p>
+        <p class="qa-next"><b>下一步</b>　把四份证据（负载/性能/质量/成本）绑同一发布组合做一轮
+          压测，容量表按拐点七八成报。</p>
+        <p class="qa-src">依据　<a href="#llminf-production">生产化</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>别家报价比你们便宜一半，是不是你们黑？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>先对口径：同一精度（FP8 还是 INT4）、同一 SLO（P99 还是均值）、同一流量画像（短问题
+          还是长文档）？三项对齐后价差通常就解释清了。</p>
+        <p class="qa-why">推理报价的三类假数字（均值掩尖刺、饱和吞吐当容量、短输入冒充长文档）
+          都会让「便宜一半」凭空出现——识破口径差是这一册的看家本领。</p>
+        <p class="qa-next"><b>下一步</b>　提议按对方真实流量做一次同口径对比测试，用 goodput
+          谈单价。</p>
+        <p class="qa-src">依据　<a href="#llminf-production">压测与成本心算</a></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/LLM-Inference/LLM-Inference-讲义.pptx">LLM-Inference-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/LLM-Inference/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/LLM-Inference/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <!-- UPDATED:END -->
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+/* 显存与并发计算器：讲义第 2 章心算公式的交互版。
+   KV/token（FP16）：8B ≈ 0.13、32B ≈ 0.26、70B ≈ 0.32 MB（GQA 口径，MLA 不适用）。
+   纪律：帮助理解与决策（web-rules §九）；无 JS 时 .tool 隐藏，静态兜底是公式与账本表。 */
+(function () {
+  "use strict";
+  var KV_FP16 = { "8": 0.13, "32": 0.26, "70": 0.32 };   // MB/token
+  var W_FP16 = { "8": 16, "32": 64, "70": 140 };          // GB
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("c-out"), note = $("c-note");
+  if (!out) return;
+  function fmt(x) { return x >= 100 ? Math.round(x) : Math.round(x * 10) / 10; }
+  function kpi(label, val, warn) {
+    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
+    return open + label + '<b>' + val + '</b></div>';
+  }
+  function run() {
+    var m = $("c-model").value;
+    var pf = parseFloat($("c-prec").value);           // 字节/参数
+    var ctx = Math.max(1, +$("c-ctx").value || 0);
+    var conc = Math.max(1, +$("c-conc").value || 0);
+    var gpu = Math.max(1, +$("c-gpu").value || 0);
+    var kvHalf = $("c-kvfp8").checked ? 0.5 : 1;
+    var weights = W_FP16[m] * pf / 2;
+    var kvPer = KV_FP16[m] * kvHalf * ctx / 1024;     // GB / 请求
+    var kvAll = kvPer * conc;
+    var act = 8;                                      // 激活/缓冲，讲义口径 ~5–10GB
+    var total = weights + kvAll + act;
+    var cards = Math.ceil(total / gpu);
+    var spare = cards * gpu - weights - act;
+    var maxConc = kvPer > 0 ? Math.floor(spare / kvPer) : 0;
+    out.innerHTML =
+      kpi("权重占用", fmt(weights) + " GB", false) +
+      kpi("每路 KV（" + (ctx / 1000) + "K 上下文）", fmt(kvPer * 1024) / 1024 >= 1 ?
+          fmt(kvPer) + " GB" : fmt(kvPer * 1024) + " MB", false) +
+      kpi("KV 合计（" + conc + " 并发）", fmt(kvAll) + " GB", false) +
+      kpi("总需求（含激活 ~8GB）", fmt(total) + " GB", false) +
+      kpi("建议卡数（" + gpu + "GB/卡）", cards + " 张", cards > 8) +
+      kpi("这套卡的并发上限", "~" + maxConc + " 路", maxConc < conc);
+    note.textContent = "并发上限 ≈（卡数×单卡显存 − 权重 − 激活）÷ 每路 KV，再留调度余量、压测为准。" +
+      (pf === 2 ? "提示：FP8 权重 + FP8 KV 通常能让同样的卡多服务一倍以上并发。" :
+       "已含量化收益——质量损失约 0.5–2%（FP8）/ 1–5%（INT4），上线前过业务评测门禁。");
+  }
+  ["c-model", "c-prec", "c-ctx", "c-conc", "c-gpu", "c-kvfp8"].forEach(function (id) {
+    $(id).addEventListener("change", run);
+    $(id).addEventListener("input", run);
+  });
+  run();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model-Landscape 模型格局与选型 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721g">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721g</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">解决方案层 · 网页版</p>
+    <h1><span class="en">Model Landscape</span>模型格局与选型</h1>
+    <p class="lede">谁在造发动机、该买哪一台：三大阵营地图、五家闭源名片、开放权重与中国四强、
+      国内四大平台，再到许可证、价格、能力三道硬约束和选型方法。本页是这一册的网页版，
+      讲义 PPT 见页脚链接。</p>
+    <div class="hr"></div>
+    <p class="lede" style="margin-top:0">
+      <span class="badge recheck">全库最易过期的一册 · 数字口径 2026-07-10（平台章 07-17）</span>
+      <span class="badge recheck">2026-08-31 定点复查</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#ml-map">1 · 全景地图</a></li>
+    <li><a href="#ml-closed">2 · 闭源旗舰五张名片</a></li>
+    <li><a href="#ml-open">3 · 开放权重格局</a></li>
+    <li><a href="#ml-china">4 · 中国格局与豆包</a></li>
+    <li><a href="#ml-platforms">5 · 国内平台格局</a></li>
+    <li><a href="#ml-license">6 · 许可证与合规</a></li>
+    <li><a href="#ml-price">7 · 价格与成本工程</a></li>
+    <li><a href="#ml-capability">8 · 能力矩阵与推理模型</a></li>
+    <li><a href="#ml-selection">9 · 选型方法论（含筛选器）</a></li>
+    <li><a href="#ml-cheatsheet">10 · 保鲜与问答</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="ml-map">
+  <h2><span class="num">01</span>全景地图<a class="anchor" href="#ml-map">#ml-map</a></h2>
+
+  <div class="lead">
+    <p>2026 年的模型市场分成三大阵营：<b>闭源西方旗舰卖「最强能力」、开放权重（中国主导）卖
+      「可控与便宜」、端侧小模型下沉到设备</b>。三者是分工不是竞争——一个企业方案常常三者并用：
+      旗舰打最难的仗，开放权重管可控与走量，小模型进端侧。</p>
+  </div>
+
+  <h3>两个市场：同一批模型，两张榜单</h3>
+  <p>引用任何份额数字前，先说清是哪个市场的口径——企业与消费两张榜单已经分裂。
+    企业市场（Menlo 口径）看能力、信任、合同：Anthropic 40% 第一、OpenAI 27%（从 2023 年的
+    50% 一路下滑）、Google 21%（三年三倍）。消费市场看品牌与生态：ChatGPT 约 74% 独占、
+    日均 25 亿+ prompts——与企业榜完全两样。</p>
+  <p>企业侧的量级也值得记：2026 年企业 LLM 支出已达 $8.4B、年底看 $15B——这是生产预算不是
+    试验预算；Claude Code 单产品年化 $1B、企业编码市场 54%，是「编码成为第一生产场景」的
+    标志性证据。</p>
+  <p class="ev">核实 2026-07-10，来源 <a href="#src-menlo">Menlo 企业报告</a>。份额的赏味期约半年，
+    引用时带口径与日期。</p>
+
+  <h3>一年三变局</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>变局</th><th>发生了什么</th><th>对判断意味着</th></tr></thead>
+    <tbody>
+      <tr><td>价格暴跌</td><td>对比 2025 全面降 30–60%；缓存折扣与三档家族制成标配</td>
+          <td>方案书里别锁死价格：写量级 + 标日期 + 以官网为准</td></tr>
+      <tr><td>开源追平</td><td>多数基准差距收敛到个位数；SWE-bench 开源 80.6% 追平闭源</td>
+          <td>「开源不行」的说法过期了——按约束选，不按阵营选</td></tr>
+      <tr><td>Meta 转向</td><td>Behemoth 搁置、Muse Spark 闭源 API-only、Llama 4 成最后开放版本</td>
+          <td>开放权重的旗手换成中国队；别把架构押在任何一家的「承诺」上</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>三件事共同指向一个结论：<b>模型是快速贬值资产</b>——选型的重点从「选对一个」变成
+    「保持可换」。这句话是全册的总纲，后面每一节都在为它提供论据或工具。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="ml-closed">
+  <h2><span class="num">02</span>闭源旗舰五张名片<a class="anchor" href="#ml-closed">#ml-closed</a></h2>
+
+  <div class="lead">
+    <p>五家各有一件武器：<b>OpenAI 靠生态、Anthropic 靠企业信任、Google 靠自供算力压价格、
+      xAI 靠性价比进场、Meta 在转身</b>。没有一家全赢——这一节的正确用法是配合客户的
+      「任务 × 预算 × 信任要求」三坐标查表。</p>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <h4>OpenAI · 消费王者</h4>
+      <p>GPT-5.6 三档（Sol $5/$30、Terra $2.50/$15、Luna $1/$6，2026-07-09 GA）。ChatGPT 约 74%
+        消费份额、工具链最全；企业份额 50%→27% 被 Anthropic 反超。缓存读折 90%、写 1.25×。</p>
+    </div>
+    <div class="box">
+      <h4>Anthropic · 企业新王</h4>
+      <p>Claude 5 家族：Fable 5（Opus 之上的新档位，1M 上下文/128K 输出）、Opus 4.8 企业与
+        agentic 编码主力、Sonnet 5 尝鲜价 $2/$10（至 2026-08-31，后 $3/$15）。企业支出 40% 第一、
+        企业编码 54%。</p>
+    </div>
+    <div class="box">
+      <h4>Google · 价格压制者</h4>
+      <p>Gemini 3.1 Pro 是旗舰中 API 最低价，推理与 1 小时级长视频是独门强项；Flash-Lite
+        $0.10/$0.40 为最低闭源档。底气是自研 TPU（Tensor Processing Unit）自供算力——
+        别家买卡它自产。</p>
+    </div>
+    <div class="box">
+      <h4>xAI · 性价比刺客</h4>
+      <p>Grok 4.3：$1.25/$2.50、缓存输入 $0.20，比上代降 40–60%，站上性价比 Pareto 前沿；
+        2026-06-15 上 Bedrock（第三家独立实验室），SOC 2 / HIPAA 合规面快速补齐。生态新、案例少，
+        更要评估集验收。</p>
+    </div>
+    <div class="box">
+      <h4>Meta · 从旗手到转身</h4>
+      <p>Behemoth（2T）实质搁置；Muse Spark（2026-04-08）成首家闭源 API-only 模型；
+        Llama 4 Scout/Maverick 成「最后的开放版本」。给客户的启示：供应商策略无常，
+        可换架构才是常量。</p>
+    </div>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>家族</th><th>旗舰口径</th><th>杀手锏</th><th>信任面 / 短板</th></tr></thead>
+    <tbody>
+      <tr><td>OpenAI</td><td>GPT-5.6 Sol $5/$30</td><td>消费生态 74%、工具链最全</td><td>企业份额下滑中</td></tr>
+      <tr><td>Anthropic</td><td>Fable 5（1M 上下文）/ Opus 4.8</td><td>企业 40% 第一、编码 54%</td><td>限量档位、价格不低</td></tr>
+      <tr><td>Google</td><td>Gemini 3.1 Pro</td><td>旗舰最低价、长视频/上下文</td><td>企业信任在追赶</td></tr>
+      <tr><td>xAI</td><td>Grok 4.3 $1.25/$2.50</td><td>性价比 Pareto 前沿</td><td>生态新、案例少</td></tr>
+      <tr><td>Meta</td><td>Muse Spark（闭源）</td><td>Llama 生态存量最深</td><td>战略转向期，路线待观察</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="ev">价格与版本为 2026-07-10 口径（GPT-5.6 家族 07-09 GA 当日核入），
+    来源 <a href="#src-price">各厂商官网价格页</a>。这类数字赏味期 1–3 个月。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="ml-open">
+  <h2><span class="num">03</span>开放权重格局<a class="anchor" href="#ml-open">#ml-open</a></h2>
+
+  <div class="lead">
+    <p>开源榜首已经换人：<b>前四全是中国队</b>。多数基准差距收敛到个位数，编码基准追平
+      ——「开源能不能用于生产」在 2026 年的答案是能，真正的门槛不在能力，在许可证与
+      自部署运维。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>模型</th><th>榜位与口径（2026-07 快照）</th><th>许可证</th><th>强项</th></tr></thead>
+    <tbody>
+      <tr><td>DeepSeek V4 Pro</td><td>综合 87 开源第一；SWE-bench Verified 80.6% 追平闭源</td><td>MIT</td><td>通用 + 价格地板</td></tr>
+      <tr><td>GLM-5.1（智谱）</td><td>综合 83；GLM-5 为首个昇腾全国产训练的前沿模型</td><td>MIT</td><td>长程编码、国产算力</td></tr>
+      <tr><td>Kimi K2.6（月之暗面）</td><td>AA 指数 54：开源第一、总榜第四</td><td>开放权重</td><td>agentic 编码、工具使用</td></tr>
+      <tr><td>Qwen3.5（阿里）</td><td>397B 推理档；122B/激活 10B 超 GPT-5-mini</td><td>Apache 2.0（主系）</td><td>尺寸谱系最全、多语言</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>追平靠什么：三板斧的因果链</h3>
+  <p>追平不是「砸更多卡」砸出来的，是三项技术叠出来的：<b>MoE（Mixture of Experts）稀疏激活</b>
+    让大参数只花小算力（Qwen3.5 总参 397B、每次只激活 10B）；<b>从前沿模型蒸馏</b>把闭源模型的
+    能力「教」给开放模型；<b>合成数据管线</b>解决高质量训练数据的供给。架构机制在
+    <a href="../../PPT-version/LLM/README.html">LLM 原理模块</a>，训练侧在
+    <a href="../../PPT-version/LLM-Training/README.html">LLM-Training</a>。</p>
+  <p>追平也有边界：最难的推理任务闭源仍领先半个身位——所以<a href="#ml-selection">三层路由</a>里
+    两边都有位置，不是二选一。</p>
+
+  <h3>西方线：收尾、转宽松、下沉</h3>
+  <p>Llama 4（Scout 109B/激活 17B、10M 上下文；Maverick 400B/17B、1M）成最后开放版本，存量生态
+    最深、新项目谨慎押注；Mistral Large 3 / Small 4 已转 Apache 2.0（2026-03），欧系合规友好；
+    Gemma 4 下沉端侧——26B MoE 激活约 4B，E2B 2.3B 有效参数 4GB 内存可跑。三个关键词：
+    收尾、转宽松、下沉——开放权重的创新中心已东移。</p>
+  <p class="ev">榜单口径 2026-07-10 快照，来源 <a href="#src-bench">BenchLM / Artificial Analysis</a>。
+    排名月月在换，「前排是中国队」这个结构一年内稳定。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="ml-china">
+  <h2><span class="num">04</span>中国格局与豆包<a class="anchor" href="#ml-china">#ml-china</a></h2>
+
+  <div class="lead">
+    <p>国产四强各有一个「超越时刻」——各自至少一个主流基准超越国际闭源。对客讲国产格局时，
+      「不行」的说法已过期，正确的问题是<b>「哪家配哪个场景」</b>。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>客户诉求</th><th>首看</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td>低成本推理 / 批量任务</td><td>DeepSeek</td><td>价格地板 + MIT；API 便宜 20–50 倍（社区口径）</td></tr>
+      <tr><td>中文长文 / 资料整理</td><td>Kimi</td><td>长文口碑 + agent swarm（最多 100 并行子智能体）</td></tr>
+      <tr><td>要全尺寸谱系 / 多语言</td><td>Qwen</td><td>0.6B–397B 全覆盖，主系 Apache 2.0</td></tr>
+      <tr><td>企业云生态 / 私有化 / 国产算力</td><td>GLM / 通义</td><td>昇腾国产化 + 私有化交付经验</td></tr>
+      <tr><td>字节生态 / 全模态 / 激进迭代</td><td>豆包</td><td>Seed 专线月更 2–4 次 + 方舟一体</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>这张表是「首看」不是「只看」——最终以客户评估集的实测为准。</p>
+
+  <h3>豆包：两条腿走路的国民模型</h3>
+  <p>家族一条主线加两条专线：2.1 Pro 主线旗舰（2026-06-23 发布，¥6/¥30，缓存命中 ¥1.2）、
+    2.1 Turbo 半价走量档、Seed-Evolving 专线月更 2–4 次（Coding/Agent 最激进迭代）、
+    Seed-2.0-lite 家族首个原生统一全模态（2026-05）。累计 tokens 调用 180 万亿+，
+    国内第一梯队。</p>
+  <p>理解定位的钥匙是<b>「模型即入口」</b>：C 端免费换规模、B 端绑火山方舟换收入——模型是云的
+    获客入口，云是模型的商业化出口。这决定了它的价格永远激进，也解释了它为什么不开源
+    （开源会削弱这个飞轮，与 Qwen/DeepSeek 的开源换生态是两条都跑通的路）。</p>
+
+  <h3>绕不开的两个战略题</h3>
+  <p><b>算力自主</b>：GLM-5 全程用华为昇腾训练、零英伟达——「没有英伟达就训不出前沿模型」的
+    说法已被证伪，私有化方案里「国产算力档」有了前沿模型选项（深潜见
+    <a href="../../PPT-version/AI-Infra-Compute/README.html">AI-Infra-Compute</a>）。
+    <b>出海与合规双轨</b>：国产模型出海与国内商用是两套规则，国内涉及备案与内容合规
+    （见 <a href="../../PPT-version/Security/README.html">Security</a> 第 8 章）——涉及跨境场景
+    先标注「合规待确认」，别当场拍板。</p>
+  <p class="ev">四强横评为 2026-06 社区共识口径、豆包数字 2026-07-10 核实，来源
+    <a href="#src-china">qiniu 横评 / 新华网 / 火山方舟价格页</a>。</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="ml-platforms">
+  <h2><span class="num">05</span>国内平台格局<a class="anchor" href="#ml-platforms">#ml-platforms</a></h2>
+
+  <div class="lead">
+    <p>模型名片看完了，客户真正要签的是「平台」。四大平台各有王牌：<b>方舟＝豆包家族＋生态流量、
+      百炼＝150+ 模型全家桶、千帆＝文心全模态＋搜索生态、腾讯＝极致性价比＋C 端分发</b>。
+      没有最好的平台，只有和客户现状最合拍的平台。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>平台</th><th>自研货架</th><th>三方货架</th><th>生态钩子与定位</th></tr></thead>
+    <tbody>
+      <tr><td>火山方舟</td><td>豆包 Seed 全家族（2.1 Pro ¥6/¥30 · Evolving 月更）</td>
+          <td>DeepSeek、Kimi、GLM 等</td><td>字节系流量与 Coze/HiAgent；分段计价 + 订阅制</td></tr>
+      <tr><td>阿里百炼</td><td>Qwen3.7 全系旗舰</td>
+          <td>150+：DeepSeek/GLM/Kimi/MiniMax/Llama</td><td>全家桶哲学；零代码智能体；Batch 一律 5 折</td></tr>
+      <tr><td>百度千帆</td><td>文心 5.0（2.4 万亿参数原生全模态）/ 5.1</td>
+          <td>150+ 统一纳管</td><td>百度搜索/地图/文库经 MCP 开放；130 万 Agents</td></tr>
+      <tr><td>腾讯云</td><td>混元 2.0（¥0.8/¥2 极致性价比）</td>
+          <td>MiniMax/Kimi/GLM/DeepSeek 可切换</td><td>元器接 QQ/微信分发；ADP 订阅制</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>两种货架哲学，决定议价权</h3>
+  <p>百炼/千帆是「全家桶统一纳管」，方舟/腾讯以自研为主轴、三方为辅。货架宽度接近，哲学不同
+    ——差别体现在客户的<b>议价权与锁定度</b>，这比单价更值得先聊。锁定真正来自数据与工作流而非
+    API：用兼容层/网关保住切换能力（机制见
+    <a href="../../PPT-version/AI-Gateway/README.html">AI-Gateway</a>），重要场景保留第二货源。</p>
+
+  <h3>选型三问：问完名单自然收敛</h3>
+  <p>① 客户已经绑在哪朵云、哪个生态？——云资源、数据、投放渠道在哪家，迁移成本就偏向哪家，
+    「顺路」常胜过「最优」。② 要自研旗舰还是多模型组合？——认准单一旗舰看自研档位与更新节奏，
+    要组合与议价权看三方货架宽度。③ 私有化与合规的底线在哪里？——需要专有云就先筛掉纯公有云
+    方案；备案与内容安全配套各家都有，材料支持深度不同。</p>
+
+  <h3>口径对齐四步：表面单价会骗人</h3>
+  <p>¥6/¥30（豆包 2.1 Pro）、¥2.5/¥10（Qwen3-Max ≤32K）、¥0.8/¥2（混元 2.0）三组数字
+    <b>不可直接比大小</b>。对齐口径的固定动作：</p>
+  <div class="grid">
+    <div class="box">
+      <h4>① 对分段与档位</h4>
+      <p>方舟按输入长度分段计价、百炼按上下文档位定价（≤32K 与 ≤128K 不同价）——先把客户的
+        真实长度分布落到对应档。</p>
+    </div>
+    <div class="box">
+      <h4>② 对缓存价</h4>
+      <p>豆包缓存命中 ¥1.2 vs 名义 ¥6——命中率 60–90% 的场景等效价差数倍。用第 7 节的
+        缓存公式换算。</p>
+    </div>
+    <div class="box">
+      <h4>③ 对批量与订阅</h4>
+      <p>百炼 Batch 一律 5 折、方舟 Coding Plan 订阅制、腾讯订阅+用量两条线——离线任务
+        和高频开发场景先套这些再比。</p>
+    </div>
+    <div class="box">
+      <h4>④ 再比大小</h4>
+      <p>按客户真实流量分布换算成「每月总账」再对比——差距常明显收窄，结论也才站得住。</p>
+    </div>
+  </div>
+  <p class="ev">平台数字 2026-07-17 核实（来源 <a href="#src-platforms">各平台官网计费文档</a>），
+    定点复查日 2026-08-31。「口径对齐四步」是本页把讲义警示句展开成的操作清单，未引入新事实。
+    文心 5.1「搜索登顶/成本 6%」为厂商口径，引用需注明。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="ml-license">
+  <h2><span class="num">06</span>许可证与合规<a class="anchor" href="#ml-license">#ml-license</a></h2>
+
+  <div class="lead">
+    <p>先把词用对：<b>open weight ≠ open source</b>。按 OSI 2024-10 发布的 OSAID（Open Source AI
+      Definition）v1.0，开源要求开放训练数据信息、架构与训练代码——按此标准，Llama/Gemma/Qwen
+      都只是「开放权重」：送你一桌做好的菜，不给菜谱。法务在场时，这个区别值钱。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>级别</th><th>代表</th><th>商用含义</th></tr></thead>
+    <tbody>
+      <tr><td><b>放心用</b>（MIT / Apache 2.0）</td>
+          <td>DeepSeek 系（MIT）、GLM-5.1（MIT）、Qwen3 主系（Apache 2.0）、Mistral 新版</td>
+          <td>可商用、可闭源二开、可再分发——法务最省心</td></tr>
+      <tr><td><b>读条款</b>（社区许可证）</td>
+          <td>Llama（700M MAU 帽 + 欧盟条款）、Gemma（自家条款）</td>
+          <td>多数场景可用，但有触发条款——必须读原文</td></tr>
+      <tr><td><b>谈合同</b>（仅 API / 专有）</td>
+          <td>GPT / Claude / Gemini / 豆包（方舟）</td>
+          <td>无权重；商用边界在服务合同与数据条款里</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Llama 的两个雷与蒸馏暗礁</h3>
+  <p>Llama Community License 两处要提前核：<b>700M MAU（Monthly Active Users）帽</b>——月活超
+    7 亿需向 Meta 另行申请授权；<b>欧盟条款</b>——多模态版本对欧盟实体有使用限制。给大厂或
+    欧企做方案时必查。更隐蔽的是<b>蒸馏继承</b>：用 Llama 蒸馏的学生模型仍可能带 Llama 条款
+    ——微调/蒸馏选型时基座许可证要先过。</p>
+
+  <h3>商用检查四问</h3>
+  <p>① 这个权重的许可证原文是哪份、哪个版本？② 微调/蒸馏出来的衍生模型受什么条款约束？
+    ③ 允许再分发吗（打进产品卖给客户）？④ 你的客户的客户使用，算不算触发条款？——四问答完
+    再进方案。趋势对采购有利：宽松化是 2026 主旋律（Mistral 转 Apache、中国主力选 MIT），
+    但 Llama 系例外要单独核。</p>
+  <p class="ev">口径依据各 LICENSE 原文与 OSAID v1.0，核实 2026-07-10，来源
+    <a href="#src-license">LICENSE 原文 / HF blog</a>。许可证是少数「答错会出事故」的领域，
+    拿不准就说「以法务核定为准」。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="ml-price">
+  <h2><span class="num">07</span>价格与成本工程<a class="anchor" href="#ml-price">#ml-price</a></h2>
+
+  <div class="lead">
+    <p>价格光谱从 $0.10 到 $30，跨 300 倍。<b>报价先定档位，再挑档内型号</b>——各家都收敛到了
+      「旗舰 / 均衡 / 走量」三档家族制（OpenAI Sol/Terra/Luna、Anthropic Opus/Sonnet/Haiku、
+      Google Pro/Flash/Flash-Lite、豆包 Pro/Turbo），三档制是跨厂商的通用语言。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>档位</th><th>代表（$/百万 token，输入/输出）</th><th>适用</th></tr></thead>
+    <tbody>
+      <tr><td>地板档 ~$0.1</td><td>DeepSeek V4 Flash $0.14/$0.28 · Gemini Flash-Lite $0.10/$0.40</td>
+          <td>海量批处理、分类、抽取</td></tr>
+      <tr><td>走量档 $1–3</td><td>Luna $1/$6 · Grok 4.3 $1.25/$2.50 · Sonnet 5 尝鲜 $2/$10 · Terra $2.5/$15</td>
+          <td>生产主力：客服、RAG、Agent</td></tr>
+      <tr><td>旗舰档 ~$5</td><td>GPT-5.6 Sol $5/$30 · Gemini 3.1 Pro（旗舰最低价）</td>
+          <td>难任务、深推理</td></tr>
+      <tr><td>超旗舰 $30</td><td>GPT-5.4 Pro $30/$180</td><td>极少数场景，先证明再用</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>人民币参照：豆包 2.1 Pro ¥6/¥30（约 $0.85/$4.2）在走量档很有攻击性。</p>
+
+  <h3>缓存经济学：最容易忽视的成本杠杆</h3>
+  <p>缓存读折 90%（OpenAI 口径，各家类似）、写按 1.25×；豆包命中价 ¥1.2 对名义 ¥6。
+    等效成本的算法：</p>
+  <p><b>真实成本 = 名义单价 ×（1 − 缓存命中率 × 折扣率）</b>。系统提示、少样本示例、工具定义
+    都是高复用段——客服/Agent 场景命中率常见 60–90%，等效价直接砍半以上。对客报价必问一句
+    「你的提示词有多少是重复的」。命中率背后的机制（前缀缓存）在
+    <a href="./../llm-inference/index.html">LLM-Inference 网页版</a>批处理一节。</p>
+
+  <h3>报价纪律</h3>
+  <p>① 写量级不写精确价，精确价放附录并标日期；② 注明「以官网当日为准」并给活水源链接；
+    ③ 合同锁「档位与降价传导」，不锁单一型号价格——过去一年市场降了 30–60%，不写降价传导
+    客户就吃亏。thinking 模式的账单问题（思考 token 十倍于普通回答）见
+    <a href="#ml-capability">能力矩阵</a>的预算控制。</p>
+  <p class="ev">价格全部为 2026-07-10 口径，来源 <a href="#src-price">各厂商官网价格页</a>。
+    <b>价格是本页最快过期的数字</b>——学光谱结构和算法，数字在引用当天重查。</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="ml-capability">
+  <h2><span class="num">08</span>能力矩阵与推理模型<a class="anchor" href="#ml-capability">#ml-capability</a></h2>
+
+  <div class="lead">
+    <p>能力比较看三个维度：上下文窗口、模态、思考预算。每个维度都有一个反直觉的「但是」：
+      窗口大 ≠ 记得住，模态全 ≠ 原生，思考久 ≠ 更准。</p>
+  </div>
+
+  <h3>上下文：窗口 ≠ 有效窗口</h3>
+  <p>三档谱系：128K 常规档（多数生产模型标配）→ 1M 长文档档（Fable 5 / Gemini / Llama 4
+    Maverick）→ 10M 极限档（Llama 4 Scout，生态检验中）。三个「但是」：①长文中段召回会衰减；
+    ②成本随长度暴涨（平方级根源见 <a href="../../PPT-version/LLM/README.html">LLM 原理</a>）；
+    ③「1M 窗口杀死 RAG」是伪命题——权限、新鲜度、成本三关 RAG 仍不可替代。对客话术：
+    窗口决定「能不能塞进去」，不决定「记不记得住、划不划算」。</p>
+
+  <h3>多模态：原生还是拼的</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>模型线</th><th>图像</th><th>音频</th><th>视频</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td>GPT-5.x 系</td><td>原生</td><td>原生+实时</td><td>理解</td><td>Realtime 语音线成熟</td></tr>
+      <tr><td>Gemini 3.1 系</td><td>原生</td><td>原生+实时</td><td>原生（1 小时级）</td><td>长视频独门</td></tr>
+      <tr><td>Claude 5 系</td><td>原生</td><td>—</td><td>—</td><td>专注文本与工具链</td></tr>
+      <tr><td>Qwen-Omni / 豆包 Seed-2.0-lite</td><td>原生</td><td>原生</td><td>原生</td><td>开源与国产全模态代表</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>按「原生统一 vs 外挂拼接」看：原生的体验与延迟优势明显——机制深潜见
+    <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>。</p>
+
+  <h3>思考预算：拨盘，不是开关</h3>
+  <p>两种旋钮：<b>L1 可控</b>——你来定预算（Anthropic budget_tokens、Google thinkingBudget、
+    OpenAI reasoning effort 分档），适合成本敏感、难度可预估的场景；<b>L2 自适应</b>——模型
+    按难度自动调深浅（Fable 5 的 adaptive thinking 是代表），省心但成本波动大，要配预算上限。
+    全部头部实验室已收敛到「快慢混合」范式。</p>
+  <p><b>overthinking 有实证</b>：超过临界思考预算后准确率稳定下降（arXiv 2506.04210）——
+    简单任务开满档 thinking 更慢、更贵、还可能更错，像考试检查太多遍开始把对的改错。工程对策：
+    按任务难度分级配预算、评估集里加「简单题不许想太久」的用例。帮客户把预算调到「刚刚好」，
+    一次优化常省 30%+ 推理成本。思考 token 烧的是 decode——机制见
+    <a href="./../llm-inference/index.html">LLM-Inference 网页版</a>。</p>
+  <p class="ev">思考预算与 overthinking 口径来自 <a href="#src-arxiv">arXiv 2507.02076 / 2506.04210</a>，
+    核实 2026-07-10。</p>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="sec" id="ml-selection">
+  <h2><span class="num">09</span>选型方法论<a class="anchor" href="#ml-selection">#ml-selection</a></h2>
+
+  <div class="lead">
+    <p><b>多模型组合是 2026 年企业默认解</b>，单一供应商反而需要特别理由。证据：Walmart Code Puppy
+      在 GPT/Claude/Gemini 间动态路由（路由器成了核心资产）；ServiceNow 2026-01 数周内同签
+      OpenAI 与 Anthropic 多年协议；Gartner 预计 2028 年 70% 多模型组织将用 AI 网关能力
+      （2024 年不足 5%）。</p>
+  </div>
+
+  <h3>三层路由：1 : 8 : 1</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 240" role="img" aria-label="三层路由框架：约一成最难推理走前沿闭源，八成高量生产走走量档，约一成敏感数据走自托管开放权重">
+     <rect width="720" height="240" fill="#FFFFFF"/>
+     <rect x="24" y="30" width="672" height="52" fill="#fff" stroke="#0F172A"/>
+     <text x="40" y="52" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="13.5" font-weight="700" fill="#0F172A">最难推理层 · 占比 ~10%</text>
+     <text x="40" y="70" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12" fill="#5B6B7F">前沿闭源：Fable 5 / GPT-5.6 Sol / Gemini 3.1 Pro —— 复杂规划、深度分析、关键决策</text>
+     <rect x="24" y="94" width="672" height="52" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+     <text x="40" y="116" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="13.5" font-weight="700" fill="#2563EB">高量生产层 · 占比 ~80%</text>
+     <text x="40" y="134" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12" fill="#5B6B7F">走量档：Luna / Flash / Sonnet 5 / 豆包 Turbo / DeepSeek —— 客服、RAG 问答、批量抽取</text>
+     <rect x="24" y="158" width="672" height="52" fill="#fff" stroke="#0F172A"/>
+     <text x="40" y="180" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="13.5" font-weight="700" fill="#0F172A">敏感数据层 · 占比 ~10%</text>
+     <text x="40" y="198" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12" fill="#5B6B7F">自托管开放权重：Qwen / DeepSeek / GLM（MIT/Apache）—— 数据不出域、强监管场景</text>
+     <text x="24" y="230" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">80% 的量走便宜档是成本工程的核心；路由的落地件（分流、计量、灰度）在 AI-Gateway 模块</text>
+    </svg>
+   </div>
+   <figcaption>三层路由：难题上旗舰、走量下便宜档、敏感进自托管——比例通常 1 : 8 : 1。</figcaption>
+  </figure>
+
+  <h3>五约束决策树（也是下方筛选器的判据）</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>硬约束</th><th>收敛方向</th></tr></thead>
+    <tbody>
+      <tr><td>数据不能出域</td><td>自托管开放权重 + 许可证核对（<a href="#ml-license">四问清单</a>）</td></tr>
+      <tr><td>预算敏感 / 超高调用量</td><td>地板档 + 缓存优化 + 三层路由</td></tr>
+      <tr><td>要最强 agentic / 编码</td><td>企业档旗舰（Claude 系 / GPT 系）+ 评估集实测</td></tr>
+      <tr><td>中文为主 / 国内交付</td><td>国产四强 + 豆包按<a href="#ml-china">场景配对表</a>选</td></tr>
+      <tr><td>必须保持可换</td><td>网关抽象 + 评估集回归 + 合同降价传导</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>顺序有讲究：<b>先用硬约束砍掉大半选项，再在剩下里比性能</b>——反过来会陷入无穷的榜单争论。</p>
+
+  <div class="tool" id="picker">
+    <h4>选型筛选器</h4>
+    <p class="note">按五约束收敛候选名单。数据为本页已核实口径（价格 2026-07-10、平台 07-17），
+      结果是「首看名单」——终审永远在你的评估集。</p>
+    <div class="controls">
+      <label class="ctl">部署约束
+        <select id="pk-deploy">
+          <option value="any">无硬约束</option>
+          <option value="self">数据不能出域（要可自托管）</option>
+        </select>
+      </label>
+      <label class="ctl">预算档位
+        <select id="pk-tier">
+          <option value="any">不限</option>
+          <option value="floor">地板档（海量批处理）</option>
+          <option value="volume">走量档（生产主力）</option>
+          <option value="flagship">旗舰档（难任务）</option>
+        </select>
+      </label>
+      <label class="ctl">场景侧重
+        <select id="pk-need">
+          <option value="any">通用</option>
+          <option value="code">agentic / 编码</option>
+          <option value="zh">中文为主 / 国内交付</option>
+          <option value="multi">多语言</option>
+          <option value="modal">原生音频/视频</option>
+          <option value="longctx">超长上下文（≥1M）</option>
+          <option value="edge">端侧 / 离线设备</option>
+        </select>
+      </label>
+      <label class="ctl chk"><input type="checkbox" id="pk-clean"> 只要宽松许可证（MIT/Apache）</label>
+    </div>
+    <div class="hitcards" id="pk-out"></div>
+    <p class="note" id="pk-note"></p>
+  </div>
+
+  <h3>两道防线与验收</h3>
+  <p><b>防线一：对榜单保持怀疑</b>——Leaderboard Illusion 已证实厂商私测多变体、择优公开
+    （曾有厂商私测 27 个变体只发最好那个）；MMLU 类基准饱和在 88%+ 拉不开差距。榜单只做初筛。
+    <b>防线二：自建评估集终审</b>——用客户真实数据抽样建评估集（方法在
+    <a href="../../PPT-version/Evaluation/README.html">Evaluation</a> 第 5 章），换模型 = 跑一遍
+    回归。评估集是客户的资产，模型是易耗品——这也是「保持可换」的技术前提。</p>
+  <p>升级也要当发布链管：锁定当前版 → 候选版 → 离线评测 → 金丝雀放量 → 晋升或回滚；收到退役
+    通知先跑回归证据，不是直接换模型 ID。终极验收一句话：<b>在真实部署端点上，模型以可接受成本
+    持续产出合格结果，并能被观察、升级、回滚和替换</b>——Demo 里能回答只证明了最浅的一层。</p>
+  <p class="ev">案例与趋势核实 2026-07-10，来源 <a href="#src-cases">Walmart/ServiceNow 报道与
+    Gartner 转引</a>；Leaderboard Illusion 见 <a href="#src-arxiv">arXiv 2504.20879</a>。</p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="sec" id="ml-cheatsheet">
+  <h2><span class="num">10</span>保鲜与问答<a class="anchor" href="#ml-cheatsheet">#ml-cheatsheet</a></h2>
+
+  <h3>这一册数字的赏味期限</h3>
+  <p>本册是全库事实密度最高、最易过期的模块——引用任何数字带上「截至 2026-07」的口径声明，
+    是专业度也是自我保护。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>数据类型</th><th>赏味期限</th><th>活水源</th></tr></thead>
+    <tbody>
+      <tr><td>价格</td><td>1–3 个月（价格战期更短）</td><td>各厂商官网价格页</td></tr>
+      <tr><td>版本号 / 旗舰型号</td><td>1–3 个月</td><td>厂商官方博客</td></tr>
+      <tr><td>榜单排名</td><td>数周</td><td>Artificial Analysis / Arena</td></tr>
+      <tr><td>市场份额</td><td>半年</td><td>Menlo / 各年度报告</td></tr>
+      <tr><td>格局结构（三阵营/三档制/路由框架）</td><td>1 年+，最保值</td><td>本页方法论各节</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="box warn">
+    <p><span class="badge recheck">2026-08-31 定点复查</span>
+      两件事绑在这一天：Sonnet 5 尝鲜价（$2/$10）到期转 $3/$15；国内四平台价格与货架
+      （方舟/百炼/千帆/腾讯）到建议复查日。全库到期看板见<a href="../fresh.html">保鲜页</a>。</p>
+  </div>
+
+  <h3>现场高频追问</h3>
+  <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。
+    每题给结论、给机制或权衡、给一个可执行的下一步，并回链依据。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-10</b> 的来自讲义首版各章对练页，
+    <b>2026-07-17</b> 的来自国内平台增章。</p>
+  <div class="qa">
+    <details>
+      <summary>现在到底谁家模型最强？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>「最强」永远带定语：企业支出 Anthropic 第一（40%），消费端 ChatGPT 独占 74%，
+          推理基准 Gemini 领先，开源榜首是 DeepSeek。要先问「哪个市场、什么任务」。</p>
+        <p class="qa-why">这个问题答成排位赛就输了——两张榜单已经分裂，不带口径的「第一」都是误导。
+          它正是需要选型方法的原因。</p>
+        <p class="qa-next"><b>下一步</b>　把对方的场景落到「任务 × 预算 × 信任」三坐标，再查
+          五张名片表，30 秒内给出带定语的答案。</p>
+        <p class="qa-src">依据　<a href="#ml-map">全景地图</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>GPT 和 Claude 到底该选哪个？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>先问任务：编码与企业 agentic 场景 Claude 系胜率高（企业编码份额 54%）；生态与多模态
+          工具链 OpenAI 更全；成本敏感看 Gemini。通常建议双供应商起步、网关路由、评估集分胜负。</p>
+        <p class="qa-why">二选一的提问方式本身就该被纠正——多模型组合是默认解，选型从站队之争
+          变成工程问题，才是解决方案人的价值。</p>
+        <p class="qa-next"><b>下一步</b>　用 20 条对方真实业务 prompt 做迷你评估集盲测，半天出属于
+          他的答案。</p>
+        <p class="qa-src">依据　<a href="#ml-closed">五张名片</a> · <a href="#ml-selection">选型方法论</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>开源模型和 GPT 们到底还差多少？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>多数基准差距已到个位数，编码基准追平（SWE-bench Verified 80.6%）。还剩两个差距：
+          最难推理任务闭源领先半个身位、工具链成熟度。结论是分任务用，不是二选一。</p>
+        <p class="qa-why">追平的机制（MoE + 蒸馏 + 合成数据）决定了这不是昙花一现——「开源不行」
+          的直觉停在 2024 年，答对这题直接建立专业信任。</p>
+        <p class="qa-next"><b>下一步</b>　按三层路由把对方的任务分层：走量与敏感数据层开源上，
+          最难 10% 留给闭源。</p>
+        <p class="qa-src">依据　<a href="#ml-open">开放权重格局</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>Llama 不是开源吗，为什么法务不让我们用？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>它是「开放权重 + 社区许可证」：有 700M MAU 触发条款和欧盟限制，法务谨慎是对的。
+          要许可证干净的替代，DeepSeek（MIT）和 Qwen（Apache 2.0）能力相当且条款更宽松。</p>
+        <p class="qa-why">这题的价值在纠正词汇：open weight ≠ open source（OSAID 口径）。
+          用词严谨，法务和采购才会把你当内行。</p>
+        <p class="qa-next"><b>下一步</b>　用商用四问清单过一遍对方方案里的所有模型，输出一页纸
+          给法务预审。</p>
+        <p class="qa-src">依据　<a href="#ml-license">许可证与合规</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>用开源模型微调出来的模型算谁的？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>权重归你，但受基座许可证约束：MIT/Apache 基座的衍生模型基本自由；Llama 基座的衍生
+          模型继承其条款（含命名义务）。微调选型时基座许可证要先过。</p>
+        <p class="qa-why">蒸馏是隐蔽雷区——用 Llama 蒸馏的学生模型仍可能带 Llama 条款。
+          这个坑法务常常也不知道，提前点出是加分项。</p>
+        <p class="qa-next"><b>下一步</b>　微调方案里加一行默认检查项：「基座许可证与衍生条款
+          已核对」。私有化微调的工程侧见 Fine-tuning 模块。</p>
+        <p class="qa-src">依据　<a href="#ml-license">许可证与合规</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>为什么不全用最便宜的 DeepSeek？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>地板档适合批量明确任务；难推理与关键链路需要更高档位兜底。三层路由的做法是 80% 任务
+          走便宜档、难题升档——总成本比全用旗舰低一半以上，比全用地板档少踩坑。</p>
+        <p class="qa-why">「全用最便宜的」和「全用最强的」是同一个错误的两个方向：都没按任务
+          分层。路由比型号更值得投入。</p>
+        <p class="qa-next"><b>下一步</b>　拿对方一天的真实请求抽样，按难度分三层估比例，
+          算一遍混合单价对比单一模型单价。</p>
+        <p class="qa-src">依据　<a href="#ml-price">价格与成本</a> · <a href="#ml-selection">三层路由</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>现在签一年合同，明年价格跌了怎么办？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>合同锁「档位与降价传导」而不是锁型号单价：官网降价自动传导。过去一年市场降了
+          30–60%，不写这条就吃亏。</p>
+        <p class="qa-why">「模型是快速贬值资产」在合同条款上的直接推论。这条也是把「价格战」
+          从威胁变成客户利益的话术支点。</p>
+        <p class="qa-next"><b>下一步</b>　把报价纪律四要素写进方案书模板：量级、日期、活水源、
+          降价传导。</p>
+        <p class="qa-src">依据　<a href="#ml-price">报价纪律</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>上下文窗口越大越好吗？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>不是。窗口决定能塞多少，不决定记不记得住（中段召回衰减）和划不划算（成本随长度暴涨）。
+          生产里常见 128K 窗口 + RAG 精准喂料，比硬塞 1M 又准又便宜。</p>
+        <p class="qa-why">「1M 窗口杀死 RAG」是高频伪命题：权限、新鲜度、成本三关 RAG 仍不可替代
+          ——答清楚这题能拦住一个方向性错误。</p>
+        <p class="qa-next"><b>下一步</b>　长上下文为什么两头吃钱（prefill 平方级 + KV 线性级），
+          用 LLM-Inference 网页版的机制页现场讲给对方。</p>
+        <p class="qa-src">依据　<a href="#ml-capability">能力矩阵</a> · <a href="./../llm-inference/index.html">LLM-Inference 网页版</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>评测榜单第一的模型，为什么你们不推荐？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>榜单有已证实的水分：厂商私测多变体择优公开（Leaderboard Illusion），且热门基准已饱和
+          （88%+ 无区分度）。榜单只用来初筛，终审永远是客户的数据、客户的评估集。</p>
+        <p class="qa-why">这题把「你们是不是不客观」的质疑转化成方法论输出——两道防线讲完，
+          选型就从站队变成了工程。</p>
+        <p class="qa-next"><b>下一步</b>　给对方看 arXiv 2504.20879 的结论一页，然后提议共建
+          20–50 条的迷你评估集。</p>
+        <p class="qa-src">依据　<a href="#ml-selection">两道防线</a> · <a href="#src-arxiv">src-arxiv</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>国内这几个平台，到底选哪个？<span class="added">2026-07-17</span></summary>
+      <div class="a">
+        <p>先答三问：绑哪朵云、要旗舰还是组合、私有化底线——答案通常自动收敛到一两家。
+          没有普适最优，只有与现状合拍：字节生态看方舟、要全家桶看百炼、搜索增强看千帆、
+          极致性价比与微信分发看腾讯。</p>
+        <p class="qa-why">平台选型比模型选型多一层「生态引力」：云资源、数据、投放渠道在哪家，
+          迁移成本就偏向哪家——「顺路」常胜过「最优」。</p>
+        <p class="qa-next"><b>下一步</b>　价格对比前先走「口径对齐四步」，把分段计价、档位、
+          缓存、批量折扣对齐再谈大小。</p>
+        <p class="qa-src">依据　<a href="#ml-platforms">国内平台格局</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>平台会不会把我们锁死？<span class="added">2026-07-17</span></summary>
+      <div class="a">
+        <p>锁定来自数据与工作流而非 API——用兼容层/网关保住切换能力，重要场景保留第二货源。
+          「全家桶纳管」与「自研主轴」两种货架哲学的锁定度不同，签约前值得先聊这个。</p>
+        <p class="qa-why">这题是「保持可换」总纲在平台层的落点：合同、网关、评估集三件套齐了，
+          锁定风险才真正可控。</p>
+        <p class="qa-next"><b>下一步</b>　方案里画出网关抽象层的位置，标注切换演练的验证清单
+          ——机制见 AI-Gateway 模块。</p>
+        <p class="qa-src">依据　<a href="#ml-platforms">两种货架哲学</a> · <a href="#ml-selection">选型方法论</a></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2><span class="num">11</span>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。</p>
+  <div class="rel">
+    <a href="../../PPT-version/Evaluation/README.html">
+      <div class="nm">Evaluation</div>
+      <div class="why">榜单饱和与 Leaderboard Illusion 的完整弹药在其第 2 章；自建评估集方法在
+        第 5 章——选型终审依赖它。</div>
+    </a>
+    <a href="../../PPT-version/AI-Gateway/README.html">
+      <div class="nm">AI-Gateway</div>
+      <div class="why">三层路由与成本治理的工程落地件；「平台锁定」的解法（兼容层保切换）也在
+        那册。</div>
+    </a>
+    <a href="./../llm-inference/index.html">
+      <div class="nm">LLM-Inference · 网页版</div>
+      <div class="why">思考预算烧的是 decode、长上下文两头吃钱、自托管的显存账——本页价格与
+        能力两节的机制底座。</div>
+    </a>
+    <a href="../../PPT-version/LLM/README.html">
+      <div class="nm">LLM 原理</div>
+      <div class="why">MoE 稀疏激活是「开源追平」与三档定价的架构根源。</div>
+    </a>
+    <a href="../../PPT-version/Fine-tuning/README.html">
+      <div class="nm">Fine-tuning</div>
+      <div class="why">开放权重 + 宽松许可证是私有化微调的前提；衍生模型条款在本页许可证一节。</div>
+    </a>
+    <a href="../../PPT-version/Security/README.html">
+      <div class="nm">Security · 第 8 章</div>
+      <div class="why">国内平台的备案材料与「私有化不免合规」口径在中国监管合规一章。</div>
+    </a>
+    <a href="../../PPT-version/Solution-Patterns/README.html">
+      <div class="nm">Solution-Patterns</div>
+      <div class="why">「模型是可替换件」的方案叙事在其第 2 章；各场景章的模型选型格子引用本册。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2><span class="num">12</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/Model-Landscape/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-10（国内平台章 2026-07-17）。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-menlo"><td><code>src-menlo</code></td><td>Menlo 企业报告</td>
+          <td>企业市场份额（40/27/21）与支出规模</td><td>不代表消费市场；份额赏味期约半年</td></tr>
+      <tr id="src-price"><td><code>src-price</code></td><td>各厂商官网价格页</td>
+          <td>2026-07-10 当日价格与档位</td><td>不能当报价单用——价格赏味期 1–3 个月</td></tr>
+      <tr id="src-bench"><td><code>src-bench</code></td><td>BenchLM / Artificial Analysis</td>
+          <td>榜单排名快照与追平证据</td><td>排名数周即变；不能作为终审依据</td></tr>
+      <tr id="src-china"><td><code>src-china</code></td><td>qiniu 横评 / 新华网 / 火山方舟价格页</td>
+          <td>国产四强横评口径与豆包家族数字</td><td>横评为社区共识口径，非厂商官方基准</td></tr>
+      <tr id="src-platforms"><td><code>src-platforms</code></td><td>四平台官网计费与产品文档</td>
+          <td>平台货架、价格锚点、订阅制（2026-07-17）</td><td>「搜索登顶/成本 6%」等厂商口径需注明</td></tr>
+      <tr id="src-license"><td><code>src-license</code></td><td>各 LICENSE 原文 / HF blog / OSAID v1.0</td>
+          <td>许可证分级与条款细节</td><td>不替代法务核定</td></tr>
+      <tr id="src-cases"><td><code>src-cases</code></td><td>Walmart/ServiceNow 报道 / Gartner 转引</td>
+          <td>多模型默认解的案例与趋势预测</td><td>Gartner 为预测值，不是现状统计</td></tr>
+      <tr id="src-arxiv"><td><code>src-arxiv</code></td><td>arXiv 2507.02076 / 2506.04210 / 2504.20879</td>
+          <td>思考预算分类、overthinking 实证、榜单水分</td><td>实验环境结论，外推到具体业务前要复测</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="box warn" style="margin-top:1rem">
+    <p><b>下一次定点复查：2026-08-31。</b>到期项：Sonnet 5 尝鲜价、国内四平台价格与货架。
+      本页所有价格类数字届时一并重核——它们是全库最易过期的一批。</p>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/Model-Landscape/Model-Landscape-讲义.pptx">Model-Landscape-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/Model-Landscape/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/Model-Landscape/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <!-- UPDATED:END -->
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+/* 选型筛选器：五约束 → 首看名单。数据 = 本页已核实事实（价格 2026-07-10、平台 07-17）。
+   纪律：帮助比较与决策（web-rules §九）；无 JS 时 .tool 整块隐藏，静态兜底是上方决策树表。 */
+(function () {
+  "use strict";
+  var M = [
+    {n:"GPT-5.6 Sol", t:"flagship", self:0, lic:"api", tag:"闭源 · OpenAI", p:"$5/$30",
+     s:"旗舰全能，攻科学与安全任务；生态与工具链最全", need:["code"]},
+    {n:"GPT-5.6 Terra", t:"volume", self:0, lic:"api", tag:"闭源 · OpenAI", p:"$2.50/$15",
+     s:"均衡档：性能对齐上代旗舰、价格减半——不知道选什么先选它", need:["code"]},
+    {n:"GPT-5.6 Luna", t:"volume", self:0, lic:"api", tag:"闭源 · OpenAI", p:"$1/$6",
+     s:"走量档，快而便宜，配路由用", need:[]},
+    {n:"Claude Fable 5", t:"flagship", self:0, lic:"api", tag:"闭源 · Anthropic", p:"1M 上下文",
+     s:"Opus 之上的新档位；agentic 与自适应思考代表", need:["code","longctx"]},
+    {n:"Claude Sonnet 5", t:"volume", self:0, lic:"api", tag:"闭源 · Anthropic", p:"$2/$10 尝鲜至 08-31",
+     s:"近 Opus 性能的走量档；企业编码场景胜率高", need:["code"]},
+    {n:"Gemini 3.1 Pro", t:"flagship", self:0, lic:"api", tag:"闭源 · Google", p:"旗舰最低价",
+     s:"推理与 1 小时级长视频独门；TPU 自供算力压价格", need:["modal","longctx"]},
+    {n:"Gemini Flash-Lite", t:"floor", self:0, lic:"api", tag:"闭源 · Google", p:"$0.10/$0.40",
+     s:"最低闭源档，海量批处理", need:[]},
+    {n:"Grok 4.3", t:"volume", self:0, lic:"api", tag:"闭源 · xAI", p:"$1.25/$2.50",
+     s:"性价比 Pareto 前沿；案例少，更要评估集验收", need:[]},
+    {n:"DeepSeek V4 Pro", t:"flagship", self:1, lic:"clean", tag:"开放权重 · MIT", p:"开源第一（综合 87）",
+     s:"SWE-bench 80.6% 追平闭源；MLA 架构推理成本占优", need:["code","zh"]},
+    {n:"DeepSeek V4 Flash", t:"floor", self:1, lic:"clean", tag:"开放权重 · MIT", p:"$0.14/$0.28",
+     s:"全市场价格地板；批量任务默认档", need:["zh"]},
+    {n:"Qwen3.5", t:"volume", self:1, lic:"clean", tag:"开放权重 · Apache 2.0", p:"0.6B–397B 谱系",
+     s:"尺寸谱系最全、多语言最强；Omni 线原生全模态", need:["zh","multi","modal"]},
+    {n:"Kimi K2.6", t:"volume", self:1, lic:"open", tag:"开放权重", p:"AA 开源第一（54）",
+     s:"agentic 编码与工具使用；中文长文口碑档", need:["code","zh"]},
+    {n:"GLM-5.1", t:"volume", self:1, lic:"clean", tag:"开放权重 · MIT", p:"综合 83",
+     s:"昇腾全国产训练；企业私有化交付经验深", need:["zh","code"]},
+    {n:"豆包 2.1 Pro", t:"volume", self:0, lic:"api", tag:"闭源 · 方舟", p:"¥6/¥30 · 缓存 ¥1.2",
+     s:"Seed 专线月更 2–4 次；Seed-2.0-lite 原生全模态", need:["zh","modal"]},
+    {n:"Llama 4 Maverick", t:"volume", self:1, lic:"cond", tag:"开放权重 · 社区证", p:"1M 上下文",
+     s:"存量生态最深；700M MAU 帽与欧盟条款要先核", need:["longctx"]},
+    {n:"Mistral Large 3", t:"volume", self:1, lic:"clean", tag:"开放权重 · Apache 2.0", p:"欧系",
+     s:"2026-03 转 Apache 2.0；欧系合规友好的中档私有化选项", need:["multi"]},
+    {n:"Gemma 4", t:"floor", self:1, lic:"cond", tag:"开放权重 · 自家条款", p:"E2B 4GB 内存可跑",
+     s:"26B MoE 激活约 4B；端侧与轻量部署首选之一", need:["edge"]},
+    {n:"Phi-4 / SmolLM-3", t:"floor", self:1, lic:"clean", tag:"端侧小模型", p:"sub-10B",
+     s:"常规超 2024 版 GPT-4；设备端与离线场景", need:["edge"]}
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("pk-out"), note = $("pk-note");
+  if (!out) return;
+  function run() {
+    var dep = $("pk-deploy").value, tier = $("pk-tier").value,
+        need = $("pk-need").value, clean = $("pk-clean").checked;
+    var hits = M.filter(function (m) {
+      if (dep === "self" && !m.self) return false;
+      if (tier !== "any" && m.t !== tier) return false;
+      if (clean && m.lic !== "clean") return false;
+      if (need !== "any" && m.need.indexOf(need) < 0) return false;
+      return true;
+    });
+    out.innerHTML = hits.map(function (m) {
+      return '<div class="hitcard"><b>' + m.n + '</b>' +
+             '<div class="tagline2">' + m.tag + ' · ' + m.p + '</div>' +
+             '<p>' + m.s + '</p></div>';
+    }).join("");
+    if (!hits.length) {
+      note.textContent = "没有同时满足这些约束的候选——放宽一项再筛，或按三层路由拆成组合。";
+    } else {
+      note.textContent = "共 " + hits.length + " 个候选（口径 2026-07-10/17）。这是首看名单，" +
+        "不是结论：终审用你的评估集，价格引用当天再核官网。";
+    }
+  }
+  ["pk-deploy", "pk-tier", "pk-need"].forEach(function (id) {
+    $(id).addEventListener("change", run);
+  });
+  $("pk-clean").addEventListener("change", run);
+  run();
+})();
+</script>
+</body>
+</html>

@@ -1925,7 +1925,7 @@ window.KB = {
    "dir": "LLM-Inference",
    "layer": "基础层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "llminf-anatomy",
@@ -2116,7 +2116,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./llm-inference/index.html"
   },
   {
    "id": "llm-training",
@@ -2475,7 +2475,7 @@ window.KB = {
    "dir": "Model-Landscape",
    "layer": "解决方案层",
    "created": "2026-07-10",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "ml-map",
@@ -2650,6 +2650,34 @@ window.KB = {
      "verified": "2026-07-10",
      "source": "arXiv（书单列官方链接）/ evaluation 模块",
      "recheck": "—"
+    },
+    {
+     "text": "火山方舟：Doubao-Seed-2.1 Pro（06-23）¥6/¥30、缓存 ¥1.2，按输入长度分段计价；Coding Plan 订阅 Pro 首月 ¥44.91 续费 5 折（含 Seed-2.0-Code/DeepSeek V3.2/Kimi K2.5/GLM-4.7）；企业版支持私有化接入",
+     "chapter": "ml-platforms",
+     "verified": "2026-07-17",
+     "source": "火山方舟官网/计费文档",
+     "recheck": "2026-08-31"
+    },
+    {
+     "text": "阿里百炼：150+ 模型（Qwen 全系+DeepSeek/GLM/Kimi/MiniMax/Llama）；Qwen3-Max（≤32K）¥2.5/¥10、Qwen3.5-Plus（≤128K）¥0.8/¥4.8；Batch 批量一律 5 折；2026-05 大版本上架 Qwen3.7 全系与百万上下文模型",
+     "chapter": "ml-platforms",
+     "verified": "2026-07-17",
+     "source": "help.aliyun.com 模型价格/百炼平台页",
+     "recheck": "2026-08-31"
+    },
+    {
+     "text": "百度千帆：文心 5.0 正式版 2026-01-22（2.4 万亿参数原生全模态）、5.1（2026-05，厂商称搜索登顶国内/预训练成本 6%——厂商口径）；150+ SOTA 统一纳管；平台 130 万 Agents、工具日调用超千万次",
+     "chapter": "ml-platforms",
+     "verified": "2026-07-17",
+     "source": "新华网/量子位/cloud.baidu.com",
+     "recheck": "2026-08-31"
+    },
+    {
+     "text": "腾讯：混元 2.0 API ¥0.8/¥2、Hunyuan Standard 输入 ¥0.3；智能体开发平台 ADP 订阅制；三方模型可切换（MiniMax-M2.x/Kimi-K2.5/GLM-5 系/DeepSeek-V4 系）",
+     "chapter": "ml-platforms",
+     "verified": "2026-07-17",
+     "source": "腾讯云计费与产品文档",
+     "recheck": "2026-08-31"
     }
    ],
    "edges": [
@@ -2720,7 +2748,7 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": ""
+   "web": "./model-landscape/index.html"
   },
   {
    "id": "multimodal",

@@ -356,6 +356,37 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
          background: var(--warn-bg); border: 1px solid var(--warn-ln);
          padding: 0 .4rem; border-radius: 6px; margin-left: .5rem; font-weight: 400; }
 
+/* ============ 模块页交互件（选型筛选器 / 显存计算器）============
+   纪律（web-rules §九）：交互必须帮助定位/比较/理解/追证/决策之一。
+   无 JavaScript 时整块隐藏——静态兜底（决策树表 / 心算公式）留在正文里。 */
+.tool { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+        box-shadow: var(--shadow); padding: 1rem 1.2rem; margin: 1.2rem 0; display: none; }
+.js-on .tool { display: block; }
+.tool h4 { margin: 0 0 .2rem; }
+.tool .controls { display: flex; flex-wrap: wrap; gap: .7rem 1.3rem; margin: .7rem 0 .9rem; }
+.tool .ctl { display: flex; flex-direction: column; gap: .25rem;
+             font-size: 13px; color: var(--ink-500); }
+.tool select, .tool input[type="number"] {
+  font: inherit; font-size: 14px; color: var(--ink-900); background: var(--card);
+  border: 1px solid var(--line); border-radius: 8px; padding: .3rem .55rem; min-width: 9.5rem; }
+.tool .ctl.chk { flex-direction: row; align-items: center; gap: .45rem; align-self: flex-end;
+                 padding-bottom: .35rem; }
+.tool .note { font-size: 12.5px; color: var(--ink-400); margin: .5rem 0 0; }
+.hitcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
+            gap: .7rem; margin-top: .5rem; }
+.hitcard { border: 1px solid var(--line); border-radius: var(--radius); padding: .6rem .85rem;
+           min-width: 0; }
+.hitcard b { font-size: 14.5px; color: var(--ink-900); }
+.hitcard .tagline2 { font-size: 12px; color: var(--blue-d); margin: .1rem 0 .25rem; }
+.hitcard p { font-size: 13px; color: var(--ink-500); margin: 0; line-height: 1.7; }
+.kpis { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .6rem; }
+.kpi { background: var(--blue-bg); border: 1px solid var(--blue-ln); border-radius: var(--radius);
+       padding: .5rem .9rem; font-size: 12.5px; color: var(--ink-500); min-width: 8rem; }
+.kpi b { display: block; font-size: 17px; color: var(--blue-d); font-family: var(--mono);
+         margin-top: .1rem; }
+.kpi.warn2 { background: var(--warn-bg); border-color: var(--warn-ln); }
+.kpi.warn2 b { color: var(--warn); }
+
 /* ============ 响应式 ============ */
 @media (max-width: 960px) {
   .cols { grid-template-columns: 1fr; gap: 1rem; }

@@ -36,8 +36,8 @@ DYNAMIC = {
 def pages():
     return ([os.path.join(ROOT, p) for p in
              ("README.html", "开始使用.html", "PPT-version/README.html",
-              "Web-version/index.html", "Web-version/fresh.html",
-              "Web-version/mcp/index.html")]
+              "Web-version/index.html", "Web-version/fresh.html")]
+            + sorted(glob.glob(os.path.join(ROOT, "Web-version/*/index.html")))
             + sorted(glob.glob(os.path.join(ROOT, "PPT-version/*/README.html")))
             + sorted(glob.glob(os.path.join(ROOT, "_prep/*.html"))))
 
