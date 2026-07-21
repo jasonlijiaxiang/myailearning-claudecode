@@ -107,28 +107,6 @@
     });
   }
 
-  /* ---------- 侧栏滚动高亮 ---------- */
-  var side = document.querySelector(".side");
-  if (side && "IntersectionObserver" in window) {
-    var slinks = {}, stargets = [];
-    Array.prototype.forEach.call(side.querySelectorAll('a.sl[href^="#"]'), function (a) {
-      var el = document.getElementById(a.getAttribute("href").slice(1));
-      if (el) { slinks[el.id] = a; stargets.push(el); }
-    });
-    if (stargets.length) {
-      var sio = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          Object.keys(slinks).forEach(function (k) {
-            slinks[k].classList.remove("on");
-          });
-          slinks[en.target.id].classList.add("on");
-        });
-      }, { rootMargin: "0px 0px -60% 0px", threshold: 0 });
-      stargets.forEach(function (s) { sio.observe(s); });
-    }
-  }
-
   /* ---------- 报文逐字段注释器 ---------- */
   var wire = document.querySelector(".wire");
   if (wire) {

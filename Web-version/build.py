@@ -27,17 +27,12 @@ INDEX = os.path.join(HERE, "index.html")
 ROOT_INDEX = os.path.join(ROOT, "README.html")
 MAPR_BEGIN = "<!-- MAPR:BEGIN 由 build.py 从各模块 MANIFEST.md 生成，请勿手工编辑 -->"
 MAPR_END = "<!-- MAPR:END -->"
-MAP_BEGIN = ("<!-- MAP:BEGIN 本段由 Web-version/build.py 从各模块 MANIFEST.md 生成，"
-             "请勿手工编辑 -->")
-MAP_END = "<!-- MAP:END -->"
 NET_BEGIN = "<!-- NET:BEGIN 由 build.py 从 MANIFEST 串联出边生成，请勿手工编辑 -->"
 NET_END = "<!-- NET:END -->"
 FRESH_BEGIN = "<!-- FRESH:BEGIN 由 build.py 从 MANIFEST 时效性事实生成，请勿手工编辑 -->"
 FRESH_END = "<!-- FRESH:END -->"
 # 模块页页脚的「最近改动」：同样从 MANIFEST 取，手写会漂。
 MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html")}
-SIDE_BEGIN = "<!-- SIDE:BEGIN 由 build.py 从 MANIFEST 生成，请勿手工编辑 -->"
-SIDE_END = "<!-- SIDE:END -->"
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
 MOD_END = "<!-- UPDATED:END -->"
@@ -205,13 +200,12 @@ def esc(s):
              .replace('"', "&quot;"))
 
 
-def render_map(data, blurbs, ctx="web"):
-    """知识地图 → 导航站式卡片矩阵（生成期静态注入，无 JS 时仍完整可读）。
+def render_map(data, blurbs):
+    """知识地图 → 卡片矩阵，只注入根首页（生成期静态注入，无 JS 时仍完整可读）。
 
-    ctx="web"（网页版首页）与 ctx="root"（根总纲）只差链接前缀——同一套组件、
-    同一个生成器，根总纲的知识地图不再手工维护（2026-07-21 起，四类页面统一设计语言）。"""
-    ppt_fmt = ("../PPT-version/%s/README.html" if ctx == "web"
-               else "./PPT-version/%s/README.html")
+    知识地图全站只有一份、住首页——曾同时放在网页版首页与首页，用户指出重复
+    （2026-07-21 定版：同一内容不在两页重复铺开，跨页导航靠全站顶栏）。"""
+    ppt_fmt = "./PPT-version/%s/README.html"
     out = []
     for i, layer in enumerate(data["layers"]):
         mods = [m for m in data["modules"] if m["layer"] == layer]
@@ -223,7 +217,7 @@ def render_map(data, blurbs, ctx="web"):
         out.append('   <div class="cards">')
         for m in mods:
             web_href = m["web"]
-            if web_href and ctx == "root":
+            if web_href:
                 web_href = "./Web-version/" + web_href[2:]
             href = web_href or (ppt_fmt % m["dir"])
             tag = ("web", "网页版") if m["web"] else ("ppt", "仅 PPT")
@@ -243,40 +237,13 @@ def render_map(data, blurbs, ctx="web"):
     return "\n".join(out)
 
 
-def render_side(data):
-    """左侧导航：分组 + 层锚点（纯锚点链接，无 JS 可用）。"""
-    o = ['  <nav>']
-    o.append('   <div class="sgroup">每日取用</div>')
-    for name, href in [("实战包", "../_prep/实战包.html"),
-                       ("学习路径", "../_prep/学习路径.html"),
-                       ("全库一页纸", "../_prep/全库一页纸.html")]:
-        o.append('   <a class="sl" href="%s">%s</a>' % (href, name))
-    o.append('   <div class="sgroup">知识地图</div>')
-    for i, layer in enumerate(data["layers"]):
-        n = sum(1 for m in data["modules"] if m["layer"] == layer)
-        if not n:
-            continue
-        o.append('   <a class="sl hue-%d" href="#lay-%d"><span class="lbl">%s</span>'
-                 '<span class="cnt">%d</span></a>'
-                 % (i, i, esc(layer), n))
-    o.append('   <div class="sgroup">全库视图</div>')
-    o.append('   <a class="sl" href="#net">关系网</a>')
-    o.append('   <a class="sl" href="#fresh">保鲜看板</a>')
-    o.append('   <a class="sl" href="./fresh.html">完整保鲜看板</a>')
-    o.append('   <div class="sgroup">入口</div>')
-    o.append('   <a class="sl" href="./mcp/index.html">MCP 网页版<span class="cnt">样板</span></a>')
-    o.append('   <a class="sl" href="../PPT-version/README.html">PPT 总览</a>')
-    o.append('   <a class="sl" href="../README.html">知识库首页</a>')
-    o.append('  </nav>')
-    return "\n".join(o)
-
-
 def render_network(data):
     """跨模块关系网：讲一个模块时还该带上哪几块。
 
-    这是网页面相对 PPT 的结构性优势——19 册讲义各印各的，纸面上无法互相指；
+    这是网页版相对 PPT 的结构性优势——19 册讲义各印各的，纸面上无法互相指；
     而串联关系本来就登记在各模块 MANIFEST 的「串联出边」里，这里只是把它们汇到一处。
-    """
+    窄屏另给一个「相关模块」合并列：出边与入边对读者是同一个用途，
+    三列硬撑到手机上一行会高到 400px（2026-07-20 实测），故窄屏合并（CSS 切换）。"""
     mods = data["modules"]
     by_id = {m["id"]: m for m in mods}
     out_map, in_map = {}, {}
@@ -305,8 +272,6 @@ def render_network(data):
 
     o = ['  <p class="net-lead">关联最密的三块：<b>%s</b>——括号是它连出与连入的模块数。'
          '讲这几块时最容易牵出别的话题，也最值得先吃透。</p>' % esc(hubs)]
-    # 窄屏另给一个「相关模块」合并列：出边与入边对读者是同一个用途，
-    # 三列硬撑到手机上一行会高到 400px（2026-07-20 实测），故窄屏合并（CSS 切换）。
     o.append('  <div class="tw">')
     o.append('  <table class="net">')
     o.append('   <thead><tr><th>模块</th><th class="c-out">讲它时还该带上</th>'
@@ -421,12 +386,10 @@ def main(argv):
         data = json.loads(text[text.index("{"):text.rindex("}") + 1])
         blurbs = load_blurbs()
         html_cur = open(INDEX, encoding="utf-8").read()
-        html_new = inject(html_cur, MAP_BEGIN, MAP_END, render_map(data, blurbs), "MAP")
         root_cur = open(ROOT_INDEX, encoding="utf-8").read()
         root_new = inject(root_cur, MAPR_BEGIN, MAPR_END,
-                          render_map(data, blurbs, ctx="root"), "MAPR")
-        html_new = inject(html_new, SIDE_BEGIN, SIDE_END, render_side(data), "SIDE")
-        html_new = inject(html_new, NET_BEGIN, NET_END, render_network(data), "NET")
+                          render_map(data, blurbs), "MAPR")
+        html_new = inject(html_cur, NET_BEGIN, NET_END, render_network(data), "NET")
         html_new = inject(html_new, FRESH_BEGIN, FRESH_END, render_fresh(data), "FRESH")
         fp_cur = open(FRESHPAGE, encoding="utf-8").read()
         fp_new = inject(fp_cur, FRESH_BEGIN, FRESH_END, render_fresh_full(data), "FRESH@full")

@@ -57,29 +57,6 @@ body {
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.2rem; }
 
-/* ============ 门户布局：左栏 + 主区 ============ */
-.portal { display: flex; align-items: flex-start; min-height: 100vh; }
-.side {
-  flex: 0 0 216px; position: sticky; top: 0; max-height: 100vh; overflow-y: auto;
-  background: var(--card); border-right: 1px solid var(--line);
-  padding: 1rem .8rem 2rem;
-}
-.side .logo { padding: .2rem .55rem .8rem; border-bottom: 1px solid var(--line-2); margin-bottom: .6rem; }
-.side .logo a { font-size: 17px; font-weight: 700; color: var(--ink-900); text-decoration: none; }
-.side .logo span { display: block; font-size: 12px; color: var(--ink-400); letter-spacing: .08em; }
-.sgroup {
-  font-size: 11.5px; letter-spacing: .1em; color: var(--ink-400);
-  padding: .9rem .55rem .25rem; text-transform: uppercase;
-}
-.side a.sl {
-  display: flex; justify-content: space-between; align-items: center; gap: .4rem;
-  padding: .34rem .55rem; border-radius: 8px; text-decoration: none;
-  font-size: 14.5px; color: var(--ink-700);
-}
-.side a.sl:hover { background: var(--blue-bg); color: var(--blue-d); }
-.side a.sl .cnt { font-size: 11.5px; color: var(--ink-400); font-family: var(--mono); }
-.main { flex: 1; min-width: 0; }
-
 /* ============ 页头 ============ */
 .top { background: var(--card); border-bottom: 1px solid var(--line); padding: 1.5rem 0 1.4rem; }
 .crumb { font-size: 13px; color: var(--ink-400); margin: 0 0 .5rem; }
@@ -414,14 +391,6 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
 
 /* ============ 响应式 ============ */
 @media (max-width: 960px) {
-  .portal { display: block; }
-  .side { position: static; max-height: none; border-right: 0;
-          border-bottom: 1px solid var(--line); padding: .8rem 1rem; }
-  .side .logo { border-bottom: 0; margin-bottom: .2rem; }
-  .sgroup { padding: .5rem .55rem .2rem; }
-  .side nav { display: flex; flex-wrap: wrap; gap: .15rem .3rem; align-items: center; }
-  .side a.sl { padding: .22rem .55rem; border: 1px solid var(--line); border-radius: 999px;
-               font-size: 13.5px; }
   .cols { grid-template-columns: 1fr; gap: 1rem; }
   .toc { position: static; }
   .toc ol { display: flex; flex-wrap: wrap; gap: .15rem .25rem; }
@@ -477,13 +446,22 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
         padding: .12rem .75rem; font-size: 13px; color: var(--ink-500); }
 .stat b { color: var(--ink-900); font-size: 14px; margin-right: .15rem; }
 
-/* 侧栏：层色点 + 滚动高亮 */
-.side a.sl .lbl { display: inline-flex; align-items: center; gap: .45rem; min-width: 0; }
-.side a[class*="hue-"] .lbl::before {
-  content: ""; flex: none; width: 8px; height: 8px; border-radius: 3px;
-  background: var(--hue);
-}
-.side a.sl.on { background: var(--blue-bg); color: var(--blue-d); font-weight: 600; }
-
 /* 页头轻渐变（所有页共用，给白顶一点纵深） */
 .top { background: linear-gradient(180deg, #F0F5FD 0%, var(--card) 78%); }
+
+/* ============ 全站顶栏（唯一导航模型，2026-07-21 定版）============
+   每个页面同一条顶栏：品牌回首页 + 六个常用入口，当前页高亮。
+   此前三套导航并存（网页版侧栏 / 其它页孤零零的返回链接 / 首页无导航），
+   窄屏侧栏塌成一堆药丸还和正文重复——用户逐页指出后统一成这一条。 */
+.topbar { position: sticky; top: 0; z-index: 50; background: var(--card);
+          border-bottom: 1px solid var(--line); }
+.topbar .tb { max-width: var(--maxw); margin: 0 auto; padding: .4rem 1.2rem;
+              display: flex; align-items: center; gap: .15rem; flex-wrap: wrap; }
+.topbar .brand { font-weight: 700; font-size: 15.5px; color: var(--ink-900);
+                 text-decoration: none; margin-right: .7rem; white-space: nowrap; }
+.topbar .brand:hover { color: var(--blue-d); text-decoration: none; }
+.topbar a.ti { padding: .22rem .6rem; border-radius: 8px; font-size: 14px;
+               color: var(--ink-500); text-decoration: none; white-space: nowrap; }
+.topbar a.ti:hover { background: var(--line-2); color: var(--ink-900); text-decoration: none; }
+.topbar a.ti.cur { background: var(--blue-bg); color: var(--blue-d); font-weight: 600; }
+@media print { .topbar { display: none; } }
