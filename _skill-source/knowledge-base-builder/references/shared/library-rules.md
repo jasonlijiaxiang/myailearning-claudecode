@@ -218,6 +218,7 @@ A/B 类顺手扫都会在"今天 ≥ 建议复查日"时点名它（见 patrol-r
 | 电子书账 | 各条资料的正规渠道链接 | `电子书书单.md` 的「获取方式」列、**讲义正文里指向资料的说法**（「已入库…」「见 ebooks/…」「书单 #N」） | 书单增删、链接失效、**契约变更（撤馆藏/换源）** | `check_ebook_ledger.py`（轴 1–4 查书单、轴 5 扫讲义 XML 与库内 HTML） |
 | 时效性事实 | 各模块 MANIFEST 时效表（含核实笔记） | `_prep` 实战包题目/一页纸看板、讲义数字弹药页/速查页 | B 类刷新、巡检回写 | `_prep` 引用映射（巡检） |
 | 视觉令牌 | `_assets/kb.css` 的 `:root` | 各页面的 class 用法（**页面里不写颜色字面量**） | 改配色、新建页面 | 全库 grep 颜色字面量与 `<style>`／行内 `style=` |
+| 样式契约 | `kb.css` 的类定义与页面 class 用法**互为契约** | 全部页面／生成器／site.js 的 class；每页 `kb.css?v=` 缓存戳与可见构建号 | 换肤、组件重构、改类名 | `check_css_classes.py`（孤儿类＋全站版本戳一致；运行期动态类记在脚本白名单里，新增时同步） |
 | 内部链接 | 实际文件路径 | 全库 HTML 相对链接、MANIFEST 串联边 | 改名、挪位、删模块 | `check_html_links.py` |
 | skill 版本 | SKILL.md frontmatter | 各模块 MANIFEST「产出 skill 版本」、CHANGELOG、.skill 包、安装目录 | 技能升级 | 打包后三处 diff/md5 + `check_skill_package.py`；**md5 一致只证明搬运没错，能不能装要真装一次** |
 
