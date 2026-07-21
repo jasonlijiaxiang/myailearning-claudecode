@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 智能体与编排 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721g">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721g</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">应用模式层 · 网页版</p>
+    <h1><span class="en">AI Agents &amp; Orchestration</span>Agent，智能体与编排</h1>
+    <p class="lede">让大模型不止「回答」，而是带着工具在循环里「把事办完」：从循环与三大件，
+      到编排、协议、上下文工程、评估护栏，再到低代码平台、记忆、Computer Use 与 Sub-agent
+      编排。本页是这一册的网页版，讲义 PPT 见页脚链接。</p>
+    <div class="hr"></div>
+    <p class="lede" style="margin-top:0">
+      <span class="badge ok">核实窗口 2026-07-07 至 07-17</span>
+      <span class="badge recheck">MCP 新版 2026-07-28 · 相关小节届时复核</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#agent-what-why">1 · 是什么 / 为什么</a></li>
+    <li><a href="#agent-components">2 · 核心组件</a></li>
+    <li><a href="#agent-orchestration">3 · 编排模式</a></li>
+    <li><a href="#agent-tools-mcp">4 · 工具接入与 MCP</a></li>
+    <li><a href="#agent-context">5 · 上下文工程</a></li>
+    <li><a href="#agent-eval-guardrails">6 · 评估与护栏</a></li>
+    <li><a href="#agent-lowcode">7 · 低代码平台</a></li>
+    <li><a href="#agent-memory">8 · 记忆系统</a></li>
+    <li><a href="#agent-computer-use">9 · Computer Use</a></li>
+    <li><a href="#agent-subagent">10 · Sub-agent 编排</a></li>
+    <li><a href="#agent-cheatsheet">11 · 决策器与问答</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="agent-what-why">
+  <h2><span class="num">01</span>是什么 / 为什么<a class="anchor" href="#agent-what-why">#agent-what-why</a></h2>
+
+  <div class="lead">
+    <p>智能体（Agent）＝ 大模型在循环里自主使用工具完成任务：它自己决定下一步查什么、调什么、
+      什么时候停。聊天机器人给你「答案」，agent 给你「结果」。全册总纲是 Anthropic 的忠告：
+      <b>能用工作流解决就别上 agent</b>——自主性是花钱买的。</p>
+  </div>
+
+  <h3>三兄弟：自主性是一道光谱</h3>
+  <div class="grid">
+    <div class="box">
+      <h4>聊天机器人 Chatbot</h4>
+      <p>一问一答，只生成文本，不碰外部系统。适合知识问答、文案、翻译；说得再好也「动不了手」，
+        答案止步于建议。</p>
+    </div>
+    <div class="box">
+      <h4>工作流 Workflow</h4>
+      <p>人预先写死步骤，模型在固定节点上被调用。适合流程固定的任务（工单分类→套模板回复）；
+        路径可控、可审计、成本可预期。</p>
+    </div>
+    <div class="box">
+      <h4>智能体 Agent</h4>
+      <p>模型自己决定路径、自己选工具，步骤数不确定。适合开放式任务——排查、调研、编码；
+        换来灵活，付出成本与不确定性。</p>
+    </div>
+  </div>
+
+  <h3>循环怎么转，什么时候该上</h3>
+  <p>基本循环四步：感知任务 → 思考规划 → 调用工具 → 观察结果，没完成就回到思考。
+    <b>停机条件必须显式设计</b>：达成目标、超出步数/预算上限、或需要人来拍板——三者至少有其一，
+    否则 agent 可能「跑飞」。这是护栏的第一块砖。</p>
+  <p>判断该不该上，两把尺：<b>任务开放程度</b>（路径能不能预先写死）和<b>容错成本</b>
+    （单步出错可不可回退）。该上的信号：任务开放、有可验证的完成信号、允许多轮试错；
+    先别上的信号：流程固定要求逐步审计、对延迟和成本极敏感的高频请求、出错不可回滚
+    （转账、删数据——至少要加人工审批）。这两把尺连同六个「什么时候上」，都收进了
+    <a href="#advisor">启用条件决策器</a>。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="agent-components">
+  <h2><span class="num">02</span>核心组件<a class="anchor" href="#agent-components">#agent-components</a></h2>
+
+  <div class="lead">
+    <p>拆开 agent 的三大件：<b>规划是大脑、记忆是笔记本、工具是双手</b>。工具质量往往比模型
+      选型更影响表现——工具是写给模型的产品。</p>
+  </div>
+
+  <h3>规划与记忆</h3>
+  <p>规划的主流是 ReAct 式「边想边做」：每步先写下推理再行动，用上一步的结果修正下一步——
+    像老练的维修工，拆一步看一眼，随时修正判断。规划能力决定 agent 能接多大的活
+    （单点技巧的出处在 <a href="../../PPT-version/Prompt-Engineering/README.html">Prompt
+    Engineering</a> 第 4 章）。记忆分两层：短期记忆＝上下文窗口（桌面，有限且贵），
+    长期记忆＝外部存储（档案柜，跨会话保留按需取回）——「什么留在桌面、什么进档案柜」
+    是<a href="#agent-context">上下文工程</a>与<a href="#agent-memory">记忆系统</a>两节的主题。</p>
+
+  <h3>一次 Function Calling 的完整来回</h3>
+  <p>四步：<b>定义</b>（用 JSON Schema 描述工具，写给模型看的说明书）→ <b>决策</b>（模型输出
+    结构化调用请求）→ <b>执行</b>（你的代码真正去调 API、查库）→ <b>回填</b>（结果作为
+    tool_result 交回模型继续推理）。关键在第三步：<b>模型只「点菜」不「下厨」</b>——真正执行的
+    是你的代码，权限、校验、审计都握在你手里。这是对客户讲安全时最有力的一句话。
+    这套一来一回被 MCP 标准化成了跨厂商协议，报文逐字段的注释见
+    <a href="../mcp/index.html#wire">MCP 网页版</a>。</p>
+
+  <h3>工具是写给模型的产品</h3>
+  <p>两个常见的坑：<b>描述含糊、职责重叠</b>——模型分不清 search_orders 和 query_orders 该用哪个
+    （解法：合并重复工具，描述里写清「什么时候用我、什么时候别用我」）；<b>返回信息过载</b>——
+    一次回传几千行 JSON 挤爆上下文（解法：只返回刚好够用的字段，错误信息要能指导模型下一步
+    怎么办，而不是一句 error）。接工具不是「有 API 就行」——命名、描述、返回的设计直接决定
+    agent 用不用得好。</p>
+  <p>多模态让 agent 的感知从纯文本扩展到屏幕截图、图表、扫描件——视觉成为新的工具入参，
+    也是 <a href="#agent-computer-use">Computer Use</a> 的前提（模型怎么看懂图见
+    <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>）。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="agent-orchestration">
+  <h2><span class="num">03</span>编排模式<a class="anchor" href="#agent-orchestration">#agent-orchestration</a></h2>
+
+  <div class="lead">
+    <p>编排是系统的「组织架构图」：决定哪些模型调用、按什么结构组合。<b>先看任务结构，
+      再定架构，不是越复杂越好</b>。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>模式</th><th>结构</th><th>适用场景</th></tr></thead>
+    <tbody>
+      <tr><td>链式 Prompt Chaining</td><td>步骤串行，上一步输出是下一步输入</td><td>任务能拆成固定先后：先写大纲再写正文</td></tr>
+      <tr><td>路由 Routing</td><td>先分类，再分发给专门分支</td><td>输入类型差异大：客服问题分技术/账务/售后</td></tr>
+      <tr><td>并行 Parallelization</td><td>多路同时跑，再聚合</td><td>子任务独立可同时做；或多路投票提置信度</td></tr>
+      <tr><td>指挥官-工人 Orchestrator-Workers</td><td>中央模型动态拆任务、派工人、汇总</td><td>子任务无法预先枚举：深度调研、多文件修改</td></tr>
+      <tr><td>评估-优化 Evaluator-Optimizer</td><td>一个生成、一个评审，循环打磨</td><td>有明确评价标准且值得迭代：翻译润色、报告质检</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>前三种路径写死，属于「工作流」；后两种开始有自主性。生产系统的常见折中是
+    <b>「骨架写死、血肉自主」</b>：外层编排服务管流程（可视化、可重试、可审计），节点内让
+    agent 自由发挥——和传统 BPM 引擎的区别就在这里，两者常配合使用。multi-agent 的成本账
+    （约 15× token 换什么）统一在 <a href="#agent-subagent">Sub-agent 编排</a>一节算。</p>
+
+  <h3>A2A：agent 之间怎么握手</h3>
+  <p>A2A（Agent2Agent）是跨团队、跨厂商的 agent 互相发现与协作的开放协议：用签名 Agent Card
+    声明「我是谁、会什么」（签名防伪装），任务经标准接口互相委托，全程可审计。2026-03 发布
+    v1.0（当前 v1.0.1），Linux Foundation 治理，150+ 组织采用。一句对照：<b>MCP 是「agent 用工具」
+    的 USB-C，A2A 是「agent 找 agent」的名片加合同</b>——组织内先把 MCP 用好，有跨组织协作
+    需求再引入 A2A（协议细节见 <a href="../../PPT-version/A2A/README.html">A2A 模块</a>）。</p>
+  <p class="ev">A2A 版本与采用规模核实 2026-07-12，来源 <a href="#src-a2a">A2A releases /
+    Linux Foundation 公告</a>；框架现状（Microsoft Agent Framework 1.0 GA 合并 AutoGen 与
+    Semantic Kernel；LangGraph 已过 1.0、OpenAI Agents SDK 仍 0.x——短名单都能用，API 稳定性
+    承诺不同）同日核实，来源 <a href="#src-frameworks">官方公告与 GitHub releases</a>。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="agent-tools-mcp">
+  <h2><span class="num">04</span>工具接入与 MCP<a class="anchor" href="#agent-tools-mcp">#agent-tools-mcp</a></h2>
+
+  <div class="lead">
+    <p>各家 function calling 格式不同，M 个应用 × N 个工具＝ M×N 套连接器；MCP 把它变成
+      M+N——AI 应用接工具的 USB-C。<b>协议本身的解剖、传输、安全与生产落地，深入看
+      <a href="../mcp/index.html">MCP 网页版</a></b>；本节只讲 agent 侧独有的两件事。</p>
+  </div>
+
+  <h3>agent 侧要点</h3>
+  <p>信任边界在 Host：授权、可见性、调用确认都在宿主层控制，server 只声明能力、被动应答。
+    设计取舍记一条：<b>能用资源（Resources）就别包成工具（Tools）</b>——只读数据走资源，
+    上下文更干净、权限也更好管。现状一句话：稳定版 2025-11-25 生产可用，新版 2026-07-28
+    转正（弃用有 12 个月以上缓冲），AAIF 中立治理不绑定厂商。</p>
+
+  <h3>生产工具的六层契约（agent 侧独有）</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>层</th><th>管什么</th><th>缺了会怎样</th></tr></thead>
+    <tbody>
+      <tr><td>① 发现</td><td>名称/用途/反例写清楚</td><td>模型分不清该用哪个、什么时候不该用</td></tr>
+      <tr><td>② 输入</td><td>严格 schema、取值范围、租户字段</td><td><b>没有租户字段＝跨客户越权</b></td></tr>
+      <tr><td>③ 授权</td><td>主体、scope、资源级策略</td><td>权限放大，出事破坏面失控</td></tr>
+      <tr><td>④ 执行</td><td>超时、幂等、限流、审计</td><td>重复下单、刷爆后端、事后说不清</td></tr>
+      <tr><td>⑤ 输出</td><td>高信号、分页截断、带来源</td><td><b>一次调用吃掉半个上下文窗口</b></td></tr>
+      <tr><td>⑥ 错误</td><td>可重试/不可恢复/需审批，分类返回</td><td><b>模型对着「500」死重试</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>投入在工具契约上的一小时，常比调一天提示词更能提升成功率——工具返回的质量决定模型
+    「看到什么」，提示词只决定「怎么看」。<b>评审 agent 方案先翻它的工具清单</b>：六层缺哪层，
+    事故就从哪层来。</p>
+  <p class="ev">MCP 版本现状核实 2026-07-07（建议复查日 2026-07-28），来源
+    <a href="#src-mcp">modelcontextprotocol.io</a>。</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="agent-context">
+  <h2><span class="num">05</span>上下文工程<a class="anchor" href="#agent-context">#agent-context</a></h2>
+
+  <div class="lead">
+    <p>上下文是<b>注意力预算</b>：塞得越满，单位信息被关注的概率越低，表现随长度衰减
+      （业内称 context rot，「越长越笨」是真实现象）。问题从「怎么说」（提示词工程）升级成了
+      「给模型看什么」。</p>
+  </div>
+
+  <p>直觉案例：同一个排障任务，把 20 万 token 日志全塞给模型，不如先 grep 出 2 千 token
+    相关段落再给——后者更快、更准、还便宜一百倍。窗口大只给了「能塞」的自由，上下文工程决定
+    「该塞什么」（长上下文为什么贵的机制账，见
+    <a href="../llm-inference/index.html#llminf-kv-budget">LLM-Inference 网页版</a>）。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>板斧</th><th>怎么做</th><th>什么时候用</th></tr></thead>
+    <tbody>
+      <tr><td>压缩 Compaction</td><td>上下文快满时把历史总结成摘要重开：保留决策与未决事项，丢过程噪声</td>
+          <td>长任务续命的标配——Claude Code 的 auto-compact 就是它</td></tr>
+      <tr><td>结构化笔记 Note-taking</td><td>关键进展写进外部文件（待办、进展日志），需要时读回</td>
+          <td>跨会话、跨窗口的持久化，成本几乎为零</td></tr>
+      <tr><td>即时检索 Just-in-time</td><td>不预载全部资料，只存路径/指针，用到哪段现查现取</td>
+          <td>资料库大而杂时的首选——这正是 RAG 的主场</td></tr>
+      <tr><td>子 agent 隔离 Sub-agents</td><td>派子 agent 深潜子问题，只带结论回来，过程垃圾留在分身里</td>
+          <td>探索型任务：大范围搜索、多文件排查（机制见<a href="#agent-subagent">第 10 节</a>）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>四板斧常组合使用。压缩有一条实操铁律：摘要必须保留「已决策事项」——丢了它，agent 会
+    重复劳动甚至推翻自己。判断准绳一句话：<b>每轮进入模型的上下文，是否都是「当前这步需要的
+    最小高信号集合」</b>。</p>
+
+  <h3>Agentic RAG：两个模块的接缝</h3>
+  <p>把检索当工具交给 agent：它自己决定查不查、查什么、查几轮，根据首轮结果改写查询再深挖
+    ——检索从「固定的前置步骤」变成「循环里的自主动作」，代价是延迟与成本随轮数上升。
+    检索质量的地基（切分、Embedding、重排序、评估）全在
+    <a href="../../PPT-version/RAG/README.html">RAG 模块</a>——那边把库建好，这边 agent
+    才有得查。RAG 建库的投资完全复用，区别只在调用方式。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="agent-eval-guardrails">
+  <h2><span class="num">06</span>评估与护栏<a class="anchor" href="#agent-eval-guardrails">#agent-eval-guardrails</a></h2>
+
+  <div class="lead">
+    <p>agent 是非确定的：同一任务每次路径都可能不同，单元测试思路失效。上线的门槛不是
+      「演示成功」，而是「重复一百次的成功率」。给客户的总话术：<b>不承诺不出错，
+      承诺可度量、可回放、可兜底</b>。</p>
+  </div>
+
+  <h3>评估三刻度</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>刻度</th><th>看什么</th><th>特点与用法</th></tr></thead>
+    <tbody>
+      <tr><td>结果级 Outcome</td><td>只验终态：任务完成没有</td><td>最贴近业务价值，但看不出为什么失败</td></tr>
+      <tr><td>轨迹级 Trajectory</td><td>逐步检查工具调用序列是否合理</td><td>定位问题的利器；可用 LLM-as-judge 自动打分</td></tr>
+      <tr><td>稳定性 pass^k</td><td>同一任务跑 k 次全部成功的概率（τ-bench 引入）</td><td>生产就绪度的硬指标——把「偶尔灵」打回原形</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>评估集从真实失败案例滚动积累，每次改动全量回归。可观测性三件套：全链路追踪
+    （LangSmith / Langfuse / Arize Phoenix / W&amp;B Weave，每步调用、token、延迟可回放）、
+    在线评估（对生产流量抽样打分）、成本与告警。选型口诀：LangChain 栈选 LangSmith，
+    数据不出门选 Langfuse / Phoenix 自托管。<b>先上追踪、再上 multi-agent，顺序不能反。</b></p>
+
+  <h3>OWASP 风险清单与防护组合拳</h3>
+  <p>OWASP《Top 10 for Agentic Applications》（2026）是行业标准清单，风险的共性是
+    「agent 轻信了不该信的内容」：<b>提示注入</b>（恶意指令藏在 agent 读到的网页、邮件、
+    工具返回值里——间接注入最防不胜防）、<b>过度代理</b>（权限超过任务所需，破坏面放大）、
+    <b>记忆投毒</b>（见<a href="#agent-memory">记忆系统</a>）。</p>
+  <p>防护是组合拳而非银弹：最小权限 + 高危动作人工审批 + 输入/输出过滤 + 不可信内容隔离标记 +
+    常态化对抗测试。像新员工入职三件套：工卡只开必要门禁、大额报销要主管签字、外来包裹先过
+    安检。人工审批只审高危动作（转账、删除、对外发送），通常只占动作数的一小部分，却挡住
+    绝大多数不可逆风险。<b>agent 的安全不取决于模型够不够聪明，取决于权限与流程设计得
+    够不够克制。</b></p>
+  <p class="ev">OWASP 清单与工具格局核实 2026-07-07，来源 <a href="#src-owasp">genai.owasp.org
+    与各官方文档</a>。深入的攻防机制见 <a href="../../PPT-version/Security/README.html">Security
+    模块</a>。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="agent-lowcode">
+  <h2><span class="num">07</span>低代码平台<a class="anchor" href="#agent-lowcode">#agent-lowcode</a></h2>
+
+  <div class="lead">
+    <p>客户的第一个问题往往不是「用什么框架」，而是「有没有平台」。低代码平台卖的不是 agent
+      循环，是<b>外围工程</b>：知识库、渠道、权限、审批流——像 WordPress 之于手写前端。
+      2026 年企业的默认路径是<b>先平台、后下沉</b>。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>平台</th><th>定位（主负载）</th><th>许可证与商用要点</th><th>规模口径（2026-07）</th></tr></thead>
+    <tbody>
+      <tr><td>Coze / 扣子（字节）</td><td>对话 bot 与多渠道分发最快</td>
+          <td>开源版 Apache 2.0——可商用可闭源二开</td>
+          <td>21.1k stars、V0.5.1；SaaS 扣子 3.0 多人多 Agent 协作</td></tr>
+      <tr><td>Dify</td><td>LLM 应用底座，RAG 一等公民（摄取/切分/检索内置）</td>
+          <td>Apache 2.0 + 附加条款——多租户 SaaS、去 logo 需商业授权</td>
+          <td>148k stars、v1.15.0</td></tr>
+      <tr><td>n8n</td><td>通用工作流自动化 + AI 节点，几百个 SaaS 连接器</td>
+          <td>fair-code——内部使用免费，不得转售 n8n 本身</td>
+          <td>~127k stars；估值 ~$2.5B（2025-10 融资）</td></tr>
+      <tr><td>HiAgent（火山引擎）</td><td>企业级：开发-运行-治理全流程、数字员工管理</td>
+          <td>商业产品，支持私有化，含 SLA</td>
+          <td>中国智能体平台份额第一梯队（IDC 口径）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>选型按主负载对号入座：问答→Dify、集成→n8n、对话 bot→Coze、私有化+治理→HiAgent 类。
+    stars 与版本号会漂，方向不变。<b>许可证是售前必答题</b>——别等客户法务来问；
+    「开源免费为什么买你的」的答案在托管、治理、SLA 与升级保障，不在功能本身。</p>
+
+  <h3>与 code-first 的边界：分水岭三问</h3>
+  <p>① 状态机复杂吗（多分支/回滚/长事务）？② 要可测试、可版本化吗（CI/评估回归）？
+    ③ 要深度定制吗（自定义循环/上下文工程）？<b>两个「是」就该下沉代码</b>
+    （LangGraph / Agent SDK）。生产范式是「平台做壳、复杂节点下沉代码」——Dify 节点里调一个
+    LangGraph 服务是常规操作；锁定主要在工作流画布（格式不通），对策是复杂逻辑早下沉，
+    画布只做薄编排。</p>
+  <p class="ev">四平台口径核实 2026-07-10，来源 <a href="#src-lowcode">GitHub 仓库 /
+    官方文档 / 融资报道</a>。</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="agent-memory">
+  <h2><span class="num">08</span>记忆系统<a class="anchor" href="#agent-memory">#agent-memory</a></h2>
+
+  <div class="lead">
+    <p>记忆工程的本质是「挑什么值得记、取什么值得带」，不是容量竞赛。生产主流是分层：
+      <b>小核心常驻上下文 + 向量检索层按需取 + 显式遗忘策略</b>。卖记忆功能必须捆绑卖
+      记忆安全。</p>
+  </div>
+
+  <h3>两张图：认知分类与工程分层</h3>
+  <p><b>记什么</b>（认知分类）：working 工作记忆（手头便签）、episodic 情景记忆（日记）、
+    semantic 语义记忆（常识卡片）、procedural 程序记忆（肌肉记忆）。<b>存哪里、归谁管、怎么删</b>
+    （工程分层）：工作状态（任务结束即归档，归 agent 运行时）→ 会话状态（会话期，归 Session
+    存储）→ 长期记忆（带 TTL、可更正删除，归记忆服务）→ 业务事实（订单/合同，归权威系统）。
+    设计评审两张图都要过。事故常态是把一次推断（「客户好像要退货」）写进长期记忆甚至业务库
+    ——铁律：<b>模型可以从四层读，但写回权威事实库或长期记忆必须过验证</b>。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>框架</th><th>画像（2026-07 口径）</th><th>适用</th></tr></thead>
+    <tbody>
+      <tr><td>Mem0</td><td>托管记忆层：自动抽取，向量+图+KV 混合存储；47K+ stars 社区最大</td><td>最快集成、托管起步</td></tr>
+      <tr><td>Letta（前 MemGPT）</td><td>OS 式显式内存块：core 常驻提示、archival 靠工具取</td><td>要精细控制记忆内容</td></tr>
+      <tr><td>Zep</td><td>时序知识图谱、情景记忆；自报 LoCoMo 94.7%</td><td>时间线与关系推理重的场景</td></tr>
+      <tr><td>LangMem</td><td>LangGraph 原生记忆组件</td><td>已深绑 LangGraph 栈</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>与 RAG 的边界：<b>RAG 记组织的知识（文档、口径），记忆记这个用户与这个 agent 的交互史</b>
+    ——载体技术相通（都是存储+检索），管理策略完全不同，两套并存。隐私合规按个人数据管理：
+    可查可删（遗忘权）、最小化存储、保留期明确。</p>
+
+  <h3>记忆投毒：比注入更阴险</h3>
+  <p>攻击者把恶意内容写进长期记忆，此后每次会话都发作——与提示注入的关键区别：<b>注入随会话
+    重置，投毒跨会话持续</b>。OWASP Agentic Top 10 已单列为 ASI06；研究口径触目惊心：MINJA
+    注入成功率 &gt;95%，多项研究报 80–99.8%。三道防线：写入前过滤并标记来源、任务之间清理
+    临时上下文、记忆写入鉴权并定期审计——<b>把记忆当数据库管，不当草稿纸</b>。投毒的记忆像
+    后门，不主动审计根本发现不了。</p>
+  <p class="ev">框架横评与投毒研究核实 2026-07-11，来源 <a href="#src-memory">2026 横评 /
+    arXiv 2601.05504、2607.06595</a>。防线与 <a href="../../PPT-version/Security/README.html">Security</a>
+    第 5 章同源展开。</p>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="sec" id="agent-computer-use">
+  <h2><span class="num">09</span>Computer Use<a class="anchor" href="#agent-computer-use">#agent-computer-use</a></h2>
+
+  <div class="lead">
+    <p>让 agent 像人一样看屏幕、动鼠标——没有 API 的系统也能自动化。像雇了个会用电脑的实习生：
+      不用改造系统，但得盯着点。判据先行：<b>有 API 就走 API，Computer Use 不是默认选项</b>。</p>
+  </div>
+
+  <h3>三条路线与两个基准口径</h3>
+  <p>三条路线按任务所在处选：<b>Claude Computer Use</b>（截图+鼠键通用原语，跨 VM/远程桌面，
+    唯一全桌面）；<b>Gemini Computer Use</b>（DOM 感知，纯网页任务更稳更便宜）；
+    <b>OpenAI Codex Background CU</b>（2026-04 发布，macOS 桌面批量并行）。开源代表 Browser Use。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>口径</th><th>数字（2026-07）</th><th>怎么解读</th></tr></thead>
+    <tbody>
+      <tr><td>OSWorld-Verified（短窄任务）</td><td>Claude Opus 4.8 约 83.5%（2024 年起步仅 14.9%）</td><td>两年 5 倍：短任务已实用</td></tr>
+      <tr><td>OSWorld 2.0（长程多应用）</td><td>同模型仅 20.6%</td><td>跨应用长任务还早，别超卖</td></tr>
+      <tr><td>浏览器基准</td><td>OpenAI CUA：WebVoyager 87% / OSWorld 38.1%</td><td>网页 ≠ 桌面，口径分开引</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>售前纪律：基准不是生产就绪认证——演示用「短、窄、可重试」的任务圈定范围，
+    <b>把 20.6% 那个数字主动讲出来反而赢信任</b>。</p>
+
+  <h3>与 RPA 的关系、安全与成本</h3>
+  <p>RPA 流程写死——稳而脆，界面改一个按钮就断；Computer Use 自适应——但慢而贵。落地常态是
+    <b>混合：RPA 跑稳定主干，CU 处理变化页面与异常分支</b>，存量投资不浪费。安全边界四件：
+    跑在沙箱/虚拟桌面（别碰真实工作机）、账号最小权限、不可逆操作人审、<b>屏幕内容当不可信
+    输入</b>——网页里藏一行字就可能指挥 agent，注入面转移到了屏幕上。成本提醒：每步都要截图
+    进模型，视觉 token 是大头——按「步数 × 每步截图成本」估算，长流程常是 RPA 混合的账更好看。</p>
+  <p class="ev">路线与基准核实 2026-07-11，来源 <a href="#src-cu">2026 对比矩阵 /
+    arXiv 2606.29537</a>。</p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="sec" id="agent-subagent">
+  <h2><span class="num">10</span>Sub-agent 编排<a class="anchor" href="#agent-subagent">#agent-subagent</a></h2>
+
+  <div class="lead">
+    <p>Sub-agent 是一个普通 agent，只是雇主换成了另一个 agent——同一机制递归一层，不是新物种。
+      <b>派遣能力住在运行时层</b>：模型只会输出「我要调这个工具」，运行时把新循环真的跑起来，
+      产品层包装成配置、路由与面板。普通 chatbot 没有 sub-agent，是运行时没实现，不是模型不会。</p>
+  </div>
+
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 300" role="img" aria-label="扇出与扇入：主 agent 发自包含任务书给三个并行 sub-agent，各自独立上下文，只交回结论">
+     <rect width="720" height="300" fill="#FFFFFF"/>
+     <rect x="250" y="20" width="220" height="52" fill="#0F172A"/>
+     <text x="360" y="42" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14" font-weight="700" fill="#F2EFE8" text-anchor="middle">主 Agent</text>
+     <text x="360" y="61" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#C6CFD8" text-anchor="middle">上下文 = 与你的整段对话</text>
+     <g stroke="#2563EB" stroke-width="1.5">
+      <line x1="300" y1="72" x2="140" y2="128"/>
+      <line x1="360" y1="72" x2="360" y2="128"/>
+      <line x1="420" y1="72" x2="580" y2="128"/>
+     </g>
+     <text x="200" y="105" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#2563EB">任务书 · 自包含</text>
+     <rect x="40" y="128" width="200" height="64" fill="#fff" stroke="#0F172A"/>
+     <text x="140" y="152" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="13" font-weight="600" fill="#0F172A" text-anchor="middle">Sub-agent A · 搜代码库</text>
+     <text x="140" y="172" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F" text-anchor="middle">独立上下文 · 自己的工具循环</text>
+     <rect x="260" y="128" width="200" height="64" fill="#fff" stroke="#0F172A"/>
+     <text x="360" y="152" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="13" font-weight="600" fill="#0F172A" text-anchor="middle">Sub-agent B · 查官方文档</text>
+     <text x="360" y="172" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F" text-anchor="middle">独立上下文 · 自己的工具循环</text>
+     <rect x="480" y="128" width="200" height="64" fill="#fff" stroke="#0F172A"/>
+     <text x="580" y="152" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="13" font-weight="600" fill="#0F172A" text-anchor="middle">Sub-agent C · 跑安全扫描</text>
+     <text x="580" y="172" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F" text-anchor="middle">独立上下文 · 自己的工具循环</text>
+     <g stroke="#2563EB" stroke-width="1.5" stroke-dasharray="5 4">
+      <line x1="140" y1="192" x2="320" y2="248"/>
+      <line x1="360" y1="192" x2="360" y2="248"/>
+      <line x1="580" y1="192" x2="400" y2="248"/>
+     </g>
+     <rect x="250" y="248" width="220" height="34" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+     <text x="360" y="270" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="#2563EB" text-anchor="middle">主对话只收三段结论（窄带通信）</text>
+     <text x="24" y="295" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">过程废料随 sub-agent 一起销毁；复杂查询典型并行 3–5 个，研究时长最多压缩 90%</text>
+    </svg>
+   </div>
+   <figcaption>扇出与扇入：一份任务书进去，一段结论回来——隔离创造价值，隔离也制造成本。</figcaption>
+  </figure>
+
+  <h3>三个关键性质，定一切用法与局限</h3>
+  <p><b>① 独立上下文</b>：看不到主对话历史，只看到那份「任务书」——连你们刚达成的共识它也
+    不知道。纪律：任务书必须自包含（目标、范围、约束、产出格式一样不能省）。<b>② 窄带通信</b>：
+    只交回一段最终文字，读过的一百个文件、试错的十轮随分身销毁——主对话干净了，代价是过程
+    不可见、中途难纠偏（multi-agent 难调试，难就难在交接处）。<b>③ 深度上限</b>：Claude Code
+    5 层封顶（固定不可配）、Codex max_depth 默认 1——没有上限的扇出就是没有上限的账单。</p>
+
+  <h3>两家实操对照与触发四层</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>维度</th><th>Claude Code</th><th>Codex</th></tr></thead>
+    <tbody>
+      <tr><td>定义文件</td><td>.claude/agents/*.md（Markdown + frontmatter）</td><td>.codex/agents/*.toml（TOML）</td></tr>
+      <tr><td>必填字段</td><td>name、description</td><td>name、description、developer_instructions</td></tr>
+      <tr><td>内置角色</td><td>Explore / Plan / general-purpose</td><td>explorer / worker / default</td></tr>
+      <tr><td>并发与运行</td><td>默认后台运行（v2.1.198 起）</td><td>max_threads 默认 6</td></tr>
+      <tr><td>嵌套深度</td><td>5 层封顶，固定</td><td>max_depth 默认 1</td></tr>
+      <tr><td>批量特技</td><td>agent teams 多会话协作</td><td>spawn_agents_on_csv（实验）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>概念完全同构：配置文件＋内置角色＋并发/深度限额——学会一家，另一家只是方言。
+    触发机制四层从软到硬：① description 自动路由（写得越具体命中越高）→ ② 对话点名 →
+    ③ CLAUDE.md 常备指令（放倾向，别放硬流程）→ ④ skill 绑 context: fork（显式触发，硬保证）。</p>
+
+  <h3>派与不派：一本账</h3>
+  <p>口诀：<b>「我要的是结果，还是过程？」</b>——只要结果，外包给 sub-agent；过程影响后续
+    决策，留在主对话。手算一本账（基线：一次 10K token 的对话任务）：单 agent 循环 ≈ 4× →
+    40K；multi-agent ≈ 15× → 150K——放大一个数量级。买到什么：Anthropic 多 agent 研究系统
+    内部评测比单 agent Opus 4 高 90.2%，token 用量单因素解释 80% 的性能方差——<b>性能就是用
+    token 买的</b>。不派：两三步的活、步骤强顺序依赖、依赖主对话已积累的理解；派 1 个：过程
+    废料多、结论短（全库搜索、调研）；派 N 个：能切成互不依赖的块。治理三件：按任务价值分层开、
+    并发限额、token 预算与超额熔断——<b>先上追踪和预算，再开 multi-agent</b>。</p>
+  <p class="ev">机制与配置核实 2026-07-17，来源 <a href="#src-subagent">Claude Code / Codex
+    官方文档</a>；决策账数字来源 <a href="#src-anthropic">Anthropic 多 agent 研究系统工程博客</a>
+    （BrowseComp 内部评测口径，两家产品迭代都快，引用前先核日期）。</p>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="sec" id="agent-cheatsheet">
+  <h2><span class="num">11</span>决策器与问答<a class="anchor" href="#agent-cheatsheet">#agent-cheatsheet</a></h2>
+
+  <h3>启用条件：六个「什么时候上」</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>要不要上 X</th><th>启用条件</th></tr></thead>
+    <tbody>
+      <tr><td>工作流 → agent</td><td>路径无法预先写死、需要模型自主决策时才升级</td></tr>
+      <tr><td>单 agent → 多 agent</td><td>可并行、信息面广（如深度调研）且预算容得下 ~15× token</td></tr>
+      <tr><td>代码 → 低代码平台</td><td>快速验证/业务自维护；复杂状态机与 CI 需求出现就下沉代码</td></tr>
+      <tr><td>无记忆 → 记忆</td><td>跨会话个性化有真实价值，且记忆安全三道防线已就位</td></tr>
+      <tr><td>API → Computer Use</td><td>目标系统没有 API、流程短窄可重试；有 API 永远走 API</td></tr>
+      <tr><td>自研协作 → A2A</td><td>存在跨厂商/跨组织的 agent 协作，才引入协议层</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>口诀：每一级升级都有成本——默认从最简单的形态起步，<b>被真实需求推着升级，
+    而不是被技术新鲜感推着</b>。</p>
+
+  <div class="tool" id="advisor">
+    <h4>启用条件决策器</h4>
+    <p class="note">把两把尺、六个启用条件和派与不派的账合成一张表单。判据全部来自本页各节，
+      结论是起点不是终点——真实项目用评估集验证。</p>
+    <div class="controls">
+      <label class="ctl">任务路径能不能预先写死？
+        <select id="ad-path">
+          <option value="fixed">能——步骤固定可枚举</option>
+          <option value="open">不能——要模型自己找路</option>
+        </select>
+      </label>
+      <label class="ctl">出错的代价
+        <select id="ad-risk">
+          <option value="low">可回滚、允许试错</option>
+          <option value="high">不可逆（转账/删除/对外发送）</option>
+        </select>
+      </label>
+      <label class="ctl">任务形态
+        <select id="ad-shape">
+          <option value="serial">串行为主，几步内能完</option>
+          <option value="explore">要大范围探索/调研（过程废料多）</option>
+          <option value="parallel">可切成互不依赖的块并行</option>
+        </select>
+      </label>
+      <label class="ctl">谁来搭与维护
+        <select id="ad-team">
+          <option value="dev">工程团队（要 CI/深度定制）</option>
+          <option value="biz">业务同事要能自己改</option>
+        </select>
+      </label>
+      <label class="ctl chk"><input type="checkbox" id="ad-mem"> 跨会话记住用户有真实价值</label>
+      <label class="ctl chk"><input type="checkbox" id="ad-noapi"> 目标系统没有 API（只有界面）</label>
+    </div>
+    <div class="kpis" id="ad-out"></div>
+    <div class="hitcards" id="ad-extra"></div>
+    <p class="note" id="ad-note"></p>
+  </div>
+
+  <h3>按症状导航</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th>症状</th><th>病根</th><th>去哪节找防线</th></tr></thead>
+    <tbody>
+      <tr><td>agent「跑飞」、做出格的事</td><td>停机条件与权限没设计</td><td><a href="#agent-what-why">循环与停机</a> · <a href="#agent-eval-guardrails">护栏组合拳</a></td></tr>
+      <tr><td>跑久了「变笨」</td><td>上下文淤积，注意力被稀释</td><td><a href="#agent-context">四板斧</a></td></tr>
+      <tr><td>工具一堆、模型不会用</td><td>描述含糊、返回过载</td><td><a href="#agent-components">工具是产品</a> · <a href="#agent-tools-mcp">六层契约</a></td></tr>
+      <tr><td>费用爆炸</td><td>multi-agent 乱开、thinking 满档</td><td><a href="#agent-subagent">派与不派账</a></td></tr>
+      <tr><td>被人「教坏」、行为异常持续</td><td>记忆投毒（跨会话发作）</td><td><a href="#agent-memory">三道防线</a></td></tr>
+      <tr><td>演示灵、生产不灵</td><td>没有评估集与稳定性口径</td><td><a href="#agent-eval-guardrails">三刻度与 pass^k</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>生产就绪：六条验收线</h3>
+  <p>①任务结果（pass^k、判分器、业务指标）②控制边界（拒绝轨迹、越权回归、责任矩阵）
+    ③工具与数据（错误分类表、重复调用测试、跨租户用例）④安全与隐私（威胁建模、红队记录）
+    ⑤SLO 与成本（压测、预算告警、降级策略）⑥恢复与发布（故障演练、runbook、回滚记录）。
+    终极判断一句话：<b>任何一次运行都能回答「谁发起、允许什么、做了什么、为何停止、结果怎样、
+    谁接管」</b>——演示成功只证明可能性，不证明可长期托管。</p>
+
+  <h3>现场高频追问</h3>
+  <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-07</b> 来自讲义首版对练页，
+    <b>2026-07-10/11</b> 来自低代码/记忆/Computer Use 增章，<b>2026-07-17</b> 来自 Sub-agent
+    编排增章。</p>
+  <div class="qa">
+    <details>
+      <summary>Agent 和普通的对话机器人到底有什么区别？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>机器人只「说」，agent 能「做」：它带着工具在循环里自主行动直到办完。问机器人退款
+          流程，它告诉你步骤；让 agent 处理退款，它去查订单、走流程、给你结果。</p>
+        <p class="qa-why">这是全册的第一性区分：答案 vs 结果。分不清这一条，后面的成本、护栏、
+          评估讨论都没有落点。</p>
+        <p class="qa-next"><b>下一步</b>　把对方的需求按三兄弟（机器人/工作流/agent）归位，
+          再谈方案——多数「要 agent」的需求其实是工作流。</p>
+        <p class="qa-src">依据　<a href="#agent-what-why">是什么 / 为什么</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>是不是所有场景都该升级成 agent？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>不是。流程固定、要求每步可审计的场景，工作流更便宜更可控。agent 适合路径没法预先
+          写死的开放任务。从工作流起步，简单方案不够用再加自主性。</p>
+        <p class="qa-why">自主性是花钱买的：每多一分自主，就多一分 token 成本与不确定性——
+          价值要配得上代价。这也是 Anthropic 官方立场，引用它反而显专业。</p>
+        <p class="qa-next"><b>下一步</b>　用<a href="#advisor">决策器</a>当场过一遍对方的场景，
+          输出形态建议与理由。</p>
+        <p class="qa-src">依据　<a href="#agent-what-why">两把尺</a> · <a href="#agent-cheatsheet">启用条件</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>模型会不会直接操作我们的生产系统？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>不会。模型只输出「调用请求」，真正执行的是你部署的代码。每个工具的权限、参数校验、
+          审计日志都由你控制——模型递申请单，批不批、怎么办都在你的系统。</p>
+        <p class="qa-why">「模型点菜、代码下厨」是安全话术的根基：把担忧从「模型可不可信」
+          转到「工具契约设计得好不好」，后者是工程可控的。</p>
+        <p class="qa-next"><b>下一步</b>　给对方看六层工具契约表，逐层过一遍他要暴露的第一个
+          工具。</p>
+        <p class="qa-src">依据　<a href="#agent-components">核心组件</a> · <a href="#agent-tools-mcp">六层契约</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>多个 agent 是不是一定比一个强？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>不一定。可并行、信息面广的任务（深度调研）确实强得多；串行依赖强的任务反而更慢
+          更贵还难调试。先用单 agent 做基线，量化收益后再决定要不要拆。</p>
+        <p class="qa-why">15× token 换 90.2% 提升的账要算给对方看：性能就是用 token 买的，
+          任务价值配得上这本账才划算。</p>
+        <p class="qa-next"><b>下一步</b>　按「要结果还是要过程」的口诀把对方的任务分堆，
+          只对「要结果」的堆开 multi-agent。</p>
+        <p class="qa-src">依据　<a href="#agent-orchestration">编排模式</a> · <a href="#agent-subagent">派与不派账</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>现在模型上下文都百万级了，还需要上下文工程吗？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>更需要。窗口变大不等于注意力变多——塞得越满、单位信息越被稀释，成本也线性上涨。
+          大窗口给了「能塞」的自由，上下文工程决定「该塞什么」。</p>
+        <p class="qa-why">context rot 是真实现象，且省钱与提效在这里罕见地同向：压缩加即时
+          检索通常把长任务成本降数倍，质量不降反升。</p>
+        <p class="qa-next"><b>下一步</b>　查一遍对方 agent 的每轮上下文构成，按四板斧逐项
+          套——通常立竿见影。</p>
+        <p class="qa-src">依据　<a href="#agent-context">上下文工程</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>怎么证明 agent 上线后不会出乱子？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>三层保障：上线前评估集全量回归、pass^k 稳定性达标；上线后全链路追踪加在线评估盯
+          退化；权限上最小化加高危动作人工审批。不承诺不出错，承诺错了兜得住。</p>
+        <p class="qa-why">「可度量、可回放、可兜底」这九个字是把安全焦虑转化为工程清单的
+          枢纽——审计友好，也是从演示走向生产的门票。</p>
+        <p class="qa-next"><b>下一步</b>　对照六条验收线列缺口清单；起步 20–50 条评估样本加
+          开源追踪工具，一到两周建好。</p>
+        <p class="qa-src">依据　<a href="#agent-eval-guardrails">评估与护栏</a> · <a href="#agent-cheatsheet">六条验收线</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>Dify 是开源的，我们为什么要付钱？<span class="added">2026-07-10</span></summary>
+      <div class="a">
+        <p>开源解决「能不能用」，商业解决「谁来兜底」：托管、治理、SLA 与升级保障。先开源
+          验证、规模化再评估商业版。</p>
+        <p class="qa-why">许可证还有暗礁：Dify 是 Apache 2.0 加附加条款（多租户 SaaS、去 logo
+          要商业授权），n8n 是 fair-code 不得转售——「开源」两个字下面各家边界差很多。</p>
+        <p class="qa-next"><b>下一步</b>　按主负载对号入座选平台，把许可证要点写进方案——
+          别等客户法务来问。</p>
+        <p class="qa-src">依据　<a href="#agent-lowcode">低代码平台</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>Agent 的记忆会不会被人「教坏」？<span class="added">2026-07-11</span></summary>
+      <div class="a">
+        <p>会，这叫记忆投毒（OWASP ASI06，研究口径注入成功率超 95%）。防线三道：写入过滤并
+          标记来源、任务间清理、鉴权与定期审计——把记忆当数据库管，不当草稿纸。</p>
+        <p class="qa-why">投毒与注入的区别是持续性：注入随会话重置，投毒跨会话反复发作，
+          像后门，不主动审计发现不了。卖记忆功能必须捆绑卖记忆安全。</p>
+        <p class="qa-next"><b>下一步</b>　方案里加一页「记忆写入策略」：什么内容允许入库、
+          谁能写、保留多久、怎么审计。</p>
+        <p class="qa-src">依据　<a href="#agent-memory">记忆系统</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>Computer Use 和 RPA 有什么区别？我们已经买了 RPA。<span class="added">2026-07-11</span></summary>
+      <div class="a">
+        <p>互补不替代：RPA 写死流程稳而脆（界面改一个按钮就断），CU 自适应但慢而贵。落地常态
+          是混合——RPA 跑稳定主干，CU 接变化页面与异常分支，存量投资不浪费。</p>
+        <p class="qa-why">两个基准口径要主动讲：短窄任务 83.5% 已实用、长程多应用仅 20.6%
+          ——把短板讲出来反而赢信任，也守住了承诺范围。</p>
+        <p class="qa-next"><b>下一步</b>　挑一个跨系统抄数据的人工流程，画「RPA 骨架 + CU 兜底」
+          混合草图并按「步数 × 截图成本」估算。</p>
+        <p class="qa-src">依据　<a href="#agent-computer-use">Computer Use</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>Sub-agent 会不会把费用跑爆？<span class="added">2026-07-17</span></summary>
+      <div class="a">
+        <p>会放大——研究类任务约 15× token。治理三件：按任务价值分层开、并发限额（Codex 默认
+          6 线程）、token 预算与超额熔断。先上追踪和预算，再开 multi-agent。</p>
+        <p class="qa-why">深度上限的存在理由就是这本账：没有上限的扇出就是没有上限的账单
+          （Claude Code 5 层封顶、Codex 默认 1 层）。</p>
+        <p class="qa-next"><b>下一步</b>　在自己项目实测一次「三个 sub-agent 并行 vs 串行」的
+          墙钟时间与 token，拿实测数字讲账。</p>
+        <p class="qa-src">依据　<a href="#agent-subagent">派与不派账</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>怎么保证某个 sub-agent 每次都被调用？<span class="added">2026-07-17</span></summary>
+      <div class="a">
+        <p>分层：日常写好 description 让它自动路由（写得越具体命中越高）；要硬保证就用 skill
+          绑 context: fork——显式触发，必然进 sub-agent。</p>
+        <p class="qa-why">四层触发从软到硬（description → 点名 → CLAUDE.md → fork），对应
+          「希望被用」到「必须被用」的不同强度——把机制讲清，客户对可控性的疑虑就落地了。</p>
+        <p class="qa-next"><b>下一步</b>　给最关键的一个 sub-agent 配 fork 硬保证，其余靠
+          description 路由，跑一周看命中率。</p>
+        <p class="qa-src">依据　<a href="#agent-subagent">触发四层</a> · <a href="#src-subagent">src-subagent</a></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2><span class="num">12</span>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。</p>
+  <div class="rel">
+    <a href="../mcp/index.html">
+      <div class="nm">MCP · 网页版</div>
+      <div class="why">本页第 4 节只讲 agent 侧要点；协议解剖、传输演进、安全与生产落地的
+        完整展开在那页。</div>
+    </a>
+    <a href="../../PPT-version/A2A/README.html">
+      <div class="nm">A2A</div>
+      <div class="why">MCP 连工具（对物），A2A 连 agent（对人）——跨组织协作的协议细节在那册。</div>
+    </a>
+    <a href="../../PPT-version/RAG/README.html">
+      <div class="nm">RAG</div>
+      <div class="why">检索是 agent 最常用的工具；Agentic RAG 是两册的接缝，建库的地基在那边。</div>
+    </a>
+    <a href="../../PPT-version/Prompt-Engineering/README.html">
+      <div class="nm">Prompt Engineering · 第 4 章</div>
+      <div class="why">ReAct、自洽性、提示词链「一次怎么写」在那册；本页把它们编排成带工具、
+        记忆、护栏的完整系统。</div>
+    </a>
+    <a href="../../PPT-version/Evaluation/README.html">
+      <div class="nm">Evaluation · 第 6 章</div>
+      <div class="why">agent 评估（turn/milestone/trajectory）的场景验收方法在那册展开。</div>
+    </a>
+    <a href="../../PPT-version/Security/README.html">
+      <div class="nm">Security</div>
+      <div class="why">提示注入与记忆投毒的攻防机制深化在那册；本页只讲防线在架构里的位置。</div>
+    </a>
+    <a href="../llm-inference/index.html">
+      <div class="nm">LLM-Inference · 网页版</div>
+      <div class="why">多轮 agent 是前缀缓存的最大受益者；上下文淤积为什么贵的机制账在那页。</div>
+    </a>
+    <a href="../../PPT-version/Solution-Patterns/README.html">
+      <div class="nm">Solution-Patterns</div>
+      <div class="why">低代码平台是各场景方案的落地工具层；场景图纸在那册，分诊树指回本页。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2><span class="num">13</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/Agent/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-07 至 2026-07-17。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-anthropic"><td><code>src-anthropic</code></td><td>Anthropic 工程博客（Building
+          Effective Agents / context engineering / multi-agent research system）</td>
+          <td>五模式、四板斧、15×/90.2% 决策账</td><td>内部评测口径（BrowseComp），不能外推为
+          任意任务的收益承诺</td></tr>
+      <tr id="src-mcp"><td><code>src-mcp</code></td><td>modelcontextprotocol.io</td>
+          <td>MCP 版本现状与治理（2026-07-07）</td><td>2026-07-28 新版发布后需复核</td></tr>
+      <tr id="src-a2a"><td><code>src-a2a</code></td><td>A2A releases / Linux Foundation 公告</td>
+          <td>A2A v1.0 时间线与采用规模</td><td>不涉及协议技术细节（见 A2A 模块）</td></tr>
+      <tr id="src-frameworks"><td><code>src-frameworks</code></td><td>微软官方公告 / GitHub releases</td>
+          <td>框架短名单与成熟度锚点（2026-07-12）</td><td>版本号周级过期</td></tr>
+      <tr id="src-owasp"><td><code>src-owasp</code></td><td>genai.owasp.org / 各官方文档</td>
+          <td>Agentic Top 10 清单与可观测工具格局</td><td>清单是风险目录，不是完整防护方案</td></tr>
+      <tr id="src-lowcode"><td><code>src-lowcode</code></td><td>GitHub 仓库 / 官方文档 / 融资报道</td>
+          <td>四平台画像与许可证（2026-07-10）</td><td>stars 与版本号会漂；许可证以原文为准</td></tr>
+      <tr id="src-memory"><td><code>src-memory</code></td><td>2026 横评 / arXiv 2601.05504、2607.06595</td>
+          <td>框架四强画像与投毒成功率口径</td><td>Zep 94.7% 为自报数字；攻击成功率为研究环境</td></tr>
+      <tr id="src-cu"><td><code>src-cu</code></td><td>2026 对比矩阵 / coasty 榜 / arXiv 2606.29537</td>
+          <td>三路线与基准两口径（2026-07-11）</td><td>基准 ≠ 生产就绪认证</td></tr>
+      <tr id="src-subagent"><td><code>src-subagent</code></td><td>code.claude.com/docs ·
+          developers.openai.com/codex</td><td>两家 sub-agent 机制与配置（2026-07-17）</td>
+          <td>产品迭代快，字段与默认值引用前先核当日文档</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="box warn" style="margin-top:1rem">
+    <p><b>下一次定点复查：2026-07-28</b>（MCP 新版正式发布）。届时复核第 4 节的版本现状；
+      sub-agent 两家的字段与默认值属周级易变项，引用当天核官方文档。</p>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/Agent/Agent-讲义.pptx">Agent-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/Agent/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/Agent/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <!-- UPDATED:END -->
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+/* 启用条件决策器：两把尺 + 六个启用条件 + 派与不派账的交互版。
+   判据全部来自本页各节（讲义第 1/7/8/9/10/11 章口径），不引入新事实。
+   纪律：帮助决策（web-rules §九）；无 JS 时 .tool 隐藏，静态兜底是启用条件表。 */
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("ad-out"), extra = $("ad-extra"), note = $("ad-note");
+  if (!out) return;
+  function kpi(label, val, warn) {
+    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
+    return open + label + '<b>' + val + '</b></div>';
+  }
+  function card(t, tag, s) {
+    return '<div class="hitcard"><b>' + t + '</b>' +
+           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
+  }
+  function run() {
+    var path = $("ad-path").value, risk = $("ad-risk").value,
+        shape = $("ad-shape").value, team = $("ad-team").value,
+        mem = $("ad-mem").checked, noapi = $("ad-noapi").checked;
+    var form, formNote, cost;
+    if (path === "fixed") {
+      form = "工作流"; cost = "≈ 1×（基线）";
+      formNote = "路径写得死就别上 agent：可控、可审计、成本可预期——被真实需求推着再升级。";
+    } else if (shape === "parallel") {
+      form = "多 agent（扇出）"; cost = "≈ 15×";
+      formNote = "能切成互不依赖的块才值得扇出；先上追踪和预算，并发与深度设限额。";
+    } else if (shape === "explore") {
+      form = "单 agent + 子 agent 隔离"; cost = "≈ 4–15×";
+      formNote = "过程废料多、结论短的探索活派 1 个 sub-agent 深潜，只带结论回来。";
+    } else {
+      form = "单 agent"; cost = "≈ 4×";
+      formNote = "串行为主的开放任务单 agent 足矣——multi-agent 反而更慢更贵还难调试。";
+    }
+    var kpis = kpi("推荐形态", form, false) +
+               kpi("token 量级（对一次对话基线）", cost, form.indexOf("多") === 0);
+    if (risk === "high") {
+      kpis += kpi("护栏", "高危动作人工审批", true);
+    }
+    out.innerHTML = kpis;
+    var cards = [];
+    if (team === "biz" && path !== "fixed") {
+      cards.push(card("低代码平台做壳", "入口层",
+        "业务同事自维护找平台（问答 Dify / 集成 n8n / 对话 Coze / 治理 HiAgent）；复杂节点下沉代码。"));
+    } else if (team === "biz") {
+      cards.push(card("低代码平台", "入口层",
+        "固定流程 + 业务自维护正是平台主场；分水岭三问出现两个「是」再下沉代码。"));
+    }
+    if (mem) {
+      cards.push(card("记忆层", "附加件",
+        "跨会话个性化有真实价值才上；写入过滤、任务间清理、鉴权审计三道防线先于功能就位。"));
+    }
+    if (noapi) {
+      cards.push(card("Computer Use", "附加件",
+        "只在无 API 且流程短窄可重试时用；沙箱 + 最小权限 + 不可逆人审，与 RPA 混合摊成本。"));
+    }
+    if (risk === "high") {
+      cards.push(card("停机与审批设计", "护栏",
+        "停机条件三选一至少有其一：达成目标 / 步数预算上限 / 人来拍板；不可逆动作必须人审。"));
+    }
+    extra.innerHTML = cards.join("");
+    note.textContent = formNote + " 完整判据见上方启用条件表与各节；上线前过六条验收线。";
+  }
+  ["ad-path", "ad-risk", "ad-shape", "ad-team"].forEach(function (id) {
+    $(id).addEventListener("change", run);
+  });
+  ["ad-mem", "ad-noapi"].forEach(function (id) {
+    $(id).addEventListener("change", run);
+  });
+  run();
+})();
+</script>
+</body>
+</html>

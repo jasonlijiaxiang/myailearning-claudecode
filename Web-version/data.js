@@ -936,7 +936,7 @@ window.KB = {
    "dir": "Agent",
    "layer": "应用模式层",
    "created": "2026-07-07",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "agent-what-why",
@@ -1238,7 +1238,7 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": ""
+   "web": "./agent/index.html"
   },
   {
    "id": "data-engineering",
