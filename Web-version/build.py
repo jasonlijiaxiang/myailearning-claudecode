@@ -48,6 +48,9 @@ MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html"),
              "multimodal": os.path.join(HERE, "multimodal", "index.html"),
              "solution-patterns": os.path.join(HERE, "solution-patterns", "index.html"),
              "ai-ops": os.path.join(HERE, "ai-ops", "index.html"),
+             "data-engineering": os.path.join(HERE, "data-engineering", "index.html"),
+             "ai-infra-compute": os.path.join(HERE, "ai-infra-compute", "index.html"),
+             "ai-infra-platform": os.path.join(HERE, "ai-infra-platform", "index.html"),
 }
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
@@ -97,6 +100,9 @@ WEB_PAGES = {"mcp": "./mcp/index.html",
              "multimodal": "./multimodal/index.html",
              "solution-patterns": "./solution-patterns/index.html",
              "ai-ops": "./ai-ops/index.html",
+             "data-engineering": "./data-engineering/index.html",
+             "ai-infra-compute": "./ai-infra-compute/index.html",
+             "ai-infra-platform": "./ai-infra-platform/index.html",
 }
 
 

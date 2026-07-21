@@ -393,7 +393,7 @@ window.KB = {
    "dir": "AI-Infra-Compute",
    "layer": "算力底座层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "aic-overview",
@@ -594,14 +594,14 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./ai-infra-compute/index.html"
   },
   {
    "id": "ai-infra-platform",
    "dir": "AI-Infra-Platform",
    "layer": "算力底座层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "aip-overview",
@@ -748,7 +748,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./ai-infra-platform/index.html"
   },
   {
    "id": "ai-ops",
@@ -1245,7 +1245,7 @@ window.KB = {
    "dir": "Data-Engineering",
    "layer": "数据底座层",
    "created": "2026-07-11",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "de-what-why",
@@ -1377,7 +1377,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./data-engineering/index.html"
   },
   {
    "id": "evaluation",
