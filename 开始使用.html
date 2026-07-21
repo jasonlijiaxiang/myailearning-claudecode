@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>开始使用 · AI 知识库</title>
+<link rel="stylesheet" href="./_assets/kb.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb"><a href="./README.html">← 知识库首页</a></p>
+    <h1>开始使用</h1>
+    <p class="lede">三件事：每天怎么看、整库怎么分享、拿到分享的人怎么把它变成自己的知识库。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h2>每天怎么看</h2>
+  <p>双击 <code>README.html</code> 进首页。常用的就三个入口：</p>
+  <div class="grid">
+    <div class="box">
+      <h4><a href="./_prep/实战包.html">实战包</a></h4>
+      <p>对客交锋 55 题，每题 15–30 秒的电梯版，重要场合前通刷一遍。</p>
+    </div>
+    <div class="box">
+      <h4><a href="./Web-version/index.html">网页版</a></h4>
+      <p>可搜索、按层浏览；关系网告诉你讲一个模块还该带上哪几块，保鲜看板告诉你哪些数字该复查了。</p>
+    </div>
+    <div class="box">
+      <h4><a href="./PPT-version/README.html">PPT 总览</a></h4>
+      <p>19 册讲义与精选书单，内容出处。要投屏、要逐页讲，用这边。</p>
+    </div>
+  </div>
+
+  <h2>整库怎么分享</h2>
+  <p><b>分享单元是整个文件夹</b>——网页样式、检查脚本、账本都在里面，只拷单个文件会缺东西。
+    整个文件夹拷给对方，断网也能双击打开，全程不需要装任何软件。</p>
+  <p>要打一个干净的压缩包，跑：</p>
+  <pre class="codeblock"><code>python3 _maintenance/make_share.py</code></pre>
+  <p class="ev">打出来实测 4.7 MB（2026-07-21）：带全部讲义、书单、网页版和工具，不带作者的历史留痕。
+    打包后会自动解压验一遍，确认拆开还是一个能用的库。</p>
+
+  <h2>拿到分享的人：把它变成你自己的知识库</h2>
+  <p>这个库不是死文档——维护它的那套方法打包在库里（<code>_skill-source/knowledge-base-builder.skill</code>），
+    装上就能在这份内容的基础上继续建你自己的库。三步：</p>
+
+  <div class="grid">
+    <div class="box">
+      <h4>① 装技能</h4>
+      <p>把 <code>_skill-source/knowledge-base-builder.skill</code> 上传到 claude.ai
+        （设置 → Capabilities → Skills）；用 Claude Code 的话，解压到
+        <code>~/.claude/skills/knowledge-base-builder/</code>。</p>
+    </div>
+    <div class="box">
+      <h4>② 改口味</h4>
+      <p>打开 <code>KB-CONFIG.md</code>，改「读者画像」「知识领域」「知识库显示名」——
+        库的全部个性都在这一个文件里，改完下次任务就生效。</p>
+    </div>
+    <div class="box">
+      <h4>③ 开始说话</h4>
+      <p>对 Claude 说「把 ×× 整理进知识库」——一个概念、一段对话、一份资料都行。
+        它会自己判断该新增模块还是更新已有的，做完自动跑检查。</p>
+    </div>
+  </div>
+
+  <p>之后这份库就是你的了：加你的模块、删你不要的、按你的领域改书架——和原库各自演化，互不影响。</p>
+
+  <h2>库的约定（接手前值得知道的）</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>东西</th><th>在哪</th><th>一句话</th></tr></thead>
+    <tbody>
+      <tr><td>每个模块的账本</td><td><code>PPT-version/&lt;模块&gt;/MANIFEST.md</code></td>
+          <td>章节、会过期的事实（带核实日期）、模块间关系都登记在这，网页版由它生成</td></tr>
+      <tr><td>检查脚本</td><td><code>_maintenance/</code></td>
+          <td>页数账、书单链接、坏链、讲义规范……改完东西跑一遍，全绿再算完</td></tr>
+      <tr><td>素材留痕</td><td><code>PPT-version/&lt;模块&gt;/raw-data/</code></td>
+          <td>每次输入和联网核实笔记存在这，事实可以溯源</td></tr>
+      <tr><td>网页版生成器</td><td><code>Web-version/build.py</code></td>
+          <td>改了账本就跑它，首页的知识地图、关系网、保鲜看板会跟着变</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  <p>书单只列正规渠道链接、不含第三方文件，整库可以放心分享。</p>
+</footer>
+
+</body>
+</html>
