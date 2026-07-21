@@ -5,7 +5,7 @@
 
    三条硬约束（web-design-system）在前，风格在后：
    ① Portable：无外链字体、无 CDN，file:// 双击即开；
-   ② 可读性：中文连续正文 ≥15px、次级解释 ≥14px（2026-07-21 用户下调一档：整站密度向首页看齐）；标签/徽章/面包屑是标记，可更小；
+   ② 可读性：中文连续正文 ≥14px、次级 ≥13px（2026-07-21 用户两次下调定档：100% 缩放即其惯用密度）；标签/徽章/面包屑是标记，可更小；
    ③ 页面本身绝不横向滚，宽内容在自己的容器里滚。
    令牌唯一出处＝本文件 :root（规则登记在 library-rules「全库 HTML 视觉令牌」）。 */
 
@@ -46,7 +46,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--sans);
-  font-size: 15.5px;
+  font-size: 14.5px;
   line-height: 1.75;
   color: var(--ink-700);
   background: var(--bg);
@@ -55,21 +55,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 左锚定，不居中（2026-07-21 定版）：居中布局的内容左缘 = (窗口宽−1200)/2，
-   随窗口宽度移动——用户以浏览器书签栏为标尺，发现"AI 知识库"每页/每窗口位置不同，
-   读作"不统一"。工具站左锚定：内容永远从左侧固定位置开始，任何窗口宽度下位置恒定。 */
-.wrap { max-width: var(--maxw); margin: 0; padding: 0 1.6rem 0 2rem; }
+/* 居中布局（2026-07-21 复核定版）：曾因"品牌字位置每页不同"改为左锚定，
+   后确认位置漂移的真因是标签页缩放不一致（总纲页被 ⌘- 缩过、其余 100%）——
+   缩放归零后居中并不漂移，宽屏下居中更好看，按用户裁决恢复。 */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.2rem; }
 
 /* ============ 页头 ============ */
 .top { background: var(--card); border-bottom: 1px solid var(--line); padding: 1.5rem 0 1.4rem; }
 .crumb { font-size: 13px; color: var(--ink-400); margin: 0 0 .5rem; }
 .crumb a { color: var(--ink-500); text-decoration: none; }
 .crumb a:hover { color: var(--blue); }
-.top h1 { font-size: clamp(19px, 2.4vw, 24px); font-weight: 700; line-height: 1.3;
+.top h1 { font-size: clamp(18px, 2.2vw, 22px); font-weight: 700; line-height: 1.3;
           margin: 0 0 .35rem; color: var(--ink-900); letter-spacing: .01em; }
 .top h1 .en { display: block; font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
               color: var(--blue); font-weight: 600; margin-bottom: .3rem; }
-.top .lede { margin: .1rem 0 0; font-size: 14.5px; color: var(--ink-500); max-width: 72ch; }
+.top .lede { margin: .1rem 0 0; font-size: 13.5px; color: var(--ink-500); max-width: 72ch; }
 .top .hr { height: 1px; background: var(--line-2); margin: .9rem 0; }
 
 /* 搜索 */
@@ -95,10 +95,10 @@ body {
 /* ============ 版式 ============ */
 main { padding: 1.6rem 0 3rem; }
 h1 { color: var(--ink-900); }
-h2 { font-size: 17.5px; font-weight: 700; color: var(--ink-900); line-height: 1.4;
+h2 { font-size: 16.5px; font-weight: 700; color: var(--ink-900); line-height: 1.4;
      margin: 2.3rem 0 .8rem; padding-left: .65rem; border-left: 4px solid var(--blue); }
-h3 { font-size: 16px; font-weight: 700; color: var(--ink-900); margin: 1.7rem 0 .55rem; }
-h4 { font-size: 14.5px; font-weight: 700; color: var(--ink-900); margin: 1.1rem 0 .35rem; }
+h3 { font-size: 15px; font-weight: 700; color: var(--ink-900); margin: 1.7rem 0 .55rem; }
+h4 { font-size: 14px; font-weight: 700; color: var(--ink-900); margin: 1.1rem 0 .35rem; }
 p { margin: .65rem 0; }
 a { color: var(--blue); text-decoration: none; }
 a:hover { color: var(--blue-d); text-decoration: underline; }
@@ -112,7 +112,7 @@ pre.codeblock code { background: none; padding: 0; }
 
 /* ============ 每日取用 ============ */
 .daily { background: var(--blue-bg); border: 1px solid var(--blue-ln);
-         border-radius: var(--radius); padding: .85rem 1.1rem; margin: 1.2rem 0; font-size: 14.5px; }
+         border-radius: var(--radius); padding: .85rem 1.1rem; margin: 1.2rem 0; font-size: 13.5px; }
 .daily b, .daily-title { color: var(--ink-900); font-weight: 700; margin-right: .5rem; }
 .daily a { margin-right: 1rem; white-space: nowrap; font-weight: 600; }
 .daily ul { margin: .25rem 0 0; padding: 0; list-style: none; }
@@ -127,8 +127,8 @@ pre.codeblock code { background: none; padding: 0; }
         box-shadow: var(--shadow); text-decoration: none; color: inherit;
         transition: box-shadow .15s ease, border-color .15s ease; }
 .face:hover { border-color: var(--blue-ln); box-shadow: var(--shadow-up); text-decoration: none; }
-.face b { font-size: 15.5px; color: var(--ink-900); }
-.face span, .face .d { font-size: 14px; color: var(--ink-500); line-height: 1.65; }
+.face b { font-size: 14.5px; color: var(--ink-900); }
+.face span, .face .d { font-size: 13px; color: var(--ink-500); line-height: 1.65; }
 .face .st { font-size: 12.5px; font-weight: 600; }
 .face .st.ok { color: var(--ok); }
 .face .st.soon { color: var(--warn); }
@@ -145,9 +145,9 @@ pre.codeblock code { background: none; padding: 0; }
         transition: box-shadow .15s ease, border-color .15s ease, transform .15s ease; }
 .card:hover { border-color: var(--blue-ln); box-shadow: var(--shadow-up);
               transform: translateY(-1px); text-decoration: none; }
-.card .nm { font-size: 15.5px; font-weight: 700; color: var(--ink-900);
+.card .nm { font-size: 14.5px; font-weight: 700; color: var(--ink-900);
             display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
-.card .blurb { font-size: 14px; color: var(--ink-500); line-height: 1.6;
+.card .blurb { font-size: 13px; color: var(--ink-500); line-height: 1.6;
                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
                overflow: hidden; }
 .card .meta { font-size: 12.5px; color: var(--ink-400); margin-top: auto; padding-top: .2rem; }
@@ -170,7 +170,7 @@ pre.codeblock code { background: none; padding: 0; }
 .toc a.on { background: var(--blue-bg); color: var(--blue-d); font-weight: 600; }
 
 .sec { scroll-margin-top: 1rem; }
-.sec > h2 { margin-top: 2.6rem; font-size: 18.5px; }
+.sec > h2 { margin-top: 2.6rem; font-size: 17px; }
 .sec:first-of-type > h2 { margin-top: .2rem; }
 .sec > h2 .num { font-family: var(--mono); font-size: 12px; color: var(--blue);
                  letter-spacing: .08em; display: block; margin-bottom: .15rem; font-weight: 600; }
@@ -180,7 +180,7 @@ h2:hover .anchor, .anchor:focus { opacity: 1; }
 
 .lead { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue);
         border-radius: 0 var(--radius) var(--radius) 0; padding: .8rem 1.05rem;
-        margin: 1rem 0 1.3rem; font-size: 15.5px; color: var(--ink-700); box-shadow: var(--shadow); }
+        margin: 1rem 0 1.3rem; font-size: 14.5px; color: var(--ink-700); box-shadow: var(--shadow); }
 .lead p:first-child { margin-top: 0; }
 .lead p:last-child { margin-bottom: 0; }
 
@@ -189,16 +189,16 @@ h2:hover .anchor, .anchor:focus { opacity: 1; }
 .box { padding: .85rem 1rem; background: var(--card); border: 1px solid var(--line);
        border-radius: var(--radius); box-shadow: var(--shadow); }
 .box h4 { margin: 0 0 .3rem; font-size: 15.5px; }
-.box p { margin: .3rem 0; font-size: 14px; line-height: 1.65; }
+.box p { margin: .3rem 0; font-size: 13.5px; line-height: 1.65; }
 .box.warn { background: var(--warn-bg); border-color: var(--warn-ln); }
 
 /* 表格 */
 .tw { overflow-x: auto; margin: 1rem 0; background: var(--card);
       border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 th, td { padding: .55rem .8rem; text-align: left; vertical-align: top;
          border-bottom: 1px solid var(--line-2); }
-th { background: #F8FAFC; color: var(--ink-500); font-weight: 600; font-size: 12.5px;
+th { background: #F8FAFC; color: var(--ink-500); font-weight: 600; font-size: 12px;
      letter-spacing: .04em; white-space: nowrap; }
 td { line-height: 1.65; color: var(--ink-700); }
 tbody tr:last-child td { border-bottom: 0; }
@@ -218,7 +218,7 @@ tbody tr:hover { background: #FAFBFD; }
       border-radius: var(--radius); box-shadow: var(--shadow); padding: 0 1rem; }
 .qa details { border-bottom: 1px solid var(--line-2); }
 .qa details:last-child { border-bottom: 0; }
-.qa summary { cursor: pointer; padding: .75rem 1.6rem .75rem 0; font-size: 15px;
+.qa summary { cursor: pointer; padding: .75rem 1.6rem .75rem 0; font-size: 14.5px;
               font-weight: 600; color: var(--ink-900); list-style: none; position: relative; }
 .qa summary::-webkit-details-marker { display: none; }
 .qa summary::after { content: "+"; position: absolute; right: .1rem; top: .7rem;
@@ -226,7 +226,7 @@ tbody tr:hover { background: #FAFBFD; }
 .qa details[open] summary::after { content: "−"; }
 .qa summary:hover { color: var(--blue-d); }
 .qa summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
-.qa .a { padding: 0 0 .9rem; font-size: 15px; color: var(--ink-700); }
+.qa .a { padding: 0 0 .9rem; font-size: 14.5px; color: var(--ink-700); }
 .qa .a p { margin: .45rem 0; }
 .qa-why { color: var(--ink-500); }
 .qa-next { border-left: 3px solid var(--blue); padding: .2rem 0 .2rem .7rem;
@@ -236,14 +236,14 @@ tbody tr:hover { background: #FAFBFD; }
 .qa-src a { color: var(--ink-500); }
 
 /* 问答（实战包：q/a/src 结构） */
-.qa .q { font-weight: 700; font-size: 15px; color: var(--ink-900); margin: 1rem 0 .3rem; line-height: 1.55; }
+.qa .q { font-weight: 700; font-size: 14.5px; color: var(--ink-900); margin: 1rem 0 .3rem; line-height: 1.55; }
 .qa .q .num { display: inline-block; font-family: var(--mono); font-size: 12px; font-weight: 600;
               color: var(--blue-d); background: var(--blue-bg); border: 1px solid var(--blue-ln);
               padding: .06rem .45rem; border-radius: 6px; margin-right: .5rem; vertical-align: 1px; }
 .qa .q span.fresh { font-size: 12px; font-weight: 400; color: var(--warn);
                     background: var(--warn-bg); border: 1px solid var(--warn-ln);
                     padding: 0 .4rem; border-radius: 6px; margin-left: .45rem; white-space: nowrap; }
-.qa > .a { padding: 0; font-size: 14.5px; color: var(--ink-700); line-height: 1.75; }
+.qa > .a { padding: 0; font-size: 14px; color: var(--ink-700); line-height: 1.75; }
 .qa .src { font-size: 14px; color: var(--ink-400); margin: .3rem 0 .9rem; }
 .qa .src a { color: var(--ink-500); }
 .qa:not(:has(details)) { border: 0; box-shadow: none; background: transparent; padding: 0; }
@@ -297,7 +297,7 @@ figcaption { font-size: 14px; color: var(--ink-400); margin-top: .5rem;
 .back, .crumb a.back { display: inline-block; font-size: 14px; color: var(--ink-500);
                        text-decoration: none; margin-bottom: .8rem; }
 .back:hover { color: var(--blue); text-decoration: none; }
-.sub { font-size: 14.5px; color: var(--ink-500); line-height: 1.75; max-width: 74ch; margin: .3rem 0 1.2rem; }
+.sub { font-size: 13.5px; color: var(--ink-500); line-height: 1.75; max-width: 74ch; margin: .3rem 0 1.2rem; }
 .tagline { font-size: 15px; color: var(--ink-500); }
 .ok   { color: var(--ok); font-weight: 600; }
 .todo { color: var(--warn); font-weight: 600; }
@@ -366,8 +366,8 @@ h2[id^="sec-"] { scroll-margin-top: 1rem; }
                 border-top: 1px solid var(--line); padding-top: .9rem; margin-top: 2.2rem; }
 
 /* 关系网 / 保鲜看板 */
-.net-lead { font-size: 14.5px; color: var(--ink-500); margin: .5rem 0 .8rem; }
-table.net td, table.fresh td { font-size: 14px; line-height: 1.65; }
+.net-lead { font-size: 13.5px; color: var(--ink-500); margin: .5rem 0 .8rem; }
+table.net td, table.fresh td { font-size: 13.5px; line-height: 1.65; }
 table.net td:first-child, table.fresh td:first-child { white-space: nowrap; }
 table.net a { border-bottom: 1px solid transparent; }
 table.net a:hover { border-bottom-color: var(--blue); text-decoration: none; }
@@ -404,7 +404,7 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
   .klayer { flex: none; }
 }
 @media (max-width: 680px) {
-  body { font-size: 15px; }
+  body { font-size: 14px; }
   .faces { grid-template-columns: 1fr; }
   th { white-space: normal; }
 }
@@ -441,7 +441,7 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
         font-family: var(--mono); font-weight: 700; font-size: 12.5px; line-height: 32px;
         color: #fff; background: var(--hue, var(--blue)); letter-spacing: .02em; }
 .cname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-         font-size: 15.5px; font-weight: 700; color: var(--ink-900); }
+         font-size: 14.5px; font-weight: 700; color: var(--ink-900); }
 
 /* 首页统计条（JS 增强；无 JS 时容器为空不占位） */
 .stats { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .9rem; }
@@ -459,7 +459,7 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
    窄屏侧栏塌成一堆药丸还和正文重复——用户逐页指出后统一成这一条。 */
 .topbar { position: sticky; top: 0; z-index: 50; background: var(--card);
           border-bottom: 1px solid var(--line); }
-.topbar .tb { max-width: var(--maxw); margin: 0; padding: .4rem 1.6rem .4rem 2rem;
+.topbar .tb { max-width: var(--maxw); margin: 0 auto; padding: .4rem 1.2rem;
               display: flex; align-items: center; gap: .15rem; flex-wrap: wrap; }
 .topbar .brand { font-weight: 700; font-size: 15.5px; color: var(--ink-900);
                  text-decoration: none; margin-right: .7rem; white-space: nowrap; }
