@@ -45,6 +45,9 @@ MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html"),
              "llm-training": os.path.join(HERE, "llm-training", "index.html"),
              "security": os.path.join(HERE, "security", "index.html"),
              "a2a": os.path.join(HERE, "a2a", "index.html"),
+             "multimodal": os.path.join(HERE, "multimodal", "index.html"),
+             "solution-patterns": os.path.join(HERE, "solution-patterns", "index.html"),
+             "ai-ops": os.path.join(HERE, "ai-ops", "index.html"),
 }
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
@@ -91,6 +94,9 @@ WEB_PAGES = {"mcp": "./mcp/index.html",
              "llm-training": "./llm-training/index.html",
              "security": "./security/index.html",
              "a2a": "./a2a/index.html",
+             "multimodal": "./multimodal/index.html",
+             "solution-patterns": "./solution-patterns/index.html",
+             "ai-ops": "./ai-ops/index.html",
 }
 
 

@@ -755,7 +755,7 @@ window.KB = {
    "dir": "AI-Ops",
    "layer": "工程保障层",
    "created": "2026-07-10",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "ops-what-why",
@@ -929,7 +929,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./ai-ops/index.html"
   },
   {
    "id": "agent",
@@ -2755,7 +2755,7 @@ window.KB = {
    "dir": "Multimodal",
    "layer": "应用模式层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "mm-what-why",
@@ -2985,7 +2985,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./multimodal/index.html"
   },
   {
    "id": "pe",
@@ -3566,7 +3566,7 @@ window.KB = {
    "dir": "Solution-Patterns",
    "layer": "解决方案层",
    "created": "2026-07-10",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "sp-what-why",
@@ -3812,7 +3812,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./solution-patterns/index.html"
   }
  ]
 };
