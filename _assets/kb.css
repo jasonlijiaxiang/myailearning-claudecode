@@ -466,3 +466,8 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
 .topbar a.ti:hover { background: var(--line-2); color: var(--ink-900); text-decoration: none; }
 .topbar a.ti.cur { background: var(--blue-bg); color: var(--blue-d); font-weight: 600; }
 @media print { .topbar { display: none; } }
+
+/* 顶栏右端的构建号：样式更新是否真的到达用户浏览器，肉眼可判——
+   2026-07-21 三个旧标签页渲染两套 CSS，靠猜排查了两轮，此后不猜。 */
+.topbar .ver { margin-left: auto; font-family: var(--mono); font-size: 11px;
+               color: var(--ink-400); opacity: .65; white-space: nowrap; }
