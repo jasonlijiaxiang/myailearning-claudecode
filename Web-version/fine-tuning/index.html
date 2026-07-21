@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fine-tuning 微调工程实践 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721g">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721g</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">工程保障层 · 网页版</p>
+    <h1><span class="en">Fine-tuning in Practice</span>Fine-tuning，微调工程实践</h1>
+    <p class="lede">拿自己的数据把微调落地：什么时候该微调（vs 提示词/RAG）、全参与 LoRA/QLoRA
+      怎么选、数据怎么备、训练怎么跑、对齐什么时候上、托管服务与上云怎么落、效果怎么验收。
+      本页是这一册的网页版，讲义 PPT 见页脚链接。</p>
+    <div class="hr"></div>
+    <p class="lede" style="margin-top:0">
+      <span class="badge ok">核实窗口 2026-07-09 至 07-12</span>
+      <span class="badge recheck">托管平台开放范围月级演进 · 承诺前先查当日事实</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#ft-when">1 · 什么时候该微调（含决策器）</a></li>
+    <li><a href="#ft-methods">2 · 方法谱系与显存账</a></li>
+    <li><a href="#ft-data">3 · 数据准备</a></li>
+    <li><a href="#ft-training">4 · 训练实操与框架</a></li>
+    <li><a href="#ft-alignment">5 · 偏好对齐</a></li>
+    <li><a href="#ft-cloud">6 · 托管服务与上云</a></li>
+    <li><a href="#ft-eval-deploy">7 · 评估与部署</a></li>
+    <li><a href="#ft-field-guide">8 · 速查与问答</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="ft-when">
+  <h2><span class="num">01</span>什么时候该微调<a class="anchor" href="#ft-when">#ft-when</a></h2>
+
+  <div class="lead">
+    <p>微调改的是<b>模型本身（权重）</b>，把「每次都要在提示词里交代的要求」内化成默认习惯。
+      招人视角：预训练模型 = 名校毕业生，微调 = 入职培训，RAG = 发工作手册——绝大多数企业
+      只需要「培训」，不需要「养人」。<b>会劝退的售前，比什么都推微调的售前更容易赢单。</b></p>
+  </div>
+
+  <p>定制光谱是一把梯子，<b>左边一档没榨干之前不动右边</b>：提示词工程（分钟级、零训练）→
+    RAG（小时级、建索引）→ 微调（天级、要数据）→ 继续预训练（月级、极少数场景）。最重要的
+    分界线：<b>「不知道」是知识问题上 RAG，「不听话」是行为问题才微调，「不够聪明」是能力
+    问题换底座</b>——分类对了，处方几乎不会错。微调能兑现五类价值：格式合规（99%+ 不再靠
+    提示词祈祷）、语气与人设、领域行话、规模化降本降延迟（小模型顶替大模型 + 砍长提示词）、
+    蒸馏。四条劝退清单：知识频繁更新（用 RAG）、样本攒不够（先 few-shot 顶着）、需求还在
+    天天变（先提示词快速迭代）、只是想「更聪明」（微调不加智商）。</p>
+  <p>成本收益账：一次性成本 = 数据整理 + 训练算力 + 评估验收（<b>数据是大头</b>）；每次调用
+    的收益 = 更短提示词 + 更小模型 + 更低延迟——<b>调用量 × 单次收益 &gt; 一次性成本才立项</b>。
+    微调是「高频窄任务的规模生意」：日均百万次的客服几周回本，日均一千次的内部工具一年省的
+    token 钱不够付一次标注。</p>
+
+  <div class="tool" id="advisor">
+    <h4>该不该微调决策器</h4>
+    <p class="note">把第 1 章分界线、第 5 章对齐三级和第 2 章显存账合成一张表单。判据全部来自
+      本页各节；结论是起点，验收标准先于训练。</p>
+    <div class="controls">
+      <label class="ctl">模型的问题是什么？
+        <select id="ad-problem">
+          <option value="know">「不知道」——知识过期 / 私有数据</option>
+          <option value="behave" selected>「不听话」——格式 / 语气 / 话术不对</option>
+          <option value="nuance">会答但「分寸差」——啰嗦 / 过度拒答</option>
+          <option value="gradable">结果可机器判分的窄任务要提升</option>
+          <option value="smart">「不够聪明」——推理 / 数学弱</option>
+        </select>
+      </label>
+      <label class="ctl">高质量样本量级
+        <select id="ad-data">
+          <option value="few">几十条以内</option>
+          <option value="hundreds" selected>几百条</option>
+          <option value="thousands">几千条以上</option>
+        </select>
+      </label>
+      <label class="ctl">调用频率
+        <select id="ad-freq">
+          <option value="high" selected>高频（日万次以上）</option>
+          <option value="low">低频</option>
+        </select>
+      </label>
+      <label class="ctl">可用硬件
+        <select id="ad-hw">
+          <option value="consumer" selected>单张消费卡（24GB 级）</option>
+          <option value="pro">单张专业卡（48–80GB）</option>
+          <option value="cluster">多卡集群</option>
+          <option value="managed">不自建，走托管</option>
+        </select>
+      </label>
+    </div>
+    <div class="hitcards" id="ad-out"></div>
+    <p class="note" id="ad-note"></p>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="ft-methods">
+  <h2><span class="num">02</span>方法谱系与显存账<a class="anchor" href="#ft-methods">#ft-methods</a></h2>
+
+  <div class="lead">
+    <p>三种方法三个比喻：全参微调是<b>整本书重编</b>（上限高、要集群、毁版风险）；LoRA 是
+      <b>贴便利贴</b>（冻结底座 + 低秩旁路，可训参数不到 1%，产物几十 MB）；QLoRA 是
+      <b>压缩影印再贴</b>（4-bit 底座 + 分页优化器，单张消费卡微调大模型）。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>模型规模</th><th>全参微调</th><th>LoRA（16-bit 底座）</th><th>QLoRA（4-bit 底座）</th></tr></thead>
+    <tbody>
+      <tr><td>7–8B</td><td>~110GB（多卡）</td><td>~18–20GB（单卡）</td><td><b>~6–8GB（笔记本级）</b></td></tr>
+      <tr><td>13–14B</td><td>~220GB（多卡）</td><td>~35GB（单张专业卡）</td><td>~10–12GB（单卡）</td></tr>
+      <tr><td>70B</td><td>TB 级（多机）</td><td>~160GB（多卡）</td><td>~40–48GB（单张 48G 卡）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>心算规则：<b>全参 ≈ 参数量 × 16 字节</b>（权重+梯度+优化器状态+主权重，bf16+Adam 口径）；
+    <b>QLoRA 底座 ≈ 参数量 × 0.5 字节</b>——先报量级，精确数留给 POC。LoRA 超参不用炼丹：
+    标准配方 r=16、alpha=32、挂 all-linear、学习率 2e-4、2 个 epoch，先跑通拿基线再动个别
+    旋钮。取舍的实证结论（Databricks）：<b>LoRA 学得少、也忘得少</b>——行为定制与多任务共存
+    LoRA 先行；要深度灌注大量新知识才考虑全参，且必须配防遗忘门禁。DoRA/AdaLoRA 类变体思路
+    全是「冻结底座 + 小旁路」，生产默认仍是 LoRA/QLoRA——为效果负责，不为名词负责。</p>
+  <p class="ev">显存口径来源 <a href="#src-qlora">QLoRA 论文与 2026 实践指南</a>，
+    核实 2026-07-09。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="ft-data">
+  <h2><span class="num">03</span>数据准备<a class="anchor" href="#ft-data">#ft-data</a></h2>
+
+  <div class="lead">
+    <p>微调项目九成的翻车不在训练，而在数据：格式拼错、样本太脏、量级误判。<b>格式即协议</b>：
+      messages 数组 + JSONL 每行一条 + 正确的聊天模板——训练用 A 家模板、推理用 B 家模板，
+      效果「神秘变差」且无报错，是最阴险的一类事故。</p>
+  </div>
+
+  <p><b>量级</b>：官方口径 50–10,000 条，窄分类 200–500 条常见效；先 100 条跑一版看验收信号，
+    有信号再加码——数据是逐步投资。<b>质量 &gt; 数量</b>：LIMA 用 1,000 条精选样本逼近大流程
+    对齐的效果——能力早在预训练里学会了，微调只是「唤醒」；经验是 <b>100 条脏数据的伤害大于
+    1,000 条好数据的收益</b>，预算优先花在清洗与精选。<b>不够就造</b>：种子样本（人工 50–200
+    条，边界案例占七成）→ frontier 模型扩量 → judge 按标准过滤 → 人工抽检——人负责「标准」，
+    模型负责「产量」。<b>蒸馏</b>是名师写详解：大模型连推理轨迹一起产出教学数据，小模型对着
+    学——「frontier 效果 + 小模型成本 + 权重可私有」，讲降本与私有化的主角。</p>
+  <p><b>数据治理三问</b>（答不好技术再好也进不了采购）：①隐私与 PII——训练前清洗脱敏是刚性
+    前置；②权属与条款——用第三方模型产出的数据训练要核对其服务条款，方案书写明依据；
+    ③数据出域——托管微调 = 数据交平台，金融政务提前备好 VPC 内训练/本地自建的替代路径。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="ft-training">
+  <h2><span class="num">04</span>训练实操与框架<a class="anchor" href="#ft-training">#ft-training</a></h2>
+
+  <div class="lead">
+    <p>框架功能已趋同（LoRA/QLoRA/全参/DPO/GRPO 四家全支持），差异在工作流——<b>别耗在选型
+      上，一周内跑通第一版比「选最优框架」重要得多</b>。代码只有十来行；复杂度守恒：省下来的
+      代码复杂度，都转移到了数据质量与验收标准上。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>框架</th><th>Stars（2026-07）</th><th>一句话定位</th><th>适合谁</th></tr></thead>
+    <tbody>
+      <tr><td>Unsloth</td><td>~54K</td><td>单卡速度王：快 2×、省 70% 显存</td><td>单卡/Colab 起步、快速实验</td></tr>
+      <tr><td>LLaMA-Factory</td><td>~68K</td><td>Web UI 全家桶，零代码全流程</td><td>想点鼠标训练的团队</td></tr>
+      <tr><td>Axolotl</td><td>~11K</td><td>YAML 配置驱动，FSDP/DeepSpeed 开箱</td><td>多卡生产、要可复现</td></tr>
+      <tr><td>TRL</td><td>~18K</td><td>HF 官方库：SFT/DPO/GRPO/KTO 原语</td><td>要底层控制、自己写流程</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><b>盯 eval 不盯 train</b>：train loss 是刷题正确率（背题也会高），eval loss 是没见过的
+    模拟考——eval 掉头上翘就是过拟合起点，取上翘前的 checkpoint 交付，别「再训久一点」。
+    <b>九成事故来自四个坑</b>，按顺序排查：①学习率过大（loss 震荡/NaN——降一个数量级）
+    ②epoch 过多（小数据转十几轮=背题，1–3 起步）③模板不匹配（最阴险，永远用框架自带模板）
+    ④停止符缺失（生成停不下来、答案拖垃圾）。效果不对先查四坑、再怀疑数据、最后才怀疑方法
+    ——顺序反了浪费一周。成本结构：LoRA 级单卡几小时、云上几十到几百美元——<b>算力是零头，
+    数据与评估的人力是大头</b>，报价拆开给客户看。</p>
+  <p class="ev">框架格局与版本边界核实 2026-07-09/12（PEFT v0.19.1、TRL v1.8.0 KTO 转正），
+    来源 <a href="#src-frameworks">GitHub releases 与框架对比</a>。</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="ft-alignment">
+  <h2><span class="num">05</span>偏好对齐<a class="anchor" href="#ft-alignment">#ft-alignment</a></h2>
+
+  <div class="lead">
+    <p>SFT 教「照示范做」，但示范写不出「分寸感」——客服模型格式全对却过度道歉、车轱辘话：
+      你写不出完美示范，却一眼能挑出哪个更好。这正是该上 DPO 的信号。对齐三级：
+      <b>SFT 照做 → DPO 好坏对纠偏 → RFT 对着分数练</b>，按症状逐级升级。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>症状</th><th>处方</th><th>为什么</th></tr></thead>
+    <tbody>
+      <tr><td>格式、语气、话术不对</td><td><b>SFT 就够</b></td><td>行为示范写得出来，模仿就能解决</td></tr>
+      <tr><td>会答但分寸差（啰嗦/过度拒答）</td><td>SFT + DPO</td><td>完美示范难写，好坏对比容易挑</td></tr>
+      <tr><td>结果可机器判分（代码/抽取/分类）</td><td>RFT / GRPO</td><td>有客观分数，强化比模仿上限高</td></tr>
+      <tr><td>通用能力不足（推理/数学弱）</td><td>换底座</td><td>微调不加智商，别硬调</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>DPO 直接在偏好对（chosen/rejected）上优化，跳过奖励模型——<b>成本接近再跑一次 SFT</b>，
+    「RLHF 很贵」是 2023 年的旧闻。偏好对三个来源混用：线上 A/B 选择、专家挑选、judge 合成，
+    几百到几千对开工；生产纪律是「先小批人工、再对齐 judge（一致率 ≥80%）、最后放量」。
+    RFT 用可编程打分器当奖励（代码跑单元测试、抽取对错），几十到几百条样本就能显著提升窄任务
+    ——门槛在「写不写得出靠谱 grader」，判分规则含糊、能被钻空子就退回 DPO/SFT。现实比例：
+    <b>多数企业项目止步于 SFT + 少量 DPO，RFT 是尖刀不是标配</b>。过度拒答是对齐失败的常见
+    形态：偏好数据里要有「该答就答」的正例，拒答率和有用性两头设门禁。</p>
+  <p class="ev">RFT/GRPO 为 2026 微调新风向，核实 2026-07-09，来源
+    <a href="#src-rft">OpenAI RFT 文档与行业综述</a>；原理（奖励模型/RLHF/RLVR）在
+    <a href="../../PPT-version/LLM-Training/README.html">LLM-Training</a> 第 5/6 章。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="ft-cloud">
+  <h2><span class="num">06</span>托管服务与上云<a class="anchor" href="#ft-cloud">#ft-cloud</a></h2>
+
+  <div class="lead">
+    <p>自建还是托管，三问定方向：①数据能不能出域（不能→自建/VPC，这是第一道分水岭）
+      ②有没有 GPU 和会炼丹的人（都没有→托管）③要多深的定制（标准 SFT/DPO→托管够了；
+      换底座/改流程/全参深灌→自建开源）。托管试点 + 自建放量的混合也常见。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>平台</th><th>微调能力（2026-07 事实）</th><th>要点</th></tr></thead>
+    <tbody>
+      <tr><td>OpenAI</td><td>SFT/DPO 调 GPT-4.1 / 4.1-mini；RFT 调 o4-mini（可编程 grader）</td>
+          <td>JSONL 传数据、平台托管；<b>权重不交付</b>，专属模型 ID 调用</td></tr>
+      <tr><td>Claude</td><td><b>唯一托管路径：Bedrock 上 Claude 3 Haiku SFT</b>（us-west-2）；
+          官方建议 50–10,000 条</td><td>更大杯型、DPO 均未开放——别口头承诺更多</td></tr>
+      <tr><td>Google Vertex AI</td><td>Gemini 全家 + 开源；全参/LoRA/adapter 最灵活</td>
+          <td>微调-存储-鉴权-部署一体化最顺</td></tr>
+      <tr><td>Azure AI Foundry</td><td>OpenAI 系微调最全；<b>蒸馏已 GA</b>（GPT-4o→Phi-4）</td>
+          <td>托管蒸馏的代表</td></tr>
+      <tr><td>AWS Bedrock + SageMaker</td><td>Bedrock 托管微调（含 Haiku）；深度定制走 SageMaker</td>
+          <td>多模型货架 + 自由度兜底</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>「能微调 Claude 吗」的标准话术：「能，Bedrock 上、Haiku、SFT；超出这个范围目前答案是
+    不能——但多数语气/格式需求，Haiku 微调 + 强提示词已经够用。」<b>闭源模型能不能调、在哪调、
+    调到什么程度，是方案第一步要查证的平台事实，答错会在评审会上翻车。</b>选型逻辑：客户在哪
+    朵云、数据在哪，通常比「哪家微调功能强一点」更决定选型。归属要提前讲清：托管闭源获得专属
+    访问权、权重不交付；开源自训权重完全归你——锁定风险在方案里明示。</p>
+  <p class="ev">平台事实核实 2026-07-09，来源 <a href="#src-cloud-ft">各平台官方文档</a>。
+    开放范围月级演进，承诺前查当日事实。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="ft-eval-deploy">
+  <h2><span class="num">07</span>评估与部署<a class="anchor" href="#ft-eval-deploy">#ft-eval-deploy</a></h2>
+
+  <div class="lead">
+    <p>训练结束不等于项目结束。<b>验收四层</b>：held-out 测试集指标（绝不用训练数据考试）→
+      任务硬指标（JSON 合规率/意图准确率）→ LLM judge 评分 → 线上 A/B。顺序不能反：
+      <b>先定验收标准，再开始训练——先有考卷，再补课。</b></p>
+  </div>
+
+  <p><b>防遗忘</b>是微调的安全带：目标任务涨分、通用能力掉分的偏科风险，四件套防住——LoRA
+    天然温和、低学习率少 epoch、训练集混通用数据、上线前跑通用回归。上线门禁双达标：目标任务
+    过验收线 + 通用回归不低于基线的 98%；几百题的回归集跑一次几分钟，性价比最高的保险。
+    <b>四类实验失真</b>要防：数据泄漏（近重复没扫，测试分虚高十个点上线现原形——冻结切分
+    哈希）、随机性挑 run（多 seed 报区间不报单点）、judge 偏差（人工校准兜底）、指标替代目标
+    （loss 好业务差）。</p>
+  <p><b>部署两形态</b>：单一稳定任务合并权重（W+BA 合成普通模型，运维简单）；多任务/多租户
+    挂 adapter——1 个共享底座 + N 套 LoRA，vLLM 多 LoRA 按请求路由，省一个数量级显存、秒级
+    回滚（动态加载有官方安全警告：仅限隔离受信环境）。发布控制五层：产物（base 版本+adapter
+    哈希+模板+许可证）→ 转换 → 服务 → 流量（影子/金丝雀/兜底）→ 治理（审计/回滚/急停）——
+    <b>把 base+adapter+模板+引擎+镜像作为一个组合发布号</b>，只登记 adapter 哈希没锁 base
+    版本，底座一升级行为就漂移。<b>迭代闭环才是交付物</b>：上线 → bad case 归因 → 修数据 →
+    再训 → 回归验收 → 灰度，每圈同一套门禁——一次性交付的微调，半年后一定劣化成新的痛点。</p>
+  <p class="ev">完整验收方法（判分/校准/门禁）在
+    <a href="../evaluation/index.html">Evaluation 网页版</a>展开；部署深水区（量化/批处理/SLO）
+    在 <a href="../llm-inference/index.html">LLM-Inference 网页版</a>。</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="ft-field-guide">
+  <h2><span class="num">08</span>速查与问答<a class="anchor" href="#ft-field-guide">#ft-field-guide</a></h2>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>常见误区</th><th>一句话纠正</th></tr></thead>
+    <tbody>
+      <tr><td>「微调 = 让模型学会我们的知识」</td><td>知识用 RAG（可更新可溯源）；微调管行为，两者常组合</td></tr>
+      <tr><td>「数据越多越好」</td><td>质量优先：LIMA 证明千条精选可胜万条粗料</td></tr>
+      <tr><td>「微调会让模型更聪明」</td><td>智商来自底座；能力不足换模型，别硬调</td></tr>
+      <tr><td>「什么模型都能微调」</td><td>闭源各有开放范围（Claude 仅 Bedrock+Haiku），先查再承诺</td></tr>
+      <tr><td>「微调一次就完事」</td><td>是持续闭环：bad case 回流、季度迭代、回归门禁</td></tr>
+      <tr><td>「微调很贵，要大集群」</td><td>QLoRA 单卡起步；大头在数据人力，不在卡</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>评审会八成的质疑都在这张表里——每行的「纠正」就是当场应答的第一句话。</p>
+
+  <h3>现场高频追问</h3>
+  <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版对练页，
+    <b>2026-07-12/13</b> 来自版本边界复核与实验失真、发布控制深潜。</p>
+  <div class="qa">
+    <details>
+      <summary>30 秒说清：提示词、RAG、微调怎么选？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>先分类：模型「不知道」是知识问题上 RAG；「不听话」是行为问题上微调；「不够聪明」
+          换底座。顺序永远是提示词 → RAG → 微调，左边没榨干不动右边。</p>
+        <p class="qa-why">九成的「要微调」，追问两句会退回提示词或 RAG——梯子原则既省客户的
+          钱，也是方案可信度的来源。</p>
+        <p class="qa-next"><b>下一步</b>　用<a href="#advisor">决策器</a>过一遍需求；先把
+          四条劝退清单反着问客户一遍。</p>
+        <p class="qa-src">依据　<a href="#ft-when">定制光谱与分界线</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>要多少数据、多少钱、多久见效？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>窄任务几百条优质样本、单卡几小时、两周出第一版可验收的模型。大头是数据人力不是
+          算力——先小试点再放量。</p>
+        <p class="qa-why">官方口径（50–10,000 条、窄分类 200–500 条）客户会拿来对表；
+          「先 100 条看信号」的节奏让报价有依据。</p>
+        <p class="qa-next"><b>下一步</b>　报价按成本结构拆：数据准备（人天）+ 训练算力（零头）+
+          评估验收 + 迭代运营（常被漏报的成败项）。</p>
+        <p class="qa-src">依据　<a href="#ft-data">数据准备</a> · <a href="#ft-training">成本结构</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>微调会不会把模型调笨？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>有「灾难性遗忘」风险，但可控：LoRA 天然温和 + 保守超参 + 通用回归门禁，掉超过阈值
+          不放行。每个版本都带回归报告。</p>
+        <p class="qa-why">「学得少也忘得少」是 LoRA 的实证取舍——行为定制它两头都稳；
+          深度灌注才用全参，且必须配防遗忘。</p>
+        <p class="qa-next"><b>下一步</b>　建几百题的通用回归套件（常识/安全拒答/多轮），
+          双达标才放行——跑一次几分钟。</p>
+        <p class="qa-src">依据　<a href="#ft-methods">取舍</a> · <a href="#ft-eval-deploy">防遗忘</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>GPT / Claude / 开源，微调路径分别是什么？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>OpenAI：SFT/DPO 调 GPT-4.1 系、RFT 调 o4-mini；Claude：仅 Bedrock 上 Haiku SFT；
+          开源：自由度最大，QLoRA 单卡起步。按事实表作答，不口头加码。</p>
+        <p class="qa-why">平台开放范围是「先查再承诺」的硬事实——答错会在评审会上翻车；
+          权重归属（托管不交付）也要提前讲。</p>
+        <p class="qa-next"><b>下一步</b>　方案第一步查证当日平台事实；数据不出域的需求直接切
+          VPC/本地开源路线。</p>
+        <p class="qa-src">依据　<a href="#ft-cloud">托管服务</a> · <a href="#src-cloud-ft">src-cloud-ft</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>SFT 和 DPO 我们都要做吗？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>先 SFT 看验收——八成场景到此为止。上线后如果「会答但分寸不对」（啰嗦、过度拒答），
+          再补一轮 DPO，偏好数据从线上反馈里攒。</p>
+        <p class="qa-why">对齐已平民化：DPO 成本接近 SFT、RFT 有托管——「RLHF 很贵」是旧地图；
+          但 RFT 是尖刀不是标配，别让客户以为要走全流程。</p>
+        <p class="qa-next"><b>下一步</b>　按症状→处方决策表定层级；RFT 先问一句「结果能不能
+          机器判分」。</p>
+        <p class="qa-src">依据　<a href="#ft-alignment">对齐三级</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>怎么证明微调真的有效？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>事前签验收：held-out 指标 + 任务硬指标 + judge 评分 + 通用回归，四项打包成报告交付。
+          绝不拿训练数据自证——这是验收纪律。</p>
+        <p class="qa-why">四类实验失真（泄漏/挑 run/judge 虚高/指标替代）会让「高分不可信」
+          ——先冻结基线与切分再谈提升，报区间不报单点。</p>
+        <p class="qa-next"><b>下一步</b>　训练开始前把验收单（合规率 ≥99%、准确率 ≥92%、
+          回归不降）签下来——考卷先于补课。</p>
+        <p class="qa-src">依据　<a href="#ft-eval-deploy">验收四层与失真</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>怎么灰度？出问题怎么回滚？<span class="added">2026-07-13</span></summary>
+      <div class="a">
+        <p>adapter 部署天然支持：新旧 adapter 并存、按流量比例灰度、秒级切回。多租户 = 1 个
+          共享底座 + N 套 LoRA，vLLM 按请求路由。</p>
+        <p class="qa-why">发布链要锁「组合发布号」（base+adapter+模板+引擎+镜像）——只登记
+          adapter 哈希没锁 base 版本，底座升级后行为漂移查三天。</p>
+        <p class="qa-next"><b>下一步</b>　按五层发布控制过一遍上线手册；动态加载 adapter 的
+          安全警告（仅限受信环境）写进部署约束。</p>
+        <p class="qa-src">依据　<a href="#ft-eval-deploy">部署两形态与五层发布</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>用 GPT 生成的数据训我们的模型，合规吗？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>取决于所用模型的服务条款——各家对「产出能否用于训练」约定不同。方案里写明数据来源
+          与条款依据，是标准动作。</p>
+        <p class="qa-why">合成数据已是主流来源（种子→扩量→judge 过滤），但合规红线要先踩实
+          ——治理三问答不好，技术再好也进不了采购。</p>
+        <p class="qa-next"><b>下一步</b>　数据流水线里把 PII 清洗设为刚性前置；权属与出域
+          两问的答案写进方案书。</p>
+        <p class="qa-src">依据　<a href="#ft-data">治理三问</a></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2><span class="num">09</span>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。</p>
+  <div class="rel">
+    <a href="../rag/index.html">
+      <div class="nm">RAG · 网页版</div>
+      <div class="why">「知识 vs 行为」的两侧：RAG 管知识外挂，微调管行为内化——组合是
+        生产常态。</div>
+    </a>
+    <a href="../../PPT-version/Prompt-Engineering/README.html">
+      <div class="nm">Prompt Engineering</div>
+      <div class="why">选型链两端：提示词到头了才微调——那册从「最便宜的杠杆」讲起，
+        本页从「最后一步」收口。</div>
+    </a>
+    <a href="../../PPT-version/LLM-Training/README.html">
+      <div class="nm">LLM-Training</div>
+      <div class="why">SFT/对齐/RLVR 的训练原理在那册第 4–6 章；本页只管「拿自己数据落地」。</div>
+    </a>
+    <a href="../evaluation/index.html">
+      <div class="nm">Evaluation · 网页版</div>
+      <div class="why">微调验收四层与回归门禁在那页展开成完整验收方案。</div>
+    </a>
+    <a href="../llm-inference/index.html">
+      <div class="nm">LLM-Inference · 网页版</div>
+      <div class="why">微调产物经 vLLM 多 LoRA adapter 部署进推理服务；量化与 SLO 的深水区
+        在那页。</div>
+    </a>
+    <a href="../../PPT-version/AI-Infra-Platform/README.html">
+      <div class="nm">AI-Infra-Platform</div>
+      <div class="why">云上托管训练/微调的平台形态视角在那册。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2><span class="num">10</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/Fine-tuning/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-09 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-qlora"><td><code>src-qlora</code></td><td>QLoRA 论文 / 2026 实践指南</td>
+          <td>显存量级表与心算规则</td><td>随序列长度与批大小浮动，精确数留给 POC</td></tr>
+      <tr id="src-frameworks"><td><code>src-frameworks</code></td><td>GitHub releases /
+          框架对比评测</td><td>四框架格局与版本边界（PEFT/TRL）</td><td>stars 与版本周级漂移</td></tr>
+      <tr id="src-rft"><td><code>src-rft</code></td><td>OpenAI RFT 文档 / 行业综述</td>
+          <td>RFT/GRPO 的定位与适用</td><td>可调模型清单月级变化</td></tr>
+      <tr id="src-cloud-ft"><td><code>src-cloud-ft</code></td><td>OpenAI/AWS/Vertex/Azure
+          官方文档</td><td>托管微调开放范围（2026-07-09）</td><td><b>承诺前查当日事实</b>——
+          开放范围月级演进</td></tr>
+      <tr id="src-lima"><td><code>src-lima</code></td><td>LIMA（Meta）/ Databricks
+          arXiv 2405.09673</td><td>质量优先与「学得少忘得少」的实证</td><td>不同任务差距不同，
+          深度灌注场景差距明显</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/Fine-tuning/Fine-tuning-讲义.pptx">Fine-tuning-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/Fine-tuning/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/Fine-tuning/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <!-- UPDATED:END -->
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+/* 该不该微调决策器：第 1 章分界线 + 第 5 章对齐三级 + 第 2 章显存账的交互合成。
+   判据全部来自本页各节。无 JS 时 .tool 隐藏，静态兜底是定制光谱与症状处方表。 */
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("ad-out"), note = $("ad-note");
+  if (!out) return;
+  function card(t, tag, s) {
+    return '<div class="hitcard"><b>' + t + '</b>' +
+           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
+  }
+  var HW = {
+    consumer: "QLoRA：7–8B 约 6–8GB、单张消费卡绰绰有余（70B 需 48G 专业卡）",
+    pro: "LoRA（16-bit 底座）：7–8B 约 18–20GB；70B 走 QLoRA 约 40–48GB",
+    cluster: "LoRA 单机起步；深度灌注才考虑全参（7B ≈ 110GB 多卡）+ 防遗忘门禁",
+    managed: "托管路径：OpenAI SFT/DPO/RFT、Bedrock Haiku SFT、Vertex/Azure——先查当日开放范围"
+  };
+  function run() {
+    var p = $("ad-problem").value, d = $("ad-data").value,
+        f = $("ad-freq").value, hw = $("ad-hw").value;
+    var cards = [];
+    if (p === "know") {
+      cards.push(card("上 RAG，别微调", "处方",
+        "知识问题微调「背」进去第二天就过期——RAG 可更新、可溯源、按用户隔离。微调留给语气与格式。"));
+      note.textContent = "口诀：改知识用 RAG、改行为用微调、能力不足换底座。生产常态是组合：微调管风格，RAG 管事实。";
+      out.innerHTML = cards.join("");
+      return;
+    }
+    if (p === "smart") {
+      cards.push(card("换更强底座", "处方",
+        "微调不加智商——推理、数学、复杂规划弱是能力问题，别硬调。选型方法见 Model-Landscape 网页版。"));
+      note.textContent = "四条劝退清单之一。会劝退的方案更可信——先把提示词与 few-shot 榨干再谈别的。";
+      out.innerHTML = cards.join("");
+      return;
+    }
+    if (p === "behave") {
+      cards.push(card("SFT（LoRA 起步）", "处方",
+        "格式/语气/话术是行为问题，示范写得出来就 SFT。标准配方：r=16、alpha=32、2 epoch、学习率 2e-4。"));
+    } else if (p === "nuance") {
+      cards.push(card("SFT + DPO 纠偏", "处方",
+        "完美示范难写、好坏对比容易挑——几百到几千对偏好数据开工，成本接近再跑一次 SFT。"));
+    } else {
+      cards.push(card("RFT / GRPO", "处方",
+        "结果可机器判分（代码跑测试/抽取对错）就对着分数练——成败在写不写得出靠谱 grader，写不出退回 DPO。"));
+    }
+    if (d === "few") {
+      cards.push(card("先攒数据", "前置",
+        "几十条不够开工——先用提示词 + few-shot 顶着，同时按「种子→扩量→judge 过滤」造数据，两周可到百条级。"));
+    } else {
+      cards.push(card(d === "hundreds" ? "数据量已可开工" : "数据充足", "量级",
+        "官方口径 50–10,000 条、窄分类 200–500 条见效；先 100 条跑一版看验收信号再加码——质量优先于数量。"));
+    }
+    cards.push(card("硬件与方法", "显存账", HW[hw]));
+    if (f === "low") {
+      cards.push(card("先算成本收益账", "提醒",
+        "微调是高频窄任务的规模生意——低频场景省的 token 钱可能不够付数据标注，提示词 + RAG 往往更划算。"));
+    }
+    cards.push(card("验收先行", "门禁",
+      "训练前签验收单：held-out 指标 + 硬指标 + judge + 通用回归不低于基线 98%——考卷先于补课。"));
+    out.innerHTML = cards.join("");
+    note.textContent = "结论是起点：数据是最大头的投入，算力是零头；交付物是「训练-验收-迭代」的闭环，不是一次训练。";
+  }
+  ["ad-problem", "ad-data", "ad-freq", "ad-hw"].forEach(function (id) {
+    $(id).addEventListener("change", run);
+  });
+  run();
+})();
+</script>
+</body>
+</html>

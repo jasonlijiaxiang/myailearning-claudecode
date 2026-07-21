@@ -1584,7 +1584,7 @@ window.KB = {
    "dir": "Fine-tuning",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "ft-when",
@@ -1776,14 +1776,14 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./fine-tuning/index.html"
   },
   {
    "id": "llm",
    "dir": "LLM",
    "layer": "基础层",
    "created": "2026-07-08",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "llm-why-transformer",
@@ -1918,7 +1918,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./llm/index.html"
   },
   {
    "id": "llm-inference",
@@ -2992,7 +2992,7 @@ window.KB = {
    "dir": "Prompt-Engineering",
    "layer": "基础层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "pe-what-why",
@@ -3119,7 +3119,7 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": ""
+   "web": "./prompt-engineering/index.html"
   },
   {
    "id": "rag",
