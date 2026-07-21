@@ -35,7 +35,10 @@ FRESH_END = "<!-- FRESH:END -->"
 MOD_PAGES = {"mcp": os.path.join(HERE, "mcp", "index.html"),
              "model-landscape": os.path.join(HERE, "model-landscape", "index.html"),
              "llm-inference": os.path.join(HERE, "llm-inference", "index.html"),
-             "agent": os.path.join(HERE, "agent", "index.html")}
+             "agent": os.path.join(HERE, "agent", "index.html"),
+             "evaluation": os.path.join(HERE, "evaluation", "index.html"),
+             "ai-gateway": os.path.join(HERE, "ai-gateway", "index.html"),
+             "rag": os.path.join(HERE, "rag", "index.html")}
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
 MOD_END = "<!-- UPDATED:END -->"
@@ -71,7 +74,10 @@ def mono(dirname):
 WEB_PAGES = {"mcp": "./mcp/index.html",
              "model-landscape": "./model-landscape/index.html",
              "llm-inference": "./llm-inference/index.html",
-             "agent": "./agent/index.html"}
+             "agent": "./agent/index.html",
+             "evaluation": "./evaluation/index.html",
+             "ai-gateway": "./ai-gateway/index.html",
+             "rag": "./rag/index.html"}
 
 
 def rows(section, text):

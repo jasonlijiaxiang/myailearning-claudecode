@@ -166,7 +166,7 @@ window.KB = {
    "dir": "AI-Gateway",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "gw-what-why",
@@ -386,7 +386,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./ai-gateway/index.html"
   },
   {
    "id": "ai-infra-compute",
@@ -1384,7 +1384,7 @@ window.KB = {
    "dir": "Evaluation",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "eval-why-hard",
@@ -1577,7 +1577,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./evaluation/index.html"
   },
   {
    "id": "fine-tuning",
@@ -3126,7 +3126,7 @@ window.KB = {
    "dir": "RAG",
    "layer": "应用模式层",
    "created": "2026-07-07",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "rag-what-why",
@@ -3335,7 +3335,7 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": ""
+   "web": "./rag/index.html"
   },
   {
    "id": "security",

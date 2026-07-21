@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG 检索增强生成 · AI 知识库网页版</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721g">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721g</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">应用模式层 · 网页版</p>
+    <h1><span class="en">Retrieval-Augmented Generation</span>RAG，检索增强生成</h1>
+    <p class="lede">给大模型外挂一个随时可查、可更新、可溯源的知识库：原理五章（懂）、
+      实践四章（跑）、进阶三章（广）——从向量检索与切分，到混合检索、Agentic RAG、生产化，
+      再到 GraphRAG、多模态与查数。本页是这一册的网页版，讲义 PPT 见页脚链接。</p>
+    <div class="hr"></div>
+    <p class="lede" style="margin-top:0">
+      <span class="badge ok">核实窗口 2026-07-07 至 07-12</span>
+      <span class="badge recheck">Reranker/框架格局月级演进 · 引用当天复查</span>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="cols">
+
+<nav class="toc" aria-label="本页目录">
+  <h4>本页目录</h4>
+  <ol>
+    <li><a href="#rag-what-why">1 · 是什么 / 为什么</a></li>
+    <li><a href="#rag-embedding">2 · 向量检索与 Embedding</a></li>
+    <li><a href="#rag-chunking">3 · 切分策略</a></li>
+    <li><a href="#rag-reranking">4 · 重排序</a></li>
+    <li><a href="#rag-evaluation">5 · 评估与诊断（含诊断器）</a></li>
+    <li><a href="#rag-pipeline">6 · 最小管线</a></li>
+    <li><a href="#rag-hybrid">7 · 混合检索</a></li>
+    <li><a href="#rag-agentic">8 · Agentic RAG</a></li>
+    <li><a href="#rag-production">9 · 生产化与常见坑</a></li>
+    <li><a href="#rag-graphrag">10 · GraphRAG</a></li>
+    <li><a href="#rag-multimodal">11 · 多模态 RAG</a></li>
+    <li><a href="#rag-structured">12 · 查数与语义层</a></li>
+    <li><a href="#qa">问答</a></li>
+    <li><a href="#related">相关模块</a></li>
+    <li><a href="#sources">来源与核实</a></li>
+  </ol>
+</nav>
+
+<article>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="rag-what-why">
+  <h2><span class="num">01</span>是什么 / 为什么<a class="anchor" href="#rag-what-why">#rag-what-why</a></h2>
+
+  <div class="lead">
+    <p>大模型三个先天短板：知识过期、看不到你的私有数据、爱一本正经地编（幻觉）。RAG 的解法
+      是<b>从「闭卷考」变成「开卷考」</b>：回答前先从外部知识库检索相关片段，让模型「看着资料」
+      作答——更新快、更准、可溯源。</p>
+  </div>
+
+  <p>三步流程：<b>检索</b>（问题转向量，找语义最相关的 Top-K 片段）→ <b>增强</b>（片段拼进
+    Prompt 作为参考资料）→ <b>生成</b>（要求「只依据资料、给出出处」）。在线这三步之外还有
+    离线建库：解析 → 切分 → Embedding → 入库。</p>
+  <p>与微调的边界一句话：<b>RAG 改的是「知识」，微调改的是「行为」</b>。知识频繁变动、要引用
+    出处、私有数据多、要快速上线——选 RAG；要固定输出格式/语气、教会模型新技能——才考虑微调，
+    二者常组合（取舍参照 <a href="../../PPT-version/Fine-tuning/README.html">Fine-tuning
+    模块</a>）。「资料全塞超长 Prompt」不可行的原因在推理侧：长上下文两头吃钱、注意力被稀释
+    ——机制账见 <a href="../llm-inference/index.html#llminf-kv-budget">LLM-Inference
+    网页版</a>。RAG 不能彻底消除幻觉，但「给了资料 + 要求带出处」能大幅降低，剩余风险靠
+    重排与评估兜底。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="rag-embedding">
+  <h2><span class="num">02</span>向量检索与 Embedding<a class="anchor" href="#rag-embedding">#rag-embedding</a></h2>
+
+  <div class="lead">
+    <p>嵌入（Embedding）把一段文字映射成一串数字，像在「语义地图」上标经纬度：谈猫和谈狗的
+      坐标挨着，谈猫和谈报税的隔得老远——检索因此<b>「按意思找」而不是「按字面找」</b>，
+      这是 RAG 的地基。</p>
+  </div>
+
+  <p>检索＝问题向量找最近的 Top-K 片段向量（余弦相似度看方向多接近）。K 是召回与噪声的权衡：
+    太小漏答案、太大塞噪声——常见做法先多召回、再交给<a href="#rag-reranking">重排</a>精选。
+    大规模检索用 <b>ANN</b>（Approximate Nearest Neighbor，近似最近邻）：HNSW 索引像图书馆
+    按分类直奔书架，牺牲一点点召回换百倍速度，生产标配。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>选型</th><th>代表（2026-07 口径）</th><th>适合谁</th></tr></thead>
+    <tbody>
+      <tr><td>Embedding 托管 API</td><td>OpenAI text-embedding-3（稳妥默认）；Voyage / Cohere（质量瓶颈时更强）</td><td>数据可出企业、要快</td></tr>
+      <tr><td>Embedding 开源自建</td><td>BGE-M3（多语言强、可私有化）</td><td>数据敏感或量大</td></tr>
+      <tr><td>向量库 · 复用现有</td><td>pgvector（给 Postgres 加向量，省一套系统）</td><td>已在用 Postgres</td></tr>
+      <tr><td>向量库 · 托管/自建</td><td>Pinecone（零运维）/ Qdrant（开源性能强）/ Weaviate（混合检索出色）/ Milvus（十亿级）</td><td>按运维能力与规模选</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>选型三问：①数据能否出企业（API vs 自建）②要不要多语言 ③量级与预算。先小模型跑通、
+    按评估结果升级；注意隐形成本——<b>换嵌入模型＝全库向量重算重建</b>。</p>
+  <p class="ev">选型口径核实 2026-07-07，来源 <a href="#src-embed">2026 对比与 arXiv
+    2402.03216（BGE M3）</a>。</p>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="rag-chunking">
+  <h2><span class="num">03</span>切分策略<a class="anchor" href="#rag-chunking">#rag-chunking</a></h2>
+
+  <div class="lead">
+    <p>切分（Chunking）像给书做「便利贴索引」：便签太大（整章）夹带无关内容，太小（半句话）
+      丢上下文。<b>块的粒度是 RAG 里性价比最高的旋钮之一：切得糙，后面模型再强也救不回来。</b></p>
+  </div>
+
+  <p>两个旋钮的起点：<b>每块约 300–500 Token、重叠 10–20%</b>（重叠像剪胶片时让相邻段共享几帧，
+    避免把一句话拦腰劈断）——没有万能数值，起步后拿评估集实测调优。策略从简单到讲究：
+    固定长度切（快速起步）→ <b>按结构切</b>（顺着标题/段落/表格边界，结构清晰文档的好默认）→
+    语义切分（句向量找话题切换点）→ 父子多粒度（小块精准检索、命中后回溯大块作答）。</p>
+  <p><b>上下文检索</b>（Contextual Retrieval，Anthropic 提出）是近年最实用的低门槛增强：
+    入库前用大模型给每个块生成一句「它在整篇文档里的定位」前置进块里再嵌入——像给每张便利贴
+    补一行「这是《退货政策》里关于生鲜商品的部分」。实测：上下文嵌入把 Top-20 检索失败率降约
+    35%，配合上下文 BM25 降约 49%，再叠加重排可降约 67%。几乎不改架构，是「效果立竿见影」
+    的演示好牌。文档全是 PDF/扫描件时先过文档智能解析（OCR），<b>解析质量决定切分质量</b>
+    （上游供给见 <a href="../../PPT-version/Data-Engineering/README.html">Data-Engineering</a>）。</p>
+  <p class="ev">上下文检索数据来源 <a href="#src-anthropic-cb">Anthropic Cookbook</a>，
+    核实 2026-07-07。</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="rag-reranking">
+  <h2><span class="num">04</span>重排序<a class="anchor" href="#rag-reranking">#rag-reranking</a></h2>
+
+  <div class="lead">
+    <p>两阶段检索像招聘：HR 先按简历海选一批（快、宽），业务负责人再对进面的逐个深聊（准、慢）。
+      <b>召回负责「不漏」，重排负责「排得准」</b>——宽召回 + 精排是 RAG 提质的标准组合拳。</p>
+  </div>
+
+  <p>机制差别：双编码器把问题和文档各自独立编码，可预建索引、能扫全库但略粗；交叉编码器把
+    「问题+文档」拼一起联合打分，捕捉细粒度关联、准得多——但每候选实时算一次，没法预建索引，
+    所以只做第二阶段、精排少量候选（Top-50~100 召回 → 精排到 Top-3~5）。</p>
+  <p>选型（2026-07 口径）：托管选 <b>Cohere Rerank v4.0 系</b>（pro 重质量 / fast 低延迟，
+    多语言+半结构化）；自建选 <b>BGE-reranker-v2-m3</b>（质量/延迟/许可平衡好，多数生产环境的
+    稳妥默认开源项）；Jina Reranker v2 面向 Agentic 场景可作备选。收益成本账：多几百毫秒和
+    一次调用费，换准确率明显提升——对质量敏感的场景（合规问答）几乎必上，对延迟极敏感的
+    实时场景再权衡。</p>
+  <p class="ev">Reranker 格局核实 2026-07-12（Cohere v4.0 系为当前主线），来源
+    <a href="#src-rerank">docs.cohere.com 与 2026 对比</a>。</p>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="rag-evaluation">
+  <h2><span class="num">05</span>评估与诊断<a class="anchor" href="#rag-evaluation">#rag-evaluation</a></h2>
+
+  <div class="lead">
+    <p>评估集就是 RAG 的体重秤：没有秤，你不知道换的饮食有没有用，甚至越调越糟还沾沾自喜。
+      切分、Top-K、重排这些旋钮，都要靠评估告诉你「拧对了没有」——<b>可度量，才可优化</b>。</p>
+  </div>
+
+  <p>归因先分两侧：<b>检索侧</b>（没找到对的资料——调切分/Top-K/重排）与<b>生成侧</b>
+    （资料对了但答歪了——改 Prompt 或换模型）。四个核心指标与生产参考阈值：忠实度
+    （Faithfulness，答案是否只基于资料）≥0.75、答案相关性 ≥0.80、上下文精确率（检回来的
+    有用占比）≥0.70、上下文召回率（该检的检全了吗）≥0.80——最终按业务风险定线。
+    框架分工：Ragas 开发期迭代、DeepEval 做 CI 门禁、TruLens 生产监控。评估方法论的完整
+    展开（判分四法/判官校准/黄金集）在 <a href="../evaluation/index.html">Evaluation
+    网页版</a>——那页收编了本节的三角指标。</p>
+
+  <p>更细一层是<b>六段诊断</b>：解析（内容完整进库？）→ 切分（块边界合理？）→ 召回（证据进
+    候选池？）→ 重排（证据排到前面？）→ 上下文（证据密度够？）→ 生成引用（主张被支撑？）——
+    同样是「答错」，三种病吃三种药：gold chunk 没进池修检索、进了池没进上下文修重排与预算、
+    进了上下文还答错修提示词或换模型。</p>
+
+  <div class="tool" id="doctor">
+    <h4>管线症状诊断器</h4>
+    <p class="note">按六段诊断与排障三问（检索到没有？排上来没有？用上没有？）把症状定位到
+      管线段。判据全部来自本页各节；确诊靠 Trace 回放与评估集，这里给的是排查起点。</p>
+    <div class="controls">
+      <label class="ctl">症状
+        <select id="dr-sym">
+          <option value="miss">答非所问 / 说「资料中未提及」</option>
+          <option value="partial">答得不全，漏关键信息</option>
+          <option value="halluc">编造内容 / 引用对不上</option>
+          <option value="exact">型号 / 报错码 / 专名查询翻车</option>
+          <option value="visual">答案在图表 / 扫描件里查不到</option>
+          <option value="number">数字类问题答错（还带出处）</option>
+          <option value="drift">上线时好好的，越用越差</option>
+          <option value="slowcost">太慢 / 太贵</option>
+        </select>
+      </label>
+      <label class="ctl">语料形态
+        <select id="dr-corpus">
+          <option value="text">自然语言文档为主</option>
+          <option value="mixed">含大量型号 / 代码 / 合同条款</option>
+          <option value="scan">图表 / 扫描件占比高</option>
+        </select>
+      </label>
+    </div>
+    <div class="hitcards" id="dr-out"></div>
+    <p class="note" id="dr-note"></p>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="rag-pipeline">
+  <h2><span class="num">06</span>最小管线<a class="anchor" href="#rag-pipeline">#rag-pipeline</a></h2>
+
+  <div class="lead">
+    <p>完整管线两条腿：<b>离线建库</b>（解析→切分→嵌入→入库，低频但重——备菜进冷库）与
+      <b>在线查询</b>(检索→重排→生成，毫秒级高频——点单出菜)。两条腿解耦，各自独立扩缩、
+      独立优化；线上出问题先问一句：是建库的问题，还是查询的问题？</p>
+  </div>
+
+  <p>最小可用版本比想象中小：纯 API + 向量库客户端几十行代码——切分（第 3 节）、嵌入建库
+    （第 2 节）、宽召回精排（第 4 节）、带出处生成（第 1 节），每段代码对应一节。框架不是
+    必需品：管线简单就纯 API 拼（透明好排障）；生产常见组合是 <b>LlamaIndex 管数据接入、
+    LangGraph 管多步编排、Langfuse/LangSmith 管观测</b>——各管一段，不是二选一。</p>
+  <p>给客户报量级：能跑的原型几天，「可用」两周级——<b>难点从来不是调模型 API，而是把文档
+    变成高质量的块</b>（解析、切分调优、建评估集）。对接现有文档系统走连接器增量同步，
+    要确认的是权限映射：文档系统里的可见性要在检索层复刻（见<a href="#rag-production">
+    生产化</a>）。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="rag-hybrid">
+  <h2><span class="num">07</span>混合检索<a class="anchor" href="#rag-hybrid">#rag-hybrid</a></h2>
+
+  <div class="lead">
+    <p>破案要人证+物证：BM25 是物证——指纹对上就是对上，一字不差；向量是人证——听得懂
+      「那个高高瘦瘦戴眼镜的」。只信一种证据都会放走真凶。<b>混合检索是 2026 年生产部署的
+      最低标配基线，不是加分项。</b></p>
+  </div>
+
+  <p>两种盲区的实例：搜「错误码 0x80070005」，向量检索返回一堆泛泛的「权限问题排查」，
+    BM25 一发命中含该错误码的 KB；反过来搜「电脑越用越卡怎么办」，BM25 远不如向量懂你。
+    企业语料里型号、代号、专名密度极高——<b>纯向量检索的翻车率被普遍低估</b>。</p>
+  <p>融合用 <b>RRF</b>（Reciprocal Rank Fusion，倒数排名融合）：两套分数不可比（BM25 无上界、
+    余弦 0~1），RRF 只看名次——按 1/(k+r) 相加，k≈60 开箱即用。算一遍就懂：文档 A 在 BM25
+    第 1、向量第 8 → 0.031；文档 B 两榜都第 3 → 0.032 胜——<b>两边都不错的稳健选手，赢过
+    单边冠军</b>。生产标配三段式：双路宽召回（各 Top-50~100，求不漏）→ RRF 融合（不比分数、
+    不用调权）→ 交叉编码器重排取 Top-10（求不错）。</p>
+  <p>落地捷径：Elasticsearch / OpenSearch 已原生支持向量检索与 RRF 混合查询——存量 ES 用户
+    升级配置即可，数据不搬家、运维不新增；向量库阵营（Qdrant/Milvus/Weaviate）用稀疏+稠密
+    双向量一次查询完成融合。成本增量主要是 BM25 索引存储，比向量便宜得多。</p>
+  <p class="ev">RRF k≈60 为主流引擎原生默认，核实 2026-07-08，来源
+    <a href="#src-hybrid">Elasticsearch / Qdrant 官方文档</a>。</p>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="rag-agentic">
+  <h2><span class="num">08</span>Agentic RAG<a class="anchor" href="#rag-agentic">#rag-agentic</a></h2>
+
+  <div class="lead">
+    <p>朴素 RAG 是条流水线：检索一次，好坏全认——生产统计显示<b>检索环节失败占比可达四成</b>。
+      Agentic RAG 把检索变成模型手里的工具：它会判断、会改写、会换个库再查——从「递什么用什么」
+      变成「查到满意为止」。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>模式</th><th>它怎么干</th><th>什么时候用</th></tr></thead>
+    <tbody>
+      <tr><td>路由 Router</td><td>按问题类型分发到不同知识库/检索器</td><td>多知识库、类型可预判——<b>最简单，首选起步</b></td></tr>
+      <tr><td>ReAct</td><td>边想边查：推理→检索→再推理→再检索</td><td>多跳问题、查询需逐步细化</td></tr>
+      <tr><td>计划-执行</td><td>先拆子任务清单，再逐个检索执行</td><td>复杂研究型任务，步骤可预先规划</td></tr>
+      <tr><td>多智能体</td><td>多个专职 agent 并行查各自的源再汇总</td><td>跨部门/跨系统多源，各源差异大</td></tr>
+      <tr><td>自反思 Self-RAG</td><td>模型自评「要不要查、查得好不好、答得对不对」</td><td>对幻觉零容忍的高可靠场景</td></tr>
+      <tr><td>纠错环 CRAG</td><td>检索质量评估器，不合格就改写重查</td><td><b>兜底环，可叠加在任意模式上</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>经验路径：<b>从 Router 起步 → 需要多跳再上 ReAct → CRAG 随时叠加兜底，别一上来就
+    Multi-Agent</b>。成本口径要主动讲：每多一轮检索多一轮模型调用，token 通常 2~5 倍、延迟
+    从一秒级到几秒级——用路由分流，简单问题走朴素管线。护栏三件：限最大检索轮数（如 3 轮）、
+    工具白名单、每步落日志——它本质是个带循环上限的状态机，比听起来可控。</p>
+  <p>与 Agent 的接缝一句话：<b>RAG 给模型「开卷的书」，Agent 给模型「动手的手」，Agentic RAG
+    就是让那双手自己去翻书</b>——把检索管线注册成 agent 的一个工具，两边投资都复用
+    （循环与工具的机制在 <a href="../agent/index.html#agent-context">Agent 网页版</a>）。</p>
+  <p class="ev">五大模式与 CRAG 来源 <a href="#src-agentic">arXiv 2501.09136 / LangGraph
+    官方教程</a>，核实 2026-07-08。</p>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="sec" id="rag-production">
+  <h2><span class="num">09</span>生产化与常见坑<a class="anchor" href="#rag-production">#rag-production</a></h2>
+
+  <div class="lead">
+    <p>Demo 到生产，菜谱没变，变的是卫生许可、翻台率和供应链。三大生产病——<b>质量漂移、
+      延迟尖刺、黑盒不可查</b>——共用一个疫苗：评估集跑成定时任务 + 全链路 Trace。</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>生产病</th><th>症状</th><th>根因</th><th>处方</th></tr></thead>
+    <tbody>
+      <tr><td>质量漂移</td><td>上线时好好的，三个月后越来越离谱</td><td>语料变了、切分不再适配、换过嵌入没重建</td><td>评估集跑成定时任务，指标掉了先查建库侧</td></tr>
+      <tr><td>延迟尖刺</td><td>平时 1 秒，高峰 10 秒</td><td>候选块太多、重排太重、agentic 多轮叠加</td><td>分级管线：简单问题走快路，缓存扛重复问</td></tr>
+      <tr><td>黑盒不可查</td><td>用户说答错了，查不出错在哪一环</td><td>没有全链路追踪，检索结果没落日志</td><td>每次问答记 Trace：查询→命中块→重排分→答案</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Trace 的价值实例：正确片段其实在 Top-5、但排第 4、被截断在上下文之外——问题在截断策略，
+    不在检索；没有 Trace，多半冤枉嵌入模型。<b>排障三问固定问：检索到没有？排上来没有？
+    用上没有？</b></p>
+
+  <h3>成本、权限、可信</h3>
+  <p>算账口径：<b>月成本 ≈ 建库一次性 + 增量嵌入 + 存储 +（检索+重排+生成）× 月问量 ×
+    （1 − 缓存命中率）</b>——命中率是最值得投资的变量。三层缓存各砍一件重复劳动：嵌入缓存省
+    重算、语义缓存让相似问题直接命中历史答案（客服约四成问题重复，生成成本立砍四成）、
+    Prompt 缓存省重复上下文的输入费。</p>
+  <p>权限在<b>检索层</b>设卡：每个块入库带 ACL 元数据（部门/密级/角色），查询时按提问者身份
+    过滤候选集——安检设在书库门口，不是等读者借走再追回。真实翻车模式：全公司文档进同一个
+    向量库不带权限元数据，员工问「高管薪酬方案」居然真答出来了。安全三件套：数据不出租户、
+    检索层 ACL、审计日志——<b>可溯源是 RAG 相对纯生成的安全加分项</b>。可信回答还要过四层
+    证明：可访问（当前用户有权看）→ 可定位（指认出处）→ 可支持（真被证据支撑）→ 可呈现
+    （可点摘录/冲突提示/拒答）——像法庭证据链，断一环整条作废。</p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="sec" id="rag-graphrag">
+  <h2><span class="num">10</span>GraphRAG<a class="anchor" href="#rag-graphrag">#rag-graphrag</a></h2>
+
+  <div class="lead">
+    <p>向量检索的本质是最近邻，答不了「这五千篇文档的共同主题」这类全局问题——<b>答案不在
+      任何一段里，在片段之间的连接里</b>。GraphRAG 先把语料织成知识图谱、做好分区导读，
+      让全局提问也有据可答——代价是贵。</p>
+  </div>
+
+  <p>四步：实体抽取 → 建图 → 社区检测（Leiden 分区）→ 分层摘要——像出版社给一万本书做导读
+    体系。查询两条路：本地查询沿实体邻居找证据（细节题），全局查询汇总社区摘要（全局题）。
+    贵在索引期：每块过 LLM 抽取、每社区预写摘要。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>路线</th><th>怎么花 / 怎么省</th><th>什么时候选</th></tr></thead>
+    <tbody>
+      <tr><td>全量 GraphRAG（Microsoft）</td><td>索引贵 6–8 倍、运营约 3 倍</td><td>语料稳定、全局/关系问题是刚需（审计链、组合分析）</td></tr>
+      <tr><td>LazyGraphRAG</td><td>索引成本压到全量的 0.1%（≈向量级），推理期才建图；全局查询便宜约 700 倍</td><td><b>2026 年默认试点起点</b></td></tr>
+      <tr><td>LightRAG / Fast GraphRAG</td><td>轻量抽取 + 简化图结构</td><td>中小语料、关系问题为主</td></tr>
+      <tr><td>向量 + 图谱路由</td><td>简单问题走向量，全局/关系问题走图谱</td><td><b>生产主流</b>——第 8 节 Router 模式的直接应用</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>值得付 6–8 倍索引成本的三类问题：全局归纳（「主要主题/趋势」）、关系追溯（「A 通过什么
+    关联到 B」）、合规审计（出处链有法律意义）。起步建议：先把混合检索+重排做扎实，收集三个月
+    真实问题——全局性/关系性问题占比可观（如超一成）再用 LazyGraphRAG 小语料试点。增量更新
+    是痛点：语料高频变化的场景选 LazyGraphRAG 或把图谱限定在稳定核心语料上。</p>
+  <p class="ev">成本账核实 2026-07-09，来源 <a href="#src-graph">Microsoft GraphRAG 文档与
+    2026 实践者评测</a>。</p>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="sec" id="rag-multimodal">
+  <h2><span class="num">11</span>多模态 RAG<a class="anchor" href="#rag-multimodal">#rag-multimodal</a></h2>
+
+  <div class="lead">
+    <p>企业文档里最值钱的信息常在图里：架构图、财报图表、扫描件。纯文本管线的丢失发生在
+      <b>建库期</b>——图表抽不成有意义的文字，后面检索再准也无济于事（「答案明明在第 47 页的
+      柱状图里，系统答资料中未提及」）。</p>
+  </div>
+
+  <p>三条路线从便宜到强：<b>①转述索引 Caption</b>——用视觉模型给每张图写文字描述进普通管线，
+    最便宜、改造最小；<b>②统一多模态嵌入</b>——文与图进同一向量空间（Cohere Embed 4 /
+    voyage-multimodal），跨模态直接互检，工程最干净；<b>③页面当图（ColPali 系）</b>——整页
+    编码成约千个图块向量，免 OCR、MaxSim 逐词对格打分，表格、图表、手写体一视同仁——
+    扫描件的杀手锏，代价是<b>存储涨约一个量级</b>。</p>
+  <p>选型口诀：图少且简单→转述最划算；产品图/截图混在文档里→统一嵌入；扫描件海量、查询
+    「视觉难」→ColPali 系。<b>先便宜后贵、增量演进</b>：先转述兜底，三个月后看坏答案，
+    「视觉难」查询集中失败再对那部分语料上多向量。生成端要配套能看图的模型才闭环——
+    「模型怎么看懂图」的能力边界在
+    <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>（那边给眼睛，
+    本节给眼睛配图书馆）。</p>
+  <p class="ev">三路线格局核实 2026-07-09，来源 <a href="#src-mm">arXiv 2407.01449（ColPali）
+    与 2026 实践综述</a>。</p>
+</section>
+
+<!-- ============ 12 ============ -->
+<section class="sec" id="rag-structured">
+  <h2><span class="num">12</span>查数与语义层<a class="anchor" href="#rag-structured">#rag-structured</a></h2>
+
+  <div class="lead">
+    <p>「查文」答「是什么」，「查数」答「多少」——数字类问题走文档检索是事故源：最坏情况从
+      旧报告里捞个过期数字、还带着出处、显得特别可信。<b>入口处就要分流</b>：问题里带
+      「多少/排名/趋势/对比数值」的，路由到查数管线。</p>
+  </div>
+
+  <p>裸 Text-to-SQL 为什么不及格：模型写标准 SQL 语法早已过关，难在语义落地——真实企业库
+    几百张表、字段名像密码、同一个「收入」五种口径，<b>准确率只有 50–70%</b>，而且错法危险：
+    SQL 跑得通、数字是错的（静默错误）。同一个「去年营收多少」，sum 订单表（含取消单）和
+    sum 财务确认收入能差 15%，都「语法正确」。</p>
+  <p><b>语义层</b>是解药：指标/维度/同义词的确定性定义（「营收 = 确认收入 − 退款」）——
+    给空降的 SQL 高手发一本《公司指标口径手册》，把「猜口径」变成「查口径」，<b>准确率抬到
+    85–95%</b>，覆盖到的问题近乎全对。不用先重构几百张表：先给 20 个高频指标建口径映射就能
+    上线——语义层是「乱库上面的整洁层」。风险三道闸：高频指标只走语义层确定性生成、SQL 执行
+    只读权限+行级过滤、答案附生成的 SQL 与口径出处可复核。生产定式：RAG 做检索层 + 语义层做
+    回答层，查文/查数入口路由；场景视角（ChatBI 口径战场）在
+    <a href="../../PPT-version/Solution-Patterns/README.html">Solution-Patterns</a> 第 8 章。</p>
+  <p class="ev">50–70% → 85–95% 为 dbt 2026 基准口径，核实 2026-07-09，来源
+    <a href="#src-sql">dbt 基准</a>。</p>
+</section>
+
+<!-- ============ 问答 ============ -->
+<section class="sec" id="qa">
+  <h2><span class="num">13</span>现场高频追问<a class="anchor" href="#qa">#qa</a></h2>
+  <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-07/08</b> 来自讲义首版
+    对练页，<b>2026-07-09</b> 来自进阶三章，<b>2026-07-12</b> 来自 Reranker 格局复核。</p>
+  <div class="qa">
+    <details>
+      <summary>RAG 和直接微调模型，我到底该选哪个？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>要更新的是「知识」就用 RAG（改数据不改模型、可溯源、便宜）；要改的是「说话风格/能力」
+          才考虑微调。多数企业知识问答，RAG 是性价比更高的起点，二者常组合。</p>
+        <p class="qa-why">「改知识 vs 改行为」这条边界一句话能拦住大量错配的微调立项——
+          知识会变，权重不该跟着变。</p>
+        <p class="qa-next"><b>下一步</b>　把对方需求按「知识更新频率 × 行为定制需求」两轴归位，
+          再报方案。</p>
+        <p class="qa-src">依据　<a href="#rag-what-why">是什么 / 为什么</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>块到底该切多大？有没有标准答案？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>没有万能值，但有好起点：约 300–500 Token、重叠 10–20%。真正的答案靠评估集实测——
+          切分是要用数据调的旋钮，不是拍脑袋定的常量。</p>
+        <p class="qa-why">切分这一关没过，后面模型再强、Prompt 再精也补不回来——它是全管线
+          性价比最高的旋钮。</p>
+        <p class="qa-next"><b>下一步</b>　按结构切 + 合理重叠起步；花小钱见效快的是上下文检索
+          （失败率降三四成）。</p>
+        <p class="qa-src">依据　<a href="#rag-chunking">切分策略</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>已经有向量检索了，为什么还要单独加重排序？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>向量检索快但略粗，Top-K 里常混入「看着像、其实不对」的片段。重排用交叉编码器逐条
+          精算相关性，把对的顶上来——以几百毫秒换准确率明显提升。</p>
+        <p class="qa-why">交叉编码器不能扫全库（无法预建索引），所以必须两阶段——理解这个
+          机制，「为什么不直接用准的」就有了答案。</p>
+        <p class="qa-next"><b>下一步</b>　跑一组「只向量 Top-5 vs 召回 50→重排 5」的对照，
+          量化收益和延迟给对方看。</p>
+        <p class="qa-src">依据　<a href="#rag-reranking">重排序</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>回答不准，到底是检索的锅还是模型的锅？<span class="added">2026-07-07</span></summary>
+      <div class="a">
+        <p>分两条线看：上下文召回率/精确率低是检索侧问题（调切分、Top-K、重排）；召回对了但
+          忠实度低是生成侧问题（改 Prompt 或换模型）。先归因再动手。</p>
+        <p class="qa-why">经验规律是大头在检索侧——先修检索是性价比最高的路径，急着换大模型
+          常常修错了地方。</p>
+        <p class="qa-next"><b>下一步</b>　用<a href="#doctor">诊断器</a>按症状定位到管线段，
+          再用 Trace 回放确诊。</p>
+        <p class="qa-src">依据　<a href="#rag-evaluation">评估与诊断</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>向量检索不是更先进吗，为什么还要「老古董」BM25？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>先进不等于全能：向量强在语义，但对型号、报错码这类必须一字不差的查询反而不稳——
+          而企业语料恰恰全是这类词。两路并跑各补短板，是生产标配不是守旧。</p>
+        <p class="qa-why">纯向量的翻车率被普遍低估；混合检索只多几十毫秒延迟和便宜得多的
+          BM25 索引，这笔账几乎总是划算。</p>
+        <p class="qa-next"><b>下一步</b>　用对方的真实型号/代码查询做一组对照演示——
+          「你们的型号查询在纯向量下会翻车」比十页原理有说服力。</p>
+        <p class="qa-src">依据　<a href="#rag-hybrid">混合检索</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>Agentic RAG 比普通 RAG 贵多少、慢多少？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>每多一轮检索多一轮模型调用：token 通常 2~5 倍，延迟从一秒级到几秒级。所以别全量上
+          ——简单问题走朴素管线，检索质量差或问题复杂时才触发 agentic 环。</p>
+        <p class="qa-why">该不该上看三个信号：问题常含糊需追问、答案要跨多库拼、对错答零容忍
+          ——三个都不占，把混合检索+重排做扎实就够。</p>
+        <p class="qa-next"><b>下一步</b>　从 Router 起步、CRAG 兜底；给 agentic 环设轮数上限
+          （如 3 轮）和 token 预算。</p>
+        <p class="qa-src">依据　<a href="#rag-agentic">Agentic RAG</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>上线后效果越来越差，怎么排查？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>先跑评估集定位掉的是检索侧还是生成侧；八成在检索侧——查语料是否大量更新、切分是否
+          还适配、是否换过嵌入没重建。有 Trace 的话抽 10 个坏答案逐环回放，半天定位。</p>
+        <p class="qa-why">质量漂移的病根埋在设计期：评估集没跑成定时任务，滑坡就只能靠用户
+          投诉发现。</p>
+        <p class="qa-next"><b>下一步</b>　评估集挂定时任务 + 指标告警；每次问答落 Trace——
+          三个病共用这一个疫苗。</p>
+        <p class="qa-src">依据　<a href="#rag-production">生产化</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>数据安全怎么保证？会不会泄露？<span class="added">2026-07-08</span></summary>
+      <div class="a">
+        <p>三层答案：部署上数据不出租户（私有化/专属实例）；检索层按身份做 ACL 过滤，问不出
+          无权限的内容；全链路审计留痕。RAG 比纯生成更可控——每个答案都能溯源到具体文档。</p>
+        <p class="qa-why">权限必须设在检索层（书库门口），不能等生成后拦截（书已借走）——
+          「员工问出高管薪酬」的翻车都源于此。</p>
+        <p class="qa-next"><b>下一步</b>　检查向量库的块是否带 ACL 元数据、查询是否强制过滤；
+          没有就要重建索引补字段——早设计早省事。</p>
+        <p class="qa-src">依据　<a href="#rag-production">权限与可信</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>GraphRAG 是不是智商税？听说索引贵好几倍。<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>看问题形态：若九成问题是「查某段」，确实不值——向量+混合检索就够。但有「横跨全库
+          归纳、追关系链」刚需时，图谱是目前唯一稳定解；LazyGraphRAG 已把索引成本压到向量级，
+          试错门槛大降。</p>
+        <p class="qa-why">全局问题的答案在「片段之间」，Top-K 从结构上就答不了——这不是
+          调参能解决的，是检索范式的边界。</p>
+        <p class="qa-next"><b>下一步</b>　统计三个月真实问题里全局/关系类占比，超一成再用
+          LazyGraphRAG 小语料试点、拿对比数据决策。</p>
+        <p class="qa-src">依据　<a href="#rag-graphrag">GraphRAG</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>我们的资料全是扫描件 PDF，怎么办？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>两条路：质量好的扫描件走「文档智能解析+转述」，成本低；质量差、表格图纸多的直接上
+          ColPali 系页面检索，免 OCR 绕开识别错误。通常先解析路线兜底，再对高价值文档叠加。</p>
+        <p class="qa-why">纯文本管线的丢失发生在建库期，检索参数怎么调都找不回——先问信息
+          进没进来，再谈检索准不准。</p>
+        <p class="qa-next"><b>下一步</b>　拿一份图表密集的 PDF 做「纯文本 vs 转述索引」对照，
+          3 个「答案在图里」的问题当场见分晓。</p>
+        <p class="qa-src">依据　<a href="#rag-multimodal">多模态 RAG</a></p>
+      </div>
+    </details>
+    <details>
+      <summary>问数这块，这不就是 BI 吗？会不会替代我们 BI 团队？<span class="added">2026-07-09</span></summary>
+      <div class="a">
+        <p>不替代，是换交互：BI 团队从「人肉写报表」升级为「维护语义层口径」——口径定义得
+          越全，问数越准。它扩大的是数据的使用面，口径治理反而更重要了。</p>
+        <p class="qa-why">最危险的不是报错，是「跑得通但算错」的静默错误——语义层把口径从
+          「猜」变「查」，这正是 BI 团队专业价值的新落点。</p>
+        <p class="qa-next"><b>下一步</b>　挑 10–20 个高频指标定义口径接上数仓，两三周出
+          PoC；口径评审的组织成本提前做预期管理。</p>
+        <p class="qa-src">依据　<a href="#rag-structured">查数与语义层</a></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 相关模块 ============ -->
+<section class="sec" id="related">
+  <h2><span class="num">14</span>相关模块<a class="anchor" href="#related">#related</a></h2>
+  <p>同一个概念在库里只有一个主要归属，其余模块讲的是它的另一个层面。</p>
+  <div class="rel">
+    <a href="../agent/index.html">
+      <div class="nm">Agent · 网页版</div>
+      <div class="why">RAG 供知识、Agent 供手脚，Agentic RAG 是接缝——检索管线注册成 agent
+        的工具，两边投资复用。</div>
+    </a>
+    <a href="../evaluation/index.html">
+      <div class="nm">Evaluation · 网页版</div>
+      <div class="why">本页的三角指标在那页收编为场景验收；判官校准与黄金集方法也在那边。</div>
+    </a>
+    <a href="../llm-inference/index.html">
+      <div class="nm">LLM-Inference · 网页版</div>
+      <div class="why">「1M 窗口不是 RAG 终结者」的推理侧论据（长上下文两头吃钱）在那页。</div>
+    </a>
+    <a href="../../PPT-version/Fine-tuning/README.html">
+      <div class="nm">Fine-tuning</div>
+      <div class="why">「改知识用 RAG vs 改行为用微调」的另一面。</div>
+    </a>
+    <a href="../../PPT-version/Data-Engineering/README.html">
+      <div class="nm">Data-Engineering</div>
+      <div class="why">上游供给：解析产物进切分（解析质量决定切分质量）；向量库规模化选型在
+        那册第 4 章。</div>
+    </a>
+    <a href="../../PPT-version/Multimodal/README.html">
+      <div class="nm">Multimodal</div>
+      <div class="why">本页讲「多模态内容怎么检索」，那册讲「模型怎么看懂图」——互为上下游。</div>
+    </a>
+    <a href="../../PPT-version/Solution-Patterns/README.html">
+      <div class="nm">Solution-Patterns · 第 8 章</div>
+      <div class="why">Text-to-SQL 与语义层的场景视角（ChatBI 口径战场/三道闸/产品格局）
+        在那册。</div>
+    </a>
+    <a href="../../PPT-version/Prompt-Engineering/README.html">
+      <div class="nm">Prompt Engineering</div>
+      <div class="why">检索到的内容最终要「塞进提示词」才生效——怎么组织进上下文在那册
+        第 2/3 章。</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 来源 ============ -->
+<section class="sec" id="sources">
+  <h2><span class="num">15</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
+    <a href="../../PPT-version/RAG/MANIFEST.md">本模块 MANIFEST</a>。
+    核实窗口 2026-07-07 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
+    <tbody>
+      <tr id="src-embed"><td><code>src-embed</code></td><td>2026 对比 / arXiv 2402.03216</td>
+          <td>Embedding 与向量库选型格局</td><td>具体场景的检索质量要用评估集实测</td></tr>
+      <tr id="src-anthropic-cb"><td><code>src-anthropic-cb</code></td><td>Anthropic Cookbook</td>
+          <td>上下文检索的失败率降幅（35%/49%/67%）</td><td>官方实验语料的结论，自家语料要复测</td></tr>
+      <tr id="src-rerank"><td><code>src-rerank</code></td><td>docs.cohere.com / 2026 对比</td>
+          <td>Reranker 格局（v4.0 系主线，2026-07-12）</td><td>版本线月级演进</td></tr>
+      <tr id="src-hybrid"><td><code>src-hybrid</code></td><td>Elasticsearch / Qdrant 官方文档</td>
+          <td>RRF k≈60 与原生混合检索支持</td><td>各引擎参数细节以当日文档为准</td></tr>
+      <tr id="src-agentic"><td><code>src-agentic</code></td><td>arXiv 2501.09136 / LangGraph
+          官方教程</td><td>五大模式与 CRAG 的分类与实现</td><td>「检索失败约四成」为生产统计
+          口径，非普适常数</td></tr>
+      <tr id="src-graph"><td><code>src-graph</code></td><td>Microsoft GraphRAG 文档 /
+          2026 实践者评测</td><td>6–8 倍与 LazyGraphRAG 0.1%/700 倍的成本量级</td>
+          <td>量级参考，随语料形态浮动</td></tr>
+      <tr id="src-mm"><td><code>src-mm</code></td><td>arXiv 2407.01449（ColPali）/
+          2026 实践综述</td><td>三条多模态路线与存储代价</td><td>模型能力月级演进</td></tr>
+      <tr id="src-sql"><td><code>src-sql</code></td><td>dbt 2026 基准</td>
+          <td>裸 Text-to-SQL 50–70% 与语义层 85–95%</td><td>基准库口径，自家库要实测</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+</article>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>
+    本册 PPT 讲义：<a href="../../PPT-version/RAG/RAG-讲义.pptx">RAG-讲义.pptx</a> ·
+    电子书书单：<a href="../../PPT-version/RAG/电子书书单.md">电子书书单.md</a> ·
+    模块账本：<a href="../../PPT-version/RAG/MANIFEST.md">MANIFEST.md</a>
+  </p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <!-- UPDATED:END -->
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+/* 管线症状诊断器：六段诊断 + 排障三问的交互版（讲义第 5/7/9/11/12 章口径）。
+   判据全部来自本页各节，不引入新事实。无 JS 时 .tool 隐藏，静态兜底是六段诊断与生产病表。 */
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var out = $("dr-out"), note = $("dr-note");
+  if (!out) return;
+  function card(t, tag, s) {
+    return '<div class="hitcard"><b>' + t + '</b>' +
+           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
+  }
+  function run() {
+    var sym = $("dr-sym").value, corpus = $("dr-corpus").value;
+    var cards = [];
+    if (sym === "miss") {
+      cards.push(card("召回段", "检索侧",
+        "先看 recall@k：该命中的块进没进候选池。修切分（300–500 Token 起步）、调 Top-K、上混合检索。"));
+      if (corpus === "scan") {
+        cards.push(card("解析段", "建库侧",
+          "图表/扫描件的信息可能在入库时就丢了——抽样比对原文，考虑转述索引或 ColPali。"));
+      }
+      cards.push(card("低门槛增强", "处方",
+        "上下文检索：给每块补一句定位再嵌入，失败率降三四成（实测口径见第 3 节）。"));
+    } else if (sym === "partial") {
+      cards.push(card("切分段 + 上下文段", "检索侧",
+        "块太小拼不出完整答案，或证据被截断在上下文外——查 gold chunk 对照与截断策略，试父子多粒度。"));
+      cards.push(card("重排段", "检索侧",
+        "证据在候选池但没排进 Top-N——看 MRR，宽召回（50–100）再精排。"));
+    } else if (sym === "halluc") {
+      cards.push(card("生成引用段", "生成侧",
+        "召回对了还编——收紧提示词（只依据资料、给出处、可拒答），忠实度设验收线 ≥0.75。"));
+      cards.push(card("先排除检索侧", "归因",
+        "先确认召回率没问题再动生成端——大头通常在检索侧，别急着换模型。"));
+    } else if (sym === "exact") {
+      cards.push(card("混合检索", "标配",
+        "型号/报错码是纯向量的天然盲区——BM25 + 向量双路召回、RRF 融合（k≈60），存量 ES 升级即得。"));
+    } else if (sym === "visual") {
+      cards.push(card("多模态路线", "建库侧",
+        "信息在建库期就没进来。先转述索引兜底；扫描件海量、查询「视觉难」再上 ColPali（存储贵一个量级）。"));
+    } else if (sym === "number") {
+      cards.push(card("入口路由 + 语义层", "架构",
+        "数字类问题走文档检索是事故源——「多少/排名/趋势」路由到查数管线，高频指标走语义层确定性出数。"));
+    } else if (sym === "drift") {
+      cards.push(card("建库侧巡检", "质量漂移",
+        "查三件：语料是否大量更新、切分是否还适配、是否换过嵌入没重建索引。"));
+      cards.push(card("评估集定时任务", "疫苗",
+        "指标掉了机器先知道；抽 10 个坏答案按排障三问逐环回放，半天定位。"));
+    } else {
+      cards.push(card("三层缓存", "成本杠杆",
+        "嵌入缓存省重算、语义缓存命中历史答案（重复率高的客服立砍四成）、Prompt 缓存省输入费。"));
+      cards.push(card("分级管线", "延迟",
+        "简单问题跳过重排走快路、agentic 环设轮数上限、流式输出先出首字——体感关键是首字时间。"));
+    }
+    if (corpus === "mixed" && sym !== "exact") {
+      cards.push(card("顺手检查：混合检索开了吗", "标配",
+        "语料含型号/代码/条款——混合检索是最低标配基线，没开先开。"));
+    }
+    out.innerHTML = cards.join("");
+    note.textContent = "排障三问固定问：检索到没有？排上来没有？用上没有？——确诊靠 Trace 逐环回放，" +
+      "评估与观测是同一件事的离线态与在线态。";
+  }
+  ["dr-sym", "dr-corpus"].forEach(function (id) {
+    $(id).addEventListener("change", run);
+  });
+  run();
+})();
+</script>
+</body>
+</html>
