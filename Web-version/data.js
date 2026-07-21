@@ -2320,7 +2320,7 @@ window.KB = {
    "dir": "MCP",
    "layer": "协议层",
    "created": "2026-07-08",
-   "updated": "2026-07-20",
+   "updated": "2026-07-21",
    "chapters": [
     {
      "id": "mcp-what-why",
