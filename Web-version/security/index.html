@@ -60,10 +60,41 @@
     <p>总根源一句话：<b>指令与数据不再分家</b>。传统程序里代码是代码、数据是数据——数据再脏也只是被处理的对象；大模型把系统提示词、用户输入、检索资料揉进同一段文本，读到的一切都可能被当指令执行。模型像一个太听话、记性又差的实习生——能力强、边界感弱、谁的话都听。AI 安全 = 传统安全 + 一层新假设「模型永远可能被诱导」。</p>
   </div>
 
-  <p><b>三层攻击面</b>，自主性越高越危险：模型层（投毒/后门/成员推断——多由提供方担，用开源或微调模型时落你头上）、应用层（注入/越狱/泄露/不当输出——被追问最多的一层）、
-    Agent 系统层（工具滥用/记忆投毒/爆炸半径失控——上了 Agent 就多背一整层）。客户问「AI 安不安全」，先反问「你担心哪一层」。行业两张地图配着用：<b>OWASP LLM Top 10
-    （2025 版）</b>记「有哪些坑」（完整清单见<a href="#sec-cheatsheet">速查</a>），
-    <b>MITRE ATLAS</b>（约 16 个战术、84 个技术，全部基于真实攻击）记「敌人具体怎么打的每一招」——客户问「你们防不防 XX」，查 ATLAS 对应技术就能说清在哪一环拦。</p>
+  <h3>三层攻击面：自主性越高越危险</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 156" role="img" aria-label="三层攻击面自下而上：模型层（投毒、后门、成员推断，多由提供方担）、应用层（注入、越狱、泄露、不当输出，被追问最多）、Agent 系统层（工具滥用、记忆投毒、爆炸半径失控），越往上越危险">
+     <g font-family="var(--sans)">
+      <rect x="6" y="16" width="708" height="40" rx="6" fill="var(--red-bg)" stroke="var(--red-ln)"/>
+      <text x="22" y="34" font-size="13" font-weight="700" fill="var(--ink-900)">Agent 系统层</text>
+      <text x="150" y="34" font-size="11.5" fill="var(--ink-500)">工具滥用 / 记忆投毒 / 爆炸半径失控</text>
+      <text x="700" y="34" text-anchor="end" font-size="11.5" fill="var(--red)">上了 Agent 就多背一整层</text>
+      <text x="22" y="50" font-size="11" fill="var(--ink-400)">自主性最高 · 风险最大</text>
+      <rect x="6" y="62" width="708" height="40" rx="6" fill="var(--warn-bg)" stroke="var(--warn-ln)"/>
+      <text x="22" y="80" font-size="13" font-weight="700" fill="var(--ink-900)">应用层</text>
+      <text x="150" y="80" font-size="11.5" fill="var(--ink-500)">注入 / 越狱 / 泄露 / 不当输出</text>
+      <text x="700" y="80" text-anchor="end" font-size="11.5" fill="var(--warn)">被追问最多的一层</text>
+      <rect x="6" y="108" width="708" height="40" rx="6" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="22" y="126" font-size="13" font-weight="700" fill="var(--ink-900)">模型层</text>
+      <text x="150" y="126" font-size="11.5" fill="var(--ink-500)">投毒 / 后门 / 成员推断</text>
+      <text x="700" y="126" text-anchor="end" font-size="11.5" fill="var(--ink-400)">多由提供方担</text>
+      <text x="22" y="142" font-size="11" fill="var(--ink-400)">用开源或微调模型时落你头上</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>客户问「AI 安不安全」，先反问「你担心哪一层」。</figcaption>
+  </figure>
+
+  <h3>行业两张地图配着用</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>地图</th><th>记什么</th><th>怎么用</th></tr></thead>
+    <tbody>
+     <tr><td><b>OWASP LLM Top 10</b>（2025 版）</td><td>有哪些坑</td><td>完整清单见<a href="#sec-cheatsheet">速查</a></td></tr>
+     <tr><td><b>MITRE ATLAS</b></td><td>敌人具体怎么打的每一招——约 16 个战术、84 个技术，全部基于真实攻击</td><td>客户问「你们防不防 XX」，<b>查 ATLAS 对应技术就能说清在哪一环拦</b></td></tr>
+    </tbody>
+   </table>
+  </div>
   <p class="ev">OWASP 2025 版变化（LLM07/08 新增、敏感信息泄露升第 2）核实 2026-07-09，来源 <a href="#src-owasp">genai.owasp.org</a>；ATLAS 规模核实同日，来源
     <a href="#src-atlas">MITRE ATLAS</a>。<b>不可外推边界</b>：清单反映的是社区共识的风险优先级，随版本重排；它是自查起点不是合规清单——中国监管的强制要求另见本册中国监管合规一节。</p>
 </section>
@@ -92,9 +123,22 @@
     <p>客户最放不下心的一句话：「我们的数据会不会被它学走、漏出去？」本节横跨 OWASP 四条风险，本质都是数据在管线里的<b>进（投毒）、存（隔离）、出（泄露）</b>三个环节。</p>
   </div>
 
-  <p><b>出：两类泄露。</b>敏感信息泄露（LLM02，2025 升到第 2）——PII、密钥、内部文档经输出、日志、错误信息漏出；系统提示词泄露（LLM07，新增）——被套问出规则甚至误写进去的
-    API key。模型像嘴不严的管家，问题不在钥匙在「谁问都答」。对策：真密钥放模型够不到的地方（网关、密钥管理服务），系统提示词按「一定会泄露」来写，输出侧加敏感信息过滤。<b>「模型会记住训练数据吗」</b>要分场景答：用公开模型做推理通常不会；拿客户 PII 微调再对外提供才有记忆化与成员推断风险——脱敏、去重、隔离、高敏用差分隐私。所以
-    <b>RAG 往往比微调更安全</b>：数据留在库里、带权限、可溯源、可删除，不烧进权重。</p>
+  <h3>出：两类泄露</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>类型</th><th>漏什么</th><th>对策</th></tr></thead>
+    <tbody>
+     <tr><td><b>敏感信息泄露</b><br>LLM02，2025 升到第 2</td><td>PII、密钥、内部文档，经输出 / 日志 / 错误信息漏出</td><td>真密钥放模型够不到的地方（网关、密钥管理服务）；输出侧加敏感信息过滤</td></tr>
+     <tr><td><b>系统提示词泄露</b><br>LLM07，新增</td><td>被套问出规则，甚至误写进去的 API key</td><td><b>系统提示词按「一定会泄露」来写</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>模型像嘴不严的管家——<b>问题不在钥匙，在「谁问都答」</b>。</p>
+
+  <div class="box">
+   <h4>「模型会记住训练数据吗」要分场景答</h4>
+   <p>用公开模型做推理通常不会；拿客户 PII 微调再对外提供才有记忆化与成员推断风险——脱敏、去重、隔离、高敏用差分隐私。所以 <b>RAG 往往比微调更安全</b>：数据留在库里、带权限、可溯源、可删除，<b>不烧进权重</b>。</p>
+  </div>
   <p><b>进：投毒三时机</b>，门槛递降、越贴近应用方越可控——预训练期（规模大难追溯，模型厂担）、微调期（触发词后门，谁供数据谁担）、检索期（往知识库灌恶意文档——不改模型只改它「读到什么」，门槛最低也最该防）。RAG 侧三道闸当场能落：数据准入、来源可信、写入鉴权。<b>存：向量库是新入口</b>（LLM08）：检索投毒、跨租户泄露（A 的问题命中 B 的文档）、嵌入反演——<b>向量化 ≠ 匿名化</b>。对策：带 ACL 的权限过滤检索 + 多租户隔离 + 入库审校。
     RAG 侧工程细节在 <a href="../rag/index.html">RAG 网页版</a>。</p>
 </section>
@@ -122,12 +166,37 @@
       Agent 安全的核心是<b>「控权」不是「防话」</b>——既然拦不住它被骗，就限制它被骗之后能干什么。</p>
   </div>
 
-  <p><b>过度自主与爆炸半径</b>：三种「过度」任一种都放大后果——过多功能（给了用不到的工具）、过多权限（工具权限超所需）、过多自主（高危动作不经审批）。爆炸半径 = 一次被攻破最多波及多大范围：只读 Agent 半径小，能删库/转账/群发的半径巨大。对策落地三件套：
-    <b>scoped 短期身份 + 每动作授权 + 不可逆动作人在环上（HITL）</b>。新攻击面两个：<b>工具描述投毒</b>（Agent 靠工具的自然语言描述决定怎么用——2025–2026 已有把恶意指令藏进 MCP 工具描述接管编码 Agent 的真实案例；还有混淆代理：Agent 拿高权限身份替低权限攻击者办事）与<b>记忆投毒</b>（诱导写进长期记忆，之后每个会话都被污染，已有跨会话存活案例——不可信内容进记忆前过滤、任务间清临时上下文）。</p>
-  <p>身份体系要<b>三条链分开</b>：身份链答「你是谁」（每跳都能回答现在到底是谁）、授权链答「你能干什么」（授权书只写查询余额不含转账）、凭据链答「凭什么信」（短期签发、轮换撤销、审计关联）——最常见翻车是「用户同意过」被当成无限委托，Agent 拿宽 scope 长效 token
-    到处用；正解是每个资源服务器独立核验，下游凭据绝不回传给模型。OWASP Agentic 威胁地图（2026）按能力分五类：目标劫持/记忆/规划与自主/工具使用/部署运营，缓解主线就是身份隔离
-    + 每动作授权 + HITL 提权 + 强可观测。编排侧视角在
-    <a href="../agent/index.html">Agent 网页版</a>。</p>
+  <h3>三种「过度」，任一种都放大后果</h3>
+  <div class="grid">
+   <div class="box"><h4>过多功能</h4><p>给了用不到的工具。</p></div>
+   <div class="box"><h4>过多权限</h4><p>工具权限超所需。</p></div>
+   <div class="box"><h4>过多自主</h4><p>高危动作不经审批。</p></div>
+  </div>
+  <p><b>爆炸半径 = 一次被攻破最多波及多大范围</b>：只读 Agent 半径小，能删库 / 转账 / 群发的半径巨大。对策落地三件套：<b>scoped 短期身份 + 每动作授权 + 不可逆动作人在环上（HITL）</b>。</p>
+
+  <h3>两个新攻击面</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>攻击面</th><th>怎么打</th><th>怎么防</th></tr></thead>
+    <tbody>
+     <tr><td><b>工具描述投毒</b></td><td>Agent 靠工具的自然语言描述决定怎么用——2025–2026 已有把恶意指令藏进 MCP 工具描述、接管编码 Agent 的真实案例。还有<b>混淆代理</b>：Agent 拿高权限身份替低权限攻击者办事</td><td>工具描述当不可信输入审；身份不下传</td></tr>
+     <tr><td><b>记忆投毒</b></td><td>诱导写进长期记忆，之后每个会话都被污染，<b>已有跨会话存活案例</b></td><td>不可信内容进记忆前过滤、任务间清临时上下文</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <h3>身份体系要三条链分开</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>链</th><th>答什么</th><th>长什么样</th></tr></thead>
+    <tbody>
+     <tr><td><b>身份链</b></td><td>你是谁</td><td>每跳都能回答现在到底是谁</td></tr>
+     <tr><td><b>授权链</b></td><td>你能干什么</td><td>授权书只写查询余额，不含转账</td></tr>
+     <tr><td><b>凭据链</b></td><td>凭什么信</td><td>短期签发、轮换撤销、审计关联</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>最常见翻车</b>：「用户同意过」被当成无限委托，Agent 拿宽 scope 长效 token 到处用。正解是<b>每个资源服务器独立核验，下游凭据绝不回传给模型</b>。</p>
+  <p>OWASP Agentic 威胁地图（2026）按能力分五类：目标劫持 / 记忆 / 规划与自主 / 工具使用 / 部署运营——缓解主线就是<b>身份隔离 + 每动作授权 + HITL 提权 + 强可观测</b>。编排侧视角在 <a href="../agent/index.html">Agent 网页版</a>。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -156,10 +225,35 @@
     （只能从预定义动作里选）、Plan-Then-Execute（执行中读到的不可信内容不能改计划）、
     Dual LLM（分权）、Code-Then-Execute（生成受限程序再安全执行）、Context-Minimization、
     Map-Reduce（拆块隔离）——共同思路：不训模型拒绝，用结构限制「不可信内容能影响什么」。</p>
-  <p><b>双 LLM / CaMeL 深潜</b>（目前评估最充分的防御）：隔离 LLM 专门碰不可信内容——无工具权、无持久状态；特权 LLM 管用户任务和调工具——从不直接读原始不可信内容，只收带标签的结构化结果。像银行前台与金库分离：骗得了前台，骗不动金库。CaMeL（Google DeepMind
-    2025）把它工程化——特权 LLM 生成受限 Python 程序、系统按数据来源强制策略，在 AgentDojo
-    上以可证明的安全解决约 77% 任务——「有效但不够」的定量证据，所以还要纵深。<b>红队</b>把防线常态化验证：PyRIT（微软开源）自动生成攻击、多轮诱导、给攻破率报告，按 ATLAS 选题；接进 CI 每次改 prompt/换模型都跑，打穿的用例修复后固化成回归——攻破率指标汇入
-    <a href="../evaluation/index.html">Evaluation 网页版</a>的安全维度验收。</p>
+  <h3>双 LLM / CaMeL 深潜（目前评估最充分的防御）</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 148" role="img" aria-label="双 LLM 结构：隔离 LLM 专门碰不可信内容、无工具权无持久状态；特权 LLM 管用户任务和调工具、从不直接读原始不可信内容，只收带标签的结构化结果">
+     <g font-family="var(--sans)">
+      <rect x="6" y="26" width="300" height="86" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="24" y="50" font-size="13.5" font-weight="700" fill="var(--ink-900)">隔离 LLM</text>
+      <text x="24" y="72" font-size="11.5" fill="var(--ink-500)">专门碰不可信内容</text>
+      <text x="24" y="90" font-size="11.5" fill="var(--warn)">无工具权 · 无持久状态</text>
+      <rect x="414" y="26" width="300" height="86" rx="8" fill="var(--card)" stroke="var(--ok)" stroke-width="1.5"/>
+      <text x="432" y="50" font-size="13.5" font-weight="700" fill="var(--ink-900)">特权 LLM</text>
+      <text x="432" y="72" font-size="11.5" fill="var(--ink-500)">管用户任务、调工具</text>
+      <text x="432" y="90" font-size="11.5" fill="var(--ok)">从不直接读原始不可信内容</text>
+      <path d="M306 62 H408" stroke="var(--blue)" stroke-width="1.5"/>
+      <path d="M408 62 l-7 -4 v8 z" fill="var(--blue)"/>
+      <text x="357" y="54" text-anchor="middle" font-size="11" fill="var(--blue-d)">只传带标签的</text>
+      <text x="357" y="84" text-anchor="middle" font-size="11" fill="var(--blue-d)">结构化结果</text>
+      <text x="360" y="136" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">像银行前台与金库分离：骗得了前台，骗不动金库</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>CaMeL（Google DeepMind 2025）把它工程化——特权 LLM 生成受限 Python 程序、系统按数据来源强制策略。</figcaption>
+  </figure>
+  <p>在 AgentDojo 上以可证明的安全解决约 77% 任务——这是<b>「有效但不够」的定量证据，所以还要纵深</b>。</p>
+
+  <div class="box">
+   <h4>红队把防线常态化验证</h4>
+   <p>PyRIT（微软开源）自动生成攻击、多轮诱导、给攻破率报告，<b>按 ATLAS 选题</b>；接进 CI，每次改 prompt / 换模型都跑，打穿的用例修复后固化成回归——攻破率指标汇入 <a href="../evaluation/index.html">Evaluation 网页版</a>的安全维度验收。</p>
+  </div>
   <p class="ev">CaMeL 77% 核实 2026-07-09，来源 <a href="#src-camel">arXiv 2503.18813</a>；六类模式来源 <a href="#src-patterns">arXiv 2506.08837</a>。<b>不可外推边界</b>：77% 是论文基准环境下、对已知攻击集合的防护成功率，不是生产承诺，对未见手法没有保证——所以它在本册被放在纵深防御的一层，不是终点。</p>
 </section>
 
@@ -172,11 +266,39 @@
       给可认证的体系、MITRE ATLAS 给威胁情报</b>。</p>
   </div>
 
-  <p><b>NIST AI RMF</b> 四大功能：Govern（建治理机制）/ Map（识别风险）/ Measure（量化评估）
-    / Manage（处置监控）——自愿性框架但被当事实标准，像 AI 版的质量管理循环；GenAI Profile
-    （AI 600-1，2024）针对生成式 AI 列 12 类风险和 200+ 条可操作建议。<b>EU AI Act</b>
-    硬时间点（涉欧盟业务必答）：2025-08-02 GPAI 义务生效 → <b>2026-08-02 执法与罚款启动</b>（GPAI 违规最高 €15M 或全球营收 3%，更广违规 €35M 或 7%）→ 2027-08-02 存量模型整改截止。先问客户业务是否触达欧盟，触达就倒排，别等执法。<b>ISO/IEC 42001</b> 是第一个
-    AI 管理体系国际标准（类似 ISO 27001 之于信息安全），对外招标的通行证。</p>
+  <h3>三套框架各管一段</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>框架</th><th>是什么</th><th>用来干什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>NIST AI RMF</b></td><td>四大功能：Govern（建治理机制）/ Map（识别风险）/ Measure（量化评估）/ Manage（处置监控）。GenAI Profile（AI 600-1，2024）另列 12 类风险和 200+ 条可操作建议</td><td>自愿性框架但被当事实标准——<b>像 AI 版的质量管理循环</b>，给自评骨架</td></tr>
+     <tr><td><b>EU AI Act</b></td><td>法律底线，见下方时间线</td><td>涉欧盟业务必答</td></tr>
+     <tr><td><b>ISO/IEC 42001</b></td><td>第一个 AI 管理体系国际标准（类似 ISO 27001 之于信息安全）</td><td><b>对外招标的通行证</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>EU AI Act 硬时间点</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 108" role="img" aria-label="EU AI Act 三个硬时间点：2025 年 8 月 2 日 GPAI 义务生效、2026 年 8 月 2 日执法与罚款启动、2027 年 8 月 2 日存量模型整改截止">
+     <g font-family="var(--sans)">
+      <line x1="60" y1="54" x2="660" y2="54" stroke="var(--line)" stroke-width="2"/>
+      <circle cx="90" cy="54" r="6" fill="var(--ink-400)"/>
+      <text x="90" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">2025-08-02</text>
+      <text x="90" y="78" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">GPAI 义务生效</text>
+      <circle cx="360" cy="54" r="7" fill="var(--red)"/>
+      <text x="360" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--red)">2026-08-02</text>
+      <text x="360" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">执法与罚款启动</text>
+      <text x="360" y="96" text-anchor="middle" font-size="11" fill="var(--ink-400)">GPAI 违规最高 €15M 或营收 3%；更广违规 €35M 或 7%</text>
+      <circle cx="630" cy="54" r="6" fill="var(--ink-400)"/>
+      <text x="630" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">2027-08-02</text>
+      <text x="630" y="78" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">存量模型整改截止</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>先问客户业务是否触达欧盟，触达就倒排——别等执法。</figcaption>
+  </figure>
   <p>企业落地三步：<b>盘清 AI 资产</b>（不知道公司里有多少模型和 Agent 就无从谈治理）→
     <b>定策略设门禁</b>（模型准入/数据分级/上线红队/高危审批做成 CI 门禁）→ <b>AI-SPM
     持续监控</b>（Defender for Cloud / Security Command Center / GuardDuty 组合）。治理是持续过程不是一纸报告——文档是结果，不是目的。</p>
@@ -191,12 +313,42 @@
     <p>在中国落地 AI，<b>合规是上线前的门票，不是上线后的补课</b>：备案全流程 5–8 个月、内容标识 2025-09 起是法定义务、安全国标 2025-11 已实施——三件事都已进入执法期。截至 2026-06-30 累计 <b>988 款服务完成备案、598 款应用完成登记</b>——说明这是常态动作，不是拦路虎。</p>
   </div>
 
-  <p><b>分诊三问定路线</b>（最常见误区是把「登记」当「备案」）：自研/微调模型向公众提供服务 → <b>服务备案</b>（算法备案约 2 个月 + 大模型备案 3–6 个月，全流程 5–8 个月，北京
-    8–10 个月，无加急通道——排进产品计划）；调用已备案模型做应用 → <b>应用/功能登记</b>（地方网信办，周级）；纯内部自用 → 暂行办法不适用（数据安全与个信义务照常）。备案材料三件硬货（按 GB/T 45654 口径）：语料标注规则、拦截关键词库（覆盖 17 类风险，建议
-    ≥1 万词）、评估测试题集。罚则最高 10 万 + 暂停更新——真正的代价是「不能上线」。</p>
-  <p>两个已生效的硬约束：<b>内容标识</b>（《AI 生成合成内容标识办法》2025-09-01 施行 +
-    强制国标 GB 45438-2025）——显式标识给人看（生成入口就近打标）、隐式标识给机器看（元数据/水印，导出链路别洗掉）；已有 App 因违规被约谈下架——代价不是罚款数字，是产品下线。<b>安全国标 GB/T 45654-2025</b>（2025-11-01 实施）：训练数据/模型/安全措施三方面、五大类 31 小类风险，备案安全评估按它出。法规栈还有：暂行办法（2023-08 总纲）、算法推荐规定（2022-03，算法备案依据）、<b>网络安全法修订新增 AI 专条（2026-01-01
-    施行）</b>；风向（2026-07 口径，易过期）：AI 综合性立法已列入国务院 2026 立法计划。</p>
+  <h3>分诊三问定路线</h3>
+  <p>最常见误区是<b>把「登记」当「备案」自己吓自己</b>：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>你是哪种</th><th>走哪条路</th><th>要多久</th></tr></thead>
+    <tbody>
+     <tr><td>自研 / 微调模型<b>向公众提供服务</b></td><td><b>服务备案</b></td><td>算法备案约 2 个月 + 大模型备案 3–6 个月，<b>全流程 5–8 个月</b>（北京 8–10 个月），无加急通道——排进产品计划</td></tr>
+     <tr><td>调用已备案模型做应用</td><td>应用 / 功能登记</td><td>地方网信办，<b>周级</b></td></tr>
+     <tr><td>纯内部自用</td><td>暂行办法不适用</td><td>数据安全与个信义务照常</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>备案材料三件硬货</b>（按 GB/T 45654 口径）：语料标注规则、拦截关键词库（覆盖 17 类风险，建议 ≥1 万词）、评估测试题集。罚则最高 10 万 + 暂停更新——<b>真正的代价是「不能上线」</b>。</p>
+  <h3>两个已生效的硬约束</h3>
+  <div class="grid">
+   <div class="box">
+    <h4>内容标识</h4>
+    <p>《AI 生成合成内容标识办法》2025-09-01 施行 + 强制国标 GB 45438-2025。<b>显式标识给人看</b>（生成入口就近打标）、<b>隐式标识给机器看</b>（元数据 / 水印，导出链路别洗掉）。已有 App 因违规被约谈下架——<b>代价不是罚款数字，是产品下线</b>。</p>
+   </div>
+   <div class="box">
+    <h4>安全国标 GB/T 45654-2025</h4>
+    <p>2025-11-01 实施：训练数据 / 模型 / 安全措施三方面、五大类 31 小类风险，<b>备案安全评估按它出</b>。</p>
+   </div>
+  </div>
+
+  <h3>法规栈</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>暂行办法</td><td>2023-08，总纲</td></tr>
+     <tr><td>算法推荐规定</td><td>2022-03，算法备案依据</td></tr>
+     <tr><td><b>网络安全法修订新增 AI 专条</b></td><td>2026-01-01 施行</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>风向（2026-07 口径，易过期）：AI 综合性立法已列入国务院 2026 立法计划。</p>
   <p><b>数据出境</b>先查豁免再谈通道：《促进和规范数据跨境流动规定》六类豁免 + 自贸区负面清单；豁免不了走三通道——安全评估（重要数据/大规模个信必走）、标准合同（中等规模常用）、保护认证（集团内跨境）。客户问「数据能不能出境」先问三件事：是不是重要数据、多少人的个信、在不在自贸区清单内。云平台（火山引擎备案材料支持、阿里云百炼护栏默认挂载与备案指引）帮到材料与护栏，<b>法定「服务提供者」义务不转移</b>——审核、标识、投诉、备案主体一样不能少。</p>
   <p class="ev">备案量/标识执法/国标/出境口径核实 2026-07-17，来源<a href="#src-china">网信办公告与官方文本</a>。</p>
 </section>

@@ -93,8 +93,27 @@
       <b>保障</b>（评估/护栏/内容安全）。<b>POC 常只建模型 + 数据两层，方案书必须画全五层</b>——客户的安全团队和采购看的恰恰是后三层，这也是「POC 成功了为什么上生产还要收钱」的答案。</p>
   </div>
 
-  <p><b>POC 三要素</b>（像装修先砌样板墙）：真数据（拒绝演示数据——拿不到真数据本身就是项目风险信号）、签字的指标（提前书面定义「好」，指标要能自动测）、验收线（低于多少算失败、高于多少扩大——没有验收线的 POC 会永远「再试试」）。前置一层是一页 intake（把诉求变成决策合同）：结果/用户/数据/风险四个字段，任何一个没证据就退出——「能停」是专业不是失败。<b>成本三本账</b>：token 账（输入输出分开算，缓存能砍 50–90%）、并发账（峰值定限流档位，私有化直接决定卡数）、<b>人力账（提示词维护/知识运营/评估回归——最常被漏报的一笔，漏了它报价第二年爆雷）</b>。报价公式：单位成本 × 用量 × 1.3 缓冲 +
-    人力运营包——先量级后精确。</p>
+  <h3>POC 三要素</h3>
+  <p>像装修先砌样板墙——三样缺一样，POC 就会变成永远「再试试」：</p>
+  <div class="grid">
+   <div class="box"><h4>真数据</h4><p>拒绝演示数据——<b>拿不到真数据本身就是项目风险信号</b>。</p></div>
+   <div class="box"><h4>签字的指标</h4><p>提前书面定义「好」，指标要能自动测。</p></div>
+   <div class="box"><h4>验收线</h4><p>低于多少算失败、高于多少扩大。</p></div>
+  </div>
+  <p>前置一层是<b>一页 intake</b>（把诉求变成决策合同）：结果 / 用户 / 数据 / 风险四个字段，任何一个没证据就退出——<b>「能停」是专业不是失败</b>。</p>
+
+  <h3>成本三本账</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>账</th><th>怎么算</th><th>为什么重要</th></tr></thead>
+    <tbody>
+     <tr><td><b>token 账</b></td><td>输入输出分开算</td><td>缓存能砍 50–90%</td></tr>
+     <tr><td><b>并发账</b></td><td>峰值定限流档位</td><td>私有化下直接决定卡数</td></tr>
+     <tr><td><b>人力账</b></td><td>提示词维护 / 知识运营 / 评估回归</td><td><b>最常被漏报的一笔，漏了它报价第二年爆雷</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>报价公式</b>：单位成本 × 用量 × 1.3 缓冲 + 人力运营包——先量级后精确。</p>
   <p><b>口径鉴别术</b>（性价比最高的专业度信号）：deflection 挡走率 ≠ resolution 真解决率（追问「被挡走的用户后来去哪了」）、演示数据 ≠ 真数据（「换我的数据现场跑一遍？」）、最佳延迟 ≠ P95、起步价 ≠ 满负荷 TCO（「按我的量算三年总账？」）。数据锚点：客服 AI
     厂商自报解决率 51–80%，独立口径（Zendesk 企业全量）中位仅 41.2%——30–40 个百分点的差距是常态。五类高频坑没有一个是技术坑（需求/数据/期望/验收/安全）——AI 项目烂尾，八成烂在方法和预期管理上。</p>
   <p class="ev">口径锚点核实 2026-07-10，来源 <a href="#src-cs">fin.ai 对比页 /
@@ -110,11 +129,36 @@
       深度办事（Agent 查单改地址退款，带审批）→ L3 人工处理复杂/情绪/高危。升级率是健康指标不是失败指标；升级时带摘要，别让用户再说一遍。对客话术：让人工从「答 FAQ」升级到「处理值钱对话」。</p>
   </div>
 
-  <p>积木清单：RAG 兜知识（答案必须有出处）+ Agent 办业务（高危操作 AI 草稿 + 人工确认）
-    + 语音链路（有电话渠道才上：SIP 网关接呼叫中心、级联为主可审计、P50 &lt;1.5s、
-    $0.01–0.17/分钟——深潜在 <a href="../multimodal/index.html#mm-voice-realtime">Multimodal
-    网页版第 8 节</a>）+ Gateway 入口治理 + <b>Evaluation 永远不是可选件</b>。口径战场是本场景的灵魂：自报 51–80% vs 独立中位 41.2%——<b>承诺测法不承诺数字</b>：用客户真实工单建评估集测基线，验收线一起签。成本对标着讲 ROI：文本 $0.01–0.05/会话、语音
-    $0.01–0.17/分钟 vs 人工 ¥3–8/通——但 ROI 只对「被真解决的那部分」成立，解决率口径直接决定 ROI 真假。四个高频坑：知识库荒废（运营机制进合同）、人设失控（护栏+红队）、只测挡走（验收用 resolution + CSAT）、高危无兜底（退款被薅羊毛）。呼叫中心与工单系统集成是工程量大头，排期如实体现、集成费单列。</p>
+  <h3>积木清单</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td><b>RAG</b></td><td>兜知识——答案必须有出处</td></tr>
+     <tr><td><b>Agent</b></td><td>办业务——高危操作 AI 草稿 + 人工确认</td></tr>
+     <tr><td><b>语音链路</b></td><td>有电话渠道才上：SIP 网关接呼叫中心、级联为主可审计、P50 &lt;1.5s、$0.01–0.17/分钟——深潜在 <a href="../multimodal/index.html#mm-voice-realtime">Multimodal 网页版第 8 节</a></td></tr>
+     <tr><td><b>Gateway</b></td><td>入口治理</td></tr>
+     <tr><td><b>Evaluation</b></td><td><b>永远不是可选件</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>口径战场是本场景的灵魂</h3>
+  <p>自报 51–80% vs 独立中位 41.2%——<b>承诺测法不承诺数字</b>：用客户真实工单建评估集测基线，验收线一起签。</p>
+  <p>成本对标着讲 ROI：文本 $0.01–0.05/会话、语音 $0.01–0.17/分钟 vs 人工 ¥3–8/通——但 <b>ROI 只对「被真解决的那部分」成立</b>，解决率口径直接决定 ROI 真假。</p>
+
+  <h3>四个高频坑</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>坑</th><th>怎么堵</th></tr></thead>
+    <tbody>
+     <tr><td>知识库荒废</td><td>运营机制进合同</td></tr>
+     <tr><td>人设失控</td><td>护栏 + 红队</td></tr>
+     <tr><td>只测挡走</td><td>验收用 resolution + CSAT</td></tr>
+     <tr><td>高危无兜底</td><td>否则退款被薅羊毛</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>呼叫中心与工单系统集成是工程量大头，<b>排期如实体现、集成费单列</b>。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -126,9 +170,45 @@
       文档/工单/CRM，连接器 + 权限是主工程，季度级）。客户说「我要个企业知识库」，第一件事是分清他要哪种。</p>
   </div>
 
-  <p>四段管线：连接器 → 索引（向量+图谱+ACL 元数据）→ 权限感知检索（查询时实时过滤）→
-    生成与引用（答案必带出处）。<b>权限是命门</b>：搜索越好、泄密越快——ACL 从源系统继承不另建一套、查询时实时过滤不是索引时过滤一次、<b>无权限时连「有这份文档」都不暴露（存在性也是机密）</b>。POC 验收必含越权测试集：无权限账号问 20 条敏感问题一条都不能漏，安全团队签字才上线。连接器工程最容易被低估：每个源系统都是一个小项目（认证、增量同步、格式解析、ACL 映射）——<b>报价按源系统个数算</b>。市场锚点 Glean 模式：ARR
-    $300M（2026-05，+89% YoY）、估值 $7.2B、Agent 年化 1 亿+ actions——卖的是「权限感知知识图谱」不是搜索框，「找得到 + 不泄密」被市场定过价；且搜索正在变成 Agent 的地基：先找得到，才谈得上会办事。文档质量差怎么办：垃圾进垃圾出，但方案可带知识运营——覆盖率仪表盘找高频无答案问题，反向驱动文档补全。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="企业搜索四段管线：连接器、索引（向量加图谱加 ACL 元数据）、权限感知检索（查询时实时过滤）、生成与引用（答案必带出处）">
+     <g font-family="var(--sans)">
+      <rect x="6" y="22" width="160" height="50" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="86" y="43" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">连接器</text>
+      <text x="86" y="61" text-anchor="middle" font-size="11" fill="var(--ink-500)">接各源系统</text>
+      <rect x="190" y="22" width="160" height="50" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="270" y="43" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">索引</text>
+      <text x="270" y="61" text-anchor="middle" font-size="11" fill="var(--ink-500)">向量 + 图谱 + ACL 元数据</text>
+      <rect x="374" y="22" width="160" height="50" rx="8" fill="var(--card)" stroke="var(--red)" stroke-width="1.5"/>
+      <text x="454" y="43" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">权限感知检索</text>
+      <text x="454" y="61" text-anchor="middle" font-size="11" fill="var(--ink-500)">查询时实时过滤</text>
+      <rect x="558" y="22" width="156" height="50" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="636" y="43" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">生成与引用</text>
+      <text x="636" y="61" text-anchor="middle" font-size="11" fill="var(--ink-500)">答案必带出处</text>
+      <path d="M166 47 H186 M350 47 H370 M534 47 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 47 l-6 -3.5 v7 z M370 47 l-6 -3.5 v7 z M554 47 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="454" y="94" text-anchor="middle" font-size="11.5" fill="var(--red)">这一段是命门：搜索越好、泄密越快</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>四段管线：权限不是加在末端的过滤器，而是长在检索那一段里。</figcaption>
+  </figure>
+
+  <h3>权限是命门</h3>
+  <div class="grid">
+   <div class="box"><h4>ACL 从源系统继承</h4><p>不另建一套。</p></div>
+   <div class="box"><h4>查询时实时过滤</h4><p>不是索引时过滤一次。</p></div>
+   <div class="box"><h4>存在性也是机密</h4><p><b>无权限时连「有这份文档」都不暴露。</b></p></div>
+  </div>
+  <p>POC 验收必含<b>越权测试集</b>：无权限账号问 20 条敏感问题一条都不能漏，安全团队签字才上线。</p>
+  <p>连接器工程最容易被低估：每个源系统都是一个小项目（认证、增量同步、格式解析、ACL 映射）——<b>报价按源系统个数算</b>。</p>
+
+  <div class="box">
+   <h4>市场锚点：Glean 模式</h4>
+   <p>ARR $300M（2026-05，+89% YoY）、估值 $7.2B、Agent 年化 1 亿+ actions——卖的是「权限感知知识图谱」不是搜索框，<b>「找得到 + 不泄密」被市场定过价</b>；且搜索正在变成 Agent 的地基：先找得到，才谈得上会办事。</p>
+  </div>
+  <p><b>文档质量差怎么办</b>：垃圾进垃圾出，但方案可带知识运营——覆盖率仪表盘找高频无答案问题，反向驱动文档补全。</p>
   <p class="ev">Glean 数字核实 2026-07-10，来源 <a href="#src-glean">TechCrunch
     2026-05-28 / Glean press</a>。<b>不可外推边界</b>：这是全公司 AI 搜索这一形态的市场锚点，是公司层面的数字不是项目数字；部门级知识库问答不适用这个量级——两种形态的工程量差一个数量级。</p>
 </section>
@@ -141,10 +221,42 @@
     <p>三条线成熟度与成本各不同：<b>文案最成熟</b>（$0.001–0.01/条，按吨算——Jasper 模式风格指南全局生效）、<b>图像是素材工厂</b>（$0.02–0.1/张，迭代是乘数）、<b>视频最烧钱</b>（$0.5–5/条起步）。按线报价、按线设坑检。</p>
   </div>
 
-  <p><b>品牌一致性是工程不是运气</b>（像新员工入职培训：不给手册的实习生写不出「像你家」的文案）四件套：风格注入（风格指南+语气示例进系统提示）、禁用词护栏（违禁表述/竞品词进输出过滤）、事实源（产品参数走 RAG——纯生成不能保证参数不错，架构上堵死）、品牌资产库（素材复用，重度需求训定制模型）。<b>商业安全是营销场景的入场券</b>（Firefly
-    模式）：训练数据授权可溯 + 企业 IP 赔付条款 + 内容凭证标识——法务问「侵权谁负责」的两层兜底：选商业安全定位的供应商 + 发布前人审留痕，合同权责写清。<b>生成 ≠ 发布</b>：机器初筛 → 分级人审（对外广告/法务敏感 100%、社媒日常抽检 10–30%、模板化变体机器初筛即可）→ 发布带留痕 → 效果回流。人审不是不信任 AI，是风险定价：万分之一翻车概率 ×
-    指数级翻车成本 = 必须有人签字。生成技术侧（扩散 vs 自回归、视频四家）在
-    <a href="../multimodal/index.html#mm-generation">Multimodal 网页版</a>。</p>
+  <h3>品牌一致性是工程不是运气</h3>
+  <p>像新员工入职培训——不给手册的实习生写不出「像你家」的文案。四件套：</p>
+  <div class="grid">
+   <div class="box"><h4>风格注入</h4><p>风格指南 + 语气示例进系统提示。</p></div>
+   <div class="box"><h4>禁用词护栏</h4><p>违禁表述 / 竞品词进输出过滤。</p></div>
+   <div class="box"><h4>事实源</h4><p>产品参数走 RAG——<b>纯生成不能保证参数不错，架构上堵死</b>。</p></div>
+   <div class="box"><h4>品牌资产库</h4><p>素材复用，重度需求训定制模型。</p></div>
+  </div>
+
+  <h3>商业安全是营销场景的入场券</h3>
+  <p>Firefly 模式：训练数据授权可溯 + 企业 IP 赔付条款 + 内容凭证标识。法务问「侵权谁负责」的<b>两层兜底</b>：选商业安全定位的供应商 + 发布前人审留痕，合同权责写清。</p>
+
+  <h3>生成 ≠ 发布</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 118" role="img" aria-label="内容发布四步：机器初筛、分级人审、发布带留痕、效果回流。分级人审里对外广告与法务敏感 100% 人审、社媒日常抽检 10 到 30%、模板化变体机器初筛即可">
+     <g font-family="var(--sans)">
+      <rect x="6" y="20" width="160" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="86" y="47" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">机器初筛</text>
+      <rect x="190" y="20" width="160" height="44" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="270" y="47" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">分级人审</text>
+      <rect x="374" y="20" width="160" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="454" y="47" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">发布带留痕</text>
+      <rect x="558" y="20" width="156" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="636" y="47" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">效果回流</text>
+      <path d="M166 42 H186 M350 42 H370 M534 42 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 42 l-6 -3.5 v7 z M370 42 l-6 -3.5 v7 z M554 42 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="270" y="84" text-anchor="middle" font-size="11" fill="var(--ink-500)">对外广告 / 法务敏感 100%</text>
+      <text x="270" y="100" text-anchor="middle" font-size="11" fill="var(--ink-500)">社媒日常抽检 10–30%</text>
+      <text x="270" y="116" text-anchor="middle" font-size="11" fill="var(--ink-500)">模板化变体机器初筛即可</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>人审不是不信任 AI，是风险定价：万分之一翻车概率 × 指数级翻车成本 = 必须有人签字。</figcaption>
+  </figure>
+  <p>生成技术侧（扩散 vs 自回归、视频四家）在 <a href="../multimodal/index.html#mm-generation">Multimodal 网页版</a>。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -157,12 +269,56 @@
       bug、按用量计费）。70% 工程师同时用 2–4 个工具；网关统一管预算，工具迭代不伤架构。</p>
   </div>
 
-  <p>2026 市场三个第一（引用永远带口径——数字漫天飞的领域，口径干净本身就是专业度）：
-    Copilot 4.7M 付费用户量第一（+75% YoY）、Cursor $2B ARR 收入第一、Claude Code 46%
-    most-loved 满意度第一（JetBrains 2026-04）；市场 $12.8B、85% 开发者在用。<b>企业三关注对应三个方案件</b>：代码安全（企业版合同承诺不训练 + 网关脱敏审计 + 私有化选项）、私有库上下文（代码库索引/RAG/MCP 接内部文档——效果差异的主要来源）、ROI 度量（别只看补全接受率，看 PR 周期、缺陷率、DORA 指标——用自己的基线不用厂商宣传，行业口径
-    20–50% 但方差大）。落地路径：网关接入 → 2 团队 × 8 周试点 → 基线对比 → 分层推广 →
-    持续运营——<b>只买 license 不做 enablement，效果差 3 倍</b>；评审门禁不降级 + 新人配
-    AI 结对规范：AI 提高产量，评审守住质量，两者不能互换。</p>
+  <h3>2026 市场三个第一</h3>
+  <p>引用永远带口径——<b>数字漫天飞的领域，口径干净本身就是专业度</b>：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>谁</th><th>第一在哪个维度</th><th>数字</th></tr></thead>
+    <tbody>
+     <tr><td>Copilot</td><td>付费用户量</td><td>4.7M（+75% YoY）</td></tr>
+     <tr><td>Cursor</td><td>收入</td><td>$2B ARR</td></tr>
+     <tr><td>Claude Code</td><td>满意度</td><td>46% most-loved（JetBrains 2026-04）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>市场 $12.8B、85% 开发者在用。<b>三个「第一」各属不同维度，合不成「谁最强」。</b></p>
+
+  <h3>企业三关注对应三个方案件</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>关注</th><th>方案件</th></tr></thead>
+    <tbody>
+     <tr><td><b>代码安全</b></td><td>企业版合同承诺不训练 + 网关脱敏审计 + 私有化选项</td></tr>
+     <tr><td><b>私有库上下文</b></td><td>代码库索引 / RAG / MCP 接内部文档——<b>效果差异的主要来源</b></td></tr>
+     <tr><td><b>ROI 度量</b></td><td>别只看补全接受率，看 PR 周期、缺陷率、DORA 指标——用自己的基线不用厂商宣传，行业口径 20–50% 但方差大</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>落地路径</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 96" role="img" aria-label="AI Coding 落地五步：网关接入、两个团队八周试点、基线对比、分层推广、持续运营">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="130" height="42" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="71" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">网关接入</text>
+      <rect x="154" y="24" width="146" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="227" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">2 团队 × 8 周试点</text>
+      <rect x="318" y="24" width="130" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="383" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">基线对比</text>
+      <rect x="466" y="24" width="118" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="525" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">分层推广</text>
+      <rect x="602" y="24" width="112" height="42" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="658" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">持续运营</text>
+      <path d="M136 45 H150 M300 45 H314 M448 45 H462 M584 45 H598" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M150 45 l-6 -3.5 v7 z M314 45 l-6 -3.5 v7 z M462 45 l-6 -3.5 v7 z M598 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="88" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">只买 license 不做 enablement，效果差 3 倍</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>落地路径五步——试点阶段的基线对比是后面所有推广决策的依据。</figcaption>
+  </figure>
+  <p><b>评审门禁不降级 + 新人配 AI 结对规范</b>：AI 提高产量，评审守住质量，两者不能互换。</p>
   <p class="ev">市场数字核实 2026-07-10，来源 <a href="#src-coding">ideaplan /
     JetBrains 2026 调查</a>。<b>不可外推边界</b>：三个「第一」各属不同维度（用户数、收入、满意度），不是同一张榜的名次，合不成「谁最强」；提效区间是行业口径且方差大，验收要用客户自己的基线。</p>
 </section>
@@ -175,10 +331,51 @@
     <p>先问客户要「内容工厂」还是「交互服务」——<b>差一个量级的是架构和成本结构</b>：离线生成（文本→口播视频，渲染一次卖多次、按分钟计费——HeyGen Avatar V 级 15 秒素材建分身、10 分钟身份不漂移）vs 实时驱动（WebRTC 双向对话，每秒都在算、按并发计费）。</p>
   </div>
 
-  <p>实时数字人 = <b>语音 Agent + 一张会动的脸</b>：RTC 收流 → 语音链路 → 大脑（LLM+RAG
-    人设知识）→ 口型与渲染（在语音延迟预算上再加 100–200ms，目标仍是 1.5s 内开口——<b>口型不同步比慢更穿帮</b>）→ 推流。三类场景分格子报价（按时长 × 互动深度）：口播/
-    培训视频最成熟（已过「不细看分不清」线，改稿零成本）、直播带货是量的生意（7×24，中国特色主场）、实时交互是体验的生意（最烧钱，客服的「有脸版」）。<b>合规三问不过项目直接停</b>：形象授权（真人分身书面授权、范围期限撤回写清、离职员工分身要能下线）、深度合成标识（显著标识义务，直播/视频角标常态化）、声音克隆授权（声音与肖像同等保护、名人音色是高压线）——答得好，合规就是竞争力。语音链路深潜在
-    <a href="../multimodal/index.html#mm-voice-realtime">Multimodal 网页版第 8 节</a>，标识义务在 <a href="../security/index.html#sec-china">Security 网页版第 8 节</a>。</p>
+  <p>实时数字人 = <b>语音 Agent + 一张会动的脸</b>：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="实时数字人五段链路：RTC 收流、语音链路、大脑（LLM 加 RAG 人设知识）、口型与渲染、推流。口型与渲染要在语音延迟预算上再加 100 到 200 毫秒">
+     <g font-family="var(--sans)">
+      <rect x="6" y="22" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="69" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">RTC 收流</text>
+      <rect x="150" y="22" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="213" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">语音链路</text>
+      <rect x="294" y="22" width="132" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="360" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">大脑</text>
+      <text x="360" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">LLM + RAG 人设知识</text>
+      <rect x="444" y="22" width="140" height="46" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="514" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">口型与渲染</text>
+      <text x="514" y="60" text-anchor="middle" font-size="11" fill="var(--warn)">再加 100–200ms</text>
+      <rect x="602" y="22" width="112" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="658" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">推流</text>
+      <path d="M132 45 H146 M276 45 H290 M426 45 H440 M584 45 H598" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M146 45 l-6 -3.5 v7 z M290 45 l-6 -3.5 v7 z M440 45 l-6 -3.5 v7 z M598 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="94" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">目标仍是 1.5s 内开口——口型不同步比慢更穿帮</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>五段链路：渲染那一段是数字人相对纯语音多出来的延迟预算。</figcaption>
+  </figure>
+
+  <h3>三类场景分格子报价（按时长 × 互动深度）</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>场景</th><th>成熟度与生意性质</th></tr></thead>
+    <tbody>
+     <tr><td><b>口播 / 培训视频</b></td><td>最成熟——已过「不细看分不清」线，改稿零成本</td></tr>
+     <tr><td><b>直播带货</b></td><td>量的生意：7×24，中国特色主场</td></tr>
+     <tr><td><b>实时交互</b></td><td>体验的生意：最烧钱，客服的「有脸版」</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>合规三问，不过项目直接停</h3>
+  <div class="grid">
+   <div class="box"><h4>形象授权</h4><p>真人分身书面授权、范围期限撤回写清、<b>离职员工分身要能下线</b>。</p></div>
+   <div class="box"><h4>深度合成标识</h4><p>显著标识义务，直播 / 视频角标常态化。</p></div>
+   <div class="box"><h4>声音克隆授权</h4><p>声音与肖像同等保护、<b>名人音色是高压线</b>。</p></div>
+  </div>
+  <p>答得好，<b>合规就是竞争力</b>。语音链路深潜在 <a href="../multimodal/index.html#mm-voice-realtime">Multimodal 网页版第 8 节</a>，标识义务在 <a href="../security/index.html#sec-china">Security 网页版第 8 节</a>。</p>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -190,11 +387,35 @@
       L2 归因（「为什么环比降了」，依赖语义层厚度）→ L3 报告（Agent 工程）。<b>准确率的真相在语义层不在模型</b>：裸 Text-to-SQL 真实企业库实测仅 10–21%（学术基准五六成，给客户一定讲前者），绑定语义模型后 51%→90%+（Snowflake 内部 150 题），dbt 语义层基准上限 98–100%。</p>
   </div>
 
-  <p>把「你们准确率多少」转化为「语义层建到多厚」，口径治理问题就赢了。<b>三道闸控住「算错数」风险</b>（算错一个数比答错一段话严重得多）：高频指标只走语义层确定性生成、
-    SQL 只读执行 + 行级权限过滤、答案附生成的 SQL 与口径出处可复核——裸 SQL 只留给内部临时分析。产品格局：垂直一体派（Cortex Analyst YAML 语义模型 / Databricks Genie /
-    Fabric Copilot——自家平台内最准最顺，代价是数据进平台）vs 独立派（ThoughtSpot / dbt
-    语义层 / Cube——跨平台不搬数据，集成自己做）；<b>选型第一问不是「哪家准」而是「客户数据在哪」</b>。成本结构：大头是语义层建设与运营的人力不是模型调用——起步 10–20 个高频指标定口径，两三周出 POC。<b>真难点在甲方组织内部</b>：各部门「收入」定义打架是组织问题不是技术问题——把口径评审会开起来，比任何模型调优都关键。对 BI 团队讲：从人肉写报表升级为维护语义层口径，是换岗不是替代。技术底座在
-    <a href="../rag/index.html#rag-structured">RAG 网页版结构化数据节</a>。</p>
+  <p>把「你们准确率多少」转化为「语义层建到多厚」，<b>口径治理问题就赢了</b>。</p>
+
+  <h3>三道闸控住「算错数」风险</h3>
+  <p>算错一个数比答错一段话严重得多：</p>
+  <div class="grid">
+   <div class="box"><h4>① 语义层</h4><p>高频指标只走语义层确定性生成。</p></div>
+   <div class="box"><h4>② 只读 + 行级过滤</h4><p>SQL 只读执行 + 行级权限过滤。</p></div>
+   <div class="box"><h4>③ 可复核</h4><p>答案附生成的 SQL 与口径出处。</p></div>
+  </div>
+  <p>裸 SQL 只留给内部临时分析。</p>
+
+  <h3>产品格局</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>流派</th><th>代表</th><th>取舍</th></tr></thead>
+    <tbody>
+     <tr><td><b>垂直一体派</b></td><td>Cortex Analyst YAML 语义模型 / Databricks Genie / Fabric Copilot</td><td>自家平台内最准最顺，代价是数据进平台</td></tr>
+     <tr><td><b>独立派</b></td><td>ThoughtSpot / dbt 语义层 / Cube</td><td>跨平台不搬数据，集成自己做</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>选型第一问不是「哪家准」而是「客户数据在哪」。</b></p>
+
+  <p><b>成本结构</b>：大头是语义层建设与运营的人力，不是模型调用——起步 10–20 个高频指标定口径，两三周出 POC。</p>
+  <div class="box">
+   <h4>真难点在甲方组织内部</h4>
+   <p>各部门「收入」定义打架是<b>组织问题不是技术问题</b>——把口径评审会开起来，比任何模型调优都关键。对 BI 团队讲：从人肉写报表升级为维护语义层口径，<b>是换岗不是替代</b>。</p>
+  </div>
+  <p>技术底座在 <a href="../rag/index.html#rag-structured">RAG 网页版结构化数据节</a>。</p>
   <p class="ev">准确率口径核实 2026-07-11，来源 <a href="#src-chatbi">promethium 企业对比 /
     Snowflake 工程博客</a>。</p>
 </section>
@@ -208,10 +429,59 @@
       agentic 平台（会后自动建任务/发跟进/更新 CRM，要审批边界）。</p>
   </div>
 
-  <p>五段链路：采集（bot 入会最通用但有「bot 疲劳」/ 桌面采集免打扰 / 平台原生最顺——按客户会议栈选）→ ASR + 说话人分离 → 摘要行动项 → 记忆库（权限感知检索：谁能搜到谁的会）→ 办公流集成。市场格局：原生派（Zoom AI Companion 内置零安装 / Teams Copilot
-    M365 +$30/人/月 / 飞书妙记）vs 独立派（Otter / Fireflies / Granola bot-free 桌面采集，
-    2026-03 融资 $125M）——企业十有八九已有会议平台，<b>原生够用就别引入新工具</b>；跨平台记忆库/深度集成才是独立方案的入场券。<b>「准确率」分三层，混谈必翻车</b>：转写
-    WER（中文口音/专名是重灾区）、摘要忠实度（有没有编造）、行动项召回（<b>漏了「老板随口交办」才是客诉源</b>——漏项通常比编造多）。合规按「企业搜索」标准做不是按「效率工具」标准（会议数据是企业最敏感数据之一）：录音知情同意、记忆库 ACL 与保留期、纪要显著标注 AI 生成 + 重要决议人工确认——AI 纪要是草稿，决议以人工确认版为准。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="会议助手五段链路：采集、ASR 加说话人分离、摘要行动项、记忆库（权限感知检索）、办公流集成">
+     <g font-family="var(--sans)">
+      <rect x="6" y="22" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="69" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">采集</text>
+      <text x="69" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">按客户会议栈选</text>
+      <rect x="150" y="22" width="132" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="216" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">ASR</text>
+      <text x="216" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">+ 说话人分离</text>
+      <rect x="300" y="22" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="363" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">摘要行动项</text>
+      <rect x="444" y="22" width="140" height="46" rx="8" fill="var(--card)" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="514" y="44" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">记忆库</text>
+      <text x="514" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">谁能搜到谁的会</text>
+      <rect x="602" y="22" width="112" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="658" y="50" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">办公流集成</text>
+      <path d="M132 45 H146 M282 45 H296 M426 45 H440 M584 45 H598" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M146 45 l-6 -3.5 v7 z M296 45 l-6 -3.5 v7 z M440 45 l-6 -3.5 v7 z M598 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="514" y="94" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">最被低估的一层：单会摘要是快消品，记忆库才是资产</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>采集三选一：bot 入会最通用但有「bot 疲劳」、桌面采集免打扰、平台原生最顺。</figcaption>
+  </figure>
+
+  <h3>市场格局</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>流派</th><th>代表</th><th>判断</th></tr></thead>
+    <tbody>
+     <tr><td><b>原生派</b></td><td>Zoom AI Companion 内置零安装 / Teams Copilot M365 +$30/人·月 / 飞书妙记</td><td>企业十有八九已有会议平台——<b>原生够用就别引入新工具</b></td></tr>
+     <tr><td><b>独立派</b></td><td>Otter / Fireflies / Granola bot-free 桌面采集（2026-03 融资 $125M）</td><td>跨平台记忆库 / 深度集成才是它的入场券</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>「准确率」分三层，混谈必翻车</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>层</th><th>量什么</th><th>重灾区</th></tr></thead>
+    <tbody>
+     <tr><td>转写 WER</td><td>字听得对不对</td><td>中文口音、专名</td></tr>
+     <tr><td>摘要忠实度</td><td>有没有编造</td><td>——</td></tr>
+     <tr><td><b>行动项召回</b></td><td>该记的有没有漏</td><td><b>漏了「老板随口交办」才是客诉源</b>——漏项通常比编造多</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="box">
+   <h4>合规按「企业搜索」标准做，不是按「效率工具」标准</h4>
+   <p>会议数据是企业最敏感数据之一：录音知情同意、记忆库 ACL 与保留期、纪要显著标注 AI 生成 + 重要决议人工确认——<b>AI 纪要是草稿，决议以人工确认版为准</b>。</p>
+  </div>
   <p class="ev">格局核实 2026-07-11，来源 <a href="#src-meeting">read.ai / zapier / 2026
     横评</a>。<b>不可外推边界</b>：格局是产品形态的当期快照，会随会议平台补齐原生能力而变；「准确率」的三层口径不可混谈，一层的数字不能当另一层的结论。</p>
 </section>

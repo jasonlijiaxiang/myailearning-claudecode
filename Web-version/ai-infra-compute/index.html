@@ -61,8 +61,44 @@
       （卡间互传梯度的「海啸」）、故障频率随规模线性放大（同步训练一卡出错全作业停摆）。</p>
   </div>
 
-  <p>评估机房能不能跑 AI 的顺序：<b>先看电和冷却、再看网络、最后才是算力</b>——顺序反了就会买回一堆开不了机的卡。规划顺序同理，从约束最硬的层开始：电力机房（改不动）→ 网络（建好难改）→ 存储 → 卡（最容易买和换代）。<b>训练与推理是两条完全不同的需求曲线</b>：训练像造船看总价（一次性重投入、几千几万卡同步跑数周、要求同时同地超高互联）；推理像跑航线看每海里成本（持续账单、跟流量走、可弹性可分区域）。行业预测 2030 年推理占 AI
-    总算力约 75%——主战场正从「谁能训」转向「谁跑得省」，<b>「每 token 成本」是长期主指标</b>。训练推理共用一套硬件能但不划算：常见做法是训练集群固定重资产、推理按流量弹性，两套池子各自优化。</p>
+  <h3>评估与规划的顺序：从约束最硬的层开始</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 108" role="img" aria-label="规划顺序四步：电力机房改不动、网络建好难改、存储、卡最容易买和换代；顺序反了会买回一堆开不了机的卡">
+     <g font-family="var(--sans)">
+      <rect x="6" y="26" width="160" height="46" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="86" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">电力机房</text>
+      <text x="86" y="63" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">改不动</text>
+      <rect x="190" y="26" width="160" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="270" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">网络</text>
+      <text x="270" y="63" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">建好难改</text>
+      <rect x="374" y="26" width="160" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="454" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">存储</text>
+      <rect x="558" y="26" width="156" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="636" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">卡</text>
+      <text x="636" y="63" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">最容易买和换代</text>
+      <path d="M166 49 H186 M350 49 H370 M534 49 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 49 l-6 -3.5 v7 z M370 49 l-6 -3.5 v7 z M554 49 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="98" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">约束从硬到软——顺序反了就会买回一堆开不了机的卡</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>评估机房能不能跑 AI 也是这个顺序：先看电和冷却、再看网络、最后才是算力。</figcaption>
+  </figure>
+
+  <h3>训练与推理是两条完全不同的需求曲线</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>训练</th><th>推理</th></tr></thead>
+    <tbody>
+     <tr><td><b>像什么</b></td><td>造船看总价</td><td>跑航线看每海里成本</td></tr>
+     <tr><td><b>投入方式</b></td><td>一次性重投入</td><td>持续账单、跟流量走</td></tr>
+     <tr><td><b>规模与时长</b></td><td>几千几万卡同步跑数周</td><td>可弹性、可分区域</td></tr>
+     <tr><td><b>互联要求</b></td><td>要求同时同地超高互联</td><td>相对宽松</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>行业预测 2030 年推理占 AI 总算力约 75%——主战场正从「谁能训」转向「谁跑得省」，<b>「每 token 成本」是长期主指标</b>。训练推理共用一套硬件能但不划算：常见做法是训练集群固定重资产、推理按流量弹性，<b>两套池子各自优化</b>。</p>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -73,10 +109,34 @@
     <p>CPU 是延迟机器（几位教授：什么难题都能解，一次只解几道），GPU 是吞吐机器（一万名小学生：只会加减乘，一声令下一万道口算题同时开工）——深度学习 90%+ 是矩阵乘法，天生就是「一万件一样的事」。AI 算力标称值几乎全来自 <b>Tensor Core</b>（矩阵机床，一次冲 16×16）；看规格表主角是 Tensor Core 算力 + 显存带宽两行。小 batch 跑不满的硬件根源也在这：机床一次冲一整块料，你只送来一根料条。</p>
   </div>
 
-  <p><b>精度阶梯</b> FP32（4 字节）→ FP16/BF16（2）→ FP8（1）→ FP4（半）：位宽减半 →
-    同样硅片和带宽处理两倍的数 → 标称算力翻倍，代价是数值精细度。像记账：日常买菜记整数够用（推理），公司年报还得保留小数（训练主权重）——所以训练用混合精度、推理敢一路砍到
-    FP8/FP4。现状：<b>FP8 已是生产推理默认精度、训练主流实践；NVFP4 面向 Blackwell 工具链成熟中</b>。对客铁律：<b>对比两张卡的算力必须对齐精度口径</b>——「B 卡是 A 卡 5 倍」常有一半来自 FP8→FP4 的口径切换而非硅片进步。</p>
-  <p><b>Roofline 一句话</b>：计算强度高顶到平屋顶吃算力（训练/prefill），强度低顶到斜屋顶吃带宽（decode 逐 token）——像自助餐厅：大锅菜拼厨师（算力），一人一碗面全堵在传菜通道（带宽）。H100 级平衡点约 300 FLOPs/Byte，decode 每字节只有个位数运算——<b>永远带宽受限，算力利用率低是物理规律不是配置错</b>。<b>MFU</b> 是诚实指标（把通信等待、数据加载、重算全折进去）：大规模训练 35–45% 算优秀、Llama 3 报告 38–43%——顶级团队也只吃到四成；nvidia-smi 的「利用率 95%」只表示有 kernel 在跑，不等于 MFU。帮客户估训练时长用 MFU 40% 打底，不用标称值。</p>
+  <h3>精度阶梯</h3>
+  <p>位宽减半 → 同样硅片和带宽处理两倍的数 → 标称算力翻倍，代价是数值精细度。像记账：日常买菜记整数够用（推理），公司年报还得保留小数（训练主权重）：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>精度</th><th>每个数占</th><th>现状</th></tr></thead>
+    <tbody>
+     <tr><td><b>FP32</b></td><td>4 字节</td><td rowspan="2">训练用混合精度，主权重要保留小数</td></tr>
+     <tr><td><b>FP16 / BF16</b></td><td>2 字节</td></tr>
+     <tr><td><b>FP8</b></td><td>1 字节</td><td><b>已是生产推理默认精度、训练主流实践</b></td></tr>
+     <tr><td><b>FP4</b></td><td>半字节</td><td>NVFP4 面向 Blackwell，工具链成熟中</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>对客铁律：对比两张卡的算力必须对齐精度口径</b>——「B 卡是 A 卡 5 倍」常有一半来自 FP8→FP4 的口径切换，而非硅片进步。</p>
+
+  <h3>Roofline：这块负载吃算力还是吃带宽</h3>
+  <p>像自助餐厅——大锅菜拼厨师（算力），一人一碗面全堵在传菜通道（带宽）：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>负载</th><th>计算强度</th><th>顶到哪</th><th>意味着</th></tr></thead>
+    <tbody>
+     <tr><td>训练 / prefill</td><td>高</td><td>平屋顶</td><td>吃算力</td></tr>
+     <tr><td><b>decode 逐 token</b></td><td>低——每字节只有个位数运算</td><td>斜屋顶</td><td><b>永远带宽受限，算力利用率低是物理规律不是配置错</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>H100 级平衡点约 300 FLOPs/Byte。</p>
+  <p><b>MFU 是诚实指标</b>（把通信等待、数据加载、重算全折进去）：大规模训练 35–45% 算优秀、Llama 3 报告 38–43%——顶级团队也只吃到四成。nvidia-smi 的「利用率 95%」只表示有 kernel 在跑，不等于 MFU。<b>帮客户估训练时长用 MFU 40% 打底，不用标称值。</b></p>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -88,9 +148,22 @@
       GB/s）。<b>容量决定装不装得下、带宽决定跑得快不快，且两者都出厂焊死不可扩展</b>——换容量 = 换卡，选型按未来两年的模型和上下文留余量。</p>
   </div>
 
-  <p>世代与供应（2026-07 口径）：在役主流 HBM3e（H200 141GB、B200 192GB、GB300 288GB/卡）；
-    <b>HBM4 量产开跑</b>——Samsung 2026-02 全球首家量产（11.7Gbps），SK hynix 2026 商用爬坡、预计拿下 NVIDIA HBM4 约三分之二份额；Rubin、MI400 都指定 HBM4。供应格局 = 三家（SK hynix/Samsung/Micron）供全球，产能锁死整机出货节奏——<b>显存不仅是技术瓶颈，还是商业瓶颈</b>。H200 比 H100「算力差不多凭什么贵」：141GB vs 80GB、4.8 vs 3.35TB/s——
-    decode 带宽受限，显存升级直接换成推理吞吐，对推理客户每 token 成本反而更低。</p>
+  <h3>世代与供应</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>世代</th><th>状态（2026-07 口径）</th></tr></thead>
+    <tbody>
+     <tr><td><b>HBM3e</b></td><td>在役主流——H200 141GB、B200 192GB、GB300 288GB/卡</td></tr>
+     <tr><td><b>HBM4</b></td><td>量产开跑：Samsung 2026-02 全球首家量产（11.7Gbps）；SK hynix 2026 商用爬坡、预计拿下 NVIDIA HBM4 约三分之二份额。Rubin、MI400 都指定 HBM4</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>供应格局 = 三家（SK hynix / Samsung / Micron）供全球，产能锁死整机出货节奏——<b>显存不仅是技术瓶颈，还是商业瓶颈</b>。</p>
+
+  <div class="box">
+   <h4>H200 比 H100「算力差不多凭什么贵」</h4>
+   <p>141GB vs 80GB、4.8 vs 3.35TB/s——decode 带宽受限，<b>显存升级直接换成推理吞吐</b>，对推理客户每 token 成本反而更低。</p>
+  </div>
   <p><b>两个口袋公式覆盖现场八成显存问题</b>：训练看「参数 × 16 字节 + 激活」（权重 2 +
     梯度 2 + 优化器状态 12——优化器才是大头；7B 全参 ≈112GB 单卡装不下，这就是「7B 也要多卡」和「LoRA 能单卡」的算术根源）；推理看「权重 + KV Cache」（FP8 下 70B ≈ 70GB；
     KV 随并发 × 上下文线性涨，并发一高反超权重成大头——下半本账在
@@ -104,18 +177,62 @@
   <h2><span class="num">04</span>芯片格局与选型<a class="anchor" href="#aic-chips">#aic-chips</a></h2>
 
   <div class="lead">
-    <p>「不用 NVIDIA 行不行」是 2026 年最常见的灵魂拷问。<b>NVIDIA 年更节拍</b>：Blackwell
-      （B200/GB200 NVL72）在役 → GB300（288GB）2026 放量、出货预计翻倍 → Rubin（HBM4 +
-      NVLink 6）H2 2026 → Rubin Ultra 2027 → Feynman 2028。<b>买法变了</b>：主力交付单位从「一张卡」变成「一个机柜」（NVL72 一柜 72 颗当一台机器卖）——议价、供电、交付周期都按机柜谈。官方口径 VR200 NVL72 推理性能约为 GB300 NVL72 的 3.3 倍——先问精度口径再对比。</p>
+    <p>「不用 NVIDIA 行不行」是 2026 年最常见的灵魂拷问。<b>买法也变了</b>：主力交付单位从「一张卡」变成「一个机柜」（NVL72 一柜 72 颗当一台机器卖）——议价、供电、交付周期都按机柜谈。</p>
   </div>
 
-  <p><b>CUDA 护城河卖的不是芯片，是二十年生态</b>：像手机换系统——硬件参数再漂亮，应用商店空着就没人搬家；换芯片的真实成本是软件移植和踩坑时间，不是差价。松动点三处：推理层抽象化（vLLM/SGLang 多后端）、PyTorch 编译栈降低移植成本、大买家主动扶持第二供应商（OpenAI 与 AMD 的 6GW 合作）——<b>「负载是否标准」是判断能否离开的钥匙</b>：跑标准推理 2026 已可选，深度定制训练仍留在生态内。四条替代路线四种画像：<b>AMD</b>（MI350X/
-    MI355X 已量产 288GB；MI400 + Helios 机柜 2H 2026——显存更大价格友好、ROCm 推理已可生产；适合推理为主、显存敏感、要二供的客户）、<b>Google TPU v7 Ironwood</b>（2025-11
-    GA，192GB/7.37TB/s/4614 FP8 TFLOPS，9216 芯 pod 42.5 EFLOPS——「为推理时代造」，扛着
-    Gemini 生产推理）与 <b>AWS Trainium3</b>（3nm、2.52 PFLOPS FP8——够用+便宜+绑云）：
-    ASIC 砍通用性换成本，适合负载稳定、体量大、深度绑定单一云；<b>昇腾</b>（910C 2025 量产、
-    2026 计划约 60 万颗、单卡约 H100 的 60–80%、国产化率 90%+；910D 支持 FP8 预计 2026
-    Q2–Q3——正确卖法是「确定性 + 总拥有成本」不是单卡跑分，把移植服务打进方案）。选型三参数：<b>算力（对齐精度）、价格（算 TCO）、交付时间</b>——「等到了但拿不到货」是真实风险。</p>
+  <h3>NVIDIA 年更节拍</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="NVIDIA 产品节拍时间线：Blackwell 在役、GB300 于 2026 放量、Rubin 在 2026 下半年、Rubin Ultra 2027、Feynman 2028">
+     <g font-family="var(--sans)">
+      <line x1="16" y1="52" x2="704" y2="52" stroke="var(--line)" stroke-width="2"/>
+      <circle cx="46" cy="52" r="6" fill="var(--blue)"/>
+      <text x="46" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">Blackwell</text>
+      <text x="46" y="76" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">在役</text>
+      <text x="46" y="92" text-anchor="middle" font-size="11" fill="var(--ink-400)">B200 / GB200 NVL72</text>
+      <circle cx="206" cy="52" r="6" fill="var(--blue)"/>
+      <text x="206" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">GB300</text>
+      <text x="206" y="76" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">2026 放量</text>
+      <text x="206" y="92" text-anchor="middle" font-size="11" fill="var(--ink-400)">288GB · 出货预计翻倍</text>
+      <circle cx="386" cy="52" r="6" fill="var(--ink-400)"/>
+      <text x="386" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">Rubin</text>
+      <text x="386" y="76" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">2026 下半年</text>
+      <text x="386" y="92" text-anchor="middle" font-size="11" fill="var(--ink-400)">HBM4 + NVLink 6</text>
+      <circle cx="556" cy="52" r="6" fill="var(--ink-400)"/>
+      <text x="556" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">Rubin Ultra</text>
+      <text x="556" y="76" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">2027</text>
+      <circle cx="682" cy="52" r="6" fill="var(--ink-400)"/>
+      <text x="682" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">Feynman</text>
+      <text x="682" y="76" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">2028</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>官方口径 VR200 NVL72 推理性能约为 GB300 NVL72 的 3.3 倍——先问精度口径再对比。</figcaption>
+  </figure>
+
+  <h3>CUDA 护城河卖的不是芯片，是二十年生态</h3>
+  <p>像手机换系统——硬件参数再漂亮，应用商店空着就没人搬家；<b>换芯片的真实成本是软件移植和踩坑时间，不是差价</b>。松动点三处：</p>
+  <div class="grid">
+   <div class="box"><h4>推理层抽象化</h4><p>vLLM/SGLang 多后端。</p></div>
+   <div class="box"><h4>编译栈降本</h4><p>PyTorch 编译栈降低移植成本。</p></div>
+   <div class="box"><h4>大买家扶二供</h4><p>OpenAI 与 AMD 的 6GW 合作。</p></div>
+  </div>
+  <p><b>「负载是否标准」是判断能否离开的钥匙</b>：跑标准推理 2026 已可选，深度定制训练仍留在生态内。</p>
+
+  <h3>四条替代路线，四种画像</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>路线</th><th>规格与进度</th><th>适合谁</th></tr></thead>
+    <tbody>
+     <tr><td><b>AMD</b></td><td>MI350X / MI355X 已量产 288GB；MI400 + Helios 机柜 2H 2026</td><td>显存更大价格友好、ROCm 推理已可生产——<b>推理为主、显存敏感、要二供的客户</b></td></tr>
+     <tr><td><b>Google TPU v7 Ironwood</b></td><td>2025-11 GA，192GB / 7.37TB/s / 4614 FP8 TFLOPS，9216 芯 pod 42.5 EFLOPS</td><td rowspan="2">ASIC 砍通用性换成本——<b>负载稳定、体量大、深度绑定单一云</b></td></tr>
+     <tr><td><b>AWS Trainium3</b></td><td>3nm、2.52 PFLOPS FP8</td></tr>
+     <tr><td><b>昇腾</b></td><td>910C 2025 量产、2026 计划约 60 万颗、单卡约 H100 的 60–80%、国产化率 90%+；910D 支持 FP8 预计 2026 Q2–Q3</td><td>正确卖法是「确定性 + 总拥有成本」不是单卡跑分，<b>把移植服务打进方案</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>TPU 的定位是「为推理时代造」，扛着 Gemini 生产推理；Trainium3 走的是够用 + 便宜 + 绑云。</p>
+  <p><b>选型三参数</b>：算力（对齐精度）、价格（算 TCO）、交付时间——<b>「等到了但拿不到货」是真实风险</b>。</p>
   <p class="ev">芯片格局核实 2026-07-09，来源 <a href="#src-chips">GTC 2026 报道 / 各家官方</a>。<b>不可外推边界</b>：厂商发布会与官网给的是标称规格，按理想条件测得；实际可得性、交付周期与实测性能都要另行验证——本册 MFU 一节就是这条的注脚。</p>
 </section>
 
@@ -128,12 +245,43 @@
       只能留在 scale-up 域；数据并行（各小组分楼层干活、定期汇总）走普通网络就够。</p>
   </div>
 
-  <p>NVLink 5 每颗 GPU 18 端口聚合 1.8TB/s；NVSwitch 是机柜里的「电话总机」——72 颗 GPU
-    全连接、任意两颗全速直达、域内总带宽 130TB/s，GPU 访问彼此显存像访问自己的（内存语义、纳秒级）。<b>NVL72 = 一台 120kW 液冷计算机</b>：36 Grace CPU + 72 Blackwell GPU +
-    NVSwitch 托盘，机柜内约 5000 根铜缆（两米内用铜便宜省电免光模块——「把话痨通信留在柜内」既是性能设计也是成本设计）；按柜交付、按柜调度、按柜规划供电与故障域。scale-up
-    域的大小直接决定能高效跑多大的模型——8 卡机 NVLink 域是 8、NVL72 是 72，按模型规模倒推。挑战者：UALink 1.0（AMD/Intel/Broadcom 阵营，2025-04 定稿，单层交换至多 1024
-    端点）与 Broadcom SUE——2026 年的诚实判断：<b>标准已立、生态在建、原生硬件看 2027
-    ——值得跟踪、暂不建议做主力生产依赖</b>；生产决策按 NVLink 生态、合同留二供评估条款。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 132" role="img" aria-label="带宽阶梯三个量级：卡内 HBM 约 8TB/s、机柜内 NVLink 约 1.8TB/s、跨机柜网络约 100GB/s，每跨一级慢一个数量级">
+     <g font-family="var(--sans)">
+      <text x="4" y="16" font-size="12" font-weight="700" fill="var(--ink-500)">带宽阶梯 · 每跨一级慢一个数量级</text>
+      <text x="4" y="44" font-size="12.5" fill="var(--ink-900)">卡内 HBM</text>
+      <rect x="150" y="30" width="500" height="18" rx="4" fill="var(--blue)"/>
+      <text x="662" y="44" font-size="13" font-weight="700" fill="var(--blue-d)">~8TB/s</text>
+      <text x="4" y="80" font-size="12.5" fill="var(--ink-900)">机柜内 NVLink</text>
+      <rect x="150" y="66" width="113" height="18" rx="4" fill="var(--blue)" opacity=".6"/>
+      <text x="275" y="80" font-size="13" font-weight="700" fill="var(--ink-500)">~1.8TB/s</text>
+      <text x="4" y="116" font-size="12.5" fill="var(--ink-900)">跨机柜网络</text>
+      <rect x="150" y="102" width="6" height="18" rx="3" fill="var(--ink-400)"/>
+      <text x="168" y="116" font-size="13" font-weight="700" fill="var(--ink-500)">~100GB/s</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>并行策略的本质是「把最话痨的切法塞进最快的域」——柱长按线性比例画，量级差一眼可见。</figcaption>
+  </figure>
+
+  <h3>NVL72 = 一台 120kW 液冷计算机</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td><b>NVLink 5</b></td><td>每颗 GPU 18 端口聚合 1.8TB/s</td></tr>
+     <tr><td><b>NVSwitch</b></td><td>机柜里的「电话总机」——72 颗 GPU 全连接、任意两颗全速直达、域内总带宽 130TB/s，GPU 访问彼此显存像访问自己的（内存语义、纳秒级）</td></tr>
+     <tr><td><b>一柜装什么</b></td><td>36 Grace CPU + 72 Blackwell GPU + NVSwitch 托盘，机柜内约 5000 根铜缆</td></tr>
+     <tr><td><b>为什么用铜</b></td><td>两米内用铜便宜省电免光模块——<b>「把话痨通信留在柜内」既是性能设计也是成本设计</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>按柜交付、按柜调度、按柜规划供电与故障域。<b>scale-up 域的大小直接决定能高效跑多大的模型</b>——8 卡机 NVLink 域是 8、NVL72 是 72，按模型规模倒推。</p>
+
+  <div class="box">
+   <h4>挑战者：UALink 与 Broadcom SUE</h4>
+   <p>UALink 1.0 是 AMD/Intel/Broadcom 阵营，2025-04 定稿，单层交换至多 1024 端点。2026 年的诚实判断：<b>标准已立、生态在建、原生硬件看 2027——值得跟踪、暂不建议做主力生产依赖</b>；生产决策按 NVLink 生态、合同留二供评估条款。</p>
+  </div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -145,12 +293,39 @@
       网络本质是买 RDMA 的承载方式：IB 原生承载、RoCE 用以太网承载、UEC 是重新设计的承载。</p>
   </div>
 
-  <p><b>先画流量画像再选网</b>——NCCL 把并行策略翻译成网络流量：DP → 每步一次大 AllReduce
-    （带宽型、可与计算重叠）；TP → 每层多次小同步（延迟型，留在 NVLink 域）；EP → AllToAll
-    （打散全网，最考验交换机）。像合唱团对拍子：慢的那一个人决定全团速度——木桶效应在万卡被放大一万倍。三条路线：<b>InfiniBand</b>（Quantum-X800 XDR 800Gb/s，无损 + 交换机内规约——确定性王牌，训练大集群且运维力量一般的默认）；<b>RoCE / Spectrum-X</b>（复用以太生态便宜运维熟，代价是 PFC/ECN 精细调优——Meta 双集群实验：IB 和 RoCE 各建 24k
-    H100，都能训最大模型（Llama 3 在 RoCE 上训练），但「以太便宜的部分用工程师时间补回来了」）；<b>Ultra Ethernet</b>（UEC 1.0 2025-06 发布、100+ 成员，为 AI 重写传输层——
-    2026 年中全栈硬件刚出货，放进 12–18 个月复核清单）。回答「IB 还是以太」永远带三前提：集群规模、并行画像、运维能力。<b>拓扑三问</b>看方案成色：几层（三层 Clos）、收敛比（1:1 还是超售）、是否轨道优化（同编号 GPU 一跳直达，恰好匹配集合通信模式——Llama 3
-    的三层 Clos + 轨道优化 RoCE 是可引用标杆）。网络占集群投资经验量级 15–25%（光模块是隐形大头）——这笔钱买的是「让另外 75% 的 GPU 投资不空转」。</p>
+  <h3>先画流量画像再选网</h3>
+  <p>NCCL 把并行策略翻译成网络流量——<b>像合唱团对拍子：慢的那一个人决定全团速度</b>，木桶效应在万卡被放大一万倍：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>并行策略</th><th>翻译成什么流量</th><th>性质</th><th>放哪儿</th></tr></thead>
+    <tbody>
+     <tr><td><b>DP</b> 数据并行</td><td>每步一次大 AllReduce</td><td>带宽型，可与计算重叠</td><td>普通网络够用</td></tr>
+     <tr><td><b>TP</b> 张量并行</td><td>每层多次小同步</td><td>延迟型</td><td><b>留在 NVLink 域</b></td></tr>
+     <tr><td><b>EP</b> 专家并行</td><td>AllToAll，打散全网</td><td>最考验交换机</td><td>对网络要求最高</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>三条路线</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>路线</th><th>规格</th><th>代价与判断</th></tr></thead>
+    <tbody>
+     <tr><td><b>InfiniBand</b></td><td>Quantum-X800 XDR 800Gb/s，无损 + 交换机内规约</td><td><b>确定性王牌</b>——训练大集群且运维力量一般时的默认</td></tr>
+     <tr><td><b>RoCE / Spectrum-X</b></td><td>复用以太生态，便宜、运维熟</td><td>代价是 PFC/ECN 精细调优。Meta 双集群实验：IB 和 RoCE 各建 24k H100，都能训最大模型（Llama 3 在 RoCE 上训练），但<b>「以太便宜的部分用工程师时间补回来了」</b></td></tr>
+     <tr><td><b>Ultra Ethernet</b></td><td>UEC 1.0 2025-06 发布、100+ 成员，为 AI 重写传输层</td><td>2026 年中全栈硬件刚出货——<b>放进 12–18 个月复核清单</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>回答「IB 还是以太」永远带三前提：<b>集群规模、并行画像、运维能力</b>。</p>
+
+  <h3>拓扑三问看方案成色</h3>
+  <div class="grid">
+   <div class="box"><h4>几层</h4><p>三层 Clos。</p></div>
+   <div class="box"><h4>收敛比</h4><p>1:1 还是超售。</p></div>
+   <div class="box"><h4>是否轨道优化</h4><p>同编号 GPU 一跳直达，恰好匹配集合通信模式。</p></div>
+  </div>
+  <p>Llama 3 的三层 Clos + 轨道优化 RoCE 是可引用标杆。网络占集群投资经验量级 15–25%（光模块是隐形大头）——<b>这笔钱买的是「让另外 75% 的 GPU 投资不空转」</b>。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -161,11 +336,45 @@
     <p>GPU 每小时几美元，等数据的每一秒都在烧钱。训练 IO 两副面孔像食堂的两种时刻：<b>数据加载 = 随机小读如雨</b>（每步随机抽样本、读一次就扔、缓存几乎无用——考验出餐口数量）；<b>checkpoint = 顺序大写如洪</b>（TB 级状态整体落盘，1 分钟写完需要每秒几十 GB 聚合写带宽——开饭铃一响全员打饭）。<b>评估 AI 存储只看容量必错</b>：随机读吞吐 + 洪峰写带宽才是验收指标，按峰值不按平均设计。</p>
   </div>
 
-  <p>并行文件系统图鉴：老将 Lustre/GPFS（超算标配、强大但运维重）、商业新贵 WEKA/VAST
-    （NVMe 时代重写、开箱即用）、开源搅局者 DeepSeek 3FS（2025 开源：随机读优先、基本放弃读缓存的激进设计，自报聚合读 6.6TB/s——理解负载画像后做减法，比堆硬件省钱；适合有系统团队的自建集群，要 SLA 选商业或云托管）。<b>标准分层三层起步</b>：对象存储做底座（便宜近乎无限）+ 并行文件热层（当前数据集/checkpoint 预热）+ 节点本地 NVMe——像仓储电商的总仓 + 前置仓；直接从总仓发货（训练直读对象存储）会把 GPU 等哭。常见翻车：数据预处理管线没并行化，GPU 集群建好了、数据还在单机脚本里过——<b>数据管线按「能喂饱多少
-    GPU」验收，不是「能不能跑通」</b>。推理时代的新活：<b>KV Cache 外置</b>（显存卸到内存/
-    SSD/远端池，命中免重新 prefill——长文档反复问答 TTFT 从秒级降到百毫秒级）——2026 年主动带这个话题是区分「懂行」和「卖卡」的暗号，细节在
-    <a href="../llm-inference/index.html">LLM-Inference 网页版</a>。</p>
+  <h3>并行文件系统图鉴</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>阵营</th><th>代表</th><th>画像与适合谁</th></tr></thead>
+    <tbody>
+     <tr><td><b>老将</b></td><td>Lustre / GPFS</td><td>超算标配、强大但运维重</td></tr>
+     <tr><td><b>商业新贵</b></td><td>WEKA / VAST</td><td>NVMe 时代重写、开箱即用；<b>要 SLA 选它或云托管</b></td></tr>
+     <tr><td><b>开源搅局者</b></td><td>DeepSeek 3FS</td><td>2025 开源：随机读优先、基本放弃读缓存的激进设计，自报聚合读 6.6TB/s——<b>理解负载画像后做减法，比堆硬件省钱</b>；适合有系统团队的自建集群</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>标准分层三层起步</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 148" role="img" aria-label="存储三层：底座是对象存储，中间是并行文件热层放当前数据集与 checkpoint 预热，最上是节点本地 NVMe，越往上越快越贵越小">
+     <g font-family="var(--sans)">
+      <rect x="120" y="16" width="360" height="34" rx="6" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="136" y="38" font-size="13" font-weight="700" fill="var(--ink-900)">节点本地 NVMe</text>
+      <text x="492" y="38" font-size="11.5" fill="var(--ink-400)">最快 · 最小 · 最贵</text>
+      <rect x="80" y="58" width="440" height="34" rx="6" fill="var(--blue-bg)" stroke="var(--blue-ln)" opacity=".7"/>
+      <text x="96" y="80" font-size="13" font-weight="700" fill="var(--ink-900)">并行文件热层</text>
+      <text x="232" y="80" font-size="11.5" fill="var(--ink-500)">当前数据集 / checkpoint 预热</text>
+      <rect x="40" y="100" width="640" height="34" rx="6" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="56" y="122" font-size="13" font-weight="700" fill="var(--ink-900)">对象存储底座</text>
+      <text x="192" y="122" font-size="11.5" fill="var(--ink-500)">便宜、近乎无限</text>
+      <text x="676" y="122" text-anchor="end" font-size="11.5" fill="var(--ink-400)">最慢 · 最大 · 最便宜</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>像仓储电商的总仓 + 前置仓——直接从总仓发货（训练直读对象存储）会把 GPU 等哭。</figcaption>
+  </figure>
+
+  <p><b>常见翻车</b>：数据预处理管线没并行化，GPU 集群建好了、数据还在单机脚本里过——<b>数据管线按「能喂饱多少 GPU」验收，不是「能不能跑通」</b>。</p>
+
+  <div class="box">
+   <h4>推理时代的新活：KV Cache 外置</h4>
+   <p>显存卸到内存 / SSD / 远端池，命中免重新 prefill——长文档反复问答 TTFT 从秒级降到百毫秒级。2026 年<b>主动带这个话题是区分「懂行」和「卖卡」的暗号</b>，细节在 <a href="../llm-inference/index.html">LLM-Inference 网页版</a>。</p>
+  </div>
   <p class="ev">3FS 口径核实 2026-07-09，来源 <a href="#src-storage">GitHub
     deepseek-ai/3FS 等</a>。</p>
 </section>
@@ -175,10 +384,40 @@
   <h2><span class="num">08</span>算力经济学<a class="anchor" href="#aic-econ">#aic-econ</a></h2>
 
   <div class="lead">
-    <p><b>卡价只是首付</b>：TCO = 硬件折旧（按 4–5 年摊）+ 电费（功耗 × PUE × 电价）+
-      机房托管 + 运维人力——像买车：裸车价之外还有油费保险停车保养，开五年总花费接近两个车价。锚点：H100 级云上时租约 $2–3/卡·时；一颗 1000W GPU 全年满载耗电近 9000 度，五年电费可达卡价两三成。<b>电是第一约束</b>：风冷极限 30–40kW/柜，NVL72 的 120kW
-      必须液冷；PUE 从 1.5 降到 1.2 = 省 20% 总电费。自建可行性评估顺序：进线容量 → 液冷条件 → 楼板承重 → 才谈买卡——四个问题两分钟，筛掉一半不切实际的自建冲动。</p>
+    <p><b>卡价只是首付</b>——像买车：裸车价之外还有油费保险停车保养，开五年总花费接近两个车价。</p>
   </div>
+
+  <h3>TCO 四件套</h3>
+  <div class="grid">
+   <div class="box"><h4>硬件折旧</h4><p>按 4–5 年摊。</p></div>
+   <div class="box"><h4>电费</h4><p>功耗 × PUE × 电价。一颗 1000W GPU 全年满载耗电近 9000 度，<b>五年电费可达卡价两三成</b>。</p></div>
+   <div class="box"><h4>机房托管</h4><p>场地、制冷、带宽。</p></div>
+   <div class="box"><h4>运维人力</h4><p>常被漏算的那一列。</p></div>
+  </div>
+  <p>参照锚点：H100 级云上时租约 $2–3/卡·时。</p>
+
+  <h3>电是第一约束</h3>
+  <p>风冷极限 30–40kW/柜，NVL72 的 120kW <b>必须液冷</b>；PUE 从 1.5 降到 1.2 = 省 20% 总电费。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 100" role="img" aria-label="自建可行性评估四步：先看进线容量、再看液冷条件、再看楼板承重，最后才谈买卡">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="160" height="42" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="86" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">① 进线容量</text>
+      <rect x="190" y="24" width="160" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="270" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">② 液冷条件</text>
+      <rect x="374" y="24" width="160" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="454" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">③ 楼板承重</text>
+      <rect x="558" y="24" width="156" height="42" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="636" y="50" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">④ 才谈买卡</text>
+      <path d="M166 45 H186 M350 45 H370 M534 45 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 45 l-6 -3.5 v7 z M370 45 l-6 -3.5 v7 z M554 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="90" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">四个问题两分钟，筛掉一半不切实际的自建冲动</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>自建可行性评估顺序：任何一步过不去，后面都不用谈。</figcaption>
+  </figure>
 
   <p><b>建 vs 租 vs API 决策树的根是利用率</b>：自建对比长期租赁的盈亏平衡在利用率约
     40–50%——低于它自建必亏；托管 API 约 $2–5/百万输出 token，小体量下几乎总是最便宜的起点。决策口径：日均利用率稳过一半且有运维团队 → 自建/长租；负载波动大或刚起步 → 云弹性；只调用模型能力 → 直接 API 别碰硬件。<b>多数客户高估自己的利用率</b>——先上云跑三个月拿真实数据再做自建决策。GPU 折旧按 4–5 年、梯次使用（前两年训练、之后退居推理）；真正要防的是「买了跑不满」。</p>
