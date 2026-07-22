@@ -69,9 +69,15 @@
     --shadow:    0 1px 2px rgba(0,0,0,.35);
     --shadow-up: 0 4px 14px rgba(0,0,0,.45);
   }
-  /* 图与代码块：SVG 里写死的浅色底在暗色下会成为一块刺眼白斑，压一档亮度 */
-  svg, img, .codeblock { filter: brightness(.92); }
+  /* 位图没有令牌可用，只能压一档亮度。SVG 不在此列——图里的颜色一律走令牌
+     （2026-07-22 起），brightness 那种治标法只是把纯白压成浅灰，在暗底上照样是块亮斑。 */
+  img { filter: brightness(.92); }
 }
+
+/* 图表配色走令牌：内联 SVG 里直接用 var()，深浅色自动跟随，不需要第二套图。
+   纪律：新画的图**不许写死色值**，只用 --ink-900/500/400、--blue、--line、
+   --card、--ok、--warn、--red 这几个令牌——写死的那天就是深色模式坏掉的那天。 */
+svg text { font-family: var(--sans); }
 /* 七层色相的深色取值放在浅色定义之后（本文件末），否则会被同优先级的浅色规则盖掉 */
 
 * { box-sizing: border-box; }
