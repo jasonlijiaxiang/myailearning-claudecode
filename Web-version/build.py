@@ -575,7 +575,7 @@ def render_fresh(data):
 
 def render_fresh_full(data):
     rows_, due, stale = _fresh_rows(data)
-    o = ['  <p class="net-lead">截至构建日 <b>%s</b>。全库共 %d 条时效性事实登记在各模块账本里，'
+    o = ['  <p class="net-lead">截至构建日 <b>%s</b>。全库共 %d 条时效性事实登记在各模块清单里，'
          '其中 %d 条写了定点复查日。引用任何数字前先核日期。</p>' % (BUILD_DATE, len(rows_), len(due))]
     o.append("  <h2>定点复查日已排期</h2>")
     o.append(_fact_table(due, "due"))
@@ -623,7 +623,7 @@ def main(argv):
             cur = open(path, encoding="utf-8").read()
             base = page_edits[path][1] if path in page_edits else cur
             block = ('  <p class="updated">本册最近改动 <b>%s</b>'
-                     '（以模块账本 MANIFEST 为准）。</p>' % esc(by_id[mid]["updated"])
+                     '（以模块清单 MANIFEST 为准）。</p>' % esc(by_id[mid]["updated"])
                      + prevnext(shelf, mid))
             mod_cur[path] = cur
             mod_new[path] = inject(base, MOD_BEGIN, MOD_END, block, "UPDATED@" + mid)

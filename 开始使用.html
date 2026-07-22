@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>开始使用 · AI 知识库</title>
-<link rel="stylesheet" href="./_assets/kb.css?v=20260721n">
+<link rel="stylesheet" href="./_assets/kb.css?v=20260721o">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="./README.html">AI 知识库</a><a class="ti" href="./Web-version/index.html">网页版</a>
  <a class="ti" href="./PPT-version/README.html">PPT 总览</a><a class="ti" href="./_prep/实战包.html">实战包</a><a class="ti" href="./_prep/学习路径.html">学习路径</a><a class="ti" href="./_prep/全库一页纸.html">全库一页纸</a><a class="ti cur" href="./开始使用.html">开始使用</a>
- <span class="ver">v0721n</span>
+ <span class="ver">v0721o</span>
 </div></nav>
 
 <header class="top">
@@ -41,7 +41,7 @@
   </div>
 
   <h2>整库怎么分享</h2>
-  <p><b>分享单元是整个文件夹</b>——网页样式、检查脚本、账本都在里面，只拷单个文件会缺东西。整个文件夹拷给对方，断网也能双击打开，全程不需要装任何软件。</p>
+  <p><b>分享单元是整个文件夹</b>——网页样式、检查脚本、清单都在里面，只拷单个文件会缺东西。整个文件夹拷给对方，断网也能双击打开，全程不需要装任何软件。</p>
   <p>要打一个干净的压缩包，跑：</p>
   <pre class="codeblock"><code>python3 _maintenance/make_share.py</code></pre>
   <p class="ev">打出来实测 5.2 MB（2026-07-22）：带全部讲义、书单、网页版和工具，不带作者的历史留痕，也不带本机的权限配置。打包后会自动解压、在解压出来的那份里把<b>八道检查全跑一遍</b>，再查一遍有没有脚本写死了本机路径——确认拆开还是一个能用的库，而不只是压缩没出错。</p>
@@ -97,14 +97,14 @@ python3 Web-version/build.py --check</code></pre>
   <table>
     <thead><tr><th>东西</th><th>在哪</th><th>一句话</th></tr></thead>
     <tbody>
-      <tr><td>每个模块的账本</td><td><code>PPT-version/&lt;模块&gt;/MANIFEST.md</code></td>
+      <tr><td>每个模块的清单</td><td><code>PPT-version/&lt;模块&gt;/MANIFEST.md</code></td>
           <td>章节、会过期的事实（带核实日期）、模块间关系都登记在这，网页版由它生成</td></tr>
       <tr><td>检查脚本</td><td><code>_maintenance/</code></td>
           <td>页数账、书单链接、坏链、讲义规范……改完东西跑一遍，全绿再算完</td></tr>
       <tr><td>素材留痕</td><td><code>PPT-version/&lt;模块&gt;/raw-data/</code></td>
           <td>每次输入和联网核实笔记存在这，事实可以溯源</td></tr>
       <tr><td>网页版</td><td><code>Web-version/</code></td>
-          <td>知识地图、关系网、保鲜看板都从账本自动生成——用技能更新内容时会顺手重建，不用手动管</td></tr>
+          <td>知识地图、关系网、保鲜看板都从清单自动生成——用技能更新内容时会顺手重建，不用手动管</td></tr>
     </tbody>
   </table>
   </div>

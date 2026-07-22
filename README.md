@@ -13,7 +13,7 @@
 |---|---|
 | `PPT-version/` | 内容真源，19 个模块目录整体在此（讲义 pptx + README + MANIFEST + 电子书书单） |
 | `Web-version/` | 网页派生站点，待建 |
-| `_reference/` | 库级参考材料（吸收台账与外部对照材料） |
+| `_reference/` | 库级参考材料（吸收清单与外部对照材料） |
 | `_prep/` | 库级取用产物（全库一页纸、学习路径、实战包） |
 | `_maintenance/` | 巡检报告与门禁脚本 |
 | `_skill-source/` | 知识库构建技能源码 |

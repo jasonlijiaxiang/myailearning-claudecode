@@ -4,21 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Infra-Platform 集群平台与调度 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721n">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721o">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721n</span>
+ <span class="ver">v0721o</span>
 </div></nav>
 
 <header class="top">
   <div class="wrap">
     <p class="crumb">算力底座层 · 网页版</p>
     <h1><span class="en">AI Infrastructure II: Cluster Platform &amp; Orchestration</span>AI-Infra-Platform，集群平台与调度</h1>
-    <p class="lede">有了卡、网、存储（姊妹册 AI-Infra-Compute），怎么把它们变成一个好用的平台？平台层四件事：<b>调度</b>（让最贵的卡不空转）、<b>隔离</b>（一张卡切给多个团队）、<b>容错</b>（万卡集群故障是常态）、<b>观测</b>（利用率到底多少）——最后落到云上四种算力形态帮客户定档。讲义 PPT 见页脚链接。</p>
+    <p class="lede">有了卡、网、存储（姊妹册 AI-Infra-Compute），怎么把它们变成一个好用的平台？<b>平台层四件事</b>：</p>
+    <div class="keypoints">
+      <div><b>调度</b><span>让最贵的卡不空转</span></div>
+      <div><b>隔离</b><span>一张卡切给多个团队</span></div>
+      <div><b>容错</b><span>万卡集群故障是常态</span></div>
+      <div><b>观测</b><span>利用率到底多少</span></div>
+    </div>
+    <p class="lede">最后落到云上四种算力形态帮客户定档。讲义 PPT 见页脚链接。</p>
     <div class="hr"></div>
     <p class="lede" style="margin-top:0">
       <span class="badge ok">核实窗口 2026-07-09</span>
@@ -54,8 +61,59 @@
   <h2><span class="num">01</span>平台全景<a class="anchor" href="#aip-overview">#aip-overview</a></h2>
 
   <div class="lead">
-    <p><b>裸机之痛四种浪费</b>：卡在谁手里靠群里喊 Excel 记、贵卡半夜空转（无管理集群平均利用率常只有 10–20%）、一个人的进程 OOM 把同机别人拖垮、训练跑到第 20 天崩了从头再来。上了调度 + 配额 + 抢占后翻到 50%+ 很常见——<b>卖 AI 平台的第一句话不是「我们能管 GPU」，而是「我们能把您已经买的卡的利用率翻一倍」</b>。</p>
+    <p><b>卖 AI 平台的第一句话不是「我们能管 GPU」，而是「我们能把您已经买的卡的利用率翻一倍」</b>。</p>
   </div>
+
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 236" role="img" aria-label="裸机之痛的四种浪费：卡在谁手里靠群里喊和 Excel 记、贵卡半夜空转、一个人的进程 OOM 把同机别人拖垮、训练跑到第 20 天崩了从头再来。无管理集群平均利用率常只有 10 到 20%，上了调度加配额加抢占后翻到 50% 以上很常见">
+     <g font-family="var(--sans)">
+      <text x="4" y="14" font-size="12" font-weight="700" fill="var(--ink-500)">裸机之痛 · 四种浪费</text>
+
+      <rect x="4" y="24" width="162" height="62" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="18" y="46" font-size="12" font-weight="700" fill="var(--ink-400)">①</text>
+      <text x="36" y="46" font-size="12.5" fill="var(--ink-900)">卡在谁手里</text>
+      <text x="36" y="64" font-size="11.5" fill="var(--ink-500)">靠群里喊、Excel 记</text>
+
+      <rect x="188" y="24" width="162" height="62" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="202" y="46" font-size="12" font-weight="700" fill="var(--ink-400)">②</text>
+      <text x="220" y="46" font-size="12.5" fill="var(--ink-900)">贵卡半夜空转</text>
+
+      <rect x="372" y="24" width="162" height="62" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="386" y="46" font-size="12" font-weight="700" fill="var(--ink-400)">③</text>
+      <text x="404" y="46" font-size="12.5" fill="var(--ink-900)">一个人的进程 OOM</text>
+      <text x="404" y="64" font-size="11.5" fill="var(--ink-500)">把同机别人拖垮</text>
+
+      <rect x="556" y="24" width="160" height="62" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="570" y="46" font-size="12" font-weight="700" fill="var(--ink-400)">④</text>
+      <text x="588" y="46" font-size="12.5" fill="var(--ink-900)">跑到第 20 天崩了</text>
+      <text x="588" y="64" font-size="11.5" fill="var(--ink-500)">从头再来</text>
+
+      <text x="4" y="122" font-size="12" font-weight="700" fill="var(--ink-500)">平均利用率</text>
+
+      <text x="4" y="152" font-size="12.5" fill="var(--ink-500)">无管理集群</text>
+      <rect x="205" y="139" width="48" height="18" fill="var(--ink-400)" opacity=".3"/>
+      <rect x="255" y="139" width="48" height="18" rx="4" fill="var(--ink-400)" opacity=".5"/>
+      <text x="315" y="153" font-size="14" font-weight="700" fill="var(--ink-500)">10–20%</text>
+
+      <text x="4" y="192" font-size="12.5" fill="var(--ink-900)">上了调度 + 配额 + 抢占</text>
+      <rect x="205" y="179" width="250" height="18" rx="4" fill="var(--blue)"/>
+      <path d="M461 180 l8 8 l-8 8" fill="none" stroke="var(--blue)" stroke-width="2"/>
+      <text x="481" y="193" font-size="14" font-weight="700" fill="var(--blue-d)">50%+</text>
+      <text x="541" y="193" font-size="11.5" fill="var(--ink-400)">很常见</text>
+
+      <line x1="205" y1="211" x2="705" y2="211" stroke="var(--line)"/>
+      <line x1="205" y1="211" x2="205" y2="216" stroke="var(--line)"/>
+      <line x1="455" y1="211" x2="455" y2="216" stroke="var(--line)"/>
+      <line x1="705" y1="211" x2="705" y2="216" stroke="var(--line)"/>
+      <text x="205" y="230" font-size="11" fill="var(--ink-400)">0</text>
+      <text x="455" y="230" text-anchor="middle" font-size="11" fill="var(--ink-400)">50%</text>
+      <text x="705" y="230" text-anchor="end" font-size="11" fill="var(--ink-400)">100%</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>四种浪费与它们的代价：同一批卡，上了平台层就能把利用率翻一倍。区间按原口径给出，未取单点值。</figcaption>
+  </figure>
 
   <h3>平台四大职责</h3>
   <p>像机场塔台——塔台不开飞机，但没它机场就瘫痪。<b>客户的任何平台需求先归类到这四项，方案就有骨架</b>：</p>
@@ -630,11 +688,11 @@
 
 <footer class="wrap">
   <p>
-    本册 PPT 讲义：<a href="../../PPT-version/AI-Infra-Platform/AI-Infra-Platform-讲义.pptx">AI-Infra-Platform-讲义.pptx</a> ·电子书书单：<a href="../../PPT-version/AI-Infra-Platform/电子书书单.md">电子书书单.md</a> ·模块账本：<a href="../../PPT-version/AI-Infra-Platform/MANIFEST.md">MANIFEST.md</a>
+    本册 PPT 讲义：<a href="../../PPT-version/AI-Infra-Platform/AI-Infra-Platform-讲义.pptx">AI-Infra-Platform-讲义.pptx</a> ·电子书书单：<a href="../../PPT-version/AI-Infra-Platform/电子书书单.md">电子书书单.md</a> ·模块清单：<a href="../../PPT-version/AI-Infra-Platform/MANIFEST.md">MANIFEST.md</a>
   </p>
-  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
+  <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块账本 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../ai-infra-compute/index.html"><span class="k">上一册 · 算力底座层</span><b>AI-Infra-Compute</b></a>
    <a class="nx" href="../data-engineering/index.html"><span class="k">下一册 · 数据底座层</span><b>Data-Engineering</b></a>
@@ -642,8 +700,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721n"></script>
-<script src="../assets/site.js?v=20260721n"></script>
+<script src="../data.js?v=20260721o"></script>
+<script src="../assets/site.js?v=20260721o"></script>
 <script>
 /* 云上形态定档器：三问 → 形态 + 责任递交线提醒。判据来自讲义第 8 章三问定档与四形态表。
    无 JS 时 .tool 隐藏，静态兜底是正文四形态与三问。 */

@@ -113,6 +113,13 @@ body {
               color: var(--blue); font-weight: 600; margin-bottom: .3rem; }
 .top .lede { margin: .1rem 0 0; font-size: 13.5px; color: var(--ink-500); max-width: 72ch; }
 .top .hr { height: 1px; background: var(--line-2); margin: .9rem 0; }
+/* 页头要点行：把「四件事：A（…）、B（…）、C（…）、D（…）」这种挤在一句里的并列拆开。
+   放页头而不是正文卡片——页头底色即卡片色，再套一层卡会看不见边界（2026-07-22）。 */
+.keypoints { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+             gap: .55rem 1rem; margin: .8rem 0 .2rem; max-width: 72ch; }
+.keypoints > div { border-left: 2px solid var(--blue-ln); padding-left: .65rem; }
+.keypoints b { display: block; font-size: 14px; color: var(--ink-900); line-height: 1.5; }
+.keypoints span { font-size: 12.5px; color: var(--ink-500); line-height: 1.6; }
 
 /* 搜索 */
 .search { margin: .9rem 0 0; max-width: 34rem; }
