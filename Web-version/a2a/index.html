@@ -70,9 +70,35 @@
     </tbody>
   </table>
   </div>
-  <p>客户最爱问「选哪个」，标准答案是「都要」：一次差旅审批里，A2A 决定「谁接力这一单」（出行 → 财务 → 风控三个 Agent 横向委派），MCP 决定「每个 Agent 手里有什么工具」（航司 API、ERP、合规规则库纵向取能力）。选型尺子一句话：<b>单 Agent + 工具 → 只上
-    MCP；多个专精/跨厂商 Agent 要协作 → MCP + A2A 叠着上</b>。来历与治理：Google 2025-04
-    发布（50+ 合作伙伴）→ 2025-06 捐给 Linux Foundation 中立托管——与 MCP 同一条「先厂商提出、再基金会治理」的路，回应「会不会被锁定」最有力的答案。</p>
+  <p>客户最爱问「选哪个」，标准答案是<b>「都要」</b>——同一次差旅审批里，两个协议管的是两个方向：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 176" role="img" aria-label="A2A 横向连接出行、财务、风控三个 Agent，决定谁接力这一单；MCP 纵向让每个 Agent 取到工具，如航司 API、ERP、合规规则库">
+     <g font-family="var(--sans)">
+      <text x="4" y="16" font-size="11.5" font-weight="700" fill="var(--blue-d)">A2A · 横向：谁接力这一单</text>
+      <rect x="40" y="26" width="170" height="40" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="125" y="51" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">出行 Agent</text>
+      <rect x="275" y="26" width="170" height="40" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="360" y="51" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">财务 Agent</text>
+      <rect x="510" y="26" width="170" height="40" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="595" y="51" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">风控 Agent</text>
+      <path d="M210 46 H271 M445 46 H506" stroke="var(--blue)" stroke-width="1.5"/>
+      <path d="M271 46 l-7 -4 v8 z M506 46 l-7 -4 v8 z" fill="var(--blue)"/>
+      <path d="M125 66 V104 M360 66 V104 M595 66 V104" stroke="var(--ink-400)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <path d="M125 104 l-4 -8 h8 z M360 104 l-4 -8 h8 z M595 104 l-4 -8 h8 z" fill="var(--ink-400)"/>
+      <rect x="40" y="106" width="170" height="38" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="125" y="130" text-anchor="middle" font-size="12" fill="var(--ink-500)">航司 API</text>
+      <rect x="275" y="106" width="170" height="38" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="360" y="130" text-anchor="middle" font-size="12" fill="var(--ink-500)">ERP</text>
+      <rect x="510" y="106" width="170" height="38" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="595" y="130" text-anchor="middle" font-size="12" fill="var(--ink-500)">合规规则库</text>
+      <text x="4" y="168" font-size="11.5" font-weight="700" fill="var(--ink-400)">MCP · 纵向：每个 Agent 手里有什么工具</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>选型尺子一句话：<b>单 Agent + 工具 → 只上 MCP；多个专精 / 跨厂商 Agent 要协作 → MCP + A2A 叠着上</b>。</figcaption>
+  </figure>
+  <p><b>来历与治理</b>：Google 2025-04 发布（50+ 合作伙伴）→ 2025-06 捐给 Linux Foundation 中立托管——与 MCP 同一条「先厂商提出、再基金会治理」的路，是回应「会不会被锁定」最有力的答案。</p>
 
   <div class="tool" id="picker">
     <h4>A2A 接入选型器</h4>
@@ -113,8 +139,18 @@
     <p>记忆法一行：<b>Agent Card＝名片（发现）、Task＝工单（有状态）、Message/Part＝信与附件（内容）、Artifact＝成品（产出）</b>。规范 v1.0 以 Protocol Buffers 为唯一权威定义——保证三种传输绑定语义一致、跨语言 SDK 不跑偏。</p>
   </div>
 
-  <p><b>Agent Card</b> 是一份 JSON 元数据：name、url（服务端点）、capabilities、skills、鉴权要求，默认发布在 well-known URI——像商务名片 + 服务菜单，「我是谁、能做什么、去哪找我、进门要什么证件」。Card 本身是公开菜单不含密钥；敏感能力靠 securitySchemes 声明鉴权，v1.0 还支持签名防冒充（<a href="#a2a-security">第 7 节</a>）。<b>Task</b> 是工作基本单元：唯一 ID + 状态 + 生命周期，像给外包发的工单——有进度、能查询、能补料、能取消。「有状态」是 A2A 与一次性 RPC 的关键差别：天生支持长耗时、多轮、需人工介入的真实协作。<b>Message</b>（一轮通信，带 role）由若干 <b>Part</b>（最小内容块：text/file/
-    data 统一抽象）组成；<b>Artifact</b> 是 Task 产出、也由 Part 组成，可增量流式返回——大文件传 URI 引用而非内联。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>对象</th><th>是什么</th><th>像什么 / 要点</th></tr></thead>
+    <tbody>
+     <tr><td><b>Agent Card</b></td><td>一份 JSON 元数据：name、url（服务端点）、capabilities、skills、鉴权要求，默认发布在 well-known URI</td><td>商务名片 + 服务菜单——「我是谁、能做什么、去哪找我、进门要什么证件」。<b>本身是公开菜单不含密钥</b>；敏感能力靠 securitySchemes 声明鉴权，v1.0 还支持签名防冒充（<a href="#a2a-security">第 7 节</a>）</td></tr>
+     <tr><td><b>Task</b></td><td>工作基本单元：唯一 ID + 状态 + 生命周期</td><td>像给外包发的工单——有进度、能查询、能补料、能取消。<b>「有状态」是 A2A 与一次性 RPC 的关键差别</b>：天生支持长耗时、多轮、需人工介入的真实协作</td></tr>
+     <tr><td><b>Message</b></td><td>一轮通信，带 role</td><td>由若干 Part 组成</td></tr>
+     <tr><td><b>Part</b></td><td>最小内容块</td><td>text / file / data 统一抽象</td></tr>
+     <tr><td><b>Artifact</b></td><td>Task 的产出，也由 Part 组成</td><td>可增量流式返回——<b>大文件传 URI 引用而非内联</b></td></tr>
+    </tbody>
+   </table>
+  </div>
   <p><b>Task 状态机九种状态、三条路</b>：正常线 submitted → working → completed；中断线
     working ↔ input-required / auth-required（补料补授权后回来继续）；异常线随时可进
     failed / canceled / rejected（另有兜底 unspecified）。两条纪律：<b>终态不可回跳</b>——重试＝创建新 Task（可关联旧任务），绝不修改终态历史，审计与回放靠这条撑着；<b>状态真相永远在服务端</b>，客户端只是观察者。</p>
@@ -141,10 +177,20 @@
     </tbody>
   </table>
   </div>
-  <p><b>拿结果的四种姿势</b>，先判运行条件再选交付：Blocking 同步等（短活；代价是连接占用易超时）、Polling 轮询（网络最简单；代价是空轮询与状态陈旧，用退避 + 变更标记）、
-    Streaming 流式（SSE 单连接持续推增量——比 WebSocket 更轻更易穿网关；要处理断线重连与背压）、Push 推送（客户端离线时服务端回调 webhook，像发快递留手机号；<b>回调必须幂等 +
-    URL 校验 + 签名</b>）。口诀：<b>短活阻塞、简单轮询、看进度流式、长任务推送</b>。同一个
-    Task 可同时被轮询/订阅/推送观察——通道只是观察方式。三种绑定都跑在 HTTP(S) 上，复用现有 443 与网关，一般不用单独开防火墙。</p>
+  <h3>拿结果的四种姿势</h3>
+  <p>先判运行条件再选交付：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>姿势</th><th>怎么拿</th><th>代价</th><th>用在哪</th></tr></thead>
+    <tbody>
+     <tr><td><b>Blocking</b></td><td>同步等</td><td>连接占用、易超时</td><td>短活</td></tr>
+     <tr><td><b>Polling</b></td><td>轮询</td><td>空轮询与状态陈旧——用退避 + 变更标记</td><td>网络最简单的场景</td></tr>
+     <tr><td><b>Streaming</b></td><td>SSE 单连接持续推增量，比 WebSocket 更轻更易穿网关</td><td>要处理断线重连与背压</td><td>要看进度</td></tr>
+     <tr><td><b>Push</b></td><td>客户端离线时服务端回调 webhook，像发快递留手机号</td><td><b>回调必须幂等 + URL 校验 + 签名</b></td><td>长任务</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>口诀：<b>短活阻塞、简单轮询、看进度流式、长任务推送</b>。同一个 Task 可同时被轮询 / 订阅 / 推送观察——<b>通道只是观察方式</b>。三种绑定都跑在 HTTP(S) 上，复用现有 443 与网关，一般不用单独开防火墙。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -155,11 +201,18 @@
     <p>接入心智模型：server 端「把已有能力包一层 A2A 外壳」——声明 Agent Card + 把现有逻辑塞进 executor + 发布，三步；client 端「拉 Card + 发 message/send」，几行代码。<b>业务核心基本不动</b>——这是给客户估接入量的口径。</p>
   </div>
 
-  <p>一次调用的真实报文（JSON-RPC）：请求 <code>method: "message/send"</code>，params 里一条 role 为 user 的 Message、Part 装「审查这张发票是否合规」；响应返回 Task——
-    <code>id: "task-7f3a"</code>、状态 completed、Artifact 里 Part 装结论。官方五语言 SDK
-    （Python / JavaScript / Java / Go / .NET）覆盖主流后端栈，Python 已实现 1.0（含 0.3
-    兼容模式）；不用官方 SDK 也行——A2A 是开放的 HTTP + JSON-RPC/gRPC 协议，可手写报文对接，规范以 protobuf 为准。配套工具：Inspector（调试观察报文）与 TCK（协议一致性测试套件）。一个 Agent 可以既是 server 又是 client——链式协作里，中间 Agent 对上游是
-    server、对下游是 client，这正是多 Agent 编排的基础。</p>
+  <p><b>一次调用的真实报文</b>（JSON-RPC）：请求 <code>method: "message/send"</code>，params 里一条 role 为 user 的 Message、Part 装「审查这张发票是否合规」；响应返回 Task——<code>id: "task-7f3a"</code>、状态 completed、Artifact 里 Part 装结论。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>有什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>官方 SDK</b></td><td>五语言（Python / JavaScript / Java / Go / .NET）覆盖主流后端栈，Python 已实现 1.0（含 0.3 兼容模式）</td></tr>
+     <tr><td><b>不用 SDK 行不行</b></td><td>行——A2A 是开放的 HTTP + JSON-RPC / gRPC 协议，可手写报文对接，<b>规范以 protobuf 为准</b></td></tr>
+     <tr><td><b>配套工具</b></td><td>Inspector（调试观察报文）与 TCK（协议一致性测试套件）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>一个 Agent 可以<b>既是 server 又是 client</b>——链式协作里，中间 Agent 对上游是 server、对下游是 client，这正是多 Agent 编排的基础。</p>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -170,10 +223,42 @@
     <p><b>opaque agents（不透明协作）</b>：Agent 之间只通过 Card 暴露能力、通过 Task 交换输入输出，不共享内部提示词、工具、推理过程——像把活儿外包给另一家公司，你告诉它「要什么」、它交「成品」，不会把对方员工怎么干全看光。不透明 = 更好的封装与安全边界，协作靠接口契约而非看内部——对跨厂商、跨组织协作是必需的。</p>
   </div>
 
-  <p>委派拓扑三种基本形状（与单机编排同构，区别只在跨进程/跨厂商）：<b>编排者—执行者</b>（主 Agent 拆活分发汇总——差旅审批调度订票/预算/风控）、<b>链式流水线</b>（A 的产出作
-    B 的输入——翻译 → 校对 → 排版）、<b>并行汇聚</b>（同时委派等全部返回再合并——尽调并行查财务/法务/舆情）。<b>与框架内编排的边界</b>：LangGraph/ADK 管「一个系统里多个节点怎么走」，A2A 管「跨系统跨厂商怎么标准化对接」——内部流转归框架，跨出去找别人的
-    Agent 那一步才走 A2A。三层叠起来看：<b>编排层</b>（框架，
-    <a href="../agent/index.html#agent-orchestration">Agent 网页版</a>）/ <b>协作层</b>（A2A，本页）/ <b>工具层</b>（MCP，<a href="../mcp/index.html">MCP 网页版</a>）。成本提醒：跨 Agent 有网络与模型开销——能单 Agent 完成就别拆，真正需要专精/隔离/跨厂商时协作的收益才划算。</p>
+  <h3>委派拓扑三种基本形状</h3>
+  <p>与单机编排同构，区别只在跨进程 / 跨厂商：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>形状</th><th>怎么走</th><th>例子</th></tr></thead>
+    <tbody>
+     <tr><td><b>编排者—执行者</b></td><td>主 Agent 拆活、分发、汇总</td><td>差旅审批调度订票 / 预算 / 风控</td></tr>
+     <tr><td><b>链式流水线</b></td><td>A 的产出作 B 的输入</td><td>翻译 → 校对 → 排版</td></tr>
+     <tr><td><b>并行汇聚</b></td><td>同时委派，等全部返回再合并</td><td>尽调并行查财务 / 法务 / 舆情</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>三层叠起来看</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 136" role="img" aria-label="三层结构：编排层由框架负责、协作层由 A2A 负责、工具层由 MCP 负责">
+     <g font-family="var(--sans)">
+      <rect x="6" y="12" width="708" height="34" rx="6" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="22" y="34" font-size="13" font-weight="700" fill="var(--ink-900)">编排层</text>
+      <text x="110" y="34" font-size="11.5" fill="var(--ink-500)">一个系统里多个节点怎么走 · LangGraph / ADK</text>
+      <text x="700" y="34" text-anchor="end" font-size="11.5" fill="var(--ink-400)">框架</text>
+      <rect x="6" y="52" width="708" height="34" rx="6" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="22" y="74" font-size="13" font-weight="700" fill="var(--ink-900)">协作层</text>
+      <text x="110" y="74" font-size="11.5" fill="var(--ink-500)">跨系统跨厂商怎么标准化对接</text>
+      <text x="700" y="74" text-anchor="end" font-size="11.5" font-weight="700" fill="var(--blue-d)">A2A · 本页</text>
+      <rect x="6" y="92" width="708" height="34" rx="6" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="22" y="114" font-size="13" font-weight="700" fill="var(--ink-900)">工具层</text>
+      <text x="110" y="114" font-size="11.5" fill="var(--ink-500)">每个 Agent 手里有什么工具</text>
+      <text x="700" y="114" text-anchor="end" font-size="11.5" fill="var(--ink-400)">MCP</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>内部流转归框架，<b>跨出去找别人的 Agent 那一步才走 A2A</b>——编排层见 <a href="../agent/index.html#agent-orchestration">Agent 网页版</a>，工具层见 <a href="../mcp/index.html">MCP 网页版</a>。</figcaption>
+  </figure>
+  <p><b>成本提醒</b>：跨 Agent 有网络与模型开销——<b>能单 Agent 完成就别拆</b>，真正需要专精 / 隔离 / 跨厂商时，协作的收益才划算。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -184,9 +269,42 @@
     <p>demo 是「能打通电话」，生产是「开一家有工号、有录音、有权限、有话务量管控的呼叫中心」：多租户隔离、每个 Task 可追踪、鉴权与授权范围、限流配额、失败重试与超时。<b>协议本身已就绪，生产化门槛主要在治理与可观测</b>。</p>
   </div>
 
-  <p>三大云都已托管：Azure AI Foundry / Copilot Studio（Agent 托管 + 编排，原生 A2A 互操作）、AWS Bedrock AgentCore Runtime、Google Vertex AI Agent Engine（发源方）——对客户口径：中立标准、三云互通、不锁定。<b>AP2</b>（Agent Payments Protocol）是 A2A
-    之上的支付扩展（60+ 组织参与）：规范 Agent 代表用户发起/授权/结算支付，全程有可核验的授权凭据——展示了「核心协议 + 垂直扩展」的生态方向。<b>采用度四个数字</b>（回应「成熟吗、谁在用」）：150+ 参与组织（较发布时增长两倍）、v1.0.0 于 2026-03-12 发布（当前补丁 v1.0.1）、五语言官方 SDK、三大云托管；核心仓库 22,000+ stars，生产案例见于供应链、金融、保险、IT 运维。上线前六条验收线：发现与版本 / 任务语义（事件序列可回放）
-    / 身份与授权（跨租户越权回归）/ 异步交付（重复通知的幂等证明）/ 运营与恢复 / 质量与安全——终极判断：<b>任意一次协作都能回放「谁委派、做了什么、为何结束、交付了什么、谁验收」</b>。</p>
+  <h3>三大云都已托管</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>Azure</td><td>AI Foundry / Copilot Studio——Agent 托管 + 编排，原生 A2A 互操作</td></tr>
+     <tr><td>AWS</td><td>Bedrock AgentCore Runtime</td></tr>
+     <tr><td>Google</td><td>Vertex AI Agent Engine（发源方）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>对客户口径：<b>中立标准、三云互通、不锁定</b>。<b>AP2</b>（Agent Payments Protocol）是 A2A 之上的支付扩展（60+ 组织参与）：规范 Agent 代表用户发起 / 授权 / 结算支付，全程有可核验的授权凭据——展示了「核心协议 + 垂直扩展」的生态方向。</p>
+
+  <h3>采用度四个数字</h3>
+  <p>回应「成熟吗、谁在用」：</p>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>参与组织</td><td>150+（较发布时增长两倍）</td></tr>
+     <tr><td>版本</td><td>v1.0.0 于 2026-03-12 发布，当前补丁 v1.0.1</td></tr>
+     <tr><td>SDK</td><td>五语言官方</td></tr>
+     <tr><td>云托管</td><td>三大云</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>核心仓库 22,000+ stars，生产案例见于供应链、金融、保险、IT 运维。</p>
+
+  <h3>上线前六条验收线</h3>
+  <div class="grid">
+   <div class="box"><h4>发现与版本</h4></div>
+   <div class="box"><h4>任务语义</h4><p>事件序列可回放。</p></div>
+   <div class="box"><h4>身份与授权</h4><p>跨租户越权回归。</p></div>
+   <div class="box"><h4>异步交付</h4><p>重复通知的幂等证明。</p></div>
+   <div class="box"><h4>运营与恢复</h4></div>
+   <div class="box"><h4>质量与安全</h4></div>
+  </div>
+  <p>终极判断：<b>任意一次协作都能回放「谁委派、做了什么、为何结束、交付了什么、谁验收」</b>。</p>
   <p class="ev">生态数字核实 2026-07-12，来源 <a href="#src-lf">Linux Foundation 一周年通稿</a>；版本号来源 <a href="#src-spec">规范仓库 releases</a>。<b>不可外推边界</b>：基金会通稿的采纳规模是自报口径、未公开统计方法：它能支持的是「不是某一家的私有协议」，不能当作「已经在生产里大规模跑起来」的证据。</p>
 </section>
 
@@ -199,9 +317,26 @@
       Artifact 外泄——从「人工审批每一单」变成「机器自动接单」，不设门禁冒牌供应商也能混进来。自动化的收益必须配套<b>默认设防</b>：验证身份、限定权限、留痕审计，安全前移到协议层。</p>
   </div>
 
-  <p><b>信任基石 Signed Agent Cards</b>（v1.0 头号新特性）：给名片加密码学签名，接收方能验证「这张名片确实由该域名所有者签发」——像盖了防伪钢印，不再是「谁都能印一张说自己是银行」；把发现从「默认信任」升级为「可验证信任」，是跨组织自动协作的前提。鉴权与授权：
-    OAuth 2.0（Card 声明 securitySchemes，调用带 token 校验 scope）+ mTLS（服务间双向证书）
-    + 授权范围（按 skill/租户限定谁能调什么，越权直接拒）。<b>五个信任边界对五组控制</b>：发现（Card 可伪造→可信域+签名）、身份（凭据扩散→带外授权+audience 限定+短期凭证）、任务（越权读取→逐操作鉴权+租户绑定）、模型（跨 Agent 提示注入→指令数据隔离+工具最小权限）、回调（伪造重放→URL 校验+签名+幂等+限流）。与 MCP 一套安全心法：验身份、限权限、默认关自动批准、全链路留痕——A2A 多出的「跨组织委派链信任」用签名名片补上。安全主张要能被测试复现（签名校验日志/越权回归/注入语料/重放测试），不靠口头承诺。威胁全景与架构级防御在 <a href="../security/index.html#sec-agentic">Security 网页版</a>。</p>
+  <div class="box">
+   <h4>信任基石：Signed Agent Cards（v1.0 头号新特性）</h4>
+   <p>给名片加密码学签名，接收方能验证「这张名片确实由该域名所有者签发」——<b>像盖了防伪钢印</b>，不再是「谁都能印一张说自己是银行」。它把发现从「默认信任」升级为<b>「可验证信任」</b>，是跨组织自动协作的前提。</p>
+  </div>
+  <p><b>鉴权与授权三件</b>：OAuth 2.0（Card 声明 securitySchemes，调用带 token 校验 scope）+ mTLS（服务间双向证书）+ 授权范围（按 skill / 租户限定谁能调什么，越权直接拒）。</p>
+
+  <h3>五个信任边界对五组控制</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>边界</th><th>威胁</th><th>控制</th></tr></thead>
+    <tbody>
+     <tr><td>发现</td><td>Card 可伪造</td><td>可信域 + 签名</td></tr>
+     <tr><td>身份</td><td>凭据扩散</td><td>带外授权 + audience 限定 + 短期凭证</td></tr>
+     <tr><td>任务</td><td>越权读取</td><td>逐操作鉴权 + 租户绑定</td></tr>
+     <tr><td>模型</td><td>跨 Agent 提示注入</td><td>指令数据隔离 + 工具最小权限</td></tr>
+     <tr><td>回调</td><td>伪造重放</td><td>URL 校验 + 签名 + 幂等 + 限流</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>与 MCP 一套安全心法：<b>验身份、限权限、默认关自动批准、全链路留痕</b>——A2A 多出的「跨组织委派链信任」用签名名片补上。安全主张<b>要能被测试复现</b>（签名校验日志 / 越权回归 / 注入语料 / 重放测试），不靠口头承诺。威胁全景与架构级防御在 <a href="../security/index.html#sec-agentic">Security 网页版</a>。</p>
 </section>
 
 <!-- ============ 问答 ============ -->

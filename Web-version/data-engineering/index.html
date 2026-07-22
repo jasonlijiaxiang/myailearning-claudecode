@@ -122,9 +122,30 @@
     </tbody>
   </table>
   </div>
-  <p>基准口径（opendataloader-bench，200 份 PDF）：Docling 0.877 &gt; marker 0.861 &gt;
-    MinerU 0.831——但这是英文基准，<b>CJK 版面是 MinerU 的主场，中文场景自测是唯一可信口径</b>。三个选型硬约束：敏感文档不出域 → 自托管（Docling/MinerU）；中文扫描件占比高
-    → MinerU 优先；按页计费 vs 自托管运维按月页量算交叉点，量大自托管划算。对客动作：<b>先拿客户 20 份最难的文档（表格重/扫描件）跑对比测试</b>——解析选型永远用客户自己的文档定，不用厂商 demo 定。解析产物交给 <a href="../rag/index.html">RAG 网页版</a>按结构切分。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>基准口径</th><th>得分</th></tr></thead>
+    <tbody>
+     <tr><td>Docling</td><td>0.877</td></tr>
+     <tr><td>marker</td><td>0.861</td></tr>
+     <tr><td>MinerU</td><td>0.831</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>opendataloader-bench，200 份 PDF——<b>但这是英文基准</b>：CJK 版面是 MinerU 的主场，<b>中文场景自测是唯一可信口径</b>。</p>
+
+  <h3>三个选型硬约束</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>约束</th><th>怎么选</th></tr></thead>
+    <tbody>
+     <tr><td>敏感文档不出域</td><td>自托管（Docling / MinerU）</td></tr>
+     <tr><td>中文扫描件占比高</td><td>MinerU 优先</td></tr>
+     <tr><td>成本</td><td>按页计费 vs 自托管运维，按月页量算交叉点——量大自托管划算</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>对客动作</b>：先拿客户 20 份最难的文档（表格重 / 扫描件）跑对比测试——<b>解析选型永远用客户自己的文档定，不用厂商 demo 定</b>。解析产物交给 <a href="../rag/index.html">RAG 网页版</a>按结构切分。</p>
   <p class="ev">四强格局与基准核实 2026-07-11，来源 <a href="#src-parsing">2026 解析横评</a>。<b>不可外推边界</b>：解析基准多以英文版面为主，对中日韩版面的参考价值有限——本节的选型分水岭因此写成「拿客户自己最难的 20 份文档实测」，而不是照抄榜单。</p>
 </section>
 
@@ -136,9 +157,32 @@
     <p><b>一个连接器 = 五件事</b>：①认证（OAuth/服务账号）②拉取（API 限速与分页）③解析（格式转换）④ACL 映射（权限同步）⑤增量（同步模式）。报价口径：按「源系统 × 五件事」估工作量——SharePoint/Confluence 类成熟源有现成连接器（Airbyte 模式）天级接入；<b>自研系统每个都是一个小项目，那才是大头</b>。</p>
   </div>
 
-  <p>增量同步三模式按新鲜度需求分级：轮询（实现最简单，新鲜度差——低频源够用）、webhook
-    （准实时，要源系统支持回调 + 丢消息补偿）、CDC 变更日志（最可靠，只有数据库类源才有，工程最重）。真实问题是「哪些内容需要多新鲜」——制度文档天级足够，工单类才值得准实时，分级同步省一大笔。<b>两件没人爱做的脏活决定客户第二个月还信不信系统</b>：去重（同一文档的邮件附件/网盘/IM 转发五个副本——内容指纹保留权威源；不去重的后果是检索 Top-K
-    被同一文档霸屏；多数企业第一次实测重复率超过 20%）与失效（离职人员文档、废弃版本——源系统删除/归档联动下架；「AI 引用了三年前的报销标准」是信任事故）。同步链路按生产系统运维：断供、限速、权限失效都有告警与补偿重试，每个连接器有健康页——不是脚本跑一次就完。</p>
+  <h3>增量同步三模式，按新鲜度需求分级</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>模式</th><th>新鲜度</th><th>代价</th></tr></thead>
+    <tbody>
+     <tr><td>轮询</td><td>差</td><td>实现最简单——低频源够用</td></tr>
+     <tr><td>webhook</td><td>准实时</td><td>要源系统支持回调 + 丢消息补偿</td></tr>
+     <tr><td>CDC 变更日志</td><td>最可靠</td><td>只有数据库类源才有，工程最重</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>真实问题是<b>「哪些内容需要多新鲜」</b>——制度文档天级足够，工单类才值得准实时，<b>分级同步省一大笔</b>。</p>
+
+  <h3>两件没人爱做的脏活</h3>
+  <p>它们决定客户第二个月还信不信这个系统：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>去重</h4>
+    <p>同一文档的邮件附件 / 网盘 / IM 转发五个副本——用内容指纹保留权威源。不去重的后果是<b>检索 Top-K 被同一文档霸屏</b>；多数企业第一次实测重复率超过 20%。</p>
+   </div>
+   <div class="box">
+    <h4>失效</h4>
+    <p>离职人员文档、废弃版本——源系统删除 / 归档联动下架。<b>「AI 引用了三年前的报销标准」是信任事故</b>。</p>
+   </div>
+  </div>
+  <p>同步链路<b>按生产系统运维</b>：断供、限速、权限失效都有告警与补偿重试，每个连接器有健康页——不是脚本跑一次就完。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -150,8 +194,44 @@
       向量，ACID、免新系统）、有 ES 就地升级（原生混合检索最成熟）——新引一套系统的运维成本常超过它带来的性能差。五个锚点：pgvector 中小规模首选、Qdrant 过滤检索最强开源（p50 4ms）、Milvus/Zilliz 十亿级分布式、Weaviate/ES 原生混合、托管（Pinecone 等）零运维快速上线。</p>
   </div>
 
-  <p><b>向量库是「按规模演进」的决策，不是「一步到位」的决策</b>：起步（pgvector/ES 就地）
-    → 增长（监控召回与延迟）→ 触顶（三个信号：HNSW 索引重建时间不可接受、P99 随库量线性恶化、过滤条件多导致召回骤降）→ 迁移（Qdrant/Milvus）。迁移纪律：嵌入模型不换则向量可搬，<b>换模型必须全量重算</b>（向量空间不兼容——所以嵌入选型要留余量、全量重建做成自动化管线）；双写灰度，新旧库并行跑评估集对比；<b>别为「将来可能的十亿级」提前买复杂度</b>。性能答法：各家都在毫秒级、量级内差距对多数应用无感——真正拉开差距的是过滤/混合检索能力和运维成本，选型看能力匹配不看跑分排名。国产化要求：开源自托管路线全可控（Milvus 是国内团队主导的开源项目）。多数客户永远到不了触顶那天——但方案书里有预案这件事本身，就是专业度。</p>
+  <p><b>向量库是「按规模演进」的决策，不是「一步到位」的决策</b>：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 116" role="img" aria-label="向量库四步演进：起步用 pgvector 或 ES 就地、增长期监控召回与延迟、触顶时看三个信号、再迁移到 Qdrant 或 Milvus">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="150" height="48" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="81" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">起步</text>
+      <text x="81" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">pgvector / ES 就地</text>
+      <rect x="180" y="24" width="150" height="48" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="255" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">增长</text>
+      <text x="255" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">监控召回与延迟</text>
+      <rect x="354" y="24" width="150" height="48" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="429" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">触顶</text>
+      <text x="429" y="62" text-anchor="middle" font-size="11" fill="var(--warn)">三个信号亮了</text>
+      <rect x="528" y="24" width="186" height="48" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="621" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">迁移</text>
+      <text x="621" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">Qdrant / Milvus</text>
+      <path d="M156 48 H176 M330 48 H350 M504 48 H524" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M176 48 l-6 -3.5 v7 z M350 48 l-6 -3.5 v7 z M524 48 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="106" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">多数客户永远到不了触顶那天——但方案书里有预案这件事本身，就是专业度</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>触顶三个信号：HNSW 索引重建时间不可接受、P99 随库量线性恶化、过滤条件多导致召回骤降。</figcaption>
+  </figure>
+
+  <h3>迁移纪律</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>嵌入模型不换</td><td>向量可搬</td></tr>
+     <tr><td><b>换模型</b></td><td><b>必须全量重算</b>——向量空间不兼容。所以嵌入选型要留余量、全量重建做成自动化管线</td></tr>
+     <tr><td>切换方式</td><td>双写灰度，新旧库并行跑评估集对比</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>别为「将来可能的十亿级」提前买复杂度。</b></p>
+  <p><b>性能答法</b>：各家都在毫秒级、量级内差距对多数应用无感——真正拉开差距的是<b>过滤 / 混合检索能力和运维成本</b>，选型看能力匹配不看跑分排名。国产化要求：开源自托管路线全可控（Milvus 是国内团队主导的开源项目）。</p>
   <p class="ev">选型锚点核实 2026-07-11，来源 <a href="#src-vectordb">2026 向量库对比</a>。<b>不可外推边界</b>：对比表是通用场景下的能力排序，不含客户的过滤条件、并发与运维口径；文中的量级建议是常见生产区间，不是硬上限。</p>
 </section>
 
@@ -164,7 +244,38 @@
       71%」，改进就有了靶子。</p>
   </div>
 
-  <p><b>坏答案回流：修数据，而不是改提示词</b>。「AI 老答错是不是模型不行」的归因链：经验上八成问题在检索侧，检索问题的大半又在数据侧（解析错/文档缺/内容过期）——在线评估抓坏答案（<a href="../ai-ops/index.html#ops-online-eval">AI-Ops 网页版</a>）→ 归因（检索的锅、解析的锅还是缺文档）→ 修数据（补/换/下架）→ 评估集重跑验证。多数客户以为要「调模型」，归因数据会告诉他们该「修数据」。覆盖率仪表盘的售前故事：高频无答案问题清单 = 客户补文档的优先级表——把「AI 答不上」变成知识治理的入口；补写是客户团队的活，「补什么最值」由数据说话。运营节奏：日看新鲜度告警、周看坏答案归因、月出四指标报告——与 AI-Ops 运营包同节奏合并交付；停止运营的知识库半年就烂。</p>
+  <h3>坏答案回流：修数据，而不是改提示词</h3>
+  <p>「AI 老答错是不是模型不行」的归因链——<b>经验上八成问题在检索侧，检索问题的大半又在数据侧</b>（解析错 / 文档缺 / 内容过期）：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="坏答案回流四步：在线评估抓坏答案、归因是检索还是解析还是缺文档、修数据补换下架、评估集重跑验证">
+     <g font-family="var(--sans)">
+      <rect x="6" y="22" width="160" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="86" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">抓坏答案</text>
+      <text x="86" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">在线评估</text>
+      <rect x="190" y="22" width="160" height="46" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="270" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">归因</text>
+      <text x="270" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">检索 / 解析 / 缺文档</text>
+      <rect x="374" y="22" width="160" height="46" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="454" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">修数据</text>
+      <text x="454" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">补 / 换 / 下架</text>
+      <rect x="558" y="22" width="156" height="46" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="636" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">重跑验证</text>
+      <text x="636" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">评估集</text>
+      <path d="M166 45 H186 M350 45 H370 M534 45 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 45 l-6 -3.5 v7 z M370 45 l-6 -3.5 v7 z M554 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="94" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">多数客户以为要「调模型」，归因数据会告诉他们该「修数据」</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>在线评估怎么抓见 <a href="../ai-ops/index.html#ops-online-eval">AI-Ops 网页版</a>。</figcaption>
+  </figure>
+
+  <div class="box">
+   <h4>覆盖率仪表盘的售前故事</h4>
+   <p>高频无答案问题清单 = <b>客户补文档的优先级表</b>——把「AI 答不上」变成知识治理的入口。补写是客户团队的活，<b>「补什么最值」由数据说话</b>。</p>
+  </div>
+  <p><b>运营节奏</b>：日看新鲜度告警、周看坏答案归因、月出四指标报告——与 AI-Ops 运营包同节奏合并交付；<b>停止运营的知识库半年就烂</b>。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -178,8 +289,24 @@
       人工守门」</b>三笔钱：种子人工写（业务专家半天 30–50 条精品，质量标准也在这步定——最贵也最值）、扩量交模型（成本是人工的零头）、验收人工抽检（5–10%，不过线回炉调种子——守住「合成不等于放羊」）。</p>
   </div>
 
-  <p><b>一份坏例，两条去向</b>——分流先问「是不知道还是不听话」：「不知道」是知识缺 →
-    评估集线，修文档/RAG 更新，当天见效；「不听话」是行为偏 → 训练集线，攒够批次做微调。分流错了钱就白花——知识类坏例别硬塞进训练集。评估集线留 10–20% 保留集防应试。运营纪律：<b>业务专家的时间是最稀缺资源</b>，只用在三件事上——定标准（一次）、写种子（半天）、周审边界样本（两小时）——这是撬动整个数据飞轮的最小投入。合成数据「会不会越训越歪」：有纪律就可靠——真实种子打底、judge 过滤、抽检合格率是硬指标（低于七成说明种子或标准要回炉），纯合成才有坍缩风险。</p>
+  <h3>一份坏例，两条去向</h3>
+  <p>分流先问<b>「是不知道还是不听话」</b>——分流错了钱就白花：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>症状</th><th>本质</th><th>走哪条线</th><th>多久见效</th></tr></thead>
+    <tbody>
+     <tr><td><b>不知道</b></td><td>知识缺</td><td>评估集线：修文档 / RAG 更新</td><td>当天</td></tr>
+     <tr><td><b>不听话</b></td><td>行为偏</td><td>训练集线：攒够批次做微调</td><td>按批次</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>知识类坏例别硬塞进训练集。</b>评估集线留 10–20% 保留集防应试。</p>
+
+  <div class="box">
+   <h4>业务专家的时间是最稀缺资源</h4>
+   <p>只用在三件事上——<b>定标准</b>（一次）、<b>写种子</b>（半天）、<b>周审边界样本</b>（两小时）。这是撬动整个数据飞轮的最小投入。</p>
+  </div>
+  <p><b>合成数据「会不会越训越歪」</b>：有纪律就可靠——真实种子打底、judge 过滤、抽检合格率是硬指标（低于七成说明种子或标准要回炉）；<b>纯合成才有坍缩风险</b>。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -190,7 +317,32 @@
     <p>分工一句话：<b>Security 说「要什么规则」，本页说「规则在管线哪一段执行」</b>——安全评审问到数据层，答案全在三个执行点：①ACL 映射（连接器同步权限元数据、检索时实时过滤、无权限连存在性都不暴露）②采集点脱敏（PII 正则+NER 进库前处理、敏感字段分级——别等检索时再补救）③保留与删除（源系统删除联动下架、遗忘权可执行、审计留痕）。</p>
   </div>
 
-  <p>决策大脑是「四类输入 + 一个策略决策」：主体 + 资源（客服 agent 替张三查——主体是「张三经由 agent」不是 agent 自己）、动作 + 上下文（同一份文档客服场景可检索、营销场景不可用于训练）→ 策略引擎给 allow/deny/附加义务（脱敏、行列过滤、水印、短保留、人工审批）——<b>授权在资源服务端强制执行，模型、查询或客户端都不能自行裁决</b>。验收：越权测试集是上线门禁（无权限账号 20 条敏感问题零泄露才放行，调岗/离职后重跑），加安全团队三个追问的标准答案——权限多久同步一次（随连接器增量，高危变更触发式同步、延迟窗口进 SLA）、向量能反推原文吗（<b>向量化 ≠ 匿名化，要主动讲</b>——该脱敏照脱敏）、删了真删了吗（向量库 + 缓存 + 衍生数据三处联动清——评估集里复制过的文档片段最容易被遗忘；「一键遗忘」是设计出来的能力，不是天然就有）。与 Security 方案不重复收费：那边定规则与防护体系，这边是规则在数据管线上的施工。</p>
+  <h3>决策大脑：四类输入 + 一个策略决策</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>输入</th><th>例子</th></tr></thead>
+    <tbody>
+     <tr><td><b>主体 + 资源</b></td><td>客服 agent 替张三查——<b>主体是「张三经由 agent」，不是 agent 自己</b></td></tr>
+     <tr><td><b>动作 + 上下文</b></td><td>同一份文档，客服场景可检索、营销场景不可用于训练</td></tr>
+     <tr><td><b>→ 策略引擎</b></td><td>给 allow / deny / 附加义务（脱敏、行列过滤、水印、短保留、人工审批）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>授权在资源服务端强制执行，模型、查询或客户端都不能自行裁决。</b></p>
+
+  <h3>验收与安全团队的三个追问</h3>
+  <p>越权测试集是上线门禁：无权限账号 20 条敏感问题零泄露才放行，<b>调岗 / 离职后重跑</b>。三个追问的标准答案：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>追问</th><th>标准答案</th></tr></thead>
+    <tbody>
+     <tr><td>权限多久同步一次</td><td>随连接器增量；高危变更触发式同步，<b>延迟窗口进 SLA</b></td></tr>
+     <tr><td>向量能反推原文吗</td><td><b>向量化 ≠ 匿名化，要主动讲</b>——该脱敏照脱敏</td></tr>
+     <tr><td>删了真删了吗</td><td>向量库 + 缓存 + 衍生数据<b>三处联动清</b>——评估集里复制过的文档片段最容易被遗忘；「一键遗忘」是设计出来的能力，不是天然就有</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>与 Security 方案<b>不重复收费</b>：那边定规则与防护体系，这边是规则在数据管线上的施工。</p>
 </section>
 
 <!-- ============ 问答 ============ -->

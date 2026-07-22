@@ -58,10 +58,23 @@
     <p>传统运维问「系统挂没挂」，AI 运维还要问两个传统 APM 一个都答不了的问题：<b>答得对不对（质量轴）、烧钱烧得值不值（成本轴）</b>。200 OK 里可能装着一本正经的胡说；一次深思考 = 一百次普通调用。核心痛点叫<b>静默退化</b>：基础设施指标全绿、输出质量在悄悄下滑——AI 运维的第一敌人。</p>
   </div>
 
-  <p>边界先立清楚：网关是数据源（token 计量、成本归因在
-    <a href="../ai-gateway/index.html">AI-Gateway 网页版</a>）、Evaluation 给方法（评估集怎么建、判官怎么用在 <a href="../evaluation/index.html">Evaluation 网页版</a>）、
-    GPU 利用率归 AI-Infra-Platform——本页只讲三片之间缺的「生命周期线」。<b>观测自身也要做成本工程</b>：一条 RAG 请求 = 检索 + 重排 + LLM + 后处理四个 span 还带完整 prompt
-    文本，遥测量是等价传统 API 的 10–50 倍，接入 AI 负载后 APM 账单普遍 +40–200%——采样率、保留期、脱敏是方案里必设的三个开关，也是最常被漏掉的报价项。</p>
+  <h3>边界先立清楚</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>谁管</th><th>管什么</th></tr></thead>
+    <tbody>
+     <tr><td><a href="../ai-gateway/index.html">AI-Gateway</a></td><td>数据源——token 计量、成本归因</td></tr>
+     <tr><td><a href="../evaluation/index.html">Evaluation</a></td><td>方法——评估集怎么建、判官怎么用</td></tr>
+     <tr><td>AI-Infra-Platform</td><td>GPU 利用率</td></tr>
+     <tr><td><b>本页</b></td><td><b>三片之间缺的那条「生命周期线」</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="box">
+   <h4>观测自身也要做成本工程</h4>
+   <p>一条 RAG 请求 = 检索 + 重排 + LLM + 后处理四个 span，还带完整 prompt 文本——<b>遥测量是等价传统 API 的 10–50 倍</b>，接入 AI 负载后 APM 账单普遍 +40–200%。<b>采样率、保留期、脱敏</b>是方案里必设的三个开关，也是最常被漏掉的报价项。</p>
+  </div>
 
   <div class="tool" id="planner">
     <h4>观测成本与采样规划器</h4>
@@ -96,10 +109,46 @@
     <p>trace 是 AI 应用的「行车记录仪」——出事故时要能回放每一步谁说了什么、调了什么工具、花了多少 token。OTel GenAI 四类 span：<b>gen_ai.client（model）已稳定</b>（2026 年初出实验期：模型名/token 用量/延迟/参数）、tool / agent / workflow 仍实验态但实践已稳——对客的精确口径值钱；多数属性仍带 Development 标签，<b>封装一层再用</b>。</p>
   </div>
 
-  <p>一条 RAG 请求的旅程：workflow 根 → tool 检索 → tool 重排 → model 生成（token 大头）
-    → tool 后处理。<b>排障三板斧</b>：慢看 model span 首 token 时延、贵看 input token
-    （通常是上下文塞多了）、错先看检索工具的返回（幻觉常源于喂了脏数据）——没有 trace 这三类问题平均要复现半天，有 trace 是分钟级定位。与网关采集是两层拼接：网关看进出模型的流量、应用内 span 看一次请求的内部结构——<b>trace id 要贯通</b>。<b>PII 三开关</b>：记什么（结构全量：span 树/时延/token 数/版本 + 质量信号）、不记什么（prompt 里的 PII
-    正则 + NER 脱敏后再入库——脱敏要在采集点做不在展示层，一个手机号会出现在 span 属性、日志、评估队列三个地方）、记多久（内容类短保留 7–30 天、指标类长保留、事故 trace 单独归档）。<b>观测系统常是「数据泄漏的第二现场」</b>——prompt 明文原样进日志等于把客户数据复制了一份，按「第二数据库」的安全标准建。</p>
+  <h3>一条 RAG 请求的旅程</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="一条 RAG 请求的 span 树：workflow 根、tool 检索、tool 重排、model 生成（token 大头）、tool 后处理">
+     <g font-family="var(--sans)">
+      <rect x="6" y="22" width="118" height="46" rx="8" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="65" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">workflow</text>
+      <text x="65" y="58" text-anchor="middle" font-size="11" fill="var(--ink-400)">根</text>
+      <rect x="142" y="22" width="118" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="201" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">tool 检索</text>
+      <text x="201" y="58" text-anchor="middle" font-size="11" fill="var(--ink-400)">错先看这里</text>
+      <rect x="278" y="22" width="118" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="337" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">tool 重排</text>
+      <rect x="414" y="22" width="160" height="46" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="494" y="42" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">model 生成</text>
+      <text x="494" y="58" text-anchor="middle" font-size="11" fill="var(--blue-d)">token 大头 · 慢贵都看它</text>
+      <rect x="592" y="22" width="122" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="653" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">tool 后处理</text>
+      <path d="M124 45 H138 M260 45 H274 M396 45 H410 M574 45 H588" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M138 45 l-6 -3.5 v7 z M274 45 l-6 -3.5 v7 z M410 45 l-6 -3.5 v7 z M588 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="94" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">没有 trace 这三类问题平均要复现半天，有 trace 是分钟级定位</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>排障三板斧：<b>慢</b>看 model span 首 token 时延、<b>贵</b>看 input token（通常是上下文塞多了）、<b>错</b>先看检索工具的返回（幻觉常源于喂了脏数据）。</figcaption>
+  </figure>
+  <p>与网关采集是两层拼接：网关看进出模型的流量、应用内 span 看一次请求的内部结构——<b>trace id 要贯通</b>。</p>
+
+  <h3>PII 三开关</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>开关</th><th>怎么设</th></tr></thead>
+    <tbody>
+     <tr><td><b>记什么</b></td><td>结构全量：span 树 / 时延 / token 数 / 版本 + 质量信号</td></tr>
+     <tr><td><b>不记什么</b></td><td>prompt 里的 PII 用正则 + 命名实体识别脱敏后再入库——<b>脱敏要在采集点做，不在展示层</b>：一个手机号会出现在 span 属性、日志、评估队列三个地方</td></tr>
+     <tr><td><b>记多久</b></td><td>内容类短保留 7–30 天、指标类长保留、事故 trace 单独归档</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>观测系统常是「数据泄漏的第二现场」</b>——prompt 明文原样进日志等于把客户数据复制了一份，按「第二数据库」的安全标准建。</p>
   <p class="ev">span 标准状态核实 2026-07-10（OTLP 口径 07-12），来源
     <a href="#src-otel">OTel 官方规范与博客</a>。</p>
 </section>
@@ -124,7 +173,33 @@
     <p>三类漂移：<b>供应商静默换 checkpoint</b>（最阴险——合同里写着同一个模型名，背后的权重已不是上月那份；「上月测的 ≠ 这月答的」要讲给每个客户听）、<b>输出漂移</b>（输入没变，风格/长度/结构在变）、<b>性能漂移</b>（语法还对，事实错得更多）。</p>
   </div>
 
-  <p>全绿仪表盘为什么骗人：可用性 99.9%、延迟正常、错误率 0.1%——因为模型「答了」，只是答错了；质量仪表盘看到的是 judge 分三周从 4.2 降到 3.6、「无法回答」占比翻倍、退款类失败模式聚集。<b>退化以「周」为单位缓慢发生，客诉爆发时已煮熟</b>——破法只有让「质量」成为和「可用性」并列的一等监控对象。<b>检测组合拳</b>（单一手段都有盲区）：judge 持续打分（性能漂移主探测器，日看板）+ 嵌入距离监测（分布偏移，周报告）+ 护栏违规率/格式失败率（廉价信号，进告警）+ <b>回归集定期重跑（唯一能「证明」供应商换了模型的手段，别省</b>——周跑 + 模型版本变更时立即跑）+ 成本/token 突变（想得更久 = 变了）。巡检节奏：日看板、周报告三个数字（judge 趋势/嵌入距离/回归通过率——玄学变仪表盘）、发现漂移先查供应商公告再查自己的发布记录。巡检为什么持续收费：威胁是持续的，基线断一个月就没了——像体检，价值在连续性。</p>
+  <h3>全绿仪表盘为什么骗人</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>基础设施仪表盘</th><th>质量仪表盘</th></tr></thead>
+    <tbody>
+     <tr><td><b>看到什么</b></td><td>可用性 99.9%、延迟正常、错误率 0.1%</td><td>judge 分三周从 4.2 降到 3.6、「无法回答」占比翻倍、退款类失败模式聚集</td></tr>
+     <tr><td><b>结论</b></td><td>一切正常</td><td><b>模型「答了」，只是答错了</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>退化以「周」为单位缓慢发生，客诉爆发时已煮熟</b>——破法只有让「质量」成为和「可用性」并列的一等监控对象。</p>
+
+  <h3>检测组合拳（单一手段都有盲区）</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>手段</th><th>探什么</th><th>节奏</th></tr></thead>
+    <tbody>
+     <tr><td>judge 持续打分</td><td>性能漂移主探测器</td><td>日看板</td></tr>
+     <tr><td>嵌入距离监测</td><td>分布偏移</td><td>周报告</td></tr>
+     <tr><td>护栏违规率 / 格式失败率</td><td>廉价信号</td><td>进告警</td></tr>
+     <tr><td><b>回归集定期重跑</b></td><td><b>唯一能「证明」供应商换了模型的手段，别省</b></td><td>周跑 + 模型版本变更时立即跑</td></tr>
+     <tr><td>成本 / token 突变</td><td>想得更久 = 变了</td><td>分钟级</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>巡检节奏</b>：日看板；周报告三个数字（judge 趋势 / 嵌入距离 / 回归通过率——<b>玄学变仪表盘</b>）；发现漂移先查供应商公告，再查自己的发布记录。</p>
+  <p><b>巡检为什么持续收费</b>：威胁是持续的，基线断一个月就没了——像体检，<b>价值在连续性</b>。</p>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -135,8 +210,58 @@
     <p>核心观念：<b>提示词/RAG 配置/工具定义都是生产工件——改动就是发布，发布就要走流程</b>。一个词就能改变线上行为（删掉一句约束导致客服乱承诺是真实事故）。版本注册表六件入册（提示词/评估集版本/模型与参数/RAG 配置/工具与护栏/发布记录），回答一个朴素问题：「上周三线上跑的到底是哪套配置？」——答不出的团队，排障只能靠考古。</p>
   </div>
 
-  <p>五步发布流水线：版本注册打 tag → 评估门禁（回归集不过线连金丝雀资格都没有；高风险变更加专家评审）→ 金丝雀 5–10% 流量 → 观测窗（质量分/错误率/延迟三件套，小时级到天级）
-    → 晋升或回滚。<b>与传统金丝雀的分水岭：LLM 金丝雀必须在金丝雀流量上跑自动评估</b>——坏的是答案质量，HTTP 全是 200；没有在线评估的金丝雀是裸奔。<b>回滚纪律</b>：旧版本不可变永远保留、回滚 = 生产 tag 指回上一已知好版本秒级生效（不是重新部署——达不到秒级通常因为提示词硬编码在代码里）、回滚后必须补事故记录。反模式三个：控制台直接改提示词、回滚靠记忆、金丝雀只看延迟不跑评估。<b>四层版本键</b>定位「一次输出由谁决定」：应用层（谁在运行）/ 生成层（怎么生成的——供应商静默换模就是这层在漂）/ 上下文层（依据什么）/ 质量层（怎么判定的）——拼成组合发布号，从任何一条 trace 一跳定位每层的不可变版本；「什么都没改质量却掉了」，十有八九是没版本化的那层在动。模型升级当成一次大发布走全流程——换模型是流程不是冒险。</p>
+  <h3>五步发布流水线</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 110" role="img" aria-label="五步发布流水线：版本注册打 tag、评估门禁、金丝雀 5 到 10% 流量、观测窗、晋升或回滚">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="69" y="52" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">版本注册打 tag</text>
+      <rect x="150" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="213" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">评估门禁</text>
+      <text x="213" y="61" text-anchor="middle" font-size="10.5" fill="var(--warn)">不过线没有金丝雀资格</text>
+      <rect x="294" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="357" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">金丝雀</text>
+      <text x="357" y="61" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">5–10% 流量</text>
+      <rect x="438" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="501" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">观测窗</text>
+      <text x="501" y="61" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">质量 / 错误率 / 延迟</text>
+      <rect x="582" y="24" width="132" height="46" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="648" y="52" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">晋升或回滚</text>
+      <path d="M132 47 H146 M276 47 H290 M420 47 H434 M564 47 H578" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M146 47 l-6 -3.5 v7 z M290 47 l-6 -3.5 v7 z M434 47 l-6 -3.5 v7 z M578 47 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="98" text-anchor="middle" font-size="11.5" fill="var(--red)">分水岭：LLM 金丝雀必须在金丝雀流量上跑自动评估——坏的是答案质量，HTTP 全是 200</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>没有在线评估的金丝雀是裸奔；高风险变更在评估门禁那一步加专家评审。</figcaption>
+  </figure>
+
+  <h3>回滚纪律与三个反模式</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>该怎么做</th><th>反模式</th></tr></thead>
+    <tbody>
+     <tr><td>旧版本不可变、永远保留</td><td>回滚靠记忆</td></tr>
+     <tr><td>回滚 = 生产 tag 指回上一已知好版本，<b>秒级生效</b>（不是重新部署——达不到秒级通常因为提示词硬编码在代码里）</td><td>控制台直接改提示词</td></tr>
+     <tr><td>回滚后必须补事故记录</td><td>金丝雀只看延迟不跑评估</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>四层版本键：定位「一次输出由谁决定」</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>层</th><th>回答</th></tr></thead>
+    <tbody>
+     <tr><td>应用层</td><td>谁在运行</td></tr>
+     <tr><td><b>生成层</b></td><td>怎么生成的——<b>供应商静默换模就是这层在漂</b></td></tr>
+     <tr><td>上下文层</td><td>依据什么</td></tr>
+     <tr><td>质量层</td><td>怎么判定的</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>拼成组合发布号，<b>从任何一条 trace 一跳定位每层的不可变版本</b>。「什么都没改质量却掉了」，十有八九是没版本化的那层在动。模型升级当成一次大发布走全流程——<b>换模型是流程不是冒险</b>。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -149,10 +274,43 @@
       步数/预算上限强制中断）、<b>复盘不了</b>（必须靠 trace 留证——第 2 节是本节的前提）。</p>
   </div>
 
-  <p><b>成本尖峰常是第一信号</b>：死循环/被注入的 agent 先表现为 token 暴涨——有写权限的
-    agent 等人发现时可能已把事情搞大；真实案例：agent 递归循环十分钟烧掉一天预算。所以<b>成本告警要分钟级粒度，不是日账单</b>。「你们的 AI 有没有刹车」的工程回答两层：<b>急停开关</b>（IM 机器人一键暂停所有任务、停任务不砸状态保留现场；恢复要走发布门禁，不会「手一抖又跑起来」）+ 硬上限（步数/预算/权限边界超限自动中断）。<b>HITL 三分级</b>按风险配人：in-the-loop（人开车 AI 副驾——高危写操作：退款/删除/对外发送）、
-    on-the-loop（人监督 AI 有界行动——客服回复类）、out-of-the-loop（人审计——低风险高频批量任务，事后抽检 + trace 留证）。放权路线图本身是方案书的一节：新场景从 in 起步，评估分稳定后逐级放——<b>放多快由数据说话，不由胆子说话</b>。事故分级写进 SLA（P1 高危输出触达客户 15 分钟响应急停、P2 质量骤降/成本尖峰 1 小时降级、P3 漂移趋势 1 个工作日、
-    P4 进 backlog）——P1 的定义要和客户共创，什么算「高危错误输出」由业务定。</p>
+  <div class="box">
+   <h4>成本尖峰常是第一信号</h4>
+   <p>死循环 / 被注入的 agent 先表现为 token 暴涨——有写权限的 agent 等人发现时可能已把事情搞大。真实案例：<b>agent 递归循环十分钟烧掉一天预算</b>。所以<b>成本告警要分钟级粒度，不是日账单</b>。</p>
+  </div>
+
+  <h3>「你们的 AI 有没有刹车」：工程回答两层</h3>
+  <div class="grid">
+   <div class="box"><h4>急停开关</h4><p>IM 机器人一键暂停所有任务、<b>停任务不砸状态、保留现场</b>；恢复要走发布门禁，不会「手一抖又跑起来」。</p></div>
+   <div class="box"><h4>硬上限</h4><p>步数 / 预算 / 权限边界超限自动中断。</p></div>
+  </div>
+
+  <h3>HITL 三分级：按风险配人</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>分级</th><th>人在哪</th><th>用在什么场景</th></tr></thead>
+    <tbody>
+     <tr><td><b>in-the-loop</b></td><td>人开车、AI 副驾</td><td>高危写操作：退款 / 删除 / 对外发送</td></tr>
+     <tr><td><b>on-the-loop</b></td><td>人监督、AI 有界行动</td><td>客服回复类</td></tr>
+     <tr><td><b>out-of-the-loop</b></td><td>人审计</td><td>低风险高频批量任务，事后抽检 + trace 留证</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>放权路线图本身是方案书的一节</b>：新场景从 in 起步，评估分稳定后逐级放——<b>放多快由数据说话，不由胆子说话</b>。</p>
+
+  <h3>事故分级写进 SLA</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>级别</th><th>什么情况</th><th>响应</th></tr></thead>
+    <tbody>
+     <tr><td><b>P1</b></td><td>高危输出触达客户</td><td>15 分钟响应急停</td></tr>
+     <tr><td><b>P2</b></td><td>质量骤降 / 成本尖峰</td><td>1 小时降级</td></tr>
+     <tr><td><b>P3</b></td><td>漂移趋势</td><td>1 个工作日</td></tr>
+     <tr><td><b>P4</b></td><td>其余</td><td>进 backlog</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>P1 的定义要和客户共创</b>——什么算「高危错误输出」由业务定。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -172,11 +330,31 @@
     </tbody>
   </table>
   </div>
-  <p>两个值得单独认识的：<b>Braintrust</b>（观测评估一体——「不该是两个系统」，CI/CD 评估门禁强，免费档 1M span/月 + 10K eval）与 <b>AgentOps</b>（会话回放 time-travel
-    debugging + 无限循环检测——长任务 agent 排障利器）。<b>「有 Datadog 还要买吗」的一句话答法：APM 系够看「贵不贵、慢不慢」，不够看「好不好」</b>——补专用系管质量评估/漂移/
-    评审队列，两层 trace id 打通，互补不替换。选型三变量：要自托管/数据不出域 → Langfuse
-    / Phoenix；深绑 LangChain → LangSmith；评估驱动文化 → Braintrust，重 agent 加 AgentOps。两个纪律：<b>底座统一 OTel 埋点</b>（工具只是可换后端，换后端不改埋点——埋点与数据是客户资产）；合同写清数据导出条款（并购整合进行中，Langfuse 进 ClickHouse 是信号）。成本架构：AI 遥测全量灌进按量计费的 APM 是账单事故常见起点——专用系/自托管承接大头、
-    APM 只收聚合指标。</p>
+  <p>两个值得单独认识的：<b>Braintrust</b>（观测评估一体——「不该是两个系统」，CI/CD 评估门禁强，免费档 1M span/月 + 10K eval）与 <b>AgentOps</b>（会话回放 time-travel debugging + 无限循环检测——<b>长任务 agent 排障利器</b>）。</p>
+
+  <div class="box">
+   <h4>「有 Datadog 还要买吗」</h4>
+   <p>一句话答法：<b>APM 系够看「贵不贵、慢不慢」，不够看「好不好」</b>——补专用系管质量评估 / 漂移 / 评审队列，两层 trace id 打通，<b>互补不替换</b>。</p>
+  </div>
+
+  <h3>选型三变量</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>你的约束</th><th>选谁</th></tr></thead>
+    <tbody>
+     <tr><td>要自托管 / 数据不出域</td><td>Langfuse / Phoenix</td></tr>
+     <tr><td>深绑 LangChain</td><td>LangSmith</td></tr>
+     <tr><td>评估驱动文化</td><td>Braintrust；重 agent 再加 AgentOps</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>两个纪律</h3>
+  <div class="grid">
+   <div class="box"><h4>底座统一 OTel 埋点</h4><p>工具只是可换后端，换后端不改埋点——<b>埋点与数据是客户资产</b>。</p></div>
+   <div class="box"><h4>合同写清数据导出条款</h4><p>并购整合进行中，Langfuse 进 ClickHouse 是信号。</p></div>
+  </div>
+  <p><b>成本架构</b>：AI 遥测全量灌进按量计费的 APM 是账单事故的常见起点——专用系 / 自托管承接大头、APM 只收聚合指标。</p>
   <p class="ev">六平台与许可证核实 2026-07-10 至 07-12，来源 <a href="#src-tools">GitHub
     仓库与 2026 对比</a>。<b>不可外推边界</b>：开源项目的许可证会变更，选型落地一律以当日 LICENSE 原文为准，不引用二手对比表。</p>
 </section>
@@ -202,9 +380,27 @@
     </tbody>
   </table>
   </div>
-  <p>指标节奏：实时告警（inline 违规率/成本分钟级突变/错误率——异常先查发布记录）、日看板（judge 质量分/采样覆盖率/延迟 P95）、周报告（漂移三数字）、<b>月度报告是运营包的「可见产出物」</b>——客户续不续费，往往取决于这份报告讲不讲得出价值故事。观测体系自身的验收六个「可」：可见可复现（trace 贯穿 + 四层版本键血缘回放）、可评测（四路打分 +
-    校准集）、可治理（PII/租户/采样保留有策略）、可发布可恢复（离线→影子→金丝雀→门禁 +
-    kill switch）——终极判断：任意一次质量或成本异常都能回放「哪个版本、哪里变化、为何放行、如何止损、怎样防复发」；<b>看板能打开只是联调，不是运营闭环</b>。</p>
+  <h3>指标节奏</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>节奏</th><th>看什么</th></tr></thead>
+    <tbody>
+     <tr><td>实时告警</td><td>inline 违规率 / 成本分钟级突变 / 错误率——<b>异常先查发布记录</b></td></tr>
+     <tr><td>日看板</td><td>judge 质量分 / 采样覆盖率 / 延迟 P95</td></tr>
+     <tr><td>周报告</td><td>漂移三数字</td></tr>
+     <tr><td><b>月度报告</b></td><td><b>运营包的「可见产出物」</b>——客户续不续费，往往取决于这份报告讲不讲得出价值故事</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>观测体系自身的验收：六个「可」</h3>
+  <div class="grid">
+   <div class="box"><h4>可见、可复现</h4><p>trace 贯穿 + 四层版本键血缘回放。</p></div>
+   <div class="box"><h4>可评测</h4><p>四路打分 + 校准集。</p></div>
+   <div class="box"><h4>可治理</h4><p>PII / 租户 / 采样保留有策略。</p></div>
+   <div class="box"><h4>可发布、可恢复</h4><p>离线 → 影子 → 金丝雀 → 门禁 + kill switch。</p></div>
+  </div>
+  <p>终极判断：任意一次质量或成本异常都能回放「哪个版本、哪里变化、为何放行、如何止损、怎样防复发」——<b>看板能打开只是联调，不是运营闭环</b>。</p>
 </section>
 
 <!-- ============ 问答 ============ -->

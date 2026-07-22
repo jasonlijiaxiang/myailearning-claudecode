@@ -92,9 +92,35 @@
     <b>decode 速度上限 ≈ 显存带宽 ÷ 模型字节数</b>：要么摊薄搬运（批处理），要么减小字节（量化）——全书一半优化都在改这个分子或分母。（「每 token 搬全量权重」是单请求的理想化上界，实际有缓存与批处理摊薄，数量级判断成立。）</p>
 
   <h3>三个仪表盘与一条时间线</h3>
-  <p><b>TTFT</b>（Time To First Token，首字延迟）由 prefill 决定；<b>TPOT</b>（Time Per Output
-    Token，每字延迟）由 decode 决定；<b>吞吐</b>由批处理决定，是摊成本的分母。一次真实调用（500 token 提示、生成 300 token）：网络+排队 ~20ms → prefill ~80ms → decode 300 × ~25ms
-    ≈ 7.5s——<b>总耗时 95% 以上花在 decode</b>，这就是优化都围着 decode 转的原因。批越大吞吐越高、单请求越慢：所有调度设计都是在这条曲线上选点。谈体验先问 TTFT/TPOT，谈成本用吞吐，不要只问「一条请求几秒」。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>指标</th><th>由谁决定</th><th>它是什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>TTFT</b>（Time To First Token，首字延迟）</td><td>prefill</td><td>用户等多久看到第一个字</td></tr>
+     <tr><td><b>TPOT</b>（Time Per Output Token，每字延迟）</td><td>decode</td><td>字往外蹦的快慢</td></tr>
+     <tr><td><b>吞吐</b></td><td>批处理</td><td>摊成本的分母</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 96" role="img" aria-label="一次真实调用的耗时拆解：网络加排队约 20 毫秒、prefill 约 80 毫秒、decode 300 个 token 每个约 25 毫秒合计约 7.5 秒，总耗时 95% 以上花在 decode">
+     <g font-family="var(--sans)">
+      <text x="4" y="16" font-size="12" font-weight="700" fill="var(--ink-500)">500 token 提示、生成 300 token 的一次调用</text>
+      <rect x="6" y="28" width="4" height="26" fill="var(--ink-400)"/>
+      <rect x="10" y="28" width="14" height="26" fill="var(--ink-400)" opacity=".55"/>
+      <rect x="24" y="28" width="690" height="26" rx="4" fill="var(--blue)"/>
+      <text x="369" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--card)">decode　300 × ~25ms ≈ 7.5s</text>
+      <text x="6" y="74" font-size="11" fill="var(--ink-400)">网络+排队 ~20ms</text>
+      <text x="130" y="74" font-size="11" fill="var(--ink-400)">prefill ~80ms</text>
+      <text x="714" y="74" text-anchor="end" font-size="11.5" font-weight="700" fill="var(--blue-d)">总耗时 95% 以上花在 decode</text>
+      <text x="4" y="92" font-size="11.5" fill="var(--ink-400)">这就是优化都围着 decode 转的原因——柱长按实际耗时等比画</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>批越大吞吐越高、单请求越慢：所有调度设计都是在这条曲线上选点。</figcaption>
+  </figure>
+  <p><b>谈体验先问 TTFT / TPOT，谈成本用吞吐</b>，不要只问「一条请求几秒」。</p>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -107,10 +133,27 @@
   </div>
 
   <h3>心算公式</h3>
-  <p>每 token 的 KV 字节数 = <b>2（K 和 V）× 层数 × KV 头数 × 每头维度 × 精度字节</b>。以 Llama-3-70B 为例：2 × 80 层 × 8 个 KV 头（GQA，Grouped-Query Attention）× 128 维
-    × 2 字节（FP16）= 320KB/token。记结论：<b>主流 70B 级约 0.3MB/token，10 万 token 上下文
-    ≈ 30GB 显存</b>。没有 GQA（64 头全存）会是 8 倍；DeepSeek 系的 MLA（Multi-head Latent
-    Attention）又比 GQA 再省约 10 倍——模型架构的选择直接改写推理侧的成本表。</p>
+  <p>每 token 的 KV 字节数 = <b>2（K 和 V）× 层数 × KV 头数 × 每头维度 × 精度字节</b>。以 Llama-3-70B 为例：</p>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>算式</td><td>2 × 80 层 × 8 个 KV 头（GQA，Grouped-Query Attention）× 128 维 × 2 字节（FP16）</td></tr>
+     <tr><td><b>结果</b></td><td><b>320KB / token</b></td></tr>
+     <tr><td><b>记结论</b></td><td>主流 70B 级约 <b>0.3MB / token</b>，10 万 token 上下文 ≈ <b>30GB 显存</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <h3>注意力架构直接改写成本表</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>架构</th><th>KV 占用</th></tr></thead>
+    <tbody>
+     <tr><td>无 GQA（64 头全存）</td><td>是 GQA 的 <b>8 倍</b></td></tr>
+     <tr><td>GQA</td><td>基准</td></tr>
+     <tr><td>MLA（Multi-head Latent Attention，DeepSeek 系）</td><td>比 GQA 再省约 <b>10 倍</b></td></tr>
+    </tbody>
+   </table>
+  </div>
 
   <div class="tw">
   <table>
@@ -214,9 +257,18 @@
     </tbody>
   </table>
   </div>
-  <p>决策树一句话：NVIDIA 新卡 + 极致性能 → TensorRT-LLM；共享前缀多 / DeepSeek 系 → SGLang；本地单机 / 桌面 → Ollama；<b>其余一律 vLLM 起步</b>——「它是这个领域的 Linux」。三兄弟类比：
-    vLLM 是什么路都能跑的丰田，SGLang 是特定赛道超快的改装车，TensorRT-LLM 是绑定自家赛道的 F1
-    （商业包装为 NIM，按 GPU 收订阅）。别拿 Ollama 的体验推断生产容量（无连续批处理，几十并发吞吐差近一个数量级），也别拿 vLLM 的门槛吓退桌面用户——两个世界各自最优。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>你的情况</th><th>选谁</th><th>像什么</th></tr></thead>
+    <tbody>
+     <tr><td>NVIDIA 新卡 + 极致性能</td><td>TensorRT-LLM</td><td>绑定自家赛道的 F1（商业包装为 NIM，按 GPU 收订阅）</td></tr>
+     <tr><td>共享前缀多 / DeepSeek 系</td><td>SGLang</td><td>特定赛道超快的改装车</td></tr>
+     <tr><td>本地单机 / 桌面</td><td>Ollama</td><td>——</td></tr>
+     <tr><td><b>其余一律</b></td><td><b>vLLM 起步</b></td><td>什么路都能跑的丰田——<b>「它是这个领域的 Linux」</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>两个别</b>：别拿 Ollama 的体验推断生产容量（无连续批处理，几十并发吞吐差近一个数量级）；也别拿 vLLM 的门槛吓退桌面用户——<b>两个世界各自最优</b>。</p>
 
   <h3>云上三条路线</h3>
   <div class="tw">
@@ -302,10 +354,30 @@
   <p>张量并行 TP（一层切给多卡，单机内低延迟首选，NVLink 内不出机）、流水线并行 PP（按层分段，跨机用）、专家并行 EP（MoE 的专家分布到多卡）。DeepSeek 系旗舰（671B 总参/37B 激活）权重远超单机 8 卡容量，生产普遍 TP+EP、几十张卡为一个推理单元——<b>「部署单元」从单卡变成集群是 2026 年旗舰模型常态</b>。MoE 激活少省的是每 token 计算量，但所有专家权重都要装在显存里待命：省的是电费，不是卡数。</p>
 
   <h3>P/D 分离：前厅后厨彻底分区</h3>
-  <p>prefill 是算力密集的「突发大活」，decode 是带宽密集的「持续细活」，混跑时两个 SLO 互相绑架——chunked prefill 只是止痛药，根治是分池部署：prefill 池专职读题产出 KV，KV 经高速网络（NIXL 这类传输层）快递给 decode 池，两池可用不同型号 GPU、按各自负载独立扩缩。学术源头
-    DistServe（OSDI'24）证明分离可数倍提升 goodput；NVIDIA 口径 Dynamo 在 Blackwell 跑
-    DeepSeek-R1 吞吐最高 7×（厂商基准，理解量级即可）。<b>代价是 KV 搬运的网络开销：请求短、
-    KV 小时不划算</b>——它是「大集群 + 长上下文」的解药，不是万能默认。</p>
+  <p>prefill 是算力密集的「突发大活」，decode 是带宽密集的「持续细活」，<b>混跑时两个 SLO 互相绑架</b>——chunked prefill 只是止痛药，根治是分池部署：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 128" role="img" aria-label="P/D 分离：prefill 池专职读题产出 KV，KV 经高速传输层快递给 decode 池，两池可用不同型号 GPU、按各自负载独立扩缩">
+     <g font-family="var(--sans)">
+      <rect x="20" y="24" width="240" height="64" rx="8" fill="var(--card)" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="140" y="48" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink-900)">prefill 池</text>
+      <text x="140" y="66" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">算力密集 · 专职读题产出 KV</text>
+      <text x="140" y="82" text-anchor="middle" font-size="11" fill="var(--ink-400)">突发大活</text>
+      <rect x="460" y="24" width="240" height="64" rx="8" fill="var(--card)" stroke="var(--ok)" stroke-width="1.5"/>
+      <text x="580" y="48" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--ink-900)">decode 池</text>
+      <text x="580" y="66" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">带宽密集 · 逐 token 生成</text>
+      <text x="580" y="82" text-anchor="middle" font-size="11" fill="var(--ink-400)">持续细活</text>
+      <path d="M260 56 H454" stroke="var(--blue)" stroke-width="1.5"/>
+      <path d="M454 56 l-7 -4 v8 z" fill="var(--blue)"/>
+      <text x="357" y="46" text-anchor="middle" font-size="11.5" fill="var(--blue-d)">KV 经高速网络快递</text>
+      <text x="357" y="76" text-anchor="middle" font-size="11" fill="var(--ink-400)">NIXL 这类传输层</text>
+      <text x="360" y="118" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">两池可用不同型号 GPU、按各自负载独立扩缩</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>学术源头 DistServe（OSDI'24）证明分离可数倍提升 goodput；NVIDIA 口径 Dynamo 在 Blackwell 跑 DeepSeek-R1 吞吐最高 7×（厂商基准，理解量级即可）。</figcaption>
+  </figure>
+  <p><b>代价是 KV 搬运的网络开销：请求短、KV 小时不划算</b>——它是「大集群 + 长上下文」的解药，<b>不是万能默认</b>。</p>
 
   <h3>Mooncake：KVCache 从私产变公共资产</h3>
   <p>Kimi 面对海量长文档对话，把整个推理平台围绕 KVCache 重构（FAST'25 最佳论文）：P/D 分池各自调度；全集群闲置的显存、内存、SSD 统一成分布式 KVCache 池，算过的前缀全集群共享复用；过载时按 SLO 主动拒载保住已接请求。真实负载下吞吐提升最高 5 倍级——「缓存换算力」在生产规模被验证。这是推理架构从单机思维到平台思维的分水岭。</p>
@@ -358,8 +430,25 @@
   <p>压测三口诀：<b>真实流量、分位延迟、goodput 口径</b>——用 vllm bench serve / AIPerf
     （v0.11.0 起接棒 GenAI-Perf）这类懂 token 级计时的压测器，流量画像照生产日志配；看
     P50/P90/P99 TTFT、P90 TPOT、整机吞吐、goodput（满足 SLO 的那部分吞吐）；画「并发-延迟」曲线找拐点，报价按拐点的 70–80% 留余量。三类假数字要拦：只报均值不报 P99、拿饱和吞吐当可用容量、短输入压测冒充长文档场景。</p>
-  <p>成本公式：<b>每百万 token 成本 ≈ GPU 集群时租 ÷ 每小时产出</b>。示例：2×H100 跑 70B FP8，时租约 $6，压测得 ~3000 token/s ≈ 每小时 1080 万 token → 约 $0.56/百万输出 token。对比托管 API 常见 $2–5/百万输出 token：粗看自建便宜 5–10 倍，但要摊利用率、运维人力、峰值冗余——<b>利用率 40–50% 是常见盈亏线</b>。记三个数：H100 级时租 $2–3/卡、70B FP8 双卡
-    ~3000 token/s、盈亏线利用率 ~40%（2026 年中量级参考，报价以实测为准）。</p>
+  <p>成本公式：<b>每百万 token 成本 ≈ GPU 集群时租 ÷ 每小时产出</b>。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>算一遍</th><th>数</th></tr></thead>
+    <tbody>
+     <tr><td>配置</td><td>2×H100 跑 70B FP8，时租约 $6</td></tr>
+     <tr><td>压测产出</td><td>~3000 token/s ≈ 每小时 1080 万 token</td></tr>
+     <tr><td><b>折算</b></td><td><b>约 $0.56 / 百万输出 token</b></td></tr>
+     <tr><td>托管 API 常见价</td><td>$2–5 / 百万输出 token</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>粗看自建便宜 5–10 倍，但要摊利用率、运维人力、峰值冗余——<b>利用率 40–50% 是常见盈亏线</b>。</p>
+  <div class="grid">
+   <div class="box"><h4>H100 级时租</h4><p>$2–3 / 卡</p></div>
+   <div class="box"><h4>70B FP8 双卡</h4><p>~3000 token/s</p></div>
+   <div class="box"><h4>盈亏线利用率</h4><p>~40%</p></div>
+  </div>
+  <p>2026 年中量级参考，<b>报价以实测为准</b>。</p>
 
   <h3>降本组合拳：按序叠加</h3>
   <div class="tw">
