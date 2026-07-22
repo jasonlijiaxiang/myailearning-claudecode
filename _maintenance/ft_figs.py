@@ -2,8 +2,9 @@
 嫁接：p7 后(定制光谱)、p8 后(知识vs行为)、p18 后(LoRA)、p22 后(三方对比)、
       p43 后(loss曲线)、p52 后(SFT→DPO→RFT)、p72 后(部署两形态)。
 FT 页脚无页码，图系统页脚(MOD/章名)正好匹配。独立预览：python3 ft_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -247,5 +248,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_ft_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_ft_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)

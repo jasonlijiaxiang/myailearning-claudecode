@@ -1,7 +1,8 @@
 """Agent 讲义信息图（第一批 4 张）。复用 _maintenance/kb_draw.py 的设计系统 helper。
 独立运行生成预览：python3 agent_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
 from pptx.enum.text import PP_ALIGN
@@ -183,6 +184,6 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in [draw_react_loop, draw_memory_desk, draw_mxn, draw_six_layer]:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_agent_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_agent_preview.pptx")
     prs.save(out)
     print("saved 4 figs ->", out)

@@ -1,6 +1,7 @@
 """Prompt Engineering 讲义信息图（第一批 4 张）。复用 kb_draw + agent_figs helper。"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
 from kb_draw import (bg, tb, sr, para, eyebrow, title, footer, node, arrow, band, label,
@@ -107,7 +108,7 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in [draw_pe_roles, draw_pe_cot, draw_pe_consistency, draw_pe_chaining]:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_pe_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_pe_preview.pptx")
     prs.save(out); print("saved 4 ->", out)
 
 

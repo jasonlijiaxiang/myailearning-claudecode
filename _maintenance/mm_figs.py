@@ -1,8 +1,9 @@
 """Multimodal 讲义信息图（4 张）。复用 kb_draw + agent_figs helper。
 嫁接：p18 后（CLIP）、p31 后（原生 vs 拼管线）、p49 后（扩散 vs 自回归）、p61 后（铁三角）。
 独立预览：python3 mm_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -286,5 +287,5 @@ if __name__ == '__main__':
             draw_mm_fusion_routes, draw_mm_latency_budget, draw_mm_cascade_vs_e2e]
     for fn in figs:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_mm_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_mm_preview.pptx")
     prs.save(out); print(f"saved {len(figs)} ->", out)

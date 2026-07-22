@@ -1,8 +1,9 @@
 """AI-Ops 讲义信息图（5 张）。复用 kb_draw + agent_figs helper。
 嫁接：p21 后(在线vs离线)、p22 后(四级漏斗)、p30 后(静默退化)、p38 后(发布流水线)、p48 后(事故响应)。
 AI-Ops 无页码，图系统页脚匹配。独立预览：python3 ops_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -205,5 +206,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_ops_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_ops_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)

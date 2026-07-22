@@ -1,8 +1,9 @@
 """LLM-Training 讲义信息图（5 张）。复用 kb_draw + agent_figs helper。
 嫁接：p5 后(生产流水线)、p24 后(下一词预测)、p44 后(奖励模型)、p45 后(RLHF vs DPO)、p52 后(推理模型)。
 LLM-Training 无页码，图系统页脚匹配。独立预览：python3 train_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -255,5 +256,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_train_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_train_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)

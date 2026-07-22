@@ -2,8 +2,9 @@
 嫁接：p6 后(根因)、p16 后(直接vs间接注入)、p34 后(供应链)、p44 后(爆炸半径)、p53 后(纵深防御)。
 Security 是页码册；图沿用图系统页脚（无页码），与首批一致（接受页码轻微漂移）。威胁元素用红。
 独立预览：python3 sec_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
@@ -236,5 +237,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_sec_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_sec_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)

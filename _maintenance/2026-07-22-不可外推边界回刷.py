@@ -9,7 +9,8 @@ import io
 import os
 import sys
 
-ROOT = "/Users/lijiaxiang/project/myAILearning/Web-version"
+ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                    "Web-version")
 
 BOUNDS = {
  "a2a": [

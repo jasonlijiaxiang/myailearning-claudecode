@@ -1,8 +1,9 @@
 """A2A 讲义信息图（4 张）。复用 kb_draw 设计系统 + agent_figs 的 line/dot helper。
 嫁接位置：p7 后（A2A vs MCP）、p17 后（五大对象）、p20 后（状态机）、p47 后（委派拓扑）。
 独立预览：python3 a2a_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -260,5 +261,5 @@ if __name__ == '__main__':
             draw_a2a_transports, draw_a2a_delivery, draw_a2a_trust_boundaries]
     for fn in figs:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_a2a_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_a2a_preview.pptx")
     prs.save(out); print(f"saved {len(figs)} ->", out)

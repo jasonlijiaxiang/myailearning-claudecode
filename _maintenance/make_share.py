@@ -31,7 +31,11 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SKIP_ALWAYS = {".git"}
-SKIP_FILES = {".DS_Store"}
+# `.claude/settings.local.json` 是**本机**的权限白名单，里面全是这台机器的绝对路径
+# （/Users/<用户名>/…、/private/tmp/…）。它已被 .gitignore 排除在版本库外，分享包同理
+# ——否则拷给别人的是一份指向你的机器的配置。同目录的 settings.json / launch.json 是
+# 项目级配置，可移植，照带。
+SKIP_FILES = {".DS_Store", "settings.local.json"}
 # 相对库根的前缀；命中即整棵不带（瘦身模式）
 SKIP_SLIM_PREFIX = (
     "_skill-source/history",
@@ -94,23 +98,62 @@ def build(outdir, full):
     return path, n
 
 
+# 自检要跑的门禁：全套，不是挑两道。2026-07-22 前只跑布局与坏链——那只证明「目录在、
+# 链接通」，证明不了账本一致、样式契约、生成物没漂、库级产物指针有效，
+# 而这些恰恰是整包换机后最容易出事的面。
+GATES = ("check_kb_layout.py", "check_html_links.py", "check_page_ledger.py",
+         "check_ebook_ledger.py", "check_css_classes.py", "check_prep_coverage.py")
+# 换机第一杀手：脚本写死本机绝对路径——本机跑得通，换台机器全废，且门禁一道都查不出。
+LOCAL_PATH_RE = re.compile(r"""["'](?:/Users/|/home/|[A-Za-z]:\\)""")
+
+
 def selfcheck(path):
-    """解压 → 在解压出的库里跑布局与坏链门禁。"""
+    """解压 → 在解压出的库里把整套门禁跑一遍（打包这条链的「真装一次」）。"""
     tmp = tempfile.mkdtemp(prefix="kbshare-")
     try:
         with zipfile.ZipFile(path) as z:
             z.extractall(tmp)
         inner = os.path.join(tmp, os.listdir(tmp)[0])
-        ok = True
-        for script in ("check_kb_layout.py", "check_html_links.py"):
-            r = subprocess.run([sys.executable,
-                                os.path.join(inner, "_maintenance", script)],
-                               cwd=inner, capture_output=True, text=True)
+        state = {"ok": True}
+
+        def run(args, label):
+            r = subprocess.run(args, cwd=inner, capture_output=True, text=True)
             tail = (r.stdout or r.stderr).strip().splitlines()[-1:] or ["(无输出)"]
             print("  [%s] %s → %s" % ("通过" if r.returncode == 0 else "不通过",
-                                      script, tail[0]))
-            ok = ok and r.returncode == 0
-        return ok
+                                      label, tail[0][:76]))
+            state["ok"] = state["ok"] and r.returncode == 0
+
+        for script in GATES:
+            run([sys.executable, os.path.join(inner, "_maintenance", script)], script)
+        build = os.path.join(inner, "Web-version", "build.py")
+        if os.path.exists(build):
+            run([sys.executable, build, "--check"], "build.py --check")
+        skill = os.path.join(inner, "_skill-source", "knowledge-base-builder.skill")
+        if os.path.exists(skill):
+            run([sys.executable,
+                 os.path.join(inner, "_maintenance", "check_skill_package.py"), skill],
+                "check_skill_package.py")
+
+        bad = []
+        for dirpath, dirnames, filenames in os.walk(inner):
+            dirnames[:] = [d for d in dirnames if d != ".git"]
+            for fn in filenames:
+                if not fn.endswith(".py"):
+                    continue
+                fp = os.path.join(dirpath, fn)
+                try:
+                    body = open(fp, encoding="utf-8", errors="replace").read()
+                except OSError:
+                    continue
+                if LOCAL_PATH_RE.search(body):
+                    bad.append(os.path.relpath(fp, inner))
+        if bad:
+            print("  [不通过] 本机绝对路径 → %d 个脚本：%s"
+                  % (len(bad), "、".join(bad[:3]) + ("…" if len(bad) > 3 else "")))
+            state["ok"] = False
+        else:
+            print("  [通过] 本机绝对路径 → 没有脚本写死 /Users、/home 或盘符路径")
+        return state["ok"]
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 

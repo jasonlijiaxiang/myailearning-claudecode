@@ -1,9 +1,10 @@
+import os
 """Evaluation 讲义信息图（4 张）。复用 kb_draw + agent_figs helper。
 嫁接：p8 后（评估三层）、p38 后（三种判法）、p60 后（RAG 三角）、p78 后（质量飞轮）。
 注：Evaluation 是页码册，图沿用图系统统一页脚（无页码），与首批 PE/LLM 一致。
 独立预览：python3 ev_figs.py"""
 import sys, math
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -243,5 +244,5 @@ if __name__ == '__main__':
             draw_ev_nondeterminism, draw_ev_judge_biases, draw_ev_four_gates]
     for fn in figs:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_ev_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_ev_preview.pptx")
     prs.save(out); print(f"saved {len(figs)} ->", out)

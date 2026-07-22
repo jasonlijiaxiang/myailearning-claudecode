@@ -7,7 +7,10 @@ import zipfile, re, sys, os
 BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE)
 
-SRC = "/Users/lijiaxiang/project/myAILearning/Agent/Agent-讲义.pptx"
+# 路径相对库根推导：库要能整包拷到别的机器上继续用，脚本里不留任何本机绝对路径。
+# 注：本脚本写于 v4.0 布局迁移前，讲义当时还在库根 <模块>/ 下；迁移后在 PPT-version/ 里。
+ROOT = os.path.dirname(BASE)
+SRC = os.path.join(ROOT, "PPT-version", "Agent", "Agent-讲义.pptx")
 MID = os.path.join(BASE, "_agent_ch10_mid.pptx")
 DST = os.path.join(BASE, "_agent_ch10_final.pptx")
 

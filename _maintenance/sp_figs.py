@@ -1,8 +1,9 @@
 """Solution-Patterns 讲义信息图（5 张）。复用 kb_draw + agent_figs helper。
 嫁接：p5 后(两条轴)、p29 后(解决率bar)、p57 后(AI Coding双层)、p76 后(ChatBI bar)、p94 后(分诊树)。
 SP 无页码，图系统页脚匹配。独立预览：python3 sp_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -227,5 +228,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_sp_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_sp_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)

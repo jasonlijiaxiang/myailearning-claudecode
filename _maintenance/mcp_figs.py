@@ -1,6 +1,7 @@
 """MCP 讲义信息图（第一批 4 张）。复用 kb_draw + agent_figs 的 helper。"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
 from kb_draw import (bg, tb, sr, para, eyebrow, title, footer, node, arrow, band, label,
@@ -106,7 +107,7 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in [draw_mcp_roles, draw_mcp_lifecycle, draw_mcp_stateless, draw_mcp_wrap]:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_mcp_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_mcp_preview.pptx")
     prs.save(out); print("saved 4 ->", out)
 
 

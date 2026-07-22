@@ -1,8 +1,9 @@
+import os
 """Data-Engineering 讲义信息图（5 张）。复用 kb_draw + agent_figs helper。
 嫁接：p5 后(五处证据)、p19 后(连接器五件事)、p27 后(向量库演进)、p34 后(坏答案回流)、p48 后(治理四输入)。
 DE 无页码，图系统页脚匹配。独立预览：python3 de_figs.py"""
 import sys, math
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -199,5 +200,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_de_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_de_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)

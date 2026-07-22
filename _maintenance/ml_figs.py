@@ -1,8 +1,9 @@
 """Model-Landscape 讲义信息图（5 张）。复用 kb_draw + agent_figs helper。
 嫁接：p5 后(三大阵营)、p6 后(两市场)、p43 后(open weight vs source)、p51 后(价格光谱)、p70 后(三层路由)。
 ML 无页码，图系统页脚匹配。独立预览：python3 ml_figs.py"""
+import os
 import sys
-sys.path.insert(0, "/Users/lijiaxiang/project/myAILearning/_maintenance")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
@@ -188,5 +189,5 @@ if __name__ == '__main__':
     B = prs.slide_layouts[6]
     for fn in FIGS:
         fn(prs.slides.add_slide(B))
-    out = "/Users/lijiaxiang/project/myAILearning/_maintenance/_ml_preview.pptx"
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_ml_preview.pptx")
     prs.save(out); print(f"saved {len(FIGS)} ->", out)
