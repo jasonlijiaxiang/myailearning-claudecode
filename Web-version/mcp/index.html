@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MCP 模型上下文协议 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -848,7 +848,7 @@ if __name__ == "__main__":
   <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。每题给结论、给背后的机制或权衡、给一个可执行的下一步，并回链依据。</p>
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-08</b> 的来自讲义首版对练页，<b>2026-07-20</b> 的是网页版新立、讲义里没有。</p>
   <div class="qa">
-    <details>
+    <details id="q-mcp-1">
       <summary>MCP 和 Function Calling 到底什么关系，是不是替代？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>不替代，是叠加。Function Calling 是模型「决定调哪个工具」的能力，MCP 是「工具怎么被标准接入」的协议；MCP 内部仍然用 function calling 做决策。</p>
@@ -857,7 +857,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-what-why">是什么 / 为什么</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-2">
       <summary>这是不是 Anthropic 的私有协议，用了会被锁定吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>不会。2025 年 12 月已捐给中立的 AAIF 基金会（Linux 基金会旗下），开放治理，变更走公开的 SEP 提案流程。</p>
@@ -866,7 +866,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-what-why">治理</a> · <a href="#src-aaif">src-aaif</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-3">
       <summary>我们已经在用 Function Calling 了，还有必要上 MCP 吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>看复用面。工具只服务一个应用，直接写就好；一旦要被多应用或多团队反复接，MCP 才收得回这层标准的成本。</p>
@@ -875,7 +875,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#boundary">什么时候不该上 MCP</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-4">
       <summary>能不能不让模型自己决定调用？我们不放心。<span class="added">2026-07-20</span></summary>
       <div class="a">
         <p>能，而且这正是三原语的设计意图。工具（Tools）是模型控制的，但资源（Resources）由应用挂载、提示词（Prompts）由用户显式选用——把能力放在哪个原语上，就决定了谁来触发它。</p>
@@ -884,7 +884,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-protocol">三大原语：两把刀</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-5">
       <summary>月底新版发布，我现在的 server 要立刻改代码吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>不必立刻。当前稳定版仍是 2025-11-25，新旧有兼容期，SDK 同时支持两版；弃用政策承诺任何特性从弃用到移除至少留 12 个月。</p>
@@ -893,7 +893,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-transport">传输与版本演进</a> · <a href="#src-rc">src-rc</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-6">
       <summary>开发一个 MCP server 到底要多少工作量？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>有现成 API 的话，一个中等复杂度的 server 通常几人天：描述工具、转调后端、整理返回、加鉴权，四件事，不是重写业务系统。</p>
@@ -902,7 +902,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-server">动手写 server</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-7">
       <summary>员工乱接外面的 server 怎么治？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>上 MCP 网关做统一入口：白名单放行、集中审计、按部门限权。别让每个客户端各连各的、无人管控。</p>
@@ -911,7 +911,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-production">为什么要一个 MCP 网关</a> · <a href="#mcp-security">安全</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-8">
       <summary>我们内部系统的 server 能放到官方 Registry 吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>不能。官方 Registry 只收公开 server，且仍是 preview、未正式发布。内部 server 必须自建私有 registry。</p>
@@ -920,7 +920,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-production">去哪儿发现 server</a> · <a href="#src-registry">src-registry</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-9">
       <summary>MCP 出了这么多 CVE，还能用吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>能，但要用对姿势。CVE 多恰恰说明它被广泛使用、被认真审视；官方已有安全指引和修复机制，关键是默认设防、及时更新。</p>
@@ -929,7 +929,7 @@ if __name__ == "__main__":
         <p class="qa-src">依据　<a href="#mcp-security">安全</a> · <a href="#src-cve">src-cve</a> · <a href="#src-mcptox">src-mcptox</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-mcp-10">
       <summary>上线之后出了问题，怎么定位是谁的责任？<span class="added">2026-07-20</span></summary>
       <div class="a">
         <p>先分层：用 Inspector 单独跑 server 排除模型变量，再接客户端复现。协议层与业务层的失败也要分清——JSON-RPC 的 error 表示调用没走通（方法不存在、参数不合法），result.isError 表示调用到了但工具自己执行失败。</p>

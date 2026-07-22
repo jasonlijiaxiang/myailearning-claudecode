@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Ops 可观测与运维 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -287,7 +287,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-10</b> 来自讲义首版
     对练页，<b>2026-07-12</b> 来自标准与许可证口径补核。</p>
   <div class="qa">
-    <details>
+    <details id="q-ai-ops-1">
       <summary>我们已经有 Datadog 了，为什么还要一套 AI 观测？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>Datadog 管「挂没挂、慢不慢」很好，但看不到「答得对不对」——200 OK 里可能装着
@@ -299,7 +299,7 @@
         <p class="qa-src">依据　<a href="#ops-tooling">分工与选型</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-2">
       <summary>系统没报错，但用户说 AI 变笨了，怎么排查？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>这就是静默退化——全绿但变笨。排查靠质量遥测：拉评估分趋势、对比模型版本与
@@ -311,7 +311,7 @@
         <p class="qa-src">依据　<a href="#ops-drift">静默退化</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-3">
       <summary>大厂的模型还能悄悄变吗？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>能，而且是常态：API 背后的 checkpoint 会被静默更新，上月验收的模型不等于这月
@@ -323,7 +323,7 @@
         <p class="qa-src">依据　<a href="#ops-drift">三类漂移</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-4">
       <summary>线上打分会不会拖慢用户请求？LLM 判官可信吗？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>不拖慢：唯一同步的是毫秒级 inline 检查，质量打分全部异步——先回复用户后采样
@@ -336,7 +336,7 @@
         <p class="qa-src">依据　<a href="#ops-online-eval">评估漏斗</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-5">
       <summary>改个提示词而已，为什么要走发布流程？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>因为一个词就能改变线上行为——删掉一句约束导致客服乱承诺是真实事故。流程不重：
@@ -348,7 +348,7 @@
         <p class="qa-src">依据　<a href="#ops-release">发布流水线</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-6">
       <summary>你们的 AI 有没有「刹车」？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>有，两层：急停开关（事故频道一键暂停所有任务、保留现场）+ 硬上限（步数/预算/
@@ -360,7 +360,7 @@
         <p class="qa-src">依据　<a href="#ops-incident">急停与分级</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-7">
       <summary>trace 里有客户的对话内容，安全吗？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>内容与结构分离处理：结构全量、内容采样并在采集点脱敏（正则+NER）、保留期分级、
@@ -372,7 +372,7 @@
         <p class="qa-src">依据　<a href="#ops-tracing">PII 三开关</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-ops-8">
       <summary>上线之后你们还管吗？管什么、怎么收费？<span class="added">2026-07-12</span></summary>
       <div class="a">
         <p>管，这正是运营包：在线评估运营、漂移巡检、发布门禁、事故值守、数据集资产运营

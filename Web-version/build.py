@@ -34,6 +34,10 @@ FRESH_END = "<!-- FRESH:END -->"
 FRESHPAGE = os.path.join(HERE, "fresh.html")
 MOD_BEGIN = "<!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->"
 MOD_END = "<!-- UPDATED:END -->"
+QAPAGE = os.path.join(HERE, "qa", "index.html")
+QA_BEGIN = "<!-- QA:BEGIN 由 build.py 从各模块页与实战包抽取，请勿手工编辑 -->"
+QA_END = "<!-- QA:END -->"
+PREPQA = os.path.join(ROOT, "_prep", "实战包.html")
 
 # 保鲜看板的"今天"：写死在产物里会一天就过期，故取构建日。
 # 这是生成期快照，页面上会显式标注截止日，不冒充实时。
@@ -171,6 +175,147 @@ def read_module(dirname):
     }
 
 
+# ============ 问答抽取（跨册问答库的数据源）============
+# 为什么从页面抽而不是从 MANIFEST 抽：问答是页面内容，账本里本来就没有这一项。
+# 同 load_blurbs() 读 PPT 总览取一句话简介——都是「读现成的成品」，不是另建第二份。
+DETAILS_RE = re.compile(
+    r"<details(?P<attrs>[^>]*)>\s*<summary>(?P<sum>.*?)</summary>(?P<body>.*?)</details>", re.S)
+ADDED_RE = re.compile(r'<span class="added">([^<]*)</span>')
+# 实战包的题：.qa 卡片 + .num 徽标（兜底话术的 num 是「兜底」，四条重名，另按序号编）
+PREP_Q_RE = re.compile(
+    r'<div class="qa"(?P<attrs>[^>]*)>\s*<div class="q"><span class="num">(?P<num>[^<]+)</span>'
+    r'(?P<sum>.*?)</div>\s*<div class="a">(?P<body>.*?)</div>', re.S)
+
+
+def plain(raw):
+    """去标签 + 反转义 + 压空白。"""
+    return re.sub(r"\s+", " ", html_unescape(re.sub(r"<[^>]+>", "", raw))).strip()
+
+
+def html_unescape(s):
+    for a, b in (("&amp;", "&"), ("&lt;", "<"), ("&gt;", ">"),
+                 ("&quot;", '"'), ("&#39;", "'"), ("&nbsp;", " ")):
+        s = s.replace(a, b)
+    return s
+
+
+def read_questions(dirname, mid):
+    """抽一册模块页的「现场高频追问」，并回写稳定锚点 id。
+
+    锚点用位序（`q-<模块ID>-<n>`）而不是文本哈希：本库的问答是**追加式**的
+    （新章带来的新题都排在该册末尾，看 `.added` 日期即可确认），位序因此稳定；
+    而哈希会在改一个错别字时静默失效，把已经分享出去的链接变成死链。
+    """
+    path = os.path.join(HERE, dirname, "index.html")
+    if not os.path.exists(path):
+        return [], None, None
+    cur = open(path, encoding="utf-8").read()
+    qs, pieces, last = [], [], 0
+    for n, m in enumerate(DETAILS_RE.finditer(cur), 1):
+        qid = "q-%s-%d" % (mid, n)
+        added = ADDED_RE.search(m.group("sum"))
+        qs.append({
+            "id": qid,
+            "q": plain(ADDED_RE.sub("", m.group("sum"))),
+            "added": added.group(1).strip() if added else "",
+            # 每题末尾「依据」行指向本册章节——问答与章节的关系是现成的，不用另猜
+            "chapters": re.findall(r'href="#([a-z0-9\-]+)"', m.group("body")),
+        })
+        pieces.append(cur[last:m.start()])
+        pieces.append('<details id="%s">' % qid)
+        last = m.start() + len("<details") + len(m.group("attrs")) + 1
+    pieces.append(cur[last:])
+    return qs, cur, "".join(pieces)
+
+
+def read_prep_questions():
+    """抽实战包的题，并回写稳定锚点 id（题号本身就是稳定标识，直接用）。"""
+    if not os.path.exists(PREPQA):
+        return [], None, None
+    cur = open(PREPQA, encoding="utf-8").read()
+    dims = dict(re.findall(r'<h2 id="sec-([A-Z])">([^<]*?)(?:<span|</h2>)', cur))
+    qs, pieces, last, nfb = [], [], 0, 0
+    for m in PREP_Q_RE.finditer(cur):
+        num = m.group("num").strip()
+        if num == "兜底":
+            nfb += 1
+            qid = "q-prep-fallback-%d" % nfb
+        else:
+            qid = "q-prep-%s" % num
+        fresh = re.search(r'<span class="fresh">⏳ 口径 ([\d-]+)</span>', m.group("sum"))
+        qs.append({
+            "id": qid, "num": num,
+            "q": plain(re.sub(r'<span class="(?:fresh|must)">.*?</span>', "", m.group("sum"))),
+            "dim": dims.get(num[0], "附 · 兜底话术") if num != "兜底" else "附 · 兜底话术",
+            "fresh": fresh.group(1) if fresh else "",
+            "must": '<span class="must">' in m.group("sum"),
+        })
+        pieces.append(cur[last:m.start()])
+        pieces.append('<div class="qa" id="%s">' % qid)
+        last = m.start() + len('<div class="qa"') + len(m.group("attrs")) + 1
+    pieces.append(cur[last:])
+    return qs, cur, "".join(pieces)
+
+
+def render_qa(data, prep_qs):
+    """跨册问答库：19 册的现场高频追问 + 实战包的电梯版题，汇到一处可搜可筛。
+
+    **它是索引不是副本**——只登记题目、出处与深链，答案留在原处。
+    同一段答案文本全库只有一份，改答案不用记得改第二个地方
+    （web-rules §一「账本唯一」在问答这条轴上的落法）。
+    """
+    mods = [m for m in data["modules"] if m.get("questions")]
+    total_m = sum(len(m["questions"]) for m in mods)
+    n_prep = sum(1 for q in prep_qs if q["num"] != "兜底")
+    n_fb = len(prep_qs) - n_prep
+    n_must = sum(1 for q in prep_qs if q["must"])
+    o = ['  <p class="net-lead">全库 <b>%d 道</b>现场高频追问（分散在 %d 册里）'
+         '＋实战包 <b>%d 道</b>电梯版交锋题，这一页把它们汇到一处。'
+         '客户问了一句话，就搜那句话。</p>' % (total_m, len(mods), n_prep)]
+    o.append('  <p class="net-lead">这里只放题目与去处——<b>答案留在原处</b>，'
+             '点进去读。这样同一段答案全库只有一份，不会两处各说一套。</p>')
+
+    o.append('  <div class="qa-tools">')
+    o.append('   <input id="qf" type="search" placeholder="搜题目里的词（如：备案、注入、显存、并发）" '
+             'autocomplete="off">')
+    o.append('   <div class="qa-chips" id="qc"><button class="chip on" data-g="">全部</button>'
+             '<button class="chip" data-g="prep">实战包</button>'
+             '<button class="chip" data-g="mod">模块追问</button></div>')
+    o.append('   <p class="qa-count" id="qn"></p>')
+    o.append("  </div>")
+
+    o.append('  <div class="qa-group" data-g="prep">')
+    o.append('   <h3>实战包 · 对客交锋 %d 题 + %d 条兜底话术<span class="n">'
+             '每题 15–30 秒的电梯版；★ 是必背，共 %d 道</span></h3>'
+             % (n_prep, n_fb, n_must))
+    cur_dim = None
+    for q in prep_qs:
+        if q["dim"] != cur_dim:
+            cur_dim = q["dim"]
+            o.append('   <p class="qa-dim">%s</p>' % esc(cur_dim))
+        badge = '<span class="fresh">⏳ %s</span>' % esc(q["fresh"]) if q["fresh"] else ""
+        star = '<span class="must">★</span>' if q["must"] else ""
+        o.append('   <a class="qrow" href="../../_prep/实战包.html#%s">'
+                 '<span class="qn">%s</span>%s%s%s</a>'
+                 % (esc(q["id"]), esc(q["num"]), star, esc(q["q"]), badge))
+    o.append("  </div>")
+
+    o.append('  <div class="qa-group" data-g="mod">')
+    o.append('   <h3>模块现场高频追问 %d 道<span class="n">'
+             '每题给结论、机制或权衡、下一步与依据</span></h3>' % total_m)
+    for m in mods:
+        o.append('   <p class="qa-dim">%s<span class="n">%d 道</span></p>'
+                 % (esc(m["dir"]), len(m["questions"])))
+        for q in m["questions"]:
+            badge = ('<span class="added">%s</span>' % esc(q["added"])) if q["added"] else ""
+            o.append('   <a class="qrow" href="../%s/index.html#%s">'
+                     '<span class="qn">%s</span>%s%s</a>'
+                     % (esc(WEB_DIRS[m["id"]]), esc(q["id"]), esc(mono(m["dir"])),
+                        esc(q["q"]), badge))
+    o.append("  </div>")
+    return "\n".join(o)
+
+
 def load_blurbs():
     """模块一句话简介，解析自 PPT 总览的模块表——那是「主题一句话」的账面位置
     （library-rules 索引两层），这里是读账，不是另建第二份。"""
@@ -213,11 +358,23 @@ def build():
             tgt = e["to"].split("#")[0].strip()
             e["resolved"] = tgt in known
 
-    data = {"generated_from": "PPT-version/*/MANIFEST.md",
+    # 问答：结构与事实来自 MANIFEST，问答文本来自各模块页——两个来源各管各的，不重叠。
+    page_edits = {}
+    for m in mods:
+        if m["id"] not in WEB_DIRS:
+            m["questions"] = []
+            continue
+        qs, cur, new = read_questions(WEB_DIRS[m["id"]], m["id"])
+        m["questions"] = qs
+        if cur is not None and cur != new:
+            page_edits[os.path.join(HERE, WEB_DIRS[m["id"]], "index.html")] = (cur, new)
+
+    data = {"generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）",
             "layers": layers, "modules": mods}
-    return ("// 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。\n"
+    text = ("// 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。\n"
             "// 改内容请改 MANIFEST，然后重跑 build.py。\n"
             "window.KB = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n")
+    return text, data, page_edits
 
 
 def esc(s):
@@ -407,8 +564,12 @@ def inject(html, begin, end, block, what):
 
 def main(argv):
     try:
-        text = build()
-        data = json.loads(text[text.index("{"):text.rindex("}") + 1])
+        text, data, page_edits = build()
+        prep_qs, prep_cur, prep_new = read_prep_questions()
+        if prep_cur is not None and prep_cur != prep_new:
+            page_edits[PREPQA] = (prep_cur, prep_new)
+        qa_cur = open(QAPAGE, encoding="utf-8").read()
+        qa_new = inject(qa_cur, QA_BEGIN, QA_END, render_qa(data, prep_qs), "QA")
         blurbs = load_blurbs()
         html_cur = open(INDEX, encoding="utf-8").read()
         root_cur = open(ROOT_INDEX, encoding="utf-8").read()
@@ -419,16 +580,21 @@ def main(argv):
         fp_cur = open(FRESHPAGE, encoding="utf-8").read()
         fp_new = inject(fp_cur, FRESH_BEGIN, FRESH_END, render_fresh_full(data), "FRESH@full")
 
-        mod_cur, mod_new = {}, {}
+        mod_cur, mod_new, anchored = {}, {}, 0
         by_id = {m["id"]: m for m in data["modules"]}
         for mid, path in MOD_PAGES.items():
             if not os.path.exists(path) or mid not in by_id:
                 continue
+            # 底稿要取**回写过问答锚点的那一版**——两处都写同一个文件，
+            # 后写的会把先写的盖掉（第一版就踩了：锚点写进去又被页脚注入抹平）。
             cur = open(path, encoding="utf-8").read()
+            base = page_edits[path][1] if path in page_edits else cur
             block = ('  <p class="updated">本册最近改动 <b>%s</b>'
                      '（以模块账本 MANIFEST 为准）。</p>' % esc(by_id[mid]["updated"]))
             mod_cur[path] = cur
-            mod_new[path] = inject(cur, MOD_BEGIN, MOD_END, block, "UPDATED@" + mid)
+            mod_new[path] = inject(base, MOD_BEGIN, MOD_END, block, "UPDATED@" + mid)
+            if page_edits.pop(path, None):  # 已并进 mod_new，别再单独写一遍
+                anchored += 1
     except SystemExit as e:
         print("生成失败：%s" % e)
         return 1
@@ -446,23 +612,35 @@ def main(argv):
             bad.append("fresh.html")
         if root_cur != root_new:
             bad.append("库根 README.html 的知识地图")
+        if qa_cur != qa_new:
+            bad.append("qa/index.html 的问答库")
         for path in mod_new:
             if mod_cur[path] != mod_new[path]:
                 bad.append("%s 的最近改动" % os.path.relpath(path, ROOT))
+        for path in page_edits:
+            bad.append("%s 的问答锚点" % os.path.relpath(path, ROOT))
         if bad:
             print("与 MANIFEST 已漂移：%s——请重跑 build.py 并提交产物。" % "、".join(bad))
             return 1
         print("data.js 与 index.html 生成区块均与 MANIFEST 一致。")
         return 0
 
+    # 锚点回写要先落盘：qa 页里的链接指向它们，反过来就会指到还不存在的锚点。
+    for path, (_, new) in page_edits.items():
+        open(path, "w", encoding="utf-8").write(new)
     open(OUT, "w", encoding="utf-8").write(text)
     open(INDEX, "w", encoding="utf-8").write(html_new)
     open(FRESHPAGE, "w", encoding="utf-8").write(fp_new)
     open(ROOT_INDEX, "w", encoding="utf-8").write(root_new)
+    open(QAPAGE, "w", encoding="utf-8").write(qa_new)
     for path, content in mod_new.items():
         open(path, "w", encoding="utf-8").write(content)
-    print("已生成 %s 与 index.html 的三个区块（知识地图/关系网/保鲜看板，%d 个模块）"
-          % (os.path.relpath(OUT, ROOT), len(data["modules"])))
+    nq = sum(len(m.get("questions", [])) for m in data["modules"])
+    print("已生成 %s、index.html 的三个区块（知识地图/关系网/保鲜看板，%d 个模块）"
+          "与 qa/index.html（%d 道模块追问 + %d 道实战题），"
+          "补写问答锚点 %d 个文件"
+          % (os.path.relpath(OUT, ROOT), len(data["modules"]),
+             nq, len(prep_qs), anchored + len(page_edits)))
     return 0
 
 

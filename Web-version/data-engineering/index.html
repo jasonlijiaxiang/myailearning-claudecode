@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data-Engineering 数据工程 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -271,7 +271,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-11</b> 来自讲义首版
     对练页。</p>
   <div class="qa">
-    <details>
+    <details id="q-data-engineering-1">
       <summary>我们数据很乱，AI 项目是不是做不了？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>能做，但顺序要对：先花两三周做数据就绪（解析+清洗+建库），再上模型。乱不是障碍，
@@ -283,7 +283,7 @@
         <p class="qa-src">依据　<a href="#de-what-why">四问与总图</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-data-engineering-2">
       <summary>我们全是扫描件和图纸，能处理吗？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>能，这正是解析选型的分水岭场景：中文扫描件重默认 MinerU 路线（CJK 版面最强），
@@ -295,7 +295,7 @@
         <p class="qa-src">依据　<a href="#de-parsing">选型分水岭</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-data-engineering-3">
       <summary>接一个系统要多久？数据多久能同步一次？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>分两类：主流系统有成熟连接器，天级；自研系统按五件事（认证/拉取/解析/ACL/增量）
@@ -307,7 +307,7 @@
         <p class="qa-src">依据　<a href="#de-pipeline">五件事与三模式</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-data-engineering-4">
       <summary>要不要专门买一套向量数据库？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>多半不用急：已有 Postgres 用 pgvector（生产可用到五千万至一亿向量），已有 ES
@@ -319,7 +319,7 @@
         <p class="qa-src">依据　<a href="#de-vectordb">按规模演进</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-data-engineering-5">
       <summary>AI 老答错，是不是模型不行？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>先归因再下结论：经验上八成在检索侧，检索问题的大半又在数据侧——解析错、文档缺、
@@ -331,7 +331,7 @@
         <p class="qa-src">依据　<a href="#de-quality">坏答案回流</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-data-engineering-6">
       <summary>标注要雇多少人？合成数据可靠吗？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>尽量不雇：专家半天写种子、模型扩量、人工只抽检 5–10%。合成有纪律就可靠：真实
@@ -343,7 +343,7 @@
         <p class="qa-src">依据　<a href="#de-labeling">三笔钱与双线</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-data-engineering-7">
       <summary>数据向量化之后是不是就安全了？删除能真删干净吗？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>向量化 ≠ 匿名化——嵌入在一定条件下能部分反推原文，敏感数据进库前照做脱敏、

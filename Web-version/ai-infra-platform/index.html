@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Infra-Platform 集群平台与调度 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -289,7 +289,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版
     对练页。</p>
   <div class="qa">
-    <details>
+    <details id="q-ai-infra-platform-1">
       <summary>我们卡不多，直接 SSH 上去跑不行吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>几张卡、一个团队时够用。但卡数或用卡的人一多，SSH 模式立刻失控：抢卡、空转、
@@ -301,7 +301,7 @@
         <p class="qa-src">依据　<a href="#aip-overview">裸机之痛</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-platform-2">
       <summary>K8s 自带调度器不能跑训练吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>默认调度器没有 gang scheduling，会造成「半个作业占着卡启动不了」的死锁。跑
@@ -314,7 +314,7 @@
         <p class="qa-src">依据　<a href="#aip-scheduling">gang 与分层</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-platform-3">
       <summary>一张卡到底能给几个团队用？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>看隔离要求：MIG 硬件切分最多 7 个隔离实例，适合互不信任的多租户；软件方式
@@ -326,7 +326,7 @@
         <p class="qa-src">依据　<a href="#aip-sharing">四种切法</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-platform-4">
       <summary>故障真有那么频繁吗？感觉有点夸张。<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>有公开数据：Llama 3 在 1.6 万卡上 54 天中断 466 次、约八成硬件问题——平均每天
@@ -338,7 +338,7 @@
         <p class="qa-src">依据　<a href="#aip-faulttol">故障必然</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-platform-5">
       <summary>nvidia-smi 利用率一直 90%+，还有优化空间吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>大概率有：那只是活跃率（有 kernel 在跑），不代表有效。真正的指标是 MFU——
@@ -350,7 +350,7 @@
         <p class="qa-src">依据　<a href="#aip-observability">三层口径</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-platform-6">
       <summary>有了 vLLM 这些引擎，为什么还要推理平台？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>引擎把单个模型跑快，平台把它变成能扛生产的服务：多副本高可用、按流量弹性、灰度
@@ -362,7 +362,7 @@
         <p class="qa-src">依据　<a href="#aip-serving">引擎与货架</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-platform-7">
       <summary>我们到底该自建平台还是用托管？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>三问定档：有没有专职基础设施团队、负载类型、上线速度。没团队或要快 → 托管集群/

@@ -361,6 +361,42 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
          background: var(--warn-bg); border: 1px solid var(--warn-ln);
          padding: 0 .4rem; border-radius: 6px; margin-left: .5rem; font-weight: 400; }
 
+/* ============ 全库问答库（qa/index.html）============
+   跨册聚合，纸面做不到的那一类：19 册各印各的问答汇到一处，按一句话搜。
+   本页只登记题目与去处——答案留在原处，不做副本。
+   无 JavaScript 时筛选条整块隐藏，下面的分组长列表本身就完整可读。 */
+.qa-tools { display: none; position: sticky; top: 0; z-index: 5;
+            background: var(--bg); padding: .8rem 0 .6rem; margin-bottom: .4rem;
+            border-bottom: 1px solid var(--line); }
+.js-on .qa-tools { display: block; }
+.qa-tools input { width: 100%; font: inherit; font-size: 15px; color: var(--ink-900);
+                  background: var(--card); border: 1px solid var(--line);
+                  border-radius: var(--radius); padding: .55rem .8rem; }
+.qa-tools input:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.qa-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0 0; }
+.qa-chips .chip { cursor: pointer; font: inherit; font-size: 12px; font-weight: 600;
+                  background: var(--card); color: var(--ink-500);
+                  border: 1px solid var(--line); }
+.qa-chips .chip.on { background: var(--blue-bg); border-color: var(--blue-ln); color: var(--blue-d); }
+.qa-count { font-size: 13px; color: var(--ink-400); margin: .5rem 0 0; }
+.qa-group > h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem;
+                 margin: 1.8rem 0 .3rem; font-size: 16px; }
+.qa-group > h3 .n { font-size: 12.5px; font-weight: 400; color: var(--ink-400); }
+.qa-dim { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem;
+          font-size: 12.5px; font-weight: 600; letter-spacing: .03em; color: var(--ink-500);
+          margin: 1.1rem 0 .35rem; }
+.qa-dim .n { font-weight: 400; color: var(--ink-400); }
+.qrow { display: block; padding: .5rem .7rem; border-radius: 8px; font-size: 14.5px;
+        color: var(--ink-700); line-height: 1.6; text-decoration: none; }
+.qrow:hover { background: var(--blue-bg); color: var(--ink-900); text-decoration: none; }
+.qrow .qn { display: inline-block; min-width: 2.6rem; margin-right: .5rem;
+            font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+            color: var(--ink-400); vertical-align: 1px; }
+.qrow .must { color: var(--warn); margin-right: .25rem; }
+.qrow .fresh, .qrow .added { margin-left: .45rem; }
+.qrow .fresh { font-size: 11.5px; color: var(--warn); white-space: nowrap; }
+.qa-hide { display: none; }
+
 /* ============ 模块页交互件（选型筛选器 / 显存计算器）============
    纪律（web-rules §九）：交互必须帮助定位/比较/理解/追证/决策之一。
    无 JavaScript 时整块隐藏——静态兜底（决策树表 / 心算公式）留在正文里。 */

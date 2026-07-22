@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Model-Landscape 模型格局与选型 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -561,7 +561,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-10</b> 的来自讲义首版各章对练页，
     <b>2026-07-17</b> 的来自国内平台增章。</p>
   <div class="qa">
-    <details>
+    <details id="q-model-landscape-1">
       <summary>现在到底谁家模型最强？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>「最强」永远带定语：企业支出 Anthropic 第一（40%），消费端 ChatGPT 独占 74%，
@@ -573,7 +573,7 @@
         <p class="qa-src">依据　<a href="#ml-map">全景地图</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-2">
       <summary>GPT 和 Claude 到底该选哪个？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>先问任务：编码与企业 agentic 场景 Claude 系胜率高（企业编码份额 54%）；生态与多模态
@@ -585,7 +585,7 @@
         <p class="qa-src">依据　<a href="#ml-closed">五张名片</a> · <a href="#ml-selection">选型方法论</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-3">
       <summary>开源模型和 GPT 们到底还差多少？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>多数基准差距已到个位数，编码基准追平（SWE-bench Verified 80.6%）。还剩两个差距：
@@ -597,7 +597,7 @@
         <p class="qa-src">依据　<a href="#ml-open">开放权重格局</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-4">
       <summary>Llama 不是开源吗，为什么法务不让我们用？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>它是「开放权重 + 社区许可证」：有 700M MAU 触发条款和欧盟限制，法务谨慎是对的。
@@ -609,7 +609,7 @@
         <p class="qa-src">依据　<a href="#ml-license">许可证与合规</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-5">
       <summary>用开源模型微调出来的模型算谁的？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>权重归你，但受基座许可证约束：MIT/Apache 基座的衍生模型基本自由；Llama 基座的衍生
@@ -621,7 +621,7 @@
         <p class="qa-src">依据　<a href="#ml-license">许可证与合规</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-6">
       <summary>为什么不全用最便宜的 DeepSeek？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>地板档适合批量明确任务；难推理与关键链路需要更高档位兜底。三层路由的做法是 80% 任务
@@ -633,7 +633,7 @@
         <p class="qa-src">依据　<a href="#ml-price">价格与成本</a> · <a href="#ml-selection">三层路由</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-7">
       <summary>现在签一年合同，明年价格跌了怎么办？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>合同锁「档位与降价传导」而不是锁型号单价：官网降价自动传导。过去一年市场降了
@@ -645,7 +645,7 @@
         <p class="qa-src">依据　<a href="#ml-price">报价纪律</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-8">
       <summary>上下文窗口越大越好吗？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>不是。窗口决定能塞多少，不决定记不记得住（中段召回衰减）和划不划算（成本随长度暴涨）。
@@ -657,7 +657,7 @@
         <p class="qa-src">依据　<a href="#ml-capability">能力矩阵</a> · <a href="./../llm-inference/index.html">LLM-Inference 网页版</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-9">
       <summary>评测榜单第一的模型，为什么你们不推荐？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>榜单有已证实的水分：厂商私测多变体择优公开（Leaderboard Illusion），且热门基准已饱和
@@ -669,7 +669,7 @@
         <p class="qa-src">依据　<a href="#ml-selection">两道防线</a> · <a href="#src-arxiv">src-arxiv</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-10">
       <summary>国内这几个平台，到底选哪个？<span class="added">2026-07-17</span></summary>
       <div class="a">
         <p>先答三问：绑哪朵云、要旗舰还是组合、私有化底线——答案通常自动收敛到一两家。
@@ -682,7 +682,7 @@
         <p class="qa-src">依据　<a href="#ml-platforms">国内平台格局</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-model-landscape-11">
       <summary>平台会不会把我们锁死？<span class="added">2026-07-17</span></summary>
       <div class="a">
         <p>锁定来自数据与工作流而非 API——用兼容层/网关保住切换能力，重要场景保留第二货源。

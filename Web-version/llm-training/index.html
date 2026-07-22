@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM-Training 训练全景 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -296,7 +296,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-08</b> 来自讲义首版对练页，
     <b>2026-07-13</b> 来自训练恢复与生产验收深潜。</p>
   <div class="qa">
-    <details>
+    <details id="q-llm-training-1">
       <summary>你们的模型到底是怎么训出来的？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>两大阶段：先在数万亿词的语料上做「下一词预测」学出知识底座（预训练），再用示范教学、
@@ -309,7 +309,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-overview">全景总览</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-2">
       <summary>训练一个大模型到底要多少钱多少卡？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>给量级不给保证：6ND 法则心算——70B 训 15T token ≈ 6.3e24 FLOPs，万卡 H100 级跑
@@ -321,7 +321,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-infra">6ND 法则</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-3">
       <summary>为什么 DeepSeek 能把训练成本压那么低？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>四层组合拳：MoE 稀疏架构、FP8 低精度（显存带宽近乎减半）、更高效的训练算法、
@@ -333,7 +333,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-pretrain">降本组合拳</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-4">
       <summary>MoE 模型报的 400B 参数，跟稠密 70B 怎么比？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>比「激活参数」和实测：400B 总参的 MoE 每次推理可能只用 17B 的算力，推理成本接近
@@ -345,7 +345,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-pretrain">MoE</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-5">
       <summary>我们只有几千条数据，够微调吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>行为类微调够了——LIMA 证明一千条精品就能显著改变行为。关键不是条数是质量：
@@ -357,7 +357,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-sft">质量碾压数量</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-6">
       <summary>对齐会不会把模型调笨？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>有代价，业内叫对齐税——主要体现在误拒和套路化回答。但可控：有用性与安全性分开
@@ -369,7 +369,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-alignment">对齐税</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-7">
       <summary>推理模型和普通模型到底差在哪？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>训练上多了 RLVR——在可判对错的任务上强化刷题；行为上先生成思维链打草稿。难题
@@ -381,7 +381,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-reasoning">RLVR 与推理模型</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-8">
       <summary>榜单分数能信吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>能信一半：标准化笔试能快速淘汰不行的，但有污染和刷榜水分。三层走：榜单初筛、
@@ -393,7 +393,7 @@
         <p class="qa-src">依据　<a href="#llmtrain-eval">评估与发布</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-training-9">
       <summary>我们该自建集群还是用云？<span class="added">2026-07-13</span></summary>
       <div class="a">
         <p>看负载形态：训练是脉冲式的（训完即闲）租云弹性占优；7×24 推理长负载或数据主权硬

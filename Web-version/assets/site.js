@@ -46,6 +46,16 @@
           s: f.text + " " + m.dir
         });
       });
+      /* 问答也进索引：客户问的是一句话，读者搜的就该是那句话。
+         此前索引只有模块/章节/事实三类，搜「备案」「串答」这种问句里的词一无所获。 */
+      (m.questions || []).forEach(function (q) {
+        out.push({
+          t: q.q,
+          k: m.dir + " · 现场高频追问",
+          u: m.web ? (m.web + "#" + q.id) : base,
+          s: q.q + " " + m.dir
+        });
+      });
     });
     return out;
   }
@@ -63,7 +73,8 @@
         if (idx[i].s.toLowerCase().indexOf(q) !== -1) found.push(idx[i]);
       }
       if (!found.length) {
-        hits.innerHTML = '<li><a href="#" onclick="return false">没有匹配的模块、章节或事实</a></li>';
+        hits.innerHTML = '<li><a href="#" onclick="return false">'
+          + "没有匹配的模块、章节、事实或问答</a></li>";
         return;
       }
       found.forEach(function (h) {
@@ -85,6 +96,61 @@
 
   /* 知识地图不在这里渲染——它由 build.py 生成期静态注入 index.html，
      以保证无 JavaScript 时首页仍有完整阅读路径（web-design-system 可访问性底线）。 */
+
+  /* ---------- 全库问答库：就地过滤 ----------
+     题目由 build.py 生成期写进页面，这里只做显示/隐藏——无 JS 时整份分组长列表照样读得完，
+     筛选条自己隐藏（.qa-tools 默认 display:none，靠 .js-on 打开），不留一个点不动的假控件。 */
+  var qf = document.getElementById("qf");
+  var qcount = document.getElementById("qn");
+  if (qf && qcount) {
+    var rows = [].slice.call(document.querySelectorAll(".qrow"));
+    var dims = [].slice.call(document.querySelectorAll(".qa-dim"));
+    var groups = [].slice.call(document.querySelectorAll(".qa-group"));
+    var chips = [].slice.call(document.querySelectorAll("#qc .chip"));
+    /* 隐藏用的状态类写成整串字面量（"qrow qa-hide"），供 check_css_classes 静态扫到。 */
+    var texts = rows.map(function (r) { return r.textContent.toLowerCase(); });
+    var group = "";
+
+    var apply = function () {
+      var q = qf.value.trim().toLowerCase(), shown = 0, i;
+      for (i = 0; i < rows.length; i++) {
+        var inGroup = !group || rows[i].closest(".qa-group").getAttribute("data-g") === group;
+        var hit = inGroup && (!q || texts[i].indexOf(q) !== -1);
+        if (hit) { rows[i].className = "qrow"; shown += 1; }
+        else { rows[i].className = "qrow qa-hide"; }
+      }
+      /* 小标题跟着它下面的行走：一组全被筛掉还留个孤零零的标题，读者会以为是搜索坏了。 */
+      dims.forEach(function (d) {
+        var n = d.nextElementSibling, live = false;
+        while (n && n.className.indexOf("qrow") === 0) {
+          if (n.className.indexOf("qa-hide") === -1) { live = true; break; }
+          n = n.nextElementSibling;
+        }
+        if (live) { d.className = "qa-dim"; } else { d.className = "qa-dim qa-hide"; }
+      });
+      groups.forEach(function (g) {
+        if (g.querySelectorAll(".qrow:not(.qa-hide)").length) { g.className = "qa-group"; }
+        else { g.className = "qa-group qa-hide"; }
+      });
+      qcount.textContent = (q || group)
+        ? ("匹配 " + shown + " 道 / 共 " + rows.length + " 道")
+        : ("共 " + rows.length + " 道题");
+    };
+
+    chips.forEach(function (c) {
+      c.addEventListener("click", function () {
+        group = c.getAttribute("data-g") || "";
+        chips.forEach(function (x) { x.className = "chip"; });
+        c.className = "chip on";
+        apply();
+      });
+    });
+    qf.addEventListener("input", apply);
+    qf.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { qf.value = ""; apply(); }
+    });
+    apply();
+  }
 
   /* ---------- 模块页目录高亮（当前位置指示） ---------- */
   var toc = document.querySelector(".toc");

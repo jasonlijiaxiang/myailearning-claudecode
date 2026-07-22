@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Gateway AI 网关 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -332,7 +332,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版对练页，
     <b>2026-07-10</b> 来自 MCP 网关展开章，<b>2026-07-12</b> 来自选型口径复核。</p>
   <div class="qa">
-    <details>
+    <details id="q-ai-gateway-1">
       <summary>我已经有 API 网关了，为什么还要 AI 网关？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不是取代，是增强：多了按 token 限流与计费、多模型语义路由、语义缓存、注入/PII 护栏
@@ -345,7 +345,7 @@
         <p class="qa-src">依据　<a href="#gw-what-why">是什么 / 为什么</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-2">
       <summary>上网关到底能省多少钱？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>三个杠杆叠加：路由把简单流量切便宜模型（省大头）、语义缓存让相似问题零成本命中、
@@ -357,7 +357,7 @@
         <p class="qa-src">依据　<a href="#gw-route">路由与容灾</a> · <a href="#gw-cost">成本治理</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-3">
       <summary>自动路由到便宜模型，质量掉了怎么办？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>路由是可控降级：关键场景设质量优先固定走旗舰，只对可容忍流量降档；再用评估持续监控
@@ -369,7 +369,7 @@
         <p class="qa-src">依据　<a href="#gw-route">可控降级</a> · <a href="../evaluation/index.html">Evaluation 网页版</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-4">
       <summary>语义缓存会不会给不同用户串答、泄露数据？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>会，如果缓存键没带身份。正确做法：缓存键里带上租户/权限维度，个性化和带用户数据的
@@ -381,7 +381,7 @@
         <p class="qa-src">依据　<a href="#gw-cost">语义缓存</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-5">
       <summary>护栏能 100% 挡住提示注入吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不能，也没有产品能这么承诺——业界共识是注入无法在模型内彻底根治。网关护栏是纵深
@@ -393,7 +393,7 @@
         <p class="qa-src">依据　<a href="#gw-guardrail">安全与护栏</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-6">
       <summary>合规审计具体能提供什么证据？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>网关能出完整调用链日志：身份、时间、prompt/响应（可脱敏留存）、模型、成本、命中的
@@ -405,7 +405,7 @@
         <p class="qa-src">依据　<a href="#gw-guardrail">审计</a> · <a href="#gw-observe">可观测</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-7">
       <summary>我们有几百个内部 API，要让 Agent 用，是不是要一个个改造？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>不用。openapi-to-mcp 读 OpenAPI 描述批量把存量 API 转成 MCP 工具，再由网关统一托管
@@ -417,7 +417,7 @@
         <p class="qa-src">依据　<a href="#gw-mcp">MCP 网关</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-8">
       <summary>Agent 替用户调工具，权限会不会被放大、被滥用？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>这正是 MCP 授权要解决的：网关做 token 交换（RFC 8693），把用户真实身份换成
@@ -429,7 +429,7 @@
         <p class="qa-src">依据　<a href="#gw-mcp">MCP 授权</a> · <a href="#src-mcp-auth">src-mcp-auth</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-9">
       <summary>我们该自建还是买托管？<span class="added">2026-07-12</span></summary>
       <div class="a">
         <p>小团队/快验证先用云托管零运维起步；多云、信创、数据敏感或要深度定制，上自托管
@@ -442,7 +442,7 @@
         <p class="qa-src">依据　<a href="#gw-cheatsheet">选型</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-gateway-10">
       <summary>一句话，AI 网关到底给我带来什么？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>三件事：省钱（路由+缓存+预算）、稳（多模型容灾）、可控（护栏+审计+观测）。

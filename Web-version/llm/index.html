@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM 大模型原理 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -286,7 +286,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-08</b> 来自讲义首版对练页，
     <b>2026-07-13</b> 来自四类失败与讲解验收增补。</p>
   <div class="qa">
-    <details>
+    <details id="q-llm-1">
       <summary>为什么现在的大模型清一色 Transformer？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>不是它最精巧，而是它最能「堆」：全并行训练让数据和算力的投入能持续变成效果，
@@ -298,7 +298,7 @@
         <p class="qa-src">依据　<a href="#llm-why-transformer">第 1 节</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-2">
       <summary>参数量 7B、70B 到底意味着什么？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>主要是 FFN「知识仓库」和注意力矩阵的规模——参数大头（约 2/3）在 FFN。参数越大记的
@@ -310,7 +310,7 @@
         <p class="qa-src">依据　<a href="#llm-architecture">参数账</a> · <a href="#llm-inference-kv">显存账</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-3">
       <summary>都有 1M 上下文了，还要 RAG 吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>要。三条架构论据：全量塞入按 token 计费 + 平方级 prefill 贵得离谱；过 200K 有效性
@@ -322,7 +322,7 @@
         <p class="qa-src">依据　<a href="#llm-inference-kv">四堵墙</a> · <a href="../rag/index.html">RAG 网页版</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-4">
       <summary>私有化部署为什么并发上不去？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>显存被 KV 缓存吃掉了——一条长对话的缓存能比模型权重还大。解法三管齐下：选 GQA/MLA
@@ -334,7 +334,7 @@
         <p class="qa-src">依据　<a href="#llm-inference-kv">显存账</a> · <a href="../llm-inference/index.html">LLM-Inference 网页版</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-5">
       <summary>DeepSeek 为什么那么便宜？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>架构上两板斧：MLA 把 KV 缓存压到约 1/10（单卡并发大增），MoE 让 671B 参数每 token
@@ -346,7 +346,7 @@
         <p class="qa-src">依据　<a href="#llm-attention-zoo">第 5 节</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-6">
       <summary>被问到完全没听过的架构名词怎么办？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>用三条战线接住：「它是压 KV、减计算，还是榨硬件的？」十有八九能归进第 5 节的框架；
@@ -358,7 +358,7 @@
         <p class="qa-src">依据　<a href="#llm-attention-zoo">三条战线</a> · <a href="#llm-presales-map">三段式</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-7">
       <summary>模型知识为什么会过时？能打补丁吗？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>知识压在 FFN 权重里，截止于训练数据。改权重（微调）成本高且容易误伤别的能力；
@@ -370,7 +370,7 @@
         <p class="qa-src">依据　<a href="#llm-architecture">FFN 知识仓库</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-8">
       <summary>客户抱怨「AI 又胡说」，怎么系统性接住？<span class="added">2026-07-13</span></summary>
       <div class="a">
         <p>先分诊再开药：知识缺口上 RAG 与拒答、推理失败拆步骤加验证、上下文失败管预算与排序、

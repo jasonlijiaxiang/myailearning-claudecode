@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Solution-Patterns 场景方案库 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -302,7 +302,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-10</b> 来自讲义首版
     对练页，<b>2026-07-11</b> 来自 ChatBI 与会议助手两章。</p>
   <div class="qa">
-    <details>
+    <details id="q-solution-patterns-1">
       <summary>POC 成功了，为什么上生产还要再收一笔钱？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>POC 只建了模型和数据两层样板墙；上生产要补入口、保障、运营三层——高可用、权限、
@@ -314,7 +314,7 @@
         <p class="qa-src">依据　<a href="#sp-method">五层架构</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-2">
       <summary>你们报价比竞品贵 30%，贵在哪？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>先对齐口径：我们的报价含人力运营包和评估验收，低价单常报裸 token。按满负荷 TCO
@@ -326,7 +326,7 @@
         <p class="qa-src">依据　<a href="#sp-method">三本账</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-3">
       <summary>客服解决率能承诺多少？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>不先拍数字——厂商自报 51–80%，独立实测中位只有 41.2%，差在口径（deflection ≠
@@ -338,7 +338,7 @@
         <p class="qa-src">依据　<a href="#sp-customer-service">口径战场</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-4">
       <summary>员工会不会搜到不该看的东西？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>这是方案的第一设计约束：权限从源系统继承、查询时实时过滤、无权限连存在性都不
@@ -350,7 +350,7 @@
         <p class="qa-src">依据　<a href="#sp-knowledge-search">权限命门</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-5">
       <summary>生成的内容侵权了算谁的？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>两层兜底：选商业安全定位的模型（训练数据可溯源、企业 IP 赔付条款），加发布前
@@ -362,7 +362,7 @@
         <p class="qa-src">依据　<a href="#sp-content-gen">商业安全</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-6">
       <summary>AI Coding 该买 Copilot 还是 Cursor 还是 Claude Code？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>不是三选一：主流是 IDE 层选一个 + agent 层选一个的组合，网关统一管预算。按团队
@@ -374,7 +374,7 @@
         <p class="qa-src">依据　<a href="#sp-ai-coding">双层格局</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-7">
       <summary>数字人会不会有法律风险？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>三条红线管住就可控：真人形象与声音书面授权（含撤回机制）、AI 生成显著标识、
@@ -386,7 +386,7 @@
         <p class="qa-src">依据　<a href="#sp-digital-human">合规红线</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-8">
       <summary>ChatBI 准确率能到多少？算错数怎么办？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>取决于语义层：裸 Text-to-SQL 真实企业库只有一两成，绑定语义模型后能到 90%+。
@@ -399,7 +399,7 @@
         <p class="qa-src">依据　<a href="#sp-chatbi">语义层跃迁</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-solution-patterns-9">
       <summary>会议助手和 Teams/Zoom 自带的 AI 比，强在哪？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>原生助手管单会够用。差异在三处：跨平台统一的会议记忆库、与业务系统的行动闭环

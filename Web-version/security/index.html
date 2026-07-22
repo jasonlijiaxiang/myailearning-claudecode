@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Security AI 安全 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -341,7 +341,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版对练页，
     <b>2026-07-17</b> 来自中国合规增章。</p>
   <div class="qa">
-    <details>
+    <details id="q-security-1">
       <summary>大模型不就是个聊天框，能有多大安全风险？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>只要它能读外部内容、或能触发动作，风险就是真的。纯聊天最多被套话；一旦接了检索、
@@ -353,7 +353,7 @@
         <p class="qa-src">依据　<a href="#sec-landscape">三层攻击面</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-2">
       <summary>提示注入到底能不能彻底解决？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>坦率说，现有架构下不能——OpenAI、Anthropic、谷歌都公开承认。但能把风险压到可
@@ -365,7 +365,7 @@
         <p class="qa-src">依据　<a href="#sec-prompt-injection">三大厂共识</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-3">
       <summary>我们的数据会不会被模型学走、被别人问出来？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>用 RAG 不会——数据留在你的库里、带权限、可随时删，不进模型参数。只有拿敏感数据
@@ -377,7 +377,7 @@
         <p class="qa-src">依据　<a href="#sec-data-privacy">数据与隐私</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-4">
       <summary>从开源社区下模型很方便，有什么风险？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>两个新风险：模型文件本身可能带恶意代码（pickle 加载即执行），或被植入后门（测试
@@ -389,7 +389,7 @@
         <p class="qa-src">依据　<a href="#sec-supply-chain">供应链</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-5">
       <summary>给 Agent 放权自动干活，出了事谁负责、怎么控？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>责任在部署方，所以控制权要抓在系统手里：最小权限、短期身份、不可逆动作强制人工
@@ -401,7 +401,7 @@
         <p class="qa-src">依据　<a href="#sec-agentic">控权而非防话</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-6">
       <summary>买一个 AI 护栏产品，是不是就安全了？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>护栏是必要的一道闸但不是全部：输入+动作+输出+监控四层叠加，再加架构级最小权限。
@@ -413,7 +413,7 @@
         <p class="qa-src">依据　<a href="#sec-defense">纵深防御</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-7">
       <summary>我们要过 EU AI Act，具体要做什么、什么时候？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>先看业务是否触达欧盟。触达的话：GPAI 义务 2025-08 已生效，执法和罚款 2026-08
@@ -425,7 +425,7 @@
         <p class="qa-src">依据　<a href="#sec-governance">EU AI Act 时间线</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-8">
       <summary>我们私有化部署、只给内部员工用，要备案吗？<span class="added">2026-07-17</span></summary>
       <div class="a">
         <p>暂行办法管「向境内公众提供服务」——纯内部使用不适用备案，但数据安全与个信保护
@@ -437,7 +437,7 @@
         <p class="qa-src">依据　<a href="#sec-china">分诊三问</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-security-9">
       <summary>不打 AI 标识会怎样？<span class="added">2026-07-17</span></summary>
       <div class="a">
         <p>2025-09 起是法定义务，配套强制国标；已有 App 因标识违规被约谈、下架——代价是

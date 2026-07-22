@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Infra-Compute 算力硬件与网络 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -301,7 +301,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版
     对练页。</p>
   <div class="qa">
-    <details>
+    <details id="q-ai-infra-compute-1">
       <summary>我们已经有机房，直接买卡装进去行不行？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>大概率不行，先看电和冷却：传统机柜 5–15kW，AI 机柜几十到一百多 kW——液冷改造
@@ -313,7 +313,7 @@
         <p class="qa-src">依据　<a href="#aic-overview">四个本质不同</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-2">
       <summary>标称几千 TFLOPS，为什么我们实测差那么远？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>标称值是 Tensor Core 在理想大矩阵、特定精度下的峰值。实际负载有通信、搬运、
@@ -325,7 +325,7 @@
         <p class="qa-src">依据　<a href="#aic-gpu">MFU 与 Roofline</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-3">
       <summary>70B 模型到底要几张卡？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>看用途：FP8 推理权重约 70GB，单张 141/192GB 卡装得下、还要给 KV Cache 留并发
@@ -337,7 +337,7 @@
         <p class="qa-src">依据　<a href="#aic-hbm">两本显存账</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-4">
       <summary>不用 NVIDIA 到底行不行？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>分负载：标准推理 2026 年已经行——vLLM 等框架多后端成熟，AMD/国产/ASIC 都有
@@ -350,7 +350,7 @@
         <p class="qa-src">依据　<a href="#aic-chips">格局与画像</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-5">
       <summary>NVLink 和 InfiniBand 到底什么关系？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>分层关系不是竞争：NVLink 是机柜内的「总机」（1.8TB/s、内存语义，72 卡当一张用），
@@ -363,7 +363,7 @@
         <p class="qa-src">依据　<a href="#aic-scaleup">带宽阶梯</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-6">
       <summary>存储要配多少才够？直接用对象存储训练行不行？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>按两个峰值倒推：数据加载 = GPU 数 × 每卡消费速率（每卡百 MB/s 量级起步）；
@@ -376,7 +376,7 @@
         <p class="qa-src">依据　<a href="#aic-storage">两副面孔与分层</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-7">
       <summary>自建和上云到底哪个便宜？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>取决于利用率：盈亏线约 40–50%——长期稳过且有运维团队，自建更省；否则云更省。
@@ -388,7 +388,7 @@
         <p class="qa-src">依据　<a href="#aic-econ">决策树</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-ai-infra-compute-8">
       <summary>现在下单还是等下一代卡？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>看上线时间和体量：今年要产出用在役卡——晚半年的产出损失通常大于新卡溢价；明年

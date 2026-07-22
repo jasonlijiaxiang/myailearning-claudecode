@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RAG 检索增强生成 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -413,7 +413,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-07/08</b> 来自讲义首版
     对练页，<b>2026-07-09</b> 来自进阶三章，<b>2026-07-12</b> 来自 Reranker 格局复核。</p>
   <div class="qa">
-    <details>
+    <details id="q-rag-1">
       <summary>RAG 和直接微调模型，我到底该选哪个？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>要更新的是「知识」就用 RAG（改数据不改模型、可溯源、便宜）；要改的是「说话风格/能力」
@@ -425,7 +425,7 @@
         <p class="qa-src">依据　<a href="#rag-what-why">是什么 / 为什么</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-2">
       <summary>块到底该切多大？有没有标准答案？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>没有万能值，但有好起点：约 300–500 Token、重叠 10–20%。真正的答案靠评估集实测——
@@ -437,7 +437,7 @@
         <p class="qa-src">依据　<a href="#rag-chunking">切分策略</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-3">
       <summary>已经有向量检索了，为什么还要单独加重排序？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>向量检索快但略粗，Top-K 里常混入「看着像、其实不对」的片段。重排用交叉编码器逐条
@@ -449,7 +449,7 @@
         <p class="qa-src">依据　<a href="#rag-reranking">重排序</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-4">
       <summary>回答不准，到底是检索的锅还是模型的锅？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>分两条线看：上下文召回率/精确率低是检索侧问题（调切分、Top-K、重排）；召回对了但
@@ -461,7 +461,7 @@
         <p class="qa-src">依据　<a href="#rag-evaluation">评估与诊断</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-5">
       <summary>向量检索不是更先进吗，为什么还要「老古董」BM25？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>先进不等于全能：向量强在语义，但对型号、报错码这类必须一字不差的查询反而不稳——
@@ -473,7 +473,7 @@
         <p class="qa-src">依据　<a href="#rag-hybrid">混合检索</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-6">
       <summary>Agentic RAG 比普通 RAG 贵多少、慢多少？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>每多一轮检索多一轮模型调用：token 通常 2~5 倍，延迟从一秒级到几秒级。所以别全量上
@@ -485,7 +485,7 @@
         <p class="qa-src">依据　<a href="#rag-agentic">Agentic RAG</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-7">
       <summary>上线后效果越来越差，怎么排查？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>先跑评估集定位掉的是检索侧还是生成侧；八成在检索侧——查语料是否大量更新、切分是否
@@ -497,7 +497,7 @@
         <p class="qa-src">依据　<a href="#rag-production">生产化</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-8">
       <summary>数据安全怎么保证？会不会泄露？<span class="added">2026-07-08</span></summary>
       <div class="a">
         <p>三层答案：部署上数据不出租户（私有化/专属实例）；检索层按身份做 ACL 过滤，问不出
@@ -509,7 +509,7 @@
         <p class="qa-src">依据　<a href="#rag-production">权限与可信</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-9">
       <summary>GraphRAG 是不是智商税？听说索引贵好几倍。<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>看问题形态：若九成问题是「查某段」，确实不值——向量+混合检索就够。但有「横跨全库
@@ -522,7 +522,7 @@
         <p class="qa-src">依据　<a href="#rag-graphrag">GraphRAG</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-10">
       <summary>我们的资料全是扫描件 PDF，怎么办？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>两条路：质量好的扫描件走「文档智能解析+转述」，成本低；质量差、表格图纸多的直接上
@@ -534,7 +534,7 @@
         <p class="qa-src">依据　<a href="#rag-multimodal">多模态 RAG</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-rag-11">
       <summary>问数这块，这不就是 BI 吗？会不会替代我们 BI 团队？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不替代，是换交互：BI 团队从「人肉写报表」升级为「维护语义层口径」——口径定义得

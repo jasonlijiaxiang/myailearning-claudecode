@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent 智能体与编排 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -585,7 +585,7 @@
     <b>2026-07-10/11</b> 来自低代码/记忆/Computer Use 增章，<b>2026-07-17</b> 来自 Sub-agent
     编排增章。</p>
   <div class="qa">
-    <details>
+    <details id="q-agent-1">
       <summary>Agent 和普通的对话机器人到底有什么区别？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>机器人只「说」，agent 能「做」：它带着工具在循环里自主行动直到办完。问机器人退款
@@ -597,7 +597,7 @@
         <p class="qa-src">依据　<a href="#agent-what-why">是什么 / 为什么</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-2">
       <summary>是不是所有场景都该升级成 agent？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>不是。流程固定、要求每步可审计的场景，工作流更便宜更可控。agent 适合路径没法预先
@@ -609,7 +609,7 @@
         <p class="qa-src">依据　<a href="#agent-what-why">两把尺</a> · <a href="#agent-cheatsheet">启用条件</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-3">
       <summary>模型会不会直接操作我们的生产系统？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>不会。模型只输出「调用请求」，真正执行的是你部署的代码。每个工具的权限、参数校验、
@@ -621,7 +621,7 @@
         <p class="qa-src">依据　<a href="#agent-components">核心组件</a> · <a href="#agent-tools-mcp">六层契约</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-4">
       <summary>多个 agent 是不是一定比一个强？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>不一定。可并行、信息面广的任务（深度调研）确实强得多；串行依赖强的任务反而更慢
@@ -633,7 +633,7 @@
         <p class="qa-src">依据　<a href="#agent-orchestration">编排模式</a> · <a href="#agent-subagent">派与不派账</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-5">
       <summary>现在模型上下文都百万级了，还需要上下文工程吗？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>更需要。窗口变大不等于注意力变多——塞得越满、单位信息越被稀释，成本也线性上涨。
@@ -645,7 +645,7 @@
         <p class="qa-src">依据　<a href="#agent-context">上下文工程</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-6">
       <summary>怎么证明 agent 上线后不会出乱子？<span class="added">2026-07-07</span></summary>
       <div class="a">
         <p>三层保障：上线前评估集全量回归、pass^k 稳定性达标；上线后全链路追踪加在线评估盯
@@ -657,7 +657,7 @@
         <p class="qa-src">依据　<a href="#agent-eval-guardrails">评估与护栏</a> · <a href="#agent-cheatsheet">六条验收线</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-7">
       <summary>Dify 是开源的，我们为什么要付钱？<span class="added">2026-07-10</span></summary>
       <div class="a">
         <p>开源解决「能不能用」，商业解决「谁来兜底」：托管、治理、SLA 与升级保障。先开源
@@ -669,7 +669,7 @@
         <p class="qa-src">依据　<a href="#agent-lowcode">低代码平台</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-8">
       <summary>Agent 的记忆会不会被人「教坏」？<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>会，这叫记忆投毒（OWASP ASI06，研究口径注入成功率超 95%）。防线三道：写入过滤并
@@ -681,7 +681,7 @@
         <p class="qa-src">依据　<a href="#agent-memory">记忆系统</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-9">
       <summary>Computer Use 和 RPA 有什么区别？我们已经买了 RPA。<span class="added">2026-07-11</span></summary>
       <div class="a">
         <p>互补不替代：RPA 写死流程稳而脆（界面改一个按钮就断），CU 自适应但慢而贵。落地常态
@@ -693,7 +693,7 @@
         <p class="qa-src">依据　<a href="#agent-computer-use">Computer Use</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-10">
       <summary>Sub-agent 会不会把费用跑爆？<span class="added">2026-07-17</span></summary>
       <div class="a">
         <p>会放大——研究类任务约 15× token。治理三件：按任务价值分层开、并发限额（Codex 默认
@@ -705,7 +705,7 @@
         <p class="qa-src">依据　<a href="#agent-subagent">派与不派账</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-agent-11">
       <summary>怎么保证某个 sub-agent 每次都被调用？<span class="added">2026-07-17</span></summary>
       <div class="a">
         <p>分层：日常写好 description 让它自动路由（写得越具体命中越高）；要硬保证就用 skill

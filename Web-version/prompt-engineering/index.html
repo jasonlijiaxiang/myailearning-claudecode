@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prompt Engineering 提示词工程 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -252,7 +252,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版对练页，
     <b>2026-07-13</b> 来自五层结构与预算分区深潜。</p>
   <div class="qa">
-    <details>
+    <details id="q-pe-1">
       <summary>提示词工程会不会很快就没用了？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不会。模型越强，把需求讲清楚的价值越高；变的是技巧细节（如推理模型少写思维链），
@@ -264,7 +264,7 @@
         <p class="qa-src">依据　<a href="#pe-what-why">第 1 节</a> · <a href="#pe-advanced-reasoning">第 4 节</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-2">
       <summary>怎么保证输出永远是合法 JSON？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>别只靠提示词「说」。用 API 的 JSON mode / function calling / 强制 schema，
@@ -276,7 +276,7 @@
         <p class="qa-src">依据　<a href="#pe-core-techniques">结构化输出</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-3">
       <summary>推理模型还需要写思维链提示吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>基本不用。它内建了推理，硬写「一步步思考」多半多余；重点改成控制推理预算/effort。
@@ -288,7 +288,7 @@
         <p class="qa-src">依据　<a href="#pe-advanced-reasoning">推理模型时代</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-4">
       <summary>怎么降低我们的 API 成本？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>首选提示词缓存：稳定的长前缀缓存命中约 1 折（省约 90%）。再配合精简无效提示词、
@@ -300,7 +300,7 @@
         <p class="qa-src">依据　<a href="#pe-engineering">缓存省钱</a> · <a href="#src-cache">src-cache</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-5">
       <summary>提示词能自动优化吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>能。DSPy 用「评估指标」自动搜索更好的提示词：MIPROv2 结构化任务较手写 +10~40%，
@@ -312,7 +312,7 @@
         <p class="qa-src">依据　<a href="#pe-engineering">自动优化</a> · <a href="#src-dspy">src-dspy</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-6">
       <summary>提示词注入能彻底防住吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不能。OWASP 明确它是头号风险且无法根治，RAG 和微调都治不了——只能纵深防御：
@@ -324,7 +324,7 @@
         <p class="qa-src">依据　<a href="#pe-security">安全与风险</a> · <a href="#src-owasp">src-owasp</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-7">
       <summary>提示词也要版本管理？至于吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>至于。提示词直接决定产品输出，改坏了就是线上事故。版本化能对比、能回滚，
@@ -336,7 +336,7 @@
         <p class="qa-src">依据　<a href="#pe-engineering">工程化</a> · <a href="#pe-anatomy">五层结构</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-pe-8">
       <summary>为什么我说「不要 X」它还是做了？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>模型更擅长执行「做什么」。把否定改成正向指令——「请用简洁短句」而非「不要啰嗦」

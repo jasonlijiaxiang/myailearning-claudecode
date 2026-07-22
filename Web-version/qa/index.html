@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全库问答库 · AI 知识库</title>
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
+</head>
+<body>
+
+<nav class="topbar"><div class="tb">
+ <a class="brand" href="../../README.html">AI 知识库</a>
+ <a class="ti cur" href="../index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
+ <a class="ti" href="../../_prep/实战包.html">实战包</a>
+ <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
+ <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
+ <a class="ti" href="../../开始使用.html">开始使用</a>
+ <span class="ver">v0721j</span>
+</div></nav>
+
+<header class="top">
+  <div class="wrap">
+    <p class="crumb">全库视图</p>
+    <h1><span class="en">Question Index</span>全库问答库</h1>
+    <p class="lede">客户问的话，多半已经有人问过。19 册各印各的问答，纸面上没法互相翻——
+      这一页把它们和实战包的电梯版题汇到一处，按一句话搜，点进去读答案。</p>
+  </div>
+</header>
+
+<main class="wrap">
+<!-- QA:BEGIN 由 build.py 从各模块页与实战包抽取，请勿手工编辑 -->
+  <p class="net-lead">全库 <b>171 道</b>现场高频追问（分散在 19 册里）＋实战包 <b>91 道</b>电梯版交锋题，这一页把它们汇到一处。客户问了一句话，就搜那句话。</p>
+  <p class="net-lead">这里只放题目与去处——<b>答案留在原处</b>，点进去读。这样同一段答案全库只有一份，不会两处各说一套。</p>
+  <div class="qa-tools">
+   <input id="qf" type="search" placeholder="搜题目里的词（如：备案、注入、显存、并发）" autocomplete="off">
+   <div class="qa-chips" id="qc"><button class="chip on" data-g="">全部</button><button class="chip" data-g="prep">实战包</button><button class="chip" data-g="mod">模块追问</button></div>
+   <p class="qa-count" id="qn"></p>
+  </div>
+  <div class="qa-group" data-g="prep">
+   <h3>实战包 · 对客交锋 91 题 + 4 条兜底话术<span class="n">每题 15–30 秒的电梯版；★ 是必背，共 24 道</span></h3>
+   <p class="qa-dim">A · 格局与选型</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A1"><span class="qn">A1</span><span class="must">★</span>现在到底谁家模型最强？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A2"><span class="qn">A2</span>开源模型和 GPT 们到底还差多少？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A3"><span class="qn">A3</span>国产模型到底赶上国际水平没有？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A4"><span class="qn">A4</span>豆包和 DeepSeek、Qwen 比强在哪？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A5"><span class="qn">A5</span>GPT 和 Claude 到底该选哪个？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A6"><span class="qn">A6</span>Llama 不是开源吗，为什么法务不让用？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A7"><span class="qn">A7</span><span class="must">★</span>模型更新这么快，今天选的半年后会不会亏？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A8"><span class="qn">A8</span>榜单第一的模型为什么你们不直接推荐？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A9"><span class="qn">A9</span>thinking 模式为什么这么贵？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A10"><span class="qn">A10</span><span class="must">★</span>国内这几个平台（方舟 / 百炼 / 千帆 / 腾讯）到底选哪个？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-A11"><span class="qn">A11</span>平台会不会把我们锁死？<span class="fresh">⏳ 2026-07-17</span></a>
+   <p class="qa-dim">B · 架构与场景方案</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B1"><span class="qn">B1</span><span class="must">★</span>你们和纯卖模型 API 的有什么区别？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B2"><span class="qn">B2</span>先做哪个场景最容易见效？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B3"><span class="qn">B3</span><span class="must">★</span>POC 成功了，为什么上生产还要再收钱？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B4"><span class="qn">B4</span>客服解决率能承诺多少？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B5"><span class="qn">B5</span>员工会不会搜到不该看的东西？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B6"><span class="qn">B6</span>AI 生成的内容侵权了算谁的？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B7"><span class="qn">B7</span><span class="must">★</span>RAG 和微调到底该选哪个？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B8"><span class="qn">B8</span>都有 1M 上下文了，还要 RAG 吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B9"><span class="qn">B9</span>Agent 和普通对话机器人有什么区别、什么时候该上？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B10"><span class="qn">B10</span>自然语言问数（ChatBI）算错一个数怎么办？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B11"><span class="qn">B11</span>我们数据很乱，AI 项目是不是做不了？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B12"><span class="qn">B12</span>要不要专门买一套向量数据库？<span class="fresh">⏳ 2026-07-11</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B13"><span class="qn">B13</span>POC 都过了，上生产你们到底&quot;验收&quot;什么？给份清单。</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B14"><span class="qn">B14</span>我们的资料全是扫描件和图纸，该上原生多模态还是自己拼 OCR + 大模型？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B15"><span class="qn">B15</span>视频生成到底能不能商用了？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B16"><span class="qn">B16</span>什么时候该派 sub-agent、什么时候一个 agent 就够？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-B17"><span class="qn">B17</span>我们已经买了 RPA，Computer Use 有什么不一样？<span class="fresh">⏳ 2026-07-11</span></a>
+   <p class="qa-dim">C · 成本账</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C1"><span class="qn">C1</span><span class="must">★</span>为什么按 token 计费、输出凭什么比输入贵？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C2"><span class="qn">C2</span>语音客服一分钟多少钱？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C3"><span class="qn">C3</span>缓存能省多少钱？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C4"><span class="qn">C4</span><span class="must">★</span>为什么不全用最便宜的 DeepSeek？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C5"><span class="qn">C5</span><span class="must">★</span>两家报价差三倍，是不是有人坑我？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C6"><span class="qn">C6</span>DeepSeek 为什么那么便宜？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C7"><span class="qn">C7</span>自建算力和上云到底哪个便宜？<span class="fresh">⏳ 2026-07-09</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C8"><span class="qn">C8</span>多 agent 协作成本会不会失控？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C9"><span class="qn">C9</span>上网关到底能省多少钱？<span class="fresh">⏳ 2026-07-09</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C10"><span class="qn">C10</span>70B 模型到底要几张卡？（现场心算版）</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-C11"><span class="qn">C11</span>微调要多少数据、多少钱、多久见效？</a>
+   <p class="qa-dim">D · 工程保障与翻车题</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D1"><span class="qn">D1</span><span class="must">★</span>提示注入能彻底防住吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D2"><span class="qn">D2</span>大模型不就是个聊天框，能有多大风险？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D3"><span class="qn">D3</span>幻觉是不是训练没做好？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D4"><span class="qn">D4</span>系统没报错，但用户说 AI 变笨了，怎么排查？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D5"><span class="qn">D5</span><span class="must">★</span>上线之后你们还管吗？管什么？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D6"><span class="qn">D6</span>模型是大厂的，还能悄悄变吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D7"><span class="qn">D7</span>改个提示词而已，为什么要走发布流程？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D8"><span class="qn">D8</span><span class="must">★</span>你们的 AI 有没有「刹车」？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D9"><span class="qn">D9</span>怎么证明 agent 上线后不出乱子？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D10"><span class="qn">D10</span>系统不报错，但效果肉眼变差，你们怎么定位是哪一环坏的？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D11"><span class="qn">D11</span>你们交付的 agent / 工具，是生产级还是 demo？凭什么这么说？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D12"><span class="qn">D12</span>语义缓存会不会给不同用户串答、泄露别人的数据？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D13"><span class="qn">D13</span>自动路由到便宜模型，质量掉了怎么办？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D14"><span class="qn">D14</span>Agent 的记忆会不会被人「教坏」？<span class="fresh">⏳ 2026-07-11</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-D15"><span class="qn">D15</span>追踪日志里有客户的对话内容，安全吗？</a>
+   <p class="qa-dim">E · 评估与验收</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E1"><span class="qn">E1</span><span class="must">★</span>榜单分数能信吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E2"><span class="qn">E2</span>让 AI 评 AI（LLM-as-a-Judge），靠谱吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E3"><span class="qn">E3</span><span class="must">★</span>我们没数据没标注团队，评估怎么起步？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E4"><span class="qn">E4</span>RAG 答错了，是检索还是生成的锅？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E5"><span class="qn">E5</span><span class="must">★</span>评估体系要建多久、多少钱？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E6"><span class="qn">E6</span>换了新模型，评估要重做吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E7"><span class="qn">E7</span>Agent 这种多步任务怎么验收？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E8"><span class="qn">E8</span>微调完的模型，怎么证明没「变笨」？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-E9"><span class="qn">E9</span>你们能承诺多少并发？</a>
+   <p class="qa-dim">F · 基础原理与协议</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F1"><span class="qn">F1</span><span class="must">★</span>用一句话给 CEO 讲什么是大模型？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F2"><span class="qn">F2</span>为什么模型回答一个字一个字蹦？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F3"><span class="qn">F3</span><span class="must">★</span>私有化部署为什么并发上不去？显存明明够装模型。</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F4"><span class="qn">F4</span>量化会不会把模型变笨？<span class="fresh">⏳ 2026-07-09</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F5"><span class="qn">F5</span><span class="must">★</span>MCP 和 Function Calling 什么关系？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F6"><span class="qn">F6</span>A2A 和 MCP 到底啥区别？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F7"><span class="qn">F7</span>微调会不会把模型调坏？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F8"><span class="qn">F8</span>为什么训练要几千张卡，推理几张就行？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F9"><span class="qn">F9</span>参数量 7B、70B 到底意味着什么？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F10"><span class="qn">F10</span>模型知识为什么会过时？能打补丁吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F11"><span class="qn">F11</span>为什么我说「不要 X」它还是做了？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-F12"><span class="qn">F12</span>长任务客户端断了怎么办？</a>
+   <p class="qa-dim">G · 平台与接入</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G1"><span class="qn">G1</span><span class="must">★</span>我已经有 API 网关了，为什么还要 AI 网关？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G2"><span class="qn">G2</span>我们有几百个内部 API 要让 Agent 用，是不是要一个个改造？<span class="fresh">⏳ 2026-07-10</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G3"><span class="qn">G3</span>我们卡不多，直接 SSH 上去跑不行吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G4"><span class="qn">G4</span><span class="must">★</span>有了 vLLM 这些引擎，为什么还要一套推理平台？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G5"><span class="qn">G5</span>一张卡到底能给几个团队用？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G6"><span class="qn">G6</span>不用 NVIDIA 到底行不行？<span class="fresh">⏳ 2026-07-09</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G7"><span class="qn">G7</span><span class="must">★</span>网关 / 平台，我们该自建还是买托管？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-G8"><span class="qn">G8</span>Dify 是开源的，我们为什么要付钱？</a>
+   <p class="qa-dim">H · 合规与数据主权</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H1"><span class="qn">H1</span><span class="must">★</span>我们私有化部署、只给内部员工用，要备案吗？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H2"><span class="qn">H2</span><span class="must">★</span>不打 AI 标识会怎样？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H3"><span class="qn">H3</span>数据能不能出境？走哪条通道？<span class="fresh">⏳ 2026-07-17</span></a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H4"><span class="qn">H4</span><span class="must">★</span>我们的数据会不会被模型学走、被别人问出来？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H5"><span class="qn">H5</span>向量化之后是不是就安全了？删除能真删干净吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H6"><span class="qn">H6</span>用开源模型微调出来的模型算谁的？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H7"><span class="qn">H7</span>用 GPT 生成的数据训我们的模型，合规吗？</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-H8"><span class="qn">H8</span>我们要出海，EU AI Act 要做什么、什么时候？<span class="fresh">⏳ 2026-07-09</span></a>
+   <p class="qa-dim">附 · 兜底话术</p>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-fallback-1"><span class="qn">兜底</span>被问没听过的名词</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-fallback-2"><span class="qn">兜底</span>被要求承诺数字</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-fallback-3"><span class="qn">兜底</span>被质疑数字来源</a>
+   <a class="qrow" href="../../_prep/实战包.html#q-prep-fallback-4"><span class="qn">兜底</span>被问「我们已经有 X 了」</a>
+  </div>
+  <div class="qa-group" data-g="mod">
+   <h3>模块现场高频追问 171 道<span class="n">每题给结论、机制或权衡、下一步与依据</span></h3>
+   <p class="qa-dim">A2A<span class="n">8 道</span></p>
+   <a class="qrow" href="../a2a/index.html#q-a2a-1"><span class="qn">A2</span>A2A 和 MCP 到底啥区别，是不是二选一？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-2"><span class="qn">A2</span>能不能只用一个 Agent，别搞这么复杂？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-3"><span class="qn">A2</span>这是不是 Google 的私有协议，用了会被锁定吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-4"><span class="qn">A2</span>接 A2A 要不要换我现在的 Agent 框架？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-5"><span class="qn">A2</span>Task 有状态，服务端要一直存着？会不会很重？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-6"><span class="qn">A2</span>长任务客户端断了怎么办？<span class="added">2026-07-12</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-7"><span class="qn">A2</span>怎么防止别人伪造一个 Agent 冒充我们？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../a2a/index.html#q-a2a-8"><span class="qn">A2</span>跨多个 Agent，出错了怎么定位？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">AI-Gateway<span class="n">10 道</span></p>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-1"><span class="qn">GW</span>我已经有 API 网关了，为什么还要 AI 网关？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-2"><span class="qn">GW</span>上网关到底能省多少钱？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-3"><span class="qn">GW</span>自动路由到便宜模型，质量掉了怎么办？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-4"><span class="qn">GW</span>语义缓存会不会给不同用户串答、泄露数据？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-5"><span class="qn">GW</span>护栏能 100% 挡住提示注入吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-6"><span class="qn">GW</span>合规审计具体能提供什么证据？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-7"><span class="qn">GW</span>我们有几百个内部 API，要让 Agent 用，是不是要一个个改造？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-8"><span class="qn">GW</span>Agent 替用户调工具，权限会不会被放大、被滥用？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-9"><span class="qn">GW</span>我们该自建还是买托管？<span class="added">2026-07-12</span></a>
+   <a class="qrow" href="../ai-gateway/index.html#q-ai-gateway-10"><span class="qn">GW</span>一句话，AI 网关到底给我带来什么？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">AI-Infra-Compute<span class="n">8 道</span></p>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-1"><span class="qn">IC</span>我们已经有机房，直接买卡装进去行不行？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-2"><span class="qn">IC</span>标称几千 TFLOPS，为什么我们实测差那么远？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-3"><span class="qn">IC</span>70B 模型到底要几张卡？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-4"><span class="qn">IC</span>不用 NVIDIA 到底行不行？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-5"><span class="qn">IC</span>NVLink 和 InfiniBand 到底什么关系？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-6"><span class="qn">IC</span>存储要配多少才够？直接用对象存储训练行不行？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-7"><span class="qn">IC</span>自建和上云到底哪个便宜？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-compute/index.html#q-ai-infra-compute-8"><span class="qn">IC</span>现在下单还是等下一代卡？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">AI-Infra-Platform<span class="n">7 道</span></p>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-1"><span class="qn">IP</span>我们卡不多，直接 SSH 上去跑不行吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-2"><span class="qn">IP</span>K8s 自带调度器不能跑训练吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-3"><span class="qn">IP</span>一张卡到底能给几个团队用？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-4"><span class="qn">IP</span>故障真有那么频繁吗？感觉有点夸张。<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-5"><span class="qn">IP</span>nvidia-smi 利用率一直 90%+，还有优化空间吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-6"><span class="qn">IP</span>有了 vLLM 这些引擎，为什么还要推理平台？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../ai-infra-platform/index.html#q-ai-infra-platform-7"><span class="qn">IP</span>我们到底该自建平台还是用托管？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">AI-Ops<span class="n">8 道</span></p>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-1"><span class="qn">OP</span>我们已经有 Datadog 了，为什么还要一套 AI 观测？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-2"><span class="qn">OP</span>系统没报错，但用户说 AI 变笨了，怎么排查？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-3"><span class="qn">OP</span>大厂的模型还能悄悄变吗？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-4"><span class="qn">OP</span>线上打分会不会拖慢用户请求？LLM 判官可信吗？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-5"><span class="qn">OP</span>改个提示词而已，为什么要走发布流程？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-6"><span class="qn">OP</span>你们的 AI 有没有「刹车」？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-7"><span class="qn">OP</span>trace 里有客户的对话内容，安全吗？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../ai-ops/index.html#q-ai-ops-8"><span class="qn">OP</span>上线之后你们还管吗？管什么、怎么收费？<span class="added">2026-07-12</span></a>
+   <p class="qa-dim">Agent<span class="n">11 道</span></p>
+   <a class="qrow" href="../agent/index.html#q-agent-1"><span class="qn">AG</span>Agent 和普通的对话机器人到底有什么区别？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-2"><span class="qn">AG</span>是不是所有场景都该升级成 agent？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-3"><span class="qn">AG</span>模型会不会直接操作我们的生产系统？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-4"><span class="qn">AG</span>多个 agent 是不是一定比一个强？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-5"><span class="qn">AG</span>现在模型上下文都百万级了，还需要上下文工程吗？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-6"><span class="qn">AG</span>怎么证明 agent 上线后不会出乱子？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-7"><span class="qn">AG</span>Dify 是开源的，我们为什么要付钱？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-8"><span class="qn">AG</span>Agent 的记忆会不会被人「教坏」？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-9"><span class="qn">AG</span>Computer Use 和 RPA 有什么区别？我们已经买了 RPA。<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-10"><span class="qn">AG</span>Sub-agent 会不会把费用跑爆？<span class="added">2026-07-17</span></a>
+   <a class="qrow" href="../agent/index.html#q-agent-11"><span class="qn">AG</span>怎么保证某个 sub-agent 每次都被调用？<span class="added">2026-07-17</span></a>
+   <p class="qa-dim">Data-Engineering<span class="n">7 道</span></p>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-1"><span class="qn">DE</span>我们数据很乱，AI 项目是不是做不了？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-2"><span class="qn">DE</span>我们全是扫描件和图纸，能处理吗？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-3"><span class="qn">DE</span>接一个系统要多久？数据多久能同步一次？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-4"><span class="qn">DE</span>要不要专门买一套向量数据库？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-5"><span class="qn">DE</span>AI 老答错，是不是模型不行？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-6"><span class="qn">DE</span>标注要雇多少人？合成数据可靠吗？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../data-engineering/index.html#q-data-engineering-7"><span class="qn">DE</span>数据向量化之后是不是就安全了？删除能真删干净吗？<span class="added">2026-07-11</span></a>
+   <p class="qa-dim">Evaluation<span class="n">10 道</span></p>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-1"><span class="qn">EV</span>你们模型在榜单上分数很高，是不是拿来就好用？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-2"><span class="qn">EV</span>让 AI 评 AI，靠谱吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-3"><span class="qn">EV</span>判官会不会偏向你们自家模型？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-4"><span class="qn">EV</span>我们没数据、没标注团队，评估怎么起步？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-5"><span class="qn">EV</span>RAG 答错了，怎么知道是检索还是生成的锅？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-6"><span class="qn">EV</span>Agent 这种多步任务怎么验收？<span class="added">2026-07-12</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-7"><span class="qn">EV</span>微调完的模型，怎么证明没有「变笨」？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-8"><span class="qn">EV</span>万一评估平台以后停服了怎么办？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-9"><span class="qn">EV</span>评估体系建起来要多久、多少钱？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../evaluation/index.html#q-evaluation-10"><span class="qn">EV</span>有了护栏是不是就不用评估了？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">Fine-tuning<span class="n">8 道</span></p>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-1"><span class="qn">FT</span>30 秒说清：提示词、RAG、微调怎么选？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-2"><span class="qn">FT</span>要多少数据、多少钱、多久见效？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-3"><span class="qn">FT</span>微调会不会把模型调笨？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-4"><span class="qn">FT</span>GPT / Claude / 开源，微调路径分别是什么？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-5"><span class="qn">FT</span>SFT 和 DPO 我们都要做吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-6"><span class="qn">FT</span>怎么证明微调真的有效？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-7"><span class="qn">FT</span>怎么灰度？出问题怎么回滚？<span class="added">2026-07-13</span></a>
+   <a class="qrow" href="../fine-tuning/index.html#q-fine-tuning-8"><span class="qn">FT</span>用 GPT 生成的数据训我们的模型，合规吗？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">LLM<span class="n">8 道</span></p>
+   <a class="qrow" href="../llm/index.html#q-llm-1"><span class="qn">LM</span>为什么现在的大模型清一色 Transformer？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-2"><span class="qn">LM</span>参数量 7B、70B 到底意味着什么？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-3"><span class="qn">LM</span>都有 1M 上下文了，还要 RAG 吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-4"><span class="qn">LM</span>私有化部署为什么并发上不去？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-5"><span class="qn">LM</span>DeepSeek 为什么那么便宜？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-6"><span class="qn">LM</span>被问到完全没听过的架构名词怎么办？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-7"><span class="qn">LM</span>模型知识为什么会过时？能打补丁吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm/index.html#q-llm-8"><span class="qn">LM</span>客户抱怨「AI 又胡说」，怎么系统性接住？<span class="added">2026-07-13</span></a>
+   <p class="qa-dim">LLM-Inference<span class="n">10 道</span></p>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-1"><span class="qn">LI</span>为什么模型回答是一个字一个字往外蹦？能不能一次出全文？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-2"><span class="qn">LI</span>我买了 8 张卡，为什么并发一高就排队？显存明明够装模型。<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-3"><span class="qn">LI</span>128K 长上下文这么好，为什么按输入收费还这么贵？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-4"><span class="qn">LI</span>1000 个用户都开 1M 窗口，要备多少张卡？<span class="added">2026-07-20</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-5"><span class="qn">LI</span>vLLM 和 SGLang 到底选哪个？给句准话。<span class="added">2026-07-12</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-6"><span class="qn">LI</span>量化会不会把模型「变笨」？我们业务敢用吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-7"><span class="qn">LI</span>投机解码听着像「猜答案」，会不会导致质量下降？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-8"><span class="qn">LI</span>我们要支撑几千并发，直接堆卡行不行？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-9"><span class="qn">LI</span>你们能承诺多少并发？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../llm-inference/index.html#q-llm-inference-10"><span class="qn">LI</span>别家报价比你们便宜一半，是不是你们黑？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">LLM-Training<span class="n">9 道</span></p>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-1"><span class="qn">LT</span>你们的模型到底是怎么训出来的？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-2"><span class="qn">LT</span>训练一个大模型到底要多少钱多少卡？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-3"><span class="qn">LT</span>为什么 DeepSeek 能把训练成本压那么低？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-4"><span class="qn">LT</span>MoE 模型报的 400B 参数，跟稠密 70B 怎么比？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-5"><span class="qn">LT</span>我们只有几千条数据，够微调吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-6"><span class="qn">LT</span>对齐会不会把模型调笨？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-7"><span class="qn">LT</span>推理模型和普通模型到底差在哪？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-8"><span class="qn">LT</span>榜单分数能信吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../llm-training/index.html#q-llm-training-9"><span class="qn">LT</span>我们该自建集群还是用云？<span class="added">2026-07-13</span></a>
+   <p class="qa-dim">MCP<span class="n">10 道</span></p>
+   <a class="qrow" href="../mcp/index.html#q-mcp-1"><span class="qn">MC</span>MCP 和 Function Calling 到底什么关系，是不是替代？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-2"><span class="qn">MC</span>这是不是 Anthropic 的私有协议，用了会被锁定吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-3"><span class="qn">MC</span>我们已经在用 Function Calling 了，还有必要上 MCP 吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-4"><span class="qn">MC</span>能不能不让模型自己决定调用？我们不放心。<span class="added">2026-07-20</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-5"><span class="qn">MC</span>月底新版发布，我现在的 server 要立刻改代码吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-6"><span class="qn">MC</span>开发一个 MCP server 到底要多少工作量？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-7"><span class="qn">MC</span>员工乱接外面的 server 怎么治？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-8"><span class="qn">MC</span>我们内部系统的 server 能放到官方 Registry 吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-9"><span class="qn">MC</span>MCP 出了这么多 CVE，还能用吗？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../mcp/index.html#q-mcp-10"><span class="qn">MC</span>上线之后出了问题，怎么定位是谁的责任？<span class="added">2026-07-20</span></a>
+   <p class="qa-dim">Model-Landscape<span class="n">11 道</span></p>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-1"><span class="qn">ML</span>现在到底谁家模型最强？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-2"><span class="qn">ML</span>GPT 和 Claude 到底该选哪个？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-3"><span class="qn">ML</span>开源模型和 GPT 们到底还差多少？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-4"><span class="qn">ML</span>Llama 不是开源吗，为什么法务不让我们用？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-5"><span class="qn">ML</span>用开源模型微调出来的模型算谁的？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-6"><span class="qn">ML</span>为什么不全用最便宜的 DeepSeek？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-7"><span class="qn">ML</span>现在签一年合同，明年价格跌了怎么办？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-8"><span class="qn">ML</span>上下文窗口越大越好吗？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-9"><span class="qn">ML</span>评测榜单第一的模型，为什么你们不推荐？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-10"><span class="qn">ML</span>国内这几个平台，到底选哪个？<span class="added">2026-07-17</span></a>
+   <a class="qrow" href="../model-landscape/index.html#q-model-landscape-11"><span class="qn">ML</span>平台会不会把我们锁死？<span class="added">2026-07-17</span></a>
+   <p class="qa-dim">Multimodal<span class="n">9 道</span></p>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-1"><span class="qn">MM</span>我的场景到底要不要上多模态？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-2"><span class="qn">MM</span>该用原生多模态，还是自己拼 OCR + LLM？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-3"><span class="qn">MM</span>传一张图到底要多少钱？为什么比文本慢？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-4"><span class="qn">MM</span>开源 VLM 能打过闭源旗舰吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-5"><span class="qn">MM</span>模型看图会不会瞎编、看错？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-6"><span class="qn">MM</span>生成图片用扩散还是自回归？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-7"><span class="qn">MM</span>端到端语音又快又自然，为什么还推级联？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-8"><span class="qn">MM</span>语音客服的延迟能压到多少？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../multimodal/index.html#q-multimodal-9"><span class="qn">MM</span>视频生成到底能不能商用了？<span class="added">2026-07-17</span></a>
+   <p class="qa-dim">Prompt-Engineering<span class="n">8 道</span></p>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-1"><span class="qn">PE</span>提示词工程会不会很快就没用了？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-2"><span class="qn">PE</span>怎么保证输出永远是合法 JSON？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-3"><span class="qn">PE</span>推理模型还需要写思维链提示吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-4"><span class="qn">PE</span>怎么降低我们的 API 成本？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-5"><span class="qn">PE</span>提示词能自动优化吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-6"><span class="qn">PE</span>提示词注入能彻底防住吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-7"><span class="qn">PE</span>提示词也要版本管理？至于吗？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../prompt-engineering/index.html#q-pe-8"><span class="qn">PE</span>为什么我说「不要 X」它还是做了？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">RAG<span class="n">11 道</span></p>
+   <a class="qrow" href="../rag/index.html#q-rag-1"><span class="qn">RA</span>RAG 和直接微调模型，我到底该选哪个？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-2"><span class="qn">RA</span>块到底该切多大？有没有标准答案？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-3"><span class="qn">RA</span>已经有向量检索了，为什么还要单独加重排序？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-4"><span class="qn">RA</span>回答不准，到底是检索的锅还是模型的锅？<span class="added">2026-07-07</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-5"><span class="qn">RA</span>向量检索不是更先进吗，为什么还要「老古董」BM25？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-6"><span class="qn">RA</span>Agentic RAG 比普通 RAG 贵多少、慢多少？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-7"><span class="qn">RA</span>上线后效果越来越差，怎么排查？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-8"><span class="qn">RA</span>数据安全怎么保证？会不会泄露？<span class="added">2026-07-08</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-9"><span class="qn">RA</span>GraphRAG 是不是智商税？听说索引贵好几倍。<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-10"><span class="qn">RA</span>我们的资料全是扫描件 PDF，怎么办？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../rag/index.html#q-rag-11"><span class="qn">RA</span>问数这块，这不就是 BI 吗？会不会替代我们 BI 团队？<span class="added">2026-07-09</span></a>
+   <p class="qa-dim">Security<span class="n">9 道</span></p>
+   <a class="qrow" href="../security/index.html#q-security-1"><span class="qn">SE</span>大模型不就是个聊天框，能有多大安全风险？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-2"><span class="qn">SE</span>提示注入到底能不能彻底解决？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-3"><span class="qn">SE</span>我们的数据会不会被模型学走、被别人问出来？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-4"><span class="qn">SE</span>从开源社区下模型很方便，有什么风险？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-5"><span class="qn">SE</span>给 Agent 放权自动干活，出了事谁负责、怎么控？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-6"><span class="qn">SE</span>买一个 AI 护栏产品，是不是就安全了？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-7"><span class="qn">SE</span>我们要过 EU AI Act，具体要做什么、什么时候？<span class="added">2026-07-09</span></a>
+   <a class="qrow" href="../security/index.html#q-security-8"><span class="qn">SE</span>我们私有化部署、只给内部员工用，要备案吗？<span class="added">2026-07-17</span></a>
+   <a class="qrow" href="../security/index.html#q-security-9"><span class="qn">SE</span>不打 AI 标识会怎样？<span class="added">2026-07-17</span></a>
+   <p class="qa-dim">Solution-Patterns<span class="n">9 道</span></p>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-1"><span class="qn">SP</span>POC 成功了，为什么上生产还要再收一笔钱？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-2"><span class="qn">SP</span>你们报价比竞品贵 30%，贵在哪？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-3"><span class="qn">SP</span>客服解决率能承诺多少？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-4"><span class="qn">SP</span>员工会不会搜到不该看的东西？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-5"><span class="qn">SP</span>生成的内容侵权了算谁的？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-6"><span class="qn">SP</span>AI Coding 该买 Copilot 还是 Cursor 还是 Claude Code？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-7"><span class="qn">SP</span>数字人会不会有法律风险？<span class="added">2026-07-10</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-8"><span class="qn">SP</span>ChatBI 准确率能到多少？算错数怎么办？<span class="added">2026-07-11</span></a>
+   <a class="qrow" href="../solution-patterns/index.html#q-solution-patterns-9"><span class="qn">SP</span>会议助手和 Teams/Zoom 自带的 AI 比，强在哪？<span class="added">2026-07-11</span></a>
+  </div>
+  <!-- QA:END -->
+</main>
+
+<footer class="wrap">
+  <p>题目来自 19 册模块页的「现场高频追问」与 <a href="../../_prep/实战包.html">实战包</a>，
+     内容更新时自动重建。答案留在原处，本页只登记题目与去处。</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

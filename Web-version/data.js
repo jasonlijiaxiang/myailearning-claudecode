@@ -1,7 +1,7 @@
 // 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。
 // 改内容请改 MANIFEST，然后重跑 build.py。
 window.KB = {
- "generated_from": "PPT-version/*/MANIFEST.md",
+ "generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）",
  "layers": [
   "解决方案层",
   "应用模式层",
@@ -159,7 +159,74 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": "./a2a/index.html"
+   "web": "./a2a/index.html",
+   "questions": [
+    {
+     "id": "q-a2a-1",
+     "q": "A2A 和 MCP 到底啥区别，是不是二选一？",
+     "added": "2026-07-09",
+     "chapters": [
+      "a2a-what-why"
+     ]
+    },
+    {
+     "id": "q-a2a-2",
+     "q": "能不能只用一个 Agent，别搞这么复杂？",
+     "added": "2026-07-09",
+     "chapters": [
+      "picker",
+      "a2a-what-why"
+     ]
+    },
+    {
+     "id": "q-a2a-3",
+     "q": "这是不是 Google 的私有协议，用了会被锁定吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "a2a-production"
+     ]
+    },
+    {
+     "id": "q-a2a-4",
+     "q": "接 A2A 要不要换我现在的 Agent 框架？",
+     "added": "2026-07-09",
+     "chapters": [
+      "a2a-handson"
+     ]
+    },
+    {
+     "id": "q-a2a-5",
+     "q": "Task 有状态，服务端要一直存着？会不会很重？",
+     "added": "2026-07-09",
+     "chapters": [
+      "a2a-protocol"
+     ]
+    },
+    {
+     "id": "q-a2a-6",
+     "q": "长任务客户端断了怎么办？",
+     "added": "2026-07-12",
+     "chapters": [
+      "a2a-transport"
+     ]
+    },
+    {
+     "id": "q-a2a-7",
+     "q": "怎么防止别人伪造一个 Agent 冒充我们？",
+     "added": "2026-07-09",
+     "chapters": [
+      "a2a-security"
+     ]
+    },
+    {
+     "id": "q-a2a-8",
+     "q": "跨多个 Agent，出错了怎么定位？",
+     "added": "2026-07-09",
+     "chapters": [
+      "a2a-production"
+     ]
+    }
+   ]
   },
   {
    "id": "ai-gateway",
@@ -386,7 +453,94 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./ai-gateway/index.html"
+   "web": "./ai-gateway/index.html",
+   "questions": [
+    {
+     "id": "q-ai-gateway-1",
+     "q": "我已经有 API 网关了，为什么还要 AI 网关？",
+     "added": "2026-07-09",
+     "chapters": [
+      "gw-what-why"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-2",
+     "q": "上网关到底能省多少钱？",
+     "added": "2026-07-09",
+     "chapters": [
+      "saver",
+      "gw-route",
+      "gw-cost"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-3",
+     "q": "自动路由到便宜模型，质量掉了怎么办？",
+     "added": "2026-07-09",
+     "chapters": [
+      "gw-route"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-4",
+     "q": "语义缓存会不会给不同用户串答、泄露数据？",
+     "added": "2026-07-09",
+     "chapters": [
+      "gw-cost"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-5",
+     "q": "护栏能 100% 挡住提示注入吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "gw-guardrail"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-6",
+     "q": "合规审计具体能提供什么证据？",
+     "added": "2026-07-09",
+     "chapters": [
+      "gw-guardrail",
+      "gw-observe"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-7",
+     "q": "我们有几百个内部 API，要让 Agent 用，是不是要一个个改造？",
+     "added": "2026-07-10",
+     "chapters": [
+      "gw-mcp"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-8",
+     "q": "Agent 替用户调工具，权限会不会被放大、被滥用？",
+     "added": "2026-07-10",
+     "chapters": [
+      "gw-mcp",
+      "src-mcp-auth"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-9",
+     "q": "我们该自建还是买托管？",
+     "added": "2026-07-12",
+     "chapters": [
+      "gw-cheatsheet"
+     ]
+    },
+    {
+     "id": "q-ai-gateway-10",
+     "q": "一句话，AI 网关到底给我带来什么？",
+     "added": "2026-07-09",
+     "chapters": [
+      "gw-what-why",
+      "gw-mcp"
+     ]
+    }
+   ]
   },
   {
    "id": "ai-infra-compute",
@@ -594,7 +748,74 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./ai-infra-compute/index.html"
+   "web": "./ai-infra-compute/index.html",
+   "questions": [
+    {
+     "id": "q-ai-infra-compute-1",
+     "q": "我们已经有机房，直接买卡装进去行不行？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-overview"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-2",
+     "q": "标称几千 TFLOPS，为什么我们实测差那么远？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-gpu"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-3",
+     "q": "70B 模型到底要几张卡？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-hbm"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-4",
+     "q": "不用 NVIDIA 到底行不行？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-chips"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-5",
+     "q": "NVLink 和 InfiniBand 到底什么关系？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-scaleup"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-6",
+     "q": "存储要配多少才够？直接用对象存储训练行不行？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-storage"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-7",
+     "q": "自建和上云到底哪个便宜？",
+     "added": "2026-07-09",
+     "chapters": [
+      "tco",
+      "aic-econ"
+     ]
+    },
+    {
+     "id": "q-ai-infra-compute-8",
+     "q": "现在下单还是等下一代卡？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aic-chips"
+     ]
+    }
+   ]
   },
   {
    "id": "ai-infra-platform",
@@ -748,7 +969,66 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./ai-infra-platform/index.html"
+   "web": "./ai-infra-platform/index.html",
+   "questions": [
+    {
+     "id": "q-ai-infra-platform-1",
+     "q": "我们卡不多，直接 SSH 上去跑不行吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aip-overview"
+     ]
+    },
+    {
+     "id": "q-ai-infra-platform-2",
+     "q": "K8s 自带调度器不能跑训练吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aip-scheduling"
+     ]
+    },
+    {
+     "id": "q-ai-infra-platform-3",
+     "q": "一张卡到底能给几个团队用？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aip-sharing"
+     ]
+    },
+    {
+     "id": "q-ai-infra-platform-4",
+     "q": "故障真有那么频繁吗？感觉有点夸张。",
+     "added": "2026-07-09",
+     "chapters": [
+      "aip-faulttol"
+     ]
+    },
+    {
+     "id": "q-ai-infra-platform-5",
+     "q": "nvidia-smi 利用率一直 90%+，还有优化空间吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aip-observability"
+     ]
+    },
+    {
+     "id": "q-ai-infra-platform-6",
+     "q": "有了 vLLM 这些引擎，为什么还要推理平台？",
+     "added": "2026-07-09",
+     "chapters": [
+      "aip-serving"
+     ]
+    },
+    {
+     "id": "q-ai-infra-platform-7",
+     "q": "我们到底该自建平台还是用托管？",
+     "added": "2026-07-09",
+     "chapters": [
+      "tierpicker",
+      "aip-cloud"
+     ]
+    }
+   ]
   },
   {
    "id": "ai-ops",
@@ -929,7 +1209,73 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./ai-ops/index.html"
+   "web": "./ai-ops/index.html",
+   "questions": [
+    {
+     "id": "q-ai-ops-1",
+     "q": "我们已经有 Datadog 了，为什么还要一套 AI 观测？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-tooling"
+     ]
+    },
+    {
+     "id": "q-ai-ops-2",
+     "q": "系统没报错，但用户说 AI 变笨了，怎么排查？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-drift"
+     ]
+    },
+    {
+     "id": "q-ai-ops-3",
+     "q": "大厂的模型还能悄悄变吗？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-drift"
+     ]
+    },
+    {
+     "id": "q-ai-ops-4",
+     "q": "线上打分会不会拖慢用户请求？LLM 判官可信吗？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-online-eval"
+     ]
+    },
+    {
+     "id": "q-ai-ops-5",
+     "q": "改个提示词而已，为什么要走发布流程？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-release"
+     ]
+    },
+    {
+     "id": "q-ai-ops-6",
+     "q": "你们的 AI 有没有「刹车」？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-incident"
+     ]
+    },
+    {
+     "id": "q-ai-ops-7",
+     "q": "trace 里有客户的对话内容，安全吗？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ops-tracing"
+     ]
+    },
+    {
+     "id": "q-ai-ops-8",
+     "q": "上线之后你们还管吗？管什么、怎么收费？",
+     "added": "2026-07-12",
+     "chapters": [
+      "ops-cheatsheet"
+     ]
+    }
+   ]
   },
   {
    "id": "agent",
@@ -1238,7 +1584,103 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": "./agent/index.html"
+   "web": "./agent/index.html",
+   "questions": [
+    {
+     "id": "q-agent-1",
+     "q": "Agent 和普通的对话机器人到底有什么区别？",
+     "added": "2026-07-07",
+     "chapters": [
+      "agent-what-why"
+     ]
+    },
+    {
+     "id": "q-agent-2",
+     "q": "是不是所有场景都该升级成 agent？",
+     "added": "2026-07-07",
+     "chapters": [
+      "advisor",
+      "agent-what-why",
+      "agent-cheatsheet"
+     ]
+    },
+    {
+     "id": "q-agent-3",
+     "q": "模型会不会直接操作我们的生产系统？",
+     "added": "2026-07-07",
+     "chapters": [
+      "agent-components",
+      "agent-tools-mcp"
+     ]
+    },
+    {
+     "id": "q-agent-4",
+     "q": "多个 agent 是不是一定比一个强？",
+     "added": "2026-07-07",
+     "chapters": [
+      "agent-orchestration",
+      "agent-subagent"
+     ]
+    },
+    {
+     "id": "q-agent-5",
+     "q": "现在模型上下文都百万级了，还需要上下文工程吗？",
+     "added": "2026-07-07",
+     "chapters": [
+      "agent-context"
+     ]
+    },
+    {
+     "id": "q-agent-6",
+     "q": "怎么证明 agent 上线后不会出乱子？",
+     "added": "2026-07-07",
+     "chapters": [
+      "agent-eval-guardrails",
+      "agent-cheatsheet"
+     ]
+    },
+    {
+     "id": "q-agent-7",
+     "q": "Dify 是开源的，我们为什么要付钱？",
+     "added": "2026-07-10",
+     "chapters": [
+      "agent-lowcode"
+     ]
+    },
+    {
+     "id": "q-agent-8",
+     "q": "Agent 的记忆会不会被人「教坏」？",
+     "added": "2026-07-11",
+     "chapters": [
+      "agent-memory"
+     ]
+    },
+    {
+     "id": "q-agent-9",
+     "q": "Computer Use 和 RPA 有什么区别？我们已经买了 RPA。",
+     "added": "2026-07-11",
+     "chapters": [
+      "agent-computer-use"
+     ]
+    },
+    {
+     "id": "q-agent-10",
+     "q": "Sub-agent 会不会把费用跑爆？",
+     "added": "2026-07-17",
+     "chapters": [
+      "agent-subagent"
+     ]
+    },
+    {
+     "id": "q-agent-11",
+     "q": "怎么保证某个 sub-agent 每次都被调用？",
+     "added": "2026-07-17",
+     "chapters": [
+      "agent-subagent",
+      "src-subagent"
+     ]
+    }
+   ]
   },
   {
    "id": "data-engineering",
@@ -1377,7 +1819,66 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./data-engineering/index.html"
+   "web": "./data-engineering/index.html",
+   "questions": [
+    {
+     "id": "q-data-engineering-1",
+     "q": "我们数据很乱，AI 项目是不是做不了？",
+     "added": "2026-07-11",
+     "chapters": [
+      "readiness",
+      "de-what-why"
+     ]
+    },
+    {
+     "id": "q-data-engineering-2",
+     "q": "我们全是扫描件和图纸，能处理吗？",
+     "added": "2026-07-11",
+     "chapters": [
+      "de-parsing"
+     ]
+    },
+    {
+     "id": "q-data-engineering-3",
+     "q": "接一个系统要多久？数据多久能同步一次？",
+     "added": "2026-07-11",
+     "chapters": [
+      "de-pipeline"
+     ]
+    },
+    {
+     "id": "q-data-engineering-4",
+     "q": "要不要专门买一套向量数据库？",
+     "added": "2026-07-11",
+     "chapters": [
+      "de-vectordb"
+     ]
+    },
+    {
+     "id": "q-data-engineering-5",
+     "q": "AI 老答错，是不是模型不行？",
+     "added": "2026-07-11",
+     "chapters": [
+      "de-quality"
+     ]
+    },
+    {
+     "id": "q-data-engineering-6",
+     "q": "标注要雇多少人？合成数据可靠吗？",
+     "added": "2026-07-11",
+     "chapters": [
+      "de-labeling"
+     ]
+    },
+    {
+     "id": "q-data-engineering-7",
+     "q": "数据向量化之后是不是就安全了？删除能真删干净吗？",
+     "added": "2026-07-11",
+     "chapters": [
+      "de-governance"
+     ]
+    }
+   ]
   },
   {
    "id": "evaluation",
@@ -1577,7 +2078,94 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./evaluation/index.html"
+   "web": "./evaluation/index.html",
+   "questions": [
+    {
+     "id": "q-evaluation-1",
+     "q": "你们模型在榜单上分数很高，是不是拿来就好用？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-why-hard",
+      "eval-cheatsheet"
+     ]
+    },
+    {
+     "id": "q-evaluation-2",
+     "q": "让 AI 评 AI，靠谱吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-judge",
+      "src-jrh"
+     ]
+    },
+    {
+     "id": "q-evaluation-3",
+     "q": "判官会不会偏向你们自家模型？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-judge"
+     ]
+    },
+    {
+     "id": "q-evaluation-4",
+     "q": "我们没数据、没标注团队，评估怎么起步？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-build"
+     ]
+    },
+    {
+     "id": "q-evaluation-5",
+     "q": "RAG 答错了，怎么知道是检索还是生成的锅？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-scenarios"
+     ]
+    },
+    {
+     "id": "q-evaluation-6",
+     "q": "Agent 这种多步任务怎么验收？",
+     "added": "2026-07-12",
+     "chapters": [
+      "eval-scenarios"
+     ]
+    },
+    {
+     "id": "q-evaluation-7",
+     "q": "微调完的模型，怎么证明没有「变笨」？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-scenarios"
+     ]
+    },
+    {
+     "id": "q-evaluation-8",
+     "q": "万一评估平台以后停服了怎么办？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-tooling",
+      "src-openai-evals"
+     ]
+    },
+    {
+     "id": "q-evaluation-9",
+     "q": "评估体系建起来要多久、多少钱？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-build",
+      "eval-tooling"
+     ]
+    },
+    {
+     "id": "q-evaluation-10",
+     "q": "有了护栏是不是就不用评估了？",
+     "added": "2026-07-09",
+     "chapters": [
+      "eval-scenarios",
+      "eval-tooling"
+     ]
+    }
+   ]
   },
   {
    "id": "fine-tuning",
@@ -1776,7 +2364,77 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./fine-tuning/index.html"
+   "web": "./fine-tuning/index.html",
+   "questions": [
+    {
+     "id": "q-fine-tuning-1",
+     "q": "30 秒说清：提示词、RAG、微调怎么选？",
+     "added": "2026-07-09",
+     "chapters": [
+      "advisor",
+      "ft-when"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-2",
+     "q": "要多少数据、多少钱、多久见效？",
+     "added": "2026-07-09",
+     "chapters": [
+      "ft-data",
+      "ft-training"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-3",
+     "q": "微调会不会把模型调笨？",
+     "added": "2026-07-09",
+     "chapters": [
+      "ft-methods",
+      "ft-eval-deploy"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-4",
+     "q": "GPT / Claude / 开源，微调路径分别是什么？",
+     "added": "2026-07-09",
+     "chapters": [
+      "ft-cloud",
+      "src-cloud-ft"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-5",
+     "q": "SFT 和 DPO 我们都要做吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "ft-alignment"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-6",
+     "q": "怎么证明微调真的有效？",
+     "added": "2026-07-09",
+     "chapters": [
+      "ft-eval-deploy"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-7",
+     "q": "怎么灰度？出问题怎么回滚？",
+     "added": "2026-07-13",
+     "chapters": [
+      "ft-eval-deploy"
+     ]
+    },
+    {
+     "id": "q-fine-tuning-8",
+     "q": "用 GPT 生成的数据训我们的模型，合规吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "ft-data"
+     ]
+    }
+   ]
   },
   {
    "id": "llm",
@@ -1918,7 +2576,76 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./llm/index.html"
+   "web": "./llm/index.html",
+   "questions": [
+    {
+     "id": "q-llm-1",
+     "q": "为什么现在的大模型清一色 Transformer？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llm-why-transformer"
+     ]
+    },
+    {
+     "id": "q-llm-2",
+     "q": "参数量 7B、70B 到底意味着什么？",
+     "added": "2026-07-08",
+     "chapters": [
+      "kvcalc",
+      "llm-architecture",
+      "llm-inference-kv"
+     ]
+    },
+    {
+     "id": "q-llm-3",
+     "q": "都有 1M 上下文了，还要 RAG 吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llm-inference-kv"
+     ]
+    },
+    {
+     "id": "q-llm-4",
+     "q": "私有化部署为什么并发上不去？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llm-inference-kv"
+     ]
+    },
+    {
+     "id": "q-llm-5",
+     "q": "DeepSeek 为什么那么便宜？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llm-attention-zoo"
+     ]
+    },
+    {
+     "id": "q-llm-6",
+     "q": "被问到完全没听过的架构名词怎么办？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llm-attention-zoo",
+      "llm-presales-map"
+     ]
+    },
+    {
+     "id": "q-llm-7",
+     "q": "模型知识为什么会过时？能打补丁吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llm-architecture"
+     ]
+    },
+    {
+     "id": "q-llm-8",
+     "q": "客户抱怨「AI 又胡说」，怎么系统性接住？",
+     "added": "2026-07-13",
+     "chapters": [
+      "llm-presales-map"
+     ]
+    }
+   ]
   },
   {
    "id": "llm-inference",
@@ -2116,7 +2843,92 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./llm-inference/index.html"
+   "web": "./llm-inference/index.html",
+   "questions": [
+    {
+     "id": "q-llm-inference-1",
+     "q": "为什么模型回答是一个字一个字往外蹦？能不能一次出全文？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-anatomy"
+     ]
+    },
+    {
+     "id": "q-llm-inference-2",
+     "q": "我买了 8 张卡，为什么并发一高就排队？显存明明够装模型。",
+     "added": "2026-07-09",
+     "chapters": [
+      "calc",
+      "llminf-kv-budget"
+     ]
+    },
+    {
+     "id": "q-llm-inference-3",
+     "q": "128K 长上下文这么好，为什么按输入收费还这么贵？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-kv-budget"
+     ]
+    },
+    {
+     "id": "q-llm-inference-4",
+     "q": "1000 个用户都开 1M 窗口，要备多少张卡？",
+     "added": "2026-07-20",
+     "chapters": [
+      "llminf-kv-budget"
+     ]
+    },
+    {
+     "id": "q-llm-inference-5",
+     "q": "vLLM 和 SGLang 到底选哪个？给句准话。",
+     "added": "2026-07-12",
+     "chapters": [
+      "llminf-engines",
+      "src-engines"
+     ]
+    },
+    {
+     "id": "q-llm-inference-6",
+     "q": "量化会不会把模型「变笨」？我们业务敢用吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-quant"
+     ]
+    },
+    {
+     "id": "q-llm-inference-7",
+     "q": "投机解码听着像「猜答案」，会不会导致质量下降？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-speculative"
+     ]
+    },
+    {
+     "id": "q-llm-inference-8",
+     "q": "我们要支撑几千并发，直接堆卡行不行？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-disagg",
+      "llminf-production"
+     ]
+    },
+    {
+     "id": "q-llm-inference-9",
+     "q": "你们能承诺多少并发？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-production"
+     ]
+    },
+    {
+     "id": "q-llm-inference-10",
+     "q": "别家报价比你们便宜一半，是不是你们黑？",
+     "added": "2026-07-09",
+     "chapters": [
+      "llminf-production"
+     ]
+    }
+   ]
   },
   {
    "id": "llm-training",
@@ -2313,7 +3125,82 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./llm-training/index.html"
+   "web": "./llm-training/index.html",
+   "questions": [
+    {
+     "id": "q-llm-training-1",
+     "q": "你们的模型到底是怎么训出来的？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-overview"
+     ]
+    },
+    {
+     "id": "q-llm-training-2",
+     "q": "训练一个大模型到底要多少钱多少卡？",
+     "added": "2026-07-08",
+     "chapters": [
+      "calc6nd",
+      "llmtrain-infra"
+     ]
+    },
+    {
+     "id": "q-llm-training-3",
+     "q": "为什么 DeepSeek 能把训练成本压那么低？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-pretrain"
+     ]
+    },
+    {
+     "id": "q-llm-training-4",
+     "q": "MoE 模型报的 400B 参数，跟稠密 70B 怎么比？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-pretrain"
+     ]
+    },
+    {
+     "id": "q-llm-training-5",
+     "q": "我们只有几千条数据，够微调吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-sft"
+     ]
+    },
+    {
+     "id": "q-llm-training-6",
+     "q": "对齐会不会把模型调笨？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-alignment"
+     ]
+    },
+    {
+     "id": "q-llm-training-7",
+     "q": "推理模型和普通模型到底差在哪？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-reasoning"
+     ]
+    },
+    {
+     "id": "q-llm-training-8",
+     "q": "榜单分数能信吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "llmtrain-eval"
+     ]
+    },
+    {
+     "id": "q-llm-training-9",
+     "q": "我们该自建集群还是用云？",
+     "added": "2026-07-13",
+     "chapters": [
+      "llmtrain-infra"
+     ]
+    }
+   ]
   },
   {
    "id": "mcp",
@@ -2468,7 +3355,96 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./mcp/index.html"
+   "web": "./mcp/index.html",
+   "questions": [
+    {
+     "id": "q-mcp-1",
+     "q": "MCP 和 Function Calling 到底什么关系，是不是替代？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-what-why"
+     ]
+    },
+    {
+     "id": "q-mcp-2",
+     "q": "这是不是 Anthropic 的私有协议，用了会被锁定吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-what-why",
+      "src-aaif"
+     ]
+    },
+    {
+     "id": "q-mcp-3",
+     "q": "我们已经在用 Function Calling 了，还有必要上 MCP 吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "boundary"
+     ]
+    },
+    {
+     "id": "q-mcp-4",
+     "q": "能不能不让模型自己决定调用？我们不放心。",
+     "added": "2026-07-20",
+     "chapters": [
+      "mcp-protocol"
+     ]
+    },
+    {
+     "id": "q-mcp-5",
+     "q": "月底新版发布，我现在的 server 要立刻改代码吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-transport",
+      "src-rc"
+     ]
+    },
+    {
+     "id": "q-mcp-6",
+     "q": "开发一个 MCP server 到底要多少工作量？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-server"
+     ]
+    },
+    {
+     "id": "q-mcp-7",
+     "q": "员工乱接外面的 server 怎么治？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-production",
+      "mcp-security"
+     ]
+    },
+    {
+     "id": "q-mcp-8",
+     "q": "我们内部系统的 server 能放到官方 Registry 吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-production",
+      "src-registry"
+     ]
+    },
+    {
+     "id": "q-mcp-9",
+     "q": "MCP 出了这么多 CVE，还能用吗？",
+     "added": "2026-07-08",
+     "chapters": [
+      "mcp-security",
+      "src-cve",
+      "src-mcptox"
+     ]
+    },
+    {
+     "id": "q-mcp-10",
+     "q": "上线之后出了问题，怎么定位是谁的责任？",
+     "added": "2026-07-20",
+     "chapters": [
+      "mcp-production",
+      "wire"
+     ]
+    }
+   ]
   },
   {
    "id": "model-landscape",
@@ -2748,7 +3724,101 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": "./model-landscape/index.html"
+   "web": "./model-landscape/index.html",
+   "questions": [
+    {
+     "id": "q-model-landscape-1",
+     "q": "现在到底谁家模型最强？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-map"
+     ]
+    },
+    {
+     "id": "q-model-landscape-2",
+     "q": "GPT 和 Claude 到底该选哪个？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-closed",
+      "ml-selection"
+     ]
+    },
+    {
+     "id": "q-model-landscape-3",
+     "q": "开源模型和 GPT 们到底还差多少？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-open"
+     ]
+    },
+    {
+     "id": "q-model-landscape-4",
+     "q": "Llama 不是开源吗，为什么法务不让我们用？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-license"
+     ]
+    },
+    {
+     "id": "q-model-landscape-5",
+     "q": "用开源模型微调出来的模型算谁的？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-license"
+     ]
+    },
+    {
+     "id": "q-model-landscape-6",
+     "q": "为什么不全用最便宜的 DeepSeek？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-price",
+      "ml-selection"
+     ]
+    },
+    {
+     "id": "q-model-landscape-7",
+     "q": "现在签一年合同，明年价格跌了怎么办？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-price"
+     ]
+    },
+    {
+     "id": "q-model-landscape-8",
+     "q": "上下文窗口越大越好吗？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-capability"
+     ]
+    },
+    {
+     "id": "q-model-landscape-9",
+     "q": "评测榜单第一的模型，为什么你们不推荐？",
+     "added": "2026-07-10",
+     "chapters": [
+      "ml-selection",
+      "src-arxiv"
+     ]
+    },
+    {
+     "id": "q-model-landscape-10",
+     "q": "国内这几个平台，到底选哪个？",
+     "added": "2026-07-17",
+     "chapters": [
+      "ml-platforms"
+     ]
+    },
+    {
+     "id": "q-model-landscape-11",
+     "q": "平台会不会把我们锁死？",
+     "added": "2026-07-17",
+     "chapters": [
+      "ml-platforms",
+      "ml-selection"
+     ]
+    }
+   ]
   },
   {
    "id": "multimodal",
@@ -2985,7 +4055,82 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./multimodal/index.html"
+   "web": "./multimodal/index.html",
+   "questions": [
+    {
+     "id": "q-multimodal-1",
+     "q": "我的场景到底要不要上多模态？",
+     "added": "2026-07-09",
+     "chapters": [
+      "triage",
+      "mm-what-why"
+     ]
+    },
+    {
+     "id": "q-multimodal-2",
+     "q": "该用原生多模态，还是自己拼 OCR + LLM？",
+     "added": "2026-07-09",
+     "chapters": [
+      "mm-fusion"
+     ]
+    },
+    {
+     "id": "q-multimodal-3",
+     "q": "传一张图到底要多少钱？为什么比文本慢？",
+     "added": "2026-07-09",
+     "chapters": [
+      "mm-selection"
+     ]
+    },
+    {
+     "id": "q-multimodal-4",
+     "q": "开源 VLM 能打过闭源旗舰吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "mm-understanding"
+     ]
+    },
+    {
+     "id": "q-multimodal-5",
+     "q": "模型看图会不会瞎编、看错？",
+     "added": "2026-07-09",
+     "chapters": [
+      "mm-production"
+     ]
+    },
+    {
+     "id": "q-multimodal-6",
+     "q": "生成图片用扩散还是自回归？",
+     "added": "2026-07-09",
+     "chapters": [
+      "mm-generation"
+     ]
+    },
+    {
+     "id": "q-multimodal-7",
+     "q": "端到端语音又快又自然，为什么还推级联？",
+     "added": "2026-07-10",
+     "chapters": [
+      "mm-voice-realtime"
+     ]
+    },
+    {
+     "id": "q-multimodal-8",
+     "q": "语音客服的延迟能压到多少？",
+     "added": "2026-07-10",
+     "chapters": [
+      "mm-voice-realtime"
+     ]
+    },
+    {
+     "id": "q-multimodal-9",
+     "q": "视频生成到底能不能商用了？",
+     "added": "2026-07-17",
+     "chapters": [
+      "mm-video-generation"
+     ]
+    }
+   ]
   },
   {
    "id": "pe",
@@ -3119,7 +4264,78 @@ window.KB = {
      "resolved": false
     }
    ],
-   "web": "./prompt-engineering/index.html"
+   "web": "./prompt-engineering/index.html",
+   "questions": [
+    {
+     "id": "q-pe-1",
+     "q": "提示词工程会不会很快就没用了？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-what-why",
+      "pe-advanced-reasoning"
+     ]
+    },
+    {
+     "id": "q-pe-2",
+     "q": "怎么保证输出永远是合法 JSON？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-core-techniques"
+     ]
+    },
+    {
+     "id": "q-pe-3",
+     "q": "推理模型还需要写思维链提示吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-advanced-reasoning"
+     ]
+    },
+    {
+     "id": "q-pe-4",
+     "q": "怎么降低我们的 API 成本？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-engineering",
+      "src-cache"
+     ]
+    },
+    {
+     "id": "q-pe-5",
+     "q": "提示词能自动优化吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-engineering",
+      "src-dspy"
+     ]
+    },
+    {
+     "id": "q-pe-6",
+     "q": "提示词注入能彻底防住吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-security",
+      "src-owasp"
+     ]
+    },
+    {
+     "id": "q-pe-7",
+     "q": "提示词也要版本管理？至于吗？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-engineering",
+      "pe-anatomy"
+     ]
+    },
+    {
+     "id": "q-pe-8",
+     "q": "为什么我说「不要 X」它还是做了？",
+     "added": "2026-07-09",
+     "chapters": [
+      "pe-core-techniques"
+     ]
+    }
+   ]
   },
   {
    "id": "rag",
@@ -3335,7 +4551,98 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./rag/index.html"
+   "web": "./rag/index.html",
+   "questions": [
+    {
+     "id": "q-rag-1",
+     "q": "RAG 和直接微调模型，我到底该选哪个？",
+     "added": "2026-07-07",
+     "chapters": [
+      "rag-what-why"
+     ]
+    },
+    {
+     "id": "q-rag-2",
+     "q": "块到底该切多大？有没有标准答案？",
+     "added": "2026-07-07",
+     "chapters": [
+      "rag-chunking"
+     ]
+    },
+    {
+     "id": "q-rag-3",
+     "q": "已经有向量检索了，为什么还要单独加重排序？",
+     "added": "2026-07-07",
+     "chapters": [
+      "rag-reranking"
+     ]
+    },
+    {
+     "id": "q-rag-4",
+     "q": "回答不准，到底是检索的锅还是模型的锅？",
+     "added": "2026-07-07",
+     "chapters": [
+      "doctor",
+      "rag-evaluation"
+     ]
+    },
+    {
+     "id": "q-rag-5",
+     "q": "向量检索不是更先进吗，为什么还要「老古董」BM25？",
+     "added": "2026-07-08",
+     "chapters": [
+      "rag-hybrid"
+     ]
+    },
+    {
+     "id": "q-rag-6",
+     "q": "Agentic RAG 比普通 RAG 贵多少、慢多少？",
+     "added": "2026-07-08",
+     "chapters": [
+      "rag-agentic"
+     ]
+    },
+    {
+     "id": "q-rag-7",
+     "q": "上线后效果越来越差，怎么排查？",
+     "added": "2026-07-08",
+     "chapters": [
+      "rag-production"
+     ]
+    },
+    {
+     "id": "q-rag-8",
+     "q": "数据安全怎么保证？会不会泄露？",
+     "added": "2026-07-08",
+     "chapters": [
+      "rag-production"
+     ]
+    },
+    {
+     "id": "q-rag-9",
+     "q": "GraphRAG 是不是智商税？听说索引贵好几倍。",
+     "added": "2026-07-09",
+     "chapters": [
+      "rag-graphrag"
+     ]
+    },
+    {
+     "id": "q-rag-10",
+     "q": "我们的资料全是扫描件 PDF，怎么办？",
+     "added": "2026-07-09",
+     "chapters": [
+      "rag-multimodal"
+     ]
+    },
+    {
+     "id": "q-rag-11",
+     "q": "问数这块，这不就是 BI 吗？会不会替代我们 BI 团队？",
+     "added": "2026-07-09",
+     "chapters": [
+      "rag-structured"
+     ]
+    }
+   ]
   },
   {
    "id": "security",
@@ -3559,7 +4866,82 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./security/index.html"
+   "web": "./security/index.html",
+   "questions": [
+    {
+     "id": "q-security-1",
+     "q": "大模型不就是个聊天框，能有多大安全风险？",
+     "added": "2026-07-09",
+     "chapters": [
+      "riskcheck",
+      "sec-landscape"
+     ]
+    },
+    {
+     "id": "q-security-2",
+     "q": "提示注入到底能不能彻底解决？",
+     "added": "2026-07-09",
+     "chapters": [
+      "sec-prompt-injection"
+     ]
+    },
+    {
+     "id": "q-security-3",
+     "q": "我们的数据会不会被模型学走、被别人问出来？",
+     "added": "2026-07-09",
+     "chapters": [
+      "sec-data-privacy"
+     ]
+    },
+    {
+     "id": "q-security-4",
+     "q": "从开源社区下模型很方便，有什么风险？",
+     "added": "2026-07-09",
+     "chapters": [
+      "sec-supply-chain"
+     ]
+    },
+    {
+     "id": "q-security-5",
+     "q": "给 Agent 放权自动干活，出了事谁负责、怎么控？",
+     "added": "2026-07-09",
+     "chapters": [
+      "sec-agentic"
+     ]
+    },
+    {
+     "id": "q-security-6",
+     "q": "买一个 AI 护栏产品，是不是就安全了？",
+     "added": "2026-07-09",
+     "chapters": [
+      "sec-defense"
+     ]
+    },
+    {
+     "id": "q-security-7",
+     "q": "我们要过 EU AI Act，具体要做什么、什么时候？",
+     "added": "2026-07-09",
+     "chapters": [
+      "sec-governance"
+     ]
+    },
+    {
+     "id": "q-security-8",
+     "q": "我们私有化部署、只给内部员工用，要备案吗？",
+     "added": "2026-07-17",
+     "chapters": [
+      "sec-china"
+     ]
+    },
+    {
+     "id": "q-security-9",
+     "q": "不打 AI 标识会怎样？",
+     "added": "2026-07-17",
+     "chapters": [
+      "sec-china"
+     ]
+    }
+   ]
   },
   {
    "id": "solution-patterns",
@@ -3812,7 +5194,81 @@ window.KB = {
      "resolved": true
     }
    ],
-   "web": "./solution-patterns/index.html"
+   "web": "./solution-patterns/index.html",
+   "questions": [
+    {
+     "id": "q-solution-patterns-1",
+     "q": "POC 成功了，为什么上生产还要再收一笔钱？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-method"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-2",
+     "q": "你们报价比竞品贵 30%，贵在哪？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-method"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-3",
+     "q": "客服解决率能承诺多少？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-customer-service"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-4",
+     "q": "员工会不会搜到不该看的东西？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-knowledge-search"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-5",
+     "q": "生成的内容侵权了算谁的？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-content-gen"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-6",
+     "q": "AI Coding 该买 Copilot 还是 Cursor 还是 Claude Code？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-ai-coding"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-7",
+     "q": "数字人会不会有法律风险？",
+     "added": "2026-07-10",
+     "chapters": [
+      "sp-digital-human"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-8",
+     "q": "ChatBI 准确率能到多少？算错数怎么办？",
+     "added": "2026-07-11",
+     "chapters": [
+      "sp-chatbi"
+     ]
+    },
+    {
+     "id": "q-solution-patterns-9",
+     "q": "会议助手和 Teams/Zoom 自带的 AI 比，强在哪？",
+     "added": "2026-07-11",
+     "chapters": [
+      "sp-meeting"
+     ]
+    }
+   ]
   }
  ]
 };

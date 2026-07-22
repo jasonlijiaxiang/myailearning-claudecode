@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM-Inference 推理服务 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -555,7 +555,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 的来自讲义首版对练页，
     <b>2026-07-12</b> 的来自引擎版本复核，<b>2026-07-20</b> 的来自容量规划增补。</p>
   <div class="qa">
-    <details>
+    <details id="q-llm-inference-1">
       <summary>为什么模型回答是一个字一个字往外蹦？能不能一次出全文？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>这是工作原理：每个词都依赖前面所有词算出来，本质串行，任何厂商都一样。流式输出反而是
@@ -567,7 +567,7 @@
         <p class="qa-src">依据　<a href="#llminf-anatomy">推理是怎么跑起来的</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-2">
       <summary>我买了 8 张卡，为什么并发一高就排队？显存明明够装模型。<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>装下权重只是入场券，真正的座位是剩余显存里的 KV Cache：每路对话占一段、还随轮次膨胀。
@@ -579,7 +579,7 @@
         <p class="qa-src">依据　<a href="#llminf-kv-budget">KV Cache 与显存账</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-3">
       <summary>128K 长上下文这么好，为什么按输入收费还这么贵？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>长输入两头吃资源：读入时计算量随长度平方涨，读完后每 10 万 token 还占约 30GB 显存
@@ -591,7 +591,7 @@
         <p class="qa-src">依据　<a href="#llminf-kv-budget">长上下文为什么贵</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-4">
       <summary>1000 个用户都开 1M 窗口，要备多少张卡？<span class="added">2026-07-20</span></summary>
       <div class="a">
         <p>按「并发活跃请求 × 实际长度」算，不按「会话数 × 窗口上限」算——任一时刻绝大多数会话
@@ -603,7 +603,7 @@
         <p class="qa-src">依据　<a href="#llminf-kv-budget">窗口是容量，命中是复用</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-5">
       <summary>vLLM 和 SGLang 到底选哪个？给句准话。<span class="added">2026-07-12</span></summary>
       <div class="a">
         <p>看流量画像：请求间共享前缀多（多轮 Agent、固定模板、RAG 固定语料）或主力是 DeepSeek 系
@@ -614,7 +614,7 @@
         <p class="qa-src">依据　<a href="#llminf-engines">推理框架图鉴</a> · <a href="#src-engines">src-engines</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-6">
       <summary>量化会不会把模型「变笨」？我们业务敢用吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>FP8 校准后通用任务损失约 0.5–2%，日常场景基本无感，是 2026 年生产默认。稳妥做法：
@@ -626,7 +626,7 @@
         <p class="qa-src">依据　<a href="#llminf-quant">量化</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-7">
       <summary>投机解码听着像「猜答案」，会不会导致质量下降？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不会。草稿只是候选，每个 token 都经大模型按自己的分布验证，数学上保证输出分布与
@@ -638,7 +638,7 @@
         <p class="qa-src">依据　<a href="#llminf-speculative">投机解码</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-8">
       <summary>我们要支撑几千并发，直接堆卡行不行？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>堆卡解决容量，不解决干扰：prefill 和 decode 混跑时 SLO 互相绑架，堆再多也有尖刺。
@@ -651,7 +651,7 @@
         <p class="qa-src">依据　<a href="#llminf-disagg">P/D 分离</a> · <a href="#llminf-production">降本组合拳</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-9">
       <summary>你们能承诺多少并发？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>并发本身不是好指标——同样 1000 并发，128 token 短问答和 50K 长文档差百倍资源。
@@ -663,7 +663,7 @@
         <p class="qa-src">依据　<a href="#llminf-production">生产化</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-llm-inference-10">
       <summary>别家报价比你们便宜一半，是不是你们黑？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>先对口径：同一精度（FP8 还是 INT4）、同一 SLO（P99 还是均值）、同一流量画像（短问题

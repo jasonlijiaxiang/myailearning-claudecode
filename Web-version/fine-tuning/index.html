@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fine-tuning 微调工程实践 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721i">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721j">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
  <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721i</span>
+ <span class="ver">v0721j</span>
 </div></nav>
 
 <header class="top">
@@ -323,7 +323,7 @@
   <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版对练页，
     <b>2026-07-12/13</b> 来自版本边界复核与实验失真、发布控制深潜。</p>
   <div class="qa">
-    <details>
+    <details id="q-fine-tuning-1">
       <summary>30 秒说清：提示词、RAG、微调怎么选？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>先分类：模型「不知道」是知识问题上 RAG；「不听话」是行为问题上微调；「不够聪明」
@@ -335,7 +335,7 @@
         <p class="qa-src">依据　<a href="#ft-when">定制光谱与分界线</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-2">
       <summary>要多少数据、多少钱、多久见效？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>窄任务几百条优质样本、单卡几小时、两周出第一版可验收的模型。大头是数据人力不是
@@ -347,7 +347,7 @@
         <p class="qa-src">依据　<a href="#ft-data">数据准备</a> · <a href="#ft-training">成本结构</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-3">
       <summary>微调会不会把模型调笨？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>有「灾难性遗忘」风险，但可控：LoRA 天然温和 + 保守超参 + 通用回归门禁，掉超过阈值
@@ -359,7 +359,7 @@
         <p class="qa-src">依据　<a href="#ft-methods">取舍</a> · <a href="#ft-eval-deploy">防遗忘</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-4">
       <summary>GPT / Claude / 开源，微调路径分别是什么？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>OpenAI：SFT/DPO 调 GPT-4.1 系、RFT 调 o4-mini；Claude：仅 Bedrock 上 Haiku SFT；
@@ -371,7 +371,7 @@
         <p class="qa-src">依据　<a href="#ft-cloud">托管服务</a> · <a href="#src-cloud-ft">src-cloud-ft</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-5">
       <summary>SFT 和 DPO 我们都要做吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>先 SFT 看验收——八成场景到此为止。上线后如果「会答但分寸不对」（啰嗦、过度拒答），
@@ -383,7 +383,7 @@
         <p class="qa-src">依据　<a href="#ft-alignment">对齐三级</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-6">
       <summary>怎么证明微调真的有效？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>事前签验收：held-out 指标 + 任务硬指标 + judge 评分 + 通用回归，四项打包成报告交付。
@@ -395,7 +395,7 @@
         <p class="qa-src">依据　<a href="#ft-eval-deploy">验收四层与失真</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-7">
       <summary>怎么灰度？出问题怎么回滚？<span class="added">2026-07-13</span></summary>
       <div class="a">
         <p>adapter 部署天然支持：新旧 adapter 并存、按流量比例灰度、秒级切回。多租户 = 1 个
@@ -407,7 +407,7 @@
         <p class="qa-src">依据　<a href="#ft-eval-deploy">部署两形态与五层发布</a></p>
       </div>
     </details>
-    <details>
+    <details id="q-fine-tuning-8">
       <summary>用 GPT 生成的数据训我们的模型，合规吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>取决于所用模型的服务条款——各家对「产出能否用于训练」约定不同。方案里写明数据来源
