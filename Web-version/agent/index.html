@@ -97,16 +97,66 @@
 
   <h3>规划与记忆</h3>
   <p>规划的主流是 ReAct 式「边想边做」：每步先写下推理再行动，用上一步的结果修正下一步——像老练的维修工，拆一步看一眼，随时修正判断。规划能力决定 agent 能接多大的活（单点技巧的出处在 <a href="../../PPT-version/Prompt-Engineering/README.html">Prompt
-    Engineering</a> 第 4 章）。记忆分两层：短期记忆＝上下文窗口（桌面，有限且贵），长期记忆＝外部存储（档案柜，跨会话保留按需取回）——「什么留在桌面、什么进档案柜」是<a href="#agent-context">上下文工程</a>与<a href="#agent-memory">记忆系统</a>两节的主题。</p>
+    Engineering</a> 第 4 章）。记忆分两层：</p>
+
+  <div class="grid">
+   <div class="box">
+    <h4>短期记忆＝上下文窗口</h4>
+    <p><b>桌面</b>，有限且贵。</p>
+   </div>
+   <div class="box">
+    <h4>长期记忆＝外部存储</h4>
+    <p><b>档案柜</b>，跨会话保留按需取回。</p>
+   </div>
+  </div>
+  <p>「什么留在桌面、什么进档案柜」是<a href="#agent-context">上下文工程</a>与<a href="#agent-memory">记忆系统</a>两节的主题。</p>
 
   <h3>一次 Function Calling 的完整来回</h3>
-  <p>四步：<b>定义</b>（用 JSON Schema 描述工具，写给模型看的说明书）→ <b>决策</b>（模型输出结构化调用请求）→ <b>执行</b>（你的代码真正去调 API、查库）→ <b>回填</b>（结果作为
-    tool_result 交回模型继续推理）。关键在第三步：<b>模型只「点菜」不「下厨」</b>——真正执行的是你的代码，权限、校验、审计都握在你手里。这是对客户讲安全时最有力的一句话。这套一来一回被 MCP 标准化成了跨厂商协议，报文逐字段的注释见
-    <a href="../mcp/index.html#wire">MCP 网页版</a>。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 222" role="img" aria-label="一次 Function Calling 的四步来回，自上而下：定义，用 JSON Schema 描述工具，写给模型看的说明书；决策，模型输出结构化调用请求；执行，你的代码真正去调 API、查库（这一步高亮，因为它归你）；回填，结果作为 tool_result 交回模型继续推理。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="32" font-size="12.5" font-weight="700" fill="var(--ink-900)">定义</text>
+      <line x1="98" y1="17" x2="98" y2="37" stroke="var(--line)"/>
+      <text x="114" y="32" font-size="11.5" fill="var(--ink-500)">用 JSON Schema 描述工具，写给模型看的说明书</text>
+      <rect x="6" y="60" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="86" font-size="12.5" font-weight="700" fill="var(--ink-900)">决策</text>
+      <line x1="98" y1="71" x2="98" y2="91" stroke="var(--line)"/>
+      <text x="114" y="86" font-size="11.5" fill="var(--ink-500)">模型输出结构化调用请求</text>
+      <path d="M 52 49 L 52 56" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 52 57 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+      <rect x="6" y="114" width="708" height="42" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="24" y="140" font-size="12.5" font-weight="700" fill="var(--ink-900)">执行</text>
+      <line x1="98" y1="125" x2="98" y2="145" stroke="var(--blue-ln)"/>
+      <text x="114" y="140" font-size="11.5" fill="var(--ink-500)">你的代码真正去调 API、查库</text>
+      <path d="M 52 103 L 52 110" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 52 111 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+      <rect x="6" y="168" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="194" font-size="12.5" font-weight="700" fill="var(--ink-900)">回填</text>
+      <line x1="98" y1="179" x2="98" y2="199" stroke="var(--line)"/>
+      <text x="114" y="194" font-size="11.5" fill="var(--ink-500)">结果作为 tool_result 交回模型继续推理</text>
+      <path d="M 52 157 L 52 164" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 52 165 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>高亮那步归你——权限、校验、审计都在这一格里。</figcaption>
+  </figure>
+  <p>关键在第三步：<b>模型只「点菜」不「下厨」</b>——真正执行的是你的代码，权限、校验、审计都握在你手里。这是对客户讲安全时最有力的一句话。这套一来一回被 MCP 标准化成了跨厂商协议，报文逐字段的注释见 <a href="../mcp/index.html#wire">MCP 网页版</a>。</p>
 
   <h3>工具是写给模型的产品</h3>
-  <p>两个常见的坑：<b>描述含糊、职责重叠</b>——模型分不清 search_orders 和 query_orders 该用哪个（解法：合并重复工具，描述里写清「什么时候用我、什么时候别用我」）；<b>返回信息过载</b>——一次回传几千行 JSON 挤爆上下文（解法：只返回刚好够用的字段，错误信息要能指导模型下一步怎么办，而不是一句 error）。接工具不是「有 API 就行」——命名、描述、返回的设计直接决定
-    agent 用不用得好。</p>
+  <p>两个常见的坑：</p>
+  <div class="grid">
+   <div class="box warn">
+    <h4>描述含糊、职责重叠</h4>
+    <p>模型分不清 search_orders 和 query_orders 该用哪个。</p>
+    <p>解法：合并重复工具，描述里写清「什么时候用我、什么时候别用我」。</p>
+   </div>
+   <div class="box warn">
+    <h4>返回信息过载</h4>
+    <p>一次回传几千行 JSON 挤爆上下文。</p>
+    <p>解法：只返回刚好够用的字段，错误信息要能指导模型下一步怎么办，而不是一句 error。</p>
+   </div>
+  </div>
+  <p>接工具不是「有 API 就行」——命名、描述、返回的设计直接决定 agent 用不用得好。</p>
   <p>多模态让 agent 的感知从纯文本扩展到屏幕截图、图表、扫描件——视觉成为新的工具入参，也是 <a href="#agent-computer-use">Computer Use</a> 的前提（模型怎么看懂图见
     <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>）。</p>
 </section>
@@ -233,7 +283,12 @@
   <p>评估集从真实失败案例滚动积累，每次改动全量回归。可观测性三件套：全链路追踪（LangSmith / Langfuse / Arize Phoenix / W&amp;B Weave，每步调用、token、延迟可回放）、在线评估（对生产流量抽样打分）、成本与告警。选型口诀：LangChain 栈选 LangSmith，数据不出门选 Langfuse / Phoenix 自托管。<b>先上追踪、再上 multi-agent，顺序不能反。</b></p>
 
   <h3>OWASP 风险清单与防护组合拳</h3>
-  <p>OWASP《Top 10 for Agentic Applications》（2026）是行业标准清单，风险的共性是「agent 轻信了不该信的内容」：<b>提示注入</b>（恶意指令藏在 agent 读到的网页、邮件、工具返回值里——间接注入最防不胜防）、<b>过度代理</b>（权限超过任务所需，破坏面放大）、<b>记忆投毒</b>（见<a href="#agent-memory">记忆系统</a>）。</p>
+  <p>OWASP《Top 10 for Agentic Applications》（2026）是行业标准清单，风险的共性是「agent 轻信了不该信的内容」：</p>
+  <div class="keypoints">
+    <div><b>提示注入</b><span>恶意指令藏在 agent 读到的网页、邮件、工具返回值里——间接注入最防不胜防</span></div>
+    <div><b>过度代理</b><span>权限超过任务所需，破坏面放大</span></div>
+    <div><b>记忆投毒</b><span>见<a href="#agent-memory">记忆系统</a></span></div>
+  </div>
   <p>防护是组合拳而非银弹：最小权限 + 高危动作人工审批 + 输入/输出过滤 + 不可信内容隔离标记 +
     常态化对抗测试。像新员工入职三件套：工卡只开必要门禁、大额报销要主管签字、外来包裹先过安检。人工审批只审高危动作（转账、删除、对外发送），通常只占动作数的一小部分，却挡住绝大多数不可逆风险。<b>agent 的安全不取决于模型够不够聪明，取决于权限与流程设计得够不够克制。</b></p>
   <p class="ev">OWASP 清单与工具格局核实 2026-07-07，来源 <a href="#src-owasp">genai.owasp.org
@@ -414,8 +469,21 @@
   </figure>
 
   <h3>三个关键性质，定一切用法与局限</h3>
-  <p><b>① 独立上下文</b>：看不到主对话历史，只看到那份「任务书」——连你们刚达成的共识它也不知道。纪律：任务书必须自包含（目标、范围、约束、产出格式一样不能省）。<b>② 窄带通信</b>：只交回一段最终文字，读过的一百个文件、试错的十轮随分身销毁——主对话干净了，代价是过程不可见、中途难纠偏（multi-agent 难调试，难就难在交接处）。<b>③ 深度上限</b>：Claude Code
-    5 层封顶（固定不可配）、Codex max_depth 默认 1——没有上限的扇出就是没有上限的账单。</p>
+  <div class="grid">
+   <div class="box">
+    <h4>① 独立上下文</h4>
+    <p>看不到主对话历史，只看到那份「任务书」——连你们刚达成的共识它也不知道。</p>
+    <p><b>纪律</b>：任务书必须自包含（目标、范围、约束、产出格式一样不能省）。</p>
+   </div>
+   <div class="box">
+    <h4>② 窄带通信</h4>
+    <p>只交回一段最终文字，读过的一百个文件、试错的十轮随分身销毁——主对话干净了，代价是过程不可见、中途难纠偏（multi-agent 难调试，难就难在交接处）。</p>
+   </div>
+   <div class="box">
+    <h4>③ 深度上限</h4>
+    <p>Claude Code 5 层封顶（固定不可配）、Codex max_depth 默认 1——<b>没有上限的扇出就是没有上限的账单</b>。</p>
+   </div>
+  </div>
 
   <h3>两家实操对照与触发四层</h3>
   <div class="tw">
