@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh"><head><meta charset="utf-8">
-<title>实战包 · 对客交锋 55 题</title><meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../_assets/kb.css?v=20260721g">
+<title>实战包 · 对客交锋 91 题</title><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../_assets/kb.css?v=20260721i">
 </head><body>
 
 <nav class="topbar"><div class="tb">
@@ -11,246 +11,409 @@
  <a class="ti" href="../_prep/学习路径.html">学习路径</a>
  <a class="ti" href="../_prep/全库一页纸.html">全库一页纸</a>
  <a class="ti" href="../开始使用.html">开始使用</a>
- <span class="ver">v0721g</span>
+ <span class="ver">v0721i</span>
 </div></nav>
 
 <header class="top">
   <div class="wrap">
-<h1>实战包 · 对客交锋 55 题</h1>
+<h1>实战包 · 对客交锋 91 题</h1>
 <p class="tagline">把每次和客户的"交锋"当作一场面试——拜访、竞标、评审、汇报与面试，都是同一场考试</p>
   </div>
 </header>
 
 <main class="wrap">
 <div class="note"><b>事实纪律：</b>每题答案提炼自 19 个模块讲义的对练页与框架深潜/生产验收页（各模块有联网核实笔记与信源背书），不自创任何事实。
-每题末尾的「深潜」指向源模块——被追问就翻源头，那里有完整版答案与出处。带 ⏳ 的题含会过期的数字，引用前先核口径日期。
-<b>用法：</b>每题都是 15–30 秒的电梯版，重要交锋前通刷一遍；单个维度弱就回源补课。带数字的事实口径截至 2026-07-11，本页末次更新 2026-07-15。</div>
-<div class="navbar"><a class="chip" href="#sec-A">A · 格局与选型</a><a class="chip" href="#sec-B">B · 架构与场景方案</a><a class="chip" href="#sec-C">C · 成本账</a><a class="chip" href="#sec-D">D · 工程保障与翻车题</a><a class="chip" href="#sec-E">E · 评估与验收</a><a class="chip" href="#sec-F">F · 基础原理与协议</a><a class="chip" href="#sec-X">附 · 兜底话术</a></div>
+每题末尾的「深潜」直达网页版对应章节——被追问就点进去，那里有完整版答案与出处。带 ⏳ 的题含会过期的数字，引用前先核口径日期。
+<b>用法：</b>时间紧只刷 <b>★ 必背 24 题</b>（每个维度 3 道，约 10 分钟）；重要交锋前通刷全量（约 40 分钟）；单个维度弱就回源补课。
+<b>收题标准：</b>一道题要同时满足四条才进——有源可查、会改变一个决定（方案／报价／风险判断／验收方法／下一步）、15–30 秒答得完且带一个可复述的判据、不与已有题同句。所以这里没有面面俱到的题海。
+带数字的事实口径截至 2026-07-17，本页末次更新 2026-07-22。</div>
+<div class="navbar"><a class="chip" href="#sec-A">A · 格局与选型</a><a class="chip" href="#sec-B">B · 架构与场景方案</a><a class="chip" href="#sec-C">C · 成本账</a><a class="chip" href="#sec-D">D · 工程保障与翻车题</a><a class="chip" href="#sec-E">E · 评估与验收</a><a class="chip" href="#sec-F">F · 基础原理与协议</a><a class="chip" href="#sec-G">G · 平台与接入</a><a class="chip" href="#sec-H">H · 合规与数据主权</a><a class="chip" href="#sec-X">附 · 兜底话术</a></div>
+
 <h2 id="sec-A">A · 格局与选型<span class="hint">开场最高频，答好定基调</span></h2><div class="qa">
- <div class="q"><span class="num">A1</span>现在到底谁家模型最强？<span class="fresh">⏳ 口径 2026-07-10</span></div>
+ <div class="q"><span class="num">A1</span><span class="must">★</span>现在到底谁家模型最强？<span class="fresh">⏳ 口径 2026-07-10</span></div>
  <div class="a">先问「哪个市场、什么任务」：企业支出 Anthropic 第一（40%），消费端 ChatGPT 独占 74%，推理基准 Gemini 领先，开源榜首是 DeepSeek——「最强」永远带定语，这正是需要选型方法的原因。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-map</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-map"><code>model-landscape#ml-map</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A2</span>开源模型和 GPT 们到底还差多少？<span class="fresh">⏳ 口径 2026-07-10</span></div>
  <div class="a">多数基准差距已到个位数，编码基准甚至追平（SWE-bench 80.6%）。剩两个差距：最难推理任务闭源仍领先、工具链成熟度。结论是分任务用，不是二选一。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-open</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-open"><code>model-landscape#ml-open</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A3</span>国产模型到底赶上国际水平没有？<span class="fresh">⏳ 口径 2026-07-10</span></div>
- <div class="a">分层答：四强（GLM/Kimi/Qwen/DeepSeek）各有至少一个主流基准超越国际闭源，开源榜首整体是中国队；最难推理任务与顶级闭源还有半个身位。多数生产场景国产已够用，且价格优势显著。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-china</code></a></div>
+ <div class="a">分层答：四强（GLM/Kimi/Qwen/DeepSeek）各有至少一个主流基准超越国际闭源，开源榜首整体是中国队；最难推理任务与顶级闭源还有半个身位。多数生产场景国产已够用，且价格优势显著。落地时还要多答一层平台账——模型选完还有平台选型，见 A10。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-china"><code>model-landscape#ml-china</code></a> · <a href="../Web-version/model-landscape/index.html#ml-platforms"><code>model-landscape#ml-platforms</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A4</span>豆包和 DeepSeek、Qwen 比强在哪？<span class="fresh">⏳ 口径 2026-07-10</span></div>
- <div class="a">三家打法不同：DeepSeek 赢在价格与开源、Qwen 赢在谱系与生态、豆包赢在迭代速度与云一体——Seed 专线月更 2–4 次，加 180 万亿 tokens 调用规模验证。按场景配，不搞排位赛。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-china</code></a></div>
+ <div class="a">三家打法不同：DeepSeek 赢在价格与开源、Qwen 赢在谱系与生态、豆包赢在迭代速度与云一体——Seed 专线月更 2–4 次，加 180 万亿 tokens 调用规模验证。按场景配，不搞排位赛。承接的平台差异见 A10。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-china"><code>model-landscape#ml-china</code></a> · <a href="../Web-version/model-landscape/index.html#ml-platforms"><code>model-landscape#ml-platforms</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A5</span>GPT 和 Claude 到底该选哪个？<span class="fresh">⏳ 口径 2026-07-10</span></div>
  <div class="a">先问任务：编码与企业 agentic 场景 Claude 系胜率高（企业编码份额 54%）；生态与多模态工具链 OpenAI 更全；成本敏感看 Gemini。建议双供应商起步、网关路由、评估集分胜负。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-closed</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-closed"><code>model-landscape#ml-closed</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A6</span>Llama 不是开源吗，为什么法务不让用？</div>
  <div class="a">它是「开放权重 + 社区许可证」：有 7 亿 MAU 触发条款和欧盟限制。要许可证干净的替代，DeepSeek（MIT）和 Qwen（Apache 2.0）能力相当且条款更宽松。顺口纠正用词：多数「开源模型」按 OSAID 只是 open weight。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-license</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-license"><code>model-landscape#ml-license</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">A7</span>模型更新这么快，今天选的半年后会不会亏？</div>
- <div class="a">会贬值，所以策略从「选对」变「可换」：网关统一接入、评估集守质量线、合同不绑单一模型——这是过去一年最重要的选型方法论变化。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-selection</code></a></div>
+ <div class="q"><span class="num">A7</span><span class="must">★</span>模型更新这么快，今天选的半年后会不会亏？<span class="fresh">⏳ 口径 2026-07-10</span></div>
+ <div class="a">会贬值，所以策略从「选对」变「可换」：网关统一接入、评估集守质量线、合同不绑单一模型——这是过去一年最重要的选型方法论变化。合同上还有一条具体动作：锁「档位与降价传导」而不是锁型号单价，官网降价自动传导；过去一年市场降了 30–60%，不写这条就吃亏。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-selection"><code>model-landscape#ml-selection</code></a> · <a href="../Web-version/model-landscape/index.html#ml-price"><code>model-landscape#ml-price</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A8</span>榜单第一的模型为什么你们不直接推荐？</div>
  <div class="a">榜单有已证实的水分：私测多变体择优公开（Leaderboard Illusion，曾有厂商私测 27 个变体只发最优），热门基准已饱和无区分度。榜单只做初筛，终审永远是客户数据上的评估集。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-selection</code></a> · <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-benchmarks</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-selection"><code>model-landscape#ml-selection</code></a> · <a href="../Web-version/evaluation/index.html#eval-benchmarks"><code>evaluation#eval-benchmarks</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">A9</span>thinking 模式为什么这么贵？</div>
  <div class="a">推理模型按思考 token 计费，深想一次的输出量可达普通回答十倍。对策是思考预算控制（budget_tokens/thinkingBudget），且有 overthinking 实证：超过临界预算准确率反降——thinking 是拨盘不是开关。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-capability</code></a></div>
-</div><h2 id="sec-B">B · 架构与场景方案<span class="hint">解决方案岗的本职</span></h2><div class="qa">
- <div class="q"><span class="num">B1</span>你们和纯卖模型 API 的有什么区别？</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-capability"><code>model-landscape#ml-capability</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">A10</span><span class="must">★</span>国内这几个平台（方舟 / 百炼 / 千帆 / 腾讯）到底选哪个？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">先答三问：绑哪朵云、要旗舰还是要组合、私有化底线——答完通常自动收敛到一两家。没有普适最优，只有与现状合拍：字节生态看方舟、要全家桶看百炼、搜索增强看千帆、极致性价比与微信分发看腾讯。平台选型比模型选型多一层「生态引力」：云资源、数据、投放渠道在哪家，迁移成本就偏向哪家——「顺路」常胜过「最优」。比价格前先走口径对齐，把分段计价、档位、缓存、批量折扣对齐再谈大小。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-platforms"><code>model-landscape#ml-platforms</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">A11</span>平台会不会把我们锁死？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">锁定来自数据与工作流，不是 API——用兼容层或网关保住切换能力，重要场景保留第二货源。「全家桶纳管」与「自研主轴」两种货架哲学的锁定度不同，签约前值得先聊这个。这是「保持可换」在平台层的落点：合同条款、网关抽象层、评估集三件齐了，锁定风险才真正可控；方案里要画出网关的位置并标注切换演练清单。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-platforms"><code>model-landscape#ml-platforms</code></a> · <a href="../Web-version/ai-gateway/index.html#gw-unify"><code>ai-gateway#gw-unify</code></a></div>
+</div>
+
+<h2 id="sec-B">B · 架构与场景方案<span class="hint">解决方案岗的本职</span></h2><div class="qa">
+ <div class="q"><span class="num">B1</span><span class="must">★</span>你们和纯卖模型 API 的有什么区别？</div>
  <div class="a">模型只是发动机，我们交付整车：场景架构、数据管线、评估验收、安全护栏——每个场景一张整车图纸，按客户场景对号入座。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-what-why</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-what-why"><code>solution-patterns#sp-what-why</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B2</span>先做哪个场景最容易见效？</div>
  <div class="a">通用答案是内部知识库或客服：数据现成、风险可控、ROI 好算。更负责的答法：按「数据就绪度 × 容错成本」排矩阵挑。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-what-why</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-what-why"><code>solution-patterns#sp-what-why</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">B3</span>POC 成功了，为什么上生产还要再收钱？</div>
+ <div class="q"><span class="num">B3</span><span class="must">★</span>POC 成功了，为什么上生产还要再收钱？</div>
  <div class="a">POC 只建了模型+数据两层样板墙；上生产要补入口、保障、运营三层——高可用、权限、审计、评估回归都是生产件，这才是工程大头。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-method</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-method"><code>solution-patterns#sp-method</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B4</span>客服解决率能承诺多少？<span class="fresh">⏳ 口径 2026-07-10</span></div>
  <div class="a">不先拍数字：厂商自报 51–80%，独立口径中位仅 41.2%，差在 deflection≠resolution。承诺测法：用真实工单建评估集测基线，验收线双方签字。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-customer-service</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-customer-service"><code>solution-patterns#sp-customer-service</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B5</span>员工会不会搜到不该看的东西？</div>
  <div class="a">这是企业搜索的第一设计约束：权限从源系统继承、查询时实时过滤、无权限连存在性都不暴露。POC 验收带越权测试集，安全团队签字才上线。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-knowledge-search</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-knowledge-search"><code>solution-patterns#sp-knowledge-search</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B6</span>AI 生成的内容侵权了算谁的？</div>
- <div class="a">两层兜底：选商业安全定位的模型（训练数据可溯源、企业 IP 赔付条款，Firefly 模式），加发布前人审留痕，合同权责写清。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-content-gen</code></a></div>
+ <div class="a">两层兜底：选商业安全定位的模型（训练数据可溯源、企业 IP 赔付条款，Firefly 模式），加发布前人审留痕，合同权责写清。模型权属这一侧的问题见 H6、H7。</div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-content-gen"><code>solution-patterns#sp-content-gen</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">B7</span>RAG 和微调到底该选哪个？</div>
+ <div class="q"><span class="num">B7</span><span class="must">★</span>RAG 和微调到底该选哪个？</div>
  <div class="a">看要改什么：知识频繁更新、要可溯源 → RAG（改数据不改模型）；要定型说话风格、输出格式 → 微调。顺序永远是提示词 → RAG → 微调，左边没榨干不动右边。</div>
- <div class="src">深潜 → <a href="../PPT-version/RAG/README.html"><code>rag#rag-what-why</code></a> · <a href="../PPT-version/Fine-tuning/README.html"><code>fine-tuning#ft-when</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/rag/index.html#rag-what-why"><code>rag#rag-what-why</code></a> · <a href="../Web-version/fine-tuning/index.html#ft-when"><code>fine-tuning#ft-when</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B8</span>都有 1M 上下文了，还要 RAG 吗？</div>
  <div class="a">要。三条理由：全量塞入按 token 计费贵得离谱；超长上下文中段有效性衰减；知识更新与权限控制只能在检索层做。长窗口和 RAG 是互补不是替代。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM/README.html"><code>llm#llm-inference-kv</code></a> · <a href="../PPT-version/RAG/README.html"><code>rag#rag-what-why</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm/index.html#llm-inference-kv"><code>llm#llm-inference-kv</code></a> · <a href="../Web-version/rag/index.html#rag-what-why"><code>rag#rag-what-why</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B9</span>Agent 和普通对话机器人有什么区别、什么时候该上？</div>
- <div class="a">机器人只「说」，agent 能「做」——带工具在循环里自主行动直到办完。但流程固定、要求每步可审计的场景用工作流更便宜可控；agent 留给路径写不死的开放任务。</div>
- <div class="src">深潜 → <a href="../PPT-version/Agent/README.html"><code>agent#agent-what-why</code></a></div>
+ <div class="a">机器人只「说」，agent 能「做」——带工具在循环里自主行动直到办完。但流程固定、要求每步可审计的场景用工作流更便宜可控；agent 留给路径写不死的开放任务。要不要再往上拆成多 agent，是另一笔账，见 B16。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-what-why"><code>agent#agent-what-why</code></a> · <a href="../Web-version/agent/index.html#agent-subagent"><code>agent#agent-subagent</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B10</span>自然语言问数（ChatBI）算错一个数怎么办？</div>
- <div class="a">比答错话严重，所以三道闸：高频指标只走语义层（确定性生成）、SQL 只读权限+行级过滤、答案附生成的 SQL 与口径出处可复核。裸 Text-to-SQL 只有五六成准确率，语义层是解药。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-chatbi</code></a> · <a href="../PPT-version/RAG/README.html"><code>rag#rag-structured</code></a></div>
+ <div class="a">比答错话严重，所以三道闸：高频指标只走语义层（确定性生成）、SQL 只读权限+行级过滤、答案附生成的 SQL 与口径出处可复核。裸 Text-to-SQL 只有五六成准确率，语义层是解药。最危险的不是报错，是「跑得通但算错」的静默错误。</div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-chatbi"><code>solution-patterns#sp-chatbi</code></a> · <a href="../Web-version/rag/index.html#rag-structured"><code>rag#rag-structured</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B11</span>我们数据很乱，AI 项目是不是做不了？</div>
  <div class="a">能做，但顺序要对：先花两三周做数据就绪（解析＋清洗＋建库），再上模型——数据坑是 AI 项目烂尾的第一原因。把数据工程列成显性工程件，排期和报价摆在明面上；乱不是障碍，「假装不乱」才是。</div>
- <div class="src">深潜 → <a href="../PPT-version/Data-Engineering/README.html"><code>data-engineering#de-what-why</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/data-engineering/index.html#de-what-why"><code>data-engineering#de-what-why</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B12</span>要不要专门买一套向量数据库？<span class="fresh">⏳ 口径 2026-07-11</span></div>
  <div class="a">多半不用急：已有 Postgres 用 pgvector（生产可用到五千万至一亿向量），已有 ES 升级配置就支持混合检索；规模触顶或强过滤需求再迁 Qdrant/Milvus。选型看能力匹配与运维成本，不看跑分排名。</div>
- <div class="src">深潜 → <a href="../PPT-version/Data-Engineering/README.html"><code>data-engineering#de-vectordb</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/data-engineering/index.html#de-vectordb"><code>data-engineering#de-vectordb</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">B13</span>POC 都过了，上生产你们到底"验收"什么？给份清单。</div>
  <div class="a">两套东西兜底：方案层有「四阶段交付门」管推进节奏，每个模块讲义末还挂一页「生产验收清单」——按「验收线 × 必须证明 × 最低证据」列，比如功能过不过评估集、权限扛不扛得住越权测试、退化盯不盯得住在线评估、出事能不能急停回滚。验收线双方签字，"感觉不错"不算一项。</div>
- <div class="src">深潜 → <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-method</code></a> · <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-scenarios</code></a></div>
-</div><h2 id="sec-C">C · 成本账<span class="hint">算得清账是解决方案岗的硬通货</span></h2><div class="qa">
- <div class="q"><span class="num">C1</span>为什么按 token 计费、输出凭什么比输入贵？</div>
+ <div class="src">深潜 → <a href="../Web-version/solution-patterns/index.html#sp-method"><code>solution-patterns#sp-method</code></a> · <a href="../Web-version/evaluation/index.html#eval-scenarios"><code>evaluation#eval-scenarios</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">B14</span>我们的资料全是扫描件和图纸，该上原生多模态还是自己拼 OCR + 大模型？</div>
+ <div class="a">先看版式：版式固定、只要抠字段、要省钱可控 → 拼管线；版式多变、要理解与开放问答 → 原生。拼管线的短板是 OCR 丢了版式和图表语义，「看图推理」答不了。真实系统多是混合：稳定部分走管线省钱，疑难部分原生兜底。中文扫描件重的场景解析默认 MinerU 路线，高价值文档叠视觉模型兜底。定选型的唯一可信办法是拿客户 20 份最难的文档跑对比，永远不用厂商 demo 定选型。</div>
+ <div class="src">深潜 → <a href="../Web-version/multimodal/index.html#mm-fusion"><code>multimodal#mm-fusion</code></a> · <a href="../Web-version/data-engineering/index.html#de-parsing"><code>data-engineering#de-parsing</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">B15</span>视频生成到底能不能商用了？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">素材级商用已经成立（营销、社媒、预演），成片级还要人工后期——它是「素材工厂」不是「成片机器」，方案里要留后期工位。按用途分层是性价比来源：批量素材走 Fast 档（$0.022–0.029/秒）、叙事用故事板、品牌大片才上高保真档，34 倍价差要用起来。合规前置：生成出口打标识、转码保留元数据、真人相关内容走授权链路——「能不能播」比「能不能做」先答。</div>
+ <div class="src">深潜 → <a href="../Web-version/multimodal/index.html#mm-video-generation"><code>multimodal#mm-video-generation</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">B16</span>什么时候该派 sub-agent、什么时候一个 agent 就够？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">按「要结果还是要过程」分堆：可并行、信息面广的任务（深度调研）多 agent 确实强得多；串行依赖强的任务反而更慢更贵还更难调试。先用单 agent 做基线，量化收益后再决定要不要拆。账要摆出来：约 15 倍 token 换来的提升，得任务价值配得上这本账才划算。落地时配深度上限与并发限额——没有上限的扇出就是没有上限的账单。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-subagent"><code>agent#agent-subagent</code></a> · <a href="../Web-version/agent/index.html#agent-orchestration"><code>agent#agent-orchestration</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">B17</span>我们已经买了 RPA，Computer Use 有什么不一样？<span class="fresh">⏳ 口径 2026-07-11</span></div>
+ <div class="a">互补不替代：RPA 把流程写死，稳但脆（界面改一个按钮就断）；Computer Use 自适应，但慢而贵。落地常态是混合——RPA 跑稳定主干、Computer Use 接变化页面与异常分支，存量投资不浪费。两个基准口径要主动讲：短窄任务 83.5% 已实用、长程多应用只有 20.6%，把短板讲出来反而赢信任，也守住了承诺范围。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-computer-use"><code>agent#agent-computer-use</code></a></div>
+</div>
+
+<h2 id="sec-C">C · 成本账<span class="hint">算得清账是解决方案岗的硬通货</span></h2><div class="qa">
+ <div class="q"><span class="num">C1</span><span class="must">★</span>为什么按 token 计费、输出凭什么比输入贵？</div>
  <div class="a">计算量真按 token 走：输入一次并行 prefill，每个输出 token 都是一轮完整前向——计费模式是架构成本的直接映射，不是定价策略。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM/README.html"><code>llm#llm-inference-kv</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm/index.html#llm-inference-kv"><code>llm#llm-inference-kv</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">C2</span>语音客服一分钟多少钱？<span class="fresh">⏳ 口径 2026-07-10</span></div>
- <div class="a">级联约 $0.01–0.17/分钟、可预测；端到端未优化 $0.2–0.5，开缓存和 mini 档能压到 $0.05–0.10。报价按「分钟成本 × 并发 × 时长」算总账。</div>
- <div class="src">深潜 → <a href="../PPT-version/Multimodal/README.html"><code>multimodal#mm-voice-realtime</code></a></div>
+ <div class="a">级联约 $0.01–0.17/分钟、可预测；端到端未优化 $0.2–0.5，开缓存和 mini 档能压到 $0.05–0.10。报价按「分钟成本 × 并发 × 时长」算总账。视频类素材另按秒计价，档位差最多 34 倍，见 B15。</div>
+ <div class="src">深潜 → <a href="../Web-version/multimodal/index.html#mm-voice-realtime"><code>multimodal#mm-voice-realtime</code></a> · <a href="../Web-version/multimodal/index.html#mm-video-generation"><code>multimodal#mm-video-generation</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">C3</span>缓存能省多少钱？<span class="fresh">⏳ 口径 2026-07-10</span></div>
  <div class="a">主流 API 缓存命中约一折到一成（读折 90% 量级），系统提示、few-shot、工具定义都是高复用段——客服/Agent 场景命中率常见 60–90%，等效价直接砍半以上。报价必问「你的提示词有多少是重复的」。</div>
- <div class="src">深潜 → <a href="../PPT-version/Prompt-Engineering/README.html"><code>prompt-engineering#pe-engineering</code></a> · <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-price</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/prompt-engineering/index.html#pe-engineering"><code>pe#pe-engineering</code></a> · <a href="../Web-version/model-landscape/index.html#ml-price"><code>model-landscape#ml-price</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">C4</span>为什么不全用最便宜的 DeepSeek？</div>
- <div class="a">地板档适合批量明确任务；难推理与关键链路要更高档位兜底。三层路由（难题→旗舰、80% 走量→便宜档、敏感→自托管）总成本比全用旗舰低一半以上、比全用地板档少踩坑。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-selection</code></a></div>
+ <div class="q"><span class="num">C4</span><span class="must">★</span>为什么不全用最便宜的 DeepSeek？</div>
+ <div class="a">地板档适合批量明确任务；难推理与关键链路要更高档位兜底。三层路由（难题→旗舰、80% 走量→便宜档、敏感→自托管）总成本比全用旗舰低一半以上、比全用地板档少踩坑。路由落地在网关层，降档流量的质量怎么盯见 D13。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-selection"><code>model-landscape#ml-selection</code></a> · <a href="../Web-version/ai-gateway/index.html#gw-route"><code>ai-gateway#gw-route</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">C5</span>两家报价差三倍，是不是有人坑我？</div>
+ <div class="q"><span class="num">C5</span><span class="must">★</span>两家报价差三倍，是不是有人坑我？</div>
  <div class="a">大概率是口径差：档位、有无缓存、输入输出比例假设不同。对齐三个口径再比，可以当场用真实流量假设重算。</div>
- <div class="src">深潜 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-price</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-price"><code>model-landscape#ml-price</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">C6</span>DeepSeek 为什么那么便宜？</div>
  <div class="a">架构设计出来的：MLA 把 KV 缓存压到约 1/10（单卡并发大增），MoE 让大参数每 token 只算一小部分，加自研推理工程——便宜是设计出来的，不是补贴出来的。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM/README.html"><code>llm#llm-attention-zoo</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm/index.html#llm-attention-zoo"><code>llm#llm-attention-zoo</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">C7</span>自建算力和上云到底哪个便宜？<span class="fresh">⏳ 口径 2026-07-09</span></div>
- <div class="a">取决于利用率：盈亏线约 40–50%——能长期稳过这条线且有运维团队，自建更省；否则云更省。多数客户高估自己的利用率，建议先上云跑三个月拿真实数据再决策。</div>
- <div class="src">深潜 → <a href="../PPT-version/AI-Infra-Compute/README.html"><code>ai-infra-compute#aic-econ</code></a></div>
+ <div class="a">取决于利用率：盈亏线约 40–50%——能长期稳过这条线且有运维团队，自建更省；否则云更省。多数客户高估自己的利用率，建议先上云跑三个月拿真实数据再决策。另外提醒 TCO 四件套（折旧/电/机房/人力）里卡价只是首付，五年电费可达卡价两三成。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-infra-compute/index.html#aic-econ"><code>ai-infra-compute#aic-econ</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">C8</span>多 agent 协作成本会不会失控？<span class="fresh">⏳ 口径 2026-07-07</span></div>
- <div class="a">会显著上升——公开口径研究类任务约 15 倍 token。所以配预算上限、按任务价值分层：高价值任务才开多 agent，日常走单 agent 或工作流。</div>
- <div class="src">深潜 → <a href="../PPT-version/Agent/README.html"><code>agent#agent-orchestration</code></a></div>
-</div><h2 id="sec-D">D · 工程保障与翻车题<span class="hint">答好这组 = 「这人踩过坑」</span></h2><div class="qa">
- <div class="q"><span class="num">D1</span>提示注入能彻底防住吗？</div>
- <div class="a">不能，这是 OWASP 和各大厂公开承认的——病根是指令与数据同通道。能做的是纵深防御：护栏拦已知手法 + 最小权限 + 高危动作人审，让注入成功也偷不走数据、动不了要害。诚实讲边界反而专业。</div>
- <div class="src">深潜 → <a href="../PPT-version/Security/README.html"><code>security#sec-prompt-injection</code></a> · <a href="../PPT-version/Prompt-Engineering/README.html"><code>prompt-engineering#pe-security</code></a></div>
+ <div class="q"><span class="num">C8</span>多 agent 协作成本会不会失控？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">会显著上升——公开口径研究类任务约 15 倍 token。治理三件套：按任务价值分层开、并发限额、token 预算与超额熔断，再配深度上限（一线产品是 5 层封顶或默认 1 层）。先上追踪和预算，再开 multi-agent。派与不派的判据见 B16。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-orchestration"><code>agent#agent-orchestration</code></a> · <a href="../Web-version/agent/index.html#agent-subagent"><code>agent#agent-subagent</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">C9</span>上网关到底能省多少钱？<span class="fresh">⏳ 口径 2026-07-09</span></div>
+ <div class="a">三个杠杆叠加：路由把简单流量切便宜模型（省大头）、语义缓存让相似问题零成本命中、预算限流掐掉失控消耗。具体比例看流量结构，别报笼统百分比——先做一次成本画像，再按客户的量和价格口径当场算一版。路由有论文背书（RouteLLM、FrugalGPT）：大量简单流量切便宜模型质量几乎无感，不是玄学。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-gateway/index.html#gw-cost"><code>ai-gateway#gw-cost</code></a> · <a href="../Web-version/ai-gateway/index.html#gw-route"><code>ai-gateway#gw-route</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">C10</span>70B 模型到底要几张卡？（现场心算版）</div>
+ <div class="a">看用途：FP8 推理权重约 70GB，单张 141/192GB 的卡装得下，还要给 KV 缓存留并发空间，1–2 张起步；全参训练按「每参数 ×16 字节」算是 1.1TB 级，8–16 张起配；LoRA 居中。两个口袋公式覆盖现场八成显存问题——训练「×16 字节」、推理「权重 + KV」，给出并发和上下文就能当场心算。显存不够先走软件三板斧（量化/KV 分页/切分），再谈加卡。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-infra-compute/index.html#aic-gpu"><code>ai-infra-compute#aic-gpu</code></a> · <a href="../Web-version/llm-inference/index.html#llminf-kv-budget"><code>llm-inference#llminf-kv-budget</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">C11</span>微调要多少数据、多少钱、多久见效？</div>
+ <div class="a">窄任务几百条优质样本、单卡几小时、两周出第一版可验收的模型。官方口径是 50–10,000 条，窄分类 200–500 条，节奏上先 100 条看信号再放量。大头是数据人力不是算力——报价按成本结构拆：数据准备（人天）+ 训练算力（零头）+ 评估验收 + 迭代运营，最后一项最常被漏报，也最决定成败。</div>
+ <div class="src">深潜 → <a href="../Web-version/fine-tuning/index.html#ft-data"><code>fine-tuning#ft-data</code></a> · <a href="../Web-version/fine-tuning/index.html#ft-when"><code>fine-tuning#ft-when</code></a></div>
+</div>
+
+<h2 id="sec-D">D · 工程保障与翻车题<span class="hint">答好这组 = 「这人踩过坑」</span></h2><div class="qa">
+ <div class="q"><span class="num">D1</span><span class="must">★</span>提示注入能彻底防住吗？</div>
+ <div class="a">不能，这是 OWASP 和各大厂公开承认的——病根是指令与数据同通道。能做的是纵深防御：护栏拦已知手法 + 最小权限 + 高危动作人审，让注入成功也偷不走数据、动不了要害。诚实讲边界反而专业——「100% 防注入」的承诺本身就是方案不可信的信号。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-prompt-injection"><code>security#sec-prompt-injection</code></a> · <a href="../Web-version/prompt-engineering/index.html#pe-security"><code>pe#pe-security</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D2</span>大模型不就是个聊天框，能有多大风险？</div>
- <div class="a">只要它能读外部内容或触发动作，风险就是真的：一段精心构造的文字就可能让它泄密或误操作（EchoLeak 零点击偷 M365 Copilot 数据是真实案例）——这正是 OWASP 单列 LLM Top 10 的原因。</div>
- <div class="src">深潜 → <a href="../PPT-version/Security/README.html"><code>security#sec-landscape</code></a></div>
+ <div class="a">只要它能读外部内容或触发动作，风险就是真的：一段精心构造的文字就可能让它泄密或误操作（EchoLeak 零点击偷 M365 Copilot 数据是真实案例）——这正是 OWASP 单列 LLM Top 10 的原因。在中国落地还有一层法定门槛，见 H 组。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-landscape"><code>security#sec-landscape</code></a> · <a href="../Web-version/security/index.html#sec-china"><code>security#sec-china</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D3</span>幻觉是不是训练没做好？</div>
  <div class="a">根源在机制：模型是互联网的有损压缩，知识融在权重里，「解压失真」就是幻觉。训练能压低，工程上治本靠 RAG 提供可溯源事实 + 让模型学会说不知道。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM-Training/README.html"><code>llm-training#llmtrain-pretrain</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm-training/index.html#llmtrain-pretrain"><code>llm-training#llmtrain-pretrain</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D4</span>系统没报错，但用户说 AI 变笨了，怎么排查？</div>
  <div class="a">这是静默退化——基础设施全绿、质量在下滑，传统 APM 抓不到。排查靠质量遥测：评估分趋势、模型版本与提示词变更记录、漂移监测。没这套只能靠猜。</div>
- <div class="src">深潜 → <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-what-why</code></a> · <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-drift</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/ai-ops/index.html#ops-what-why"><code>ai-ops#ops-what-why</code></a> · <a href="../Web-version/ai-ops/index.html#ops-drift"><code>ai-ops#ops-drift</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">D5</span>上线之后你们还管吗？管什么？</div>
+ <div class="q"><span class="num">D5</span><span class="must">★</span>上线之后你们还管吗？管什么？</div>
  <div class="a">管，这是运营包五件套：在线评估运营、漂移巡检、发布门禁、事故值守、月度质量报告——每项有清单、有 SLA、有可见产出物，是订阅产品不是售后服务。</div>
- <div class="src">深潜 → <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-cheatsheet</code></a> · <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-method</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/ai-ops/index.html#ops-cheatsheet"><code>ai-ops#ops-cheatsheet</code></a> · <a href="../Web-version/solution-patterns/index.html#sp-method"><code>solution-patterns#sp-method</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D6</span>模型是大厂的，还能悄悄变吗？</div>
  <div class="a">能且是常态：API 背后的 checkpoint 会被静默更新，上月验收的模型不等于这月答题的模型。破法是自己的回归集每周重跑——版本变没变，分数会说话。</div>
- <div class="src">深潜 → <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-drift</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/ai-ops/index.html#ops-drift"><code>ai-ops#ops-drift</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D7</span>改个提示词而已，为什么要走发布流程？</div>
  <div class="a">一个词就能改变线上行为。流程不重：注册打 tag、评估门禁自动跑、金丝雀 5–10% 流量（且必须在金丝雀上跑自动评估——这是与传统金丝雀的关键差异）、回滚是改指针秒级生效。</div>
- <div class="src">深潜 → <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-release</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/ai-ops/index.html#ops-release"><code>ai-ops#ops-release</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">D8</span>你们的 AI 有没有「刹车」？</div>
+ <div class="q"><span class="num">D8</span><span class="must">★</span>你们的 AI 有没有「刹车」？</div>
  <div class="a">两层：急停开关（事故频道一键暂停、保留现场）+ 硬上限（步数/预算/权限边界超限自动中断）。另一个冷知识：成本尖峰常是事故的第一信号——所以成本告警要分钟级。</div>
- <div class="src">深潜 → <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-incident</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/ai-ops/index.html#ops-incident"><code>ai-ops#ops-incident</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D9</span>怎么证明 agent 上线后不出乱子？</div>
- <div class="a">三层保障：上线前评估集全量回归 + pass^k 稳定性；上线后全链路追踪 + 在线评估盯退化；权限最小化 + 高危动作人工审批（HITL 分级）。不承诺不出错，承诺错了兜得住。</div>
- <div class="src">深潜 → <a href="../PPT-version/Agent/README.html"><code>agent#agent-eval-guardrails</code></a> · <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-incident</code></a></div>
+ <div class="a">三层保障：上线前评估集全量回归 + pass^k 稳定性；上线后全链路追踪 + 在线评估盯退化；权限最小化 + 高危动作人工审批（HITL 分级）。多 agent 场景再加一层：并发限额、深度上限与 token 熔断。不承诺不出错，承诺错了兜得住。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-eval-guardrails"><code>agent#agent-eval-guardrails</code></a> · <a href="../Web-version/agent/index.html#agent-subagent"><code>agent#agent-subagent</code></a> · <a href="../Web-version/ai-ops/index.html#ops-incident"><code>ai-ops#ops-incident</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D10</span>系统不报错，但效果肉眼变差，你们怎么定位是哪一环坏的？</div>
  <div class="a">靠章法不靠猜：RAG 类问题走一张「六段诊断矩阵」，沿检索 → 生成的管线逐段隔离，先定位坏在哪一段再修（大头通常是检索段）；线上事故照 runbook 四问收敛——什么变了 / 影响面多大 / 能不能一键回滚 / 证据在哪。有可背诵的诊断框架，排障是走流程不是开盲盒。</div>
- <div class="src">深潜 → <a href="../PPT-version/RAG/README.html"><code>rag#rag-evaluation</code></a> · <a href="../PPT-version/AI-Ops/README.html"><code>ai-ops#ops-incident</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/rag/index.html#rag-evaluation"><code>rag#rag-evaluation</code></a> · <a href="../Web-version/ai-ops/index.html#ops-incident"><code>ai-ops#ops-incident</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">D11</span>你们交付的 agent / 工具，是生产级还是 demo？凭什么这么说？</div>
  <div class="a">demo 能跑通 ≠ 上得了生产，判据是契约不是演示：Agent 章有一页「六层工具契约」，逐层给出一个工具从 demo 到可上线要补齐的达标线（接口契约、权限边界、错误语义、可观测……）；MCP server 侧还要过「两套信任模型」。拿 demo 截图当交付的，用这两个框架一问就现形。</div>
- <div class="src">深潜 → <a href="../PPT-version/Agent/README.html"><code>agent#agent-tools-mcp</code></a> · <a href="../PPT-version/MCP/README.html"><code>mcp#mcp-security</code></a></div>
-</div><h2 id="sec-E">E · 评估与验收<span class="hint">所有承诺的最终落点</span></h2><div class="qa">
- <div class="q"><span class="num">E1</span>榜单分数能信吗？</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-tools-mcp"><code>agent#agent-tools-mcp</code></a> · <a href="../Web-version/mcp/index.html#mcp-security"><code>mcp#mcp-security</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">D12</span>语义缓存会不会给不同用户串答、泄露别人的数据？</div>
+ <div class="a">会——如果缓存键没带身份。正确做法：缓存键里带上租户与权限维度，个性化和含用户数据的请求直接绕过缓存。相似度阈值同理是双刃剑：太松会把「北京天气」当「上海天气」，太紧等于白配——宁可少命中，别答错。这既是成本设计也是安全设计，两边都要签字。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-gateway/index.html#gw-cost"><code>ai-gateway#gw-cost</code></a> · <a href="../Web-version/ai-gateway/index.html#gw-guardrail"><code>ai-gateway#gw-guardrail</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">D13</span>自动路由到便宜模型，质量掉了怎么办？</div>
+ <div class="a">路由是可控降级不是赌博：关键场景设质量优先、固定走旗舰，只对可容忍流量降档；再给降档流量配 1–10% 采样评估，判官打分、超阈值告警，掉了就调阈值。「降档流量谁来盯质量」是网关方案最常被挑战的一点——答案是接评估，并把质量线写进验收。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-gateway/index.html#gw-route"><code>ai-gateway#gw-route</code></a> · <a href="../Web-version/evaluation/index.html#eval-build"><code>evaluation#eval-build</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">D14</span>Agent 的记忆会不会被人「教坏」？<span class="fresh">⏳ 口径 2026-07-11</span></div>
+ <div class="a">会，这叫记忆投毒（OWASP ASI06，研究口径注入成功率超 95%）。它和提示注入的区别是持续性：注入随会话重置，投毒跨会话反复发作，像后门，不主动审计发现不了。三道防线：写入过滤并标记来源、任务间清理、鉴权与定期审计——把记忆当数据库管，不当草稿纸。卖记忆功能必须捆绑卖记忆安全。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-memory"><code>agent#agent-memory</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">D15</span>追踪日志里有客户的对话内容，安全吗？</div>
+ <div class="a">观测系统常是数据泄漏的第二现场——同一个手机号会出现在 span 属性、日志、评估队列三个地方。做法是内容与结构分离：结构全量、内容采样并在采集点脱敏（正则 + 命名实体识别），保留期分级，事故 trace 单独归档。脱敏在采集点做不在展示层，观测系统按「第二数据库」的安全标准建。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-ops/index.html#ops-tracing"><code>ai-ops#ops-tracing</code></a> · <a href="../Web-version/security/index.html#sec-data-privacy"><code>security#sec-data-privacy</code></a></div>
+</div>
+
+<h2 id="sec-E">E · 评估与验收<span class="hint">所有承诺的最终落点</span></h2><div class="qa">
+ <div class="q"><span class="num">E1</span><span class="must">★</span>榜单分数能信吗？</div>
  <div class="a">能信一半：标准化统考能快速淘汰不行的，但有污染和刷榜水分。三层走：榜单初筛、Arena 看真实偏好、最后拿客户真题实测——试用期表现才是唯一作数的。</div>
- <div class="src">深潜 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-benchmarks</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-benchmarks"><code>evaluation#eval-benchmarks</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">E2</span>让 AI 评 AI（LLM-as-a-Judge），靠谱吗？</div>
  <div class="a">校准过的判官与人工一致率能到九成上下，足够规模化初筛；没校准的确实不可信。关键是流程：人工标注校准、判官与被评模型错开厂家（防自我偏好）、高风险人工终审。</div>
- <div class="src">深潜 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-judge</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-judge"><code>evaluation#eval-judge</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">E3</span>我们没数据没标注团队，评估怎么起步？</div>
+ <div class="q"><span class="num">E3</span><span class="must">★</span>我们没数据没标注团队，评估怎么起步？</div>
  <div class="a">三条路并行：业务专家半天写 30 题、试运行日志采样、大模型合成再人工抽审。起步 20–50 题就能指导决策，两周从 0 到 100 题很现实。</div>
- <div class="src">深潜 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-build</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-build"><code>evaluation#eval-build</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">E4</span>RAG 答错了，是检索还是生成的锅？</div>
  <div class="a">分开评：先看检索指标（该命中的文档进没进前 k），命中了再看忠实度（答案是否只基于材料）。经验上大头是检索的锅——验收时两端各设指标。</div>
- <div class="src">深潜 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-scenarios</code></a> · <a href="../PPT-version/RAG/README.html"><code>rag#rag-evaluation</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-scenarios"><code>evaluation#eval-scenarios</code></a> · <a href="../Web-version/rag/index.html#rag-evaluation"><code>rag#rag-evaluation</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">E5</span>评估体系要建多久、多少钱？</div>
+ <div class="q"><span class="num">E5</span><span class="must">★</span>评估体系要建多久、多少钱？</div>
  <div class="a">最小可用两周：50 题黄金集 + 判官校准 + CI 接入，一名工程师加业务专家兼职。工具开源免费，主要成本是判官推理费——量级远低于一次返工。</div>
- <div class="src">深潜 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-cheatsheet</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-cheatsheet"><code>evaluation#eval-cheatsheet</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">E6</span>换了新模型，评估要重做吗？</div>
  <div class="a">题集和细则不用重做——这正是资产价值：直接跑回归对比新旧，只有判官抽查一次一致率。有评估体系的客户，换模型是一天的事。</div>
- <div class="src">深潜 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-cheatsheet</code></a></div>
-</div><h2 id="sec-F">F · 基础原理与协议<span class="hint">技术深度追问的防线</span></h2><div class="qa">
- <div class="q"><span class="num">F1</span>用一句话给 CEO 讲什么是大模型？</div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-cheatsheet"><code>evaluation#eval-cheatsheet</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">E7</span>Agent 这种多步任务怎么验收？</div>
+ <div class="a">双轨加五层：结果通过率管「办成没有」，轨迹检查管「过程对不对」，再往下拆工具使用、安全、效率；多次运行看 pass^k。先和客户共同定义 20 个代表性任务当验收集，并专门造扰动用例（工具报错、返回为空、用户改主意）——Agent 的价值恰恰体现在异常处理上。只评结果会放行「危险的成功」：任务办成了，但中途越过了权限。</div>
+ <div class="src">深潜 → <a href="../Web-version/evaluation/index.html#eval-scenarios"><code>evaluation#eval-scenarios</code></a> · <a href="../Web-version/agent/index.html#agent-eval-guardrails"><code>agent#agent-eval-guardrails</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">E8</span>微调完的模型，怎么证明没「变笨」？</div>
+ <div class="a">训前先冻结一套与训练数据无重叠的通用回归集，训后必须先过回归再上线；交付报告里「新能力」和「老底子」两组数字都给。只看 loss 会把「偏科」当「进步」——灾难性遗忘是微调最隐蔽的风险，回归门禁是唯一系统性的防线。把「训完给回归报告」写进服务承诺，既专业又给自己留质量凭据。</div>
+ <div class="src">深潜 → <a href="../Web-version/fine-tuning/index.html#ft-eval-deploy"><code>fine-tuning#ft-eval-deploy</code></a> · <a href="../Web-version/evaluation/index.html#eval-scenarios"><code>evaluation#eval-scenarios</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">E9</span>你们能承诺多少并发？</div>
+ <div class="a">并发本身不是好指标——同样 1000 并发，128 token 的短问答和 50K 的长文档差百倍资源。按流量画像承诺三件事：首字延迟与逐字延迟的 P90 服务目标、goodput 容量、超量时的降级策略。裸并发数最容易被拿去对比、也最容易失真；goodput（满足服务目标的吞吐）才是能签进合同的口径。容量表按压测拐点的七八成报。</div>
+ <div class="src">深潜 → <a href="../Web-version/llm-inference/index.html#llminf-production"><code>llm-inference#llminf-production</code></a></div>
+</div>
+
+<h2 id="sec-F">F · 基础原理与协议<span class="hint">技术深度追问的防线</span></h2><div class="qa">
+ <div class="q"><span class="num">F1</span><span class="must">★</span>用一句话给 CEO 讲什么是大模型？</div>
  <div class="a">一台「下一词预测机」：读过互联网量级的文本，把知识压进几千亿参数，生成每个词时靠注意力从上下文挑最相关的信息。能力来自规模，成本也来自规模。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM/README.html"><code>llm#llm-presales-map</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm/index.html#llm-presales-map"><code>llm#llm-presales-map</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">F2</span>为什么模型回答一个字一个字蹦？</div>
  <div class="a">工作原理如此：每个词依赖前面所有词，本质串行，任何厂商都一样。流式反而是优点——首字几百毫秒就到。产品正解是拥抱流式、把首字时间做小。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM-Inference/README.html"><code>llm-inference#llminf-anatomy</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm-inference/index.html#llminf-anatomy"><code>llm-inference#llminf-anatomy</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">F3</span>私有化部署为什么并发上不去？显存明明够装模型。</div>
- <div class="a">装下权重只是入场券，真正的座位是剩余显存里的 KV Cache：每路对话占一段、随轮次膨胀。并发上限 ≈ 剩余显存 ÷ 每请求 KV——这笔账可以现场算。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM-Inference/README.html"><code>llm-inference#llminf-kv-budget</code></a></div>
+ <div class="q"><span class="num">F3</span><span class="must">★</span>私有化部署为什么并发上不去？显存明明够装模型。</div>
+ <div class="a">装下权重只是入场券，真正的座位是剩余显存里的 KV Cache：每路对话占一段、随轮次膨胀。并发上限 ≈ 剩余显存 ÷ 每请求 KV——这笔账可以现场算，卡数怎么估见 C10。</div>
+ <div class="src">深潜 → <a href="../Web-version/llm-inference/index.html#llminf-kv-budget"><code>llm-inference#llminf-kv-budget</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">F4</span>量化会不会把模型变笨？<span class="fresh">⏳ 口径 2026-07-09</span></div>
  <div class="a">FP8 校准后损失通常 0.5–2%，是 2026 年生产默认精度。稳妥做法：拿业务评测集做上线门禁——损失可测可控，不是赌博。数学/代码类任务敏感，按任务分档。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM-Inference/README.html"><code>llm-inference#llminf-quant</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm-inference/index.html#llminf-quant"><code>llm-inference#llminf-quant</code></a></div>
 </div><div class="qa">
- <div class="q"><span class="num">F5</span>MCP 和 Function Calling 什么关系？</div>
+ <div class="q"><span class="num">F5</span><span class="must">★</span>MCP 和 Function Calling 什么关系？</div>
  <div class="a">不替代：Function Calling 是模型「决定调哪个工具」的能力，MCP 是「工具怎么被标准接入」的协议（会用手 vs 统一插座标准），MCP 内部仍用 function calling 决策。</div>
- <div class="src">深潜 → <a href="../PPT-version/MCP/README.html"><code>mcp#mcp-what-why</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/mcp/index.html#mcp-what-why"><code>mcp#mcp-what-why</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">F6</span>A2A 和 MCP 到底啥区别？</div>
  <div class="a">MCP 连工具/数据（纵向），A2A 连 Agent（横向），一个系统常两个都用。都已捐给中立基金会（AAIF / Linux Foundation），不是私有协议。</div>
- <div class="src">深潜 → <a href="../PPT-version/A2A/README.html"><code>a2a#a2a-what-why</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/a2a/index.html#a2a-what-why"><code>a2a#a2a-what-why</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">F7</span>微调会不会把模型调坏？</div>
- <div class="a">有「灾难性遗忘」风险但可控：LoRA + 保守超参 + 通用回归门禁三层保险，每版双达标（目标任务+通用能力）才放行，随时秒级回滚。</div>
- <div class="src">深潜 → <a href="../PPT-version/Fine-tuning/README.html"><code>fine-tuning#ft-methods</code></a> · <a href="../PPT-version/Fine-tuning/README.html"><code>fine-tuning#ft-eval-deploy</code></a></div>
+ <div class="a">有「灾难性遗忘」风险但可控：LoRA + 保守超参 + 通用回归门禁三层保险，每版双达标（目标任务+通用能力）才放行，随时秒级回滚。怎么证明没变笨见 E8。</div>
+ <div class="src">深潜 → <a href="../Web-version/fine-tuning/index.html#ft-methods"><code>fine-tuning#ft-methods</code></a> · <a href="../Web-version/fine-tuning/index.html#ft-eval-deploy"><code>fine-tuning#ft-eval-deploy</code></a></div>
 </div><div class="qa">
  <div class="q"><span class="num">F8</span>为什么训练要几千张卡，推理几张就行？</div>
  <div class="a">两笔账不同：训练每参数要存权重、梯度、优化器状态约 16 字节，数周内吃完数万亿 token；推理只装权重、一次算一批。这也是训练与推理集群分开设计、分开报价的原因。</div>
- <div class="src">深潜 → <a href="../PPT-version/LLM-Training/README.html"><code>llm-training#llmtrain-infra</code></a></div>
+ <div class="src">深潜 → <a href="../Web-version/llm-training/index.html#llmtrain-infra"><code>llm-training#llmtrain-infra</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">F9</span>参数量 7B、70B 到底意味着什么？</div>
+ <div class="a">主要是前馈网络这个「知识仓库」和注意力矩阵的规模——参数大头（约三分之二）在前馈网络。参数越大记的知识越多，推理成本同步涨；MoE 就是想把「记得多」和「算得贵」解耦。最常见的误解是把参数账当显存账：推理时显存大头常是 KV 缓存而不是权重，混淆这两笔账，容量规划必错。</div>
+ <div class="src">深潜 → <a href="../Web-version/llm/index.html#llm-architecture"><code>llm#llm-architecture</code></a> · <a href="../Web-version/llm/index.html#llm-inference-kv"><code>llm#llm-inference-kv</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">F10</span>模型知识为什么会过时？能打补丁吗？</div>
+ <div class="a">知识压在前馈网络的权重里，截止于训练数据。改权重（微调）成本高且容易误伤别的能力；主流做法是外挂检索——新知识放库里，模型负责理解与组织。这正是「改知识用 RAG、改行为用微调」这条选型边界的架构根据，不是经验之谈。</div>
+ <div class="src">深潜 → <a href="../Web-version/llm/index.html#llm-architecture"><code>llm#llm-architecture</code></a> · <a href="../Web-version/rag/index.html#rag-what-why"><code>rag#rag-what-why</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">F11</span>为什么我说「不要 X」它还是做了？</div>
+ <div class="a">模型更擅长执行「做什么」。把否定改成正向指令——「请用简洁短句」而不是「不要啰嗦」——通常立刻见效。同理的还有「例子里没有的类，模型就当它不存在」：很多「不听话」其实是 few-shot 例子没覆盖边界，或者格式不一致。这是交付期最省钱的一类修复，不用动模型。</div>
+ <div class="src">深潜 → <a href="../Web-version/prompt-engineering/index.html#pe-core-techniques"><code>pe#pe-core-techniques</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">F12</span>长任务客户端断了怎么办？</div>
+ <div class="a">用推送通知：注册回调地址，任务完成或状态变更时服务端回调你——客户端不用挂着连接，天然适配离线与批量。四种交付各有代价：阻塞占连接、轮询会陈旧、流式要处理断线与背压、推送要防重复投递与回调伪造（幂等 + 地址校验 + 签名）。口诀是短活阻塞、简单轮询、看进度流式、长任务推送。</div>
+ <div class="src">深潜 → <a href="../Web-version/a2a/index.html#a2a-transport"><code>a2a#a2a-transport</code></a></div>
 </div>
-<h2 id="sec-X">附 · 三个万能兜底话术</h2><div class="qa"><div class="q"><span class="num">兜底</span>被问没听过的名词</div>
-<div class="a">用框架接住——「它是压 KV、减计算还是榨硬件的？」（架构类）/「它属于哪一层：入口、编排、模型、数据、保障？」（方案类），然后坦诚回去核实细节。</div><div class="src">出处 → <a href="../PPT-version/LLM/README.html"><code>llm#llm-presales-map</code></a> · <a href="../PPT-version/Solution-Patterns/README.html"><code>solution-patterns#sp-method</code></a></div></div><div class="qa"><div class="q"><span class="num">兜底</span>被要求承诺数字</div>
-<div class="a">承诺测法不承诺数字——评估集、基线、签字验收线。</div><div class="src">出处 → <a href="../PPT-version/Evaluation/README.html"><code>evaluation#eval-build</code></a></div></div><div class="qa"><div class="q"><span class="num">兜底</span>被质疑数字来源</div>
-<div class="a">每个数字给出处和日期，并主动说「任何不带日期的模型数据都值得警惕」。</div><div class="src">出处 → <a href="../PPT-version/Model-Landscape/README.html"><code>model-landscape#ml-cheatsheet</code></a></div></div>
-<p class="foot">共 55 题 + 3 条兜底 · 时效机制与引用映射见 _prep/MANIFEST.md · 生成于 2026-07-10 · 末次更新 2026-07-15</p>
+
+<h2 id="sec-G">G · 平台与接入<span class="hint">「这一层要不要、买还是自建」</span></h2><div class="qa">
+ <div class="q"><span class="num">G1</span><span class="must">★</span>我已经有 API 网关了，为什么还要 AI 网关？</div>
+ <div class="a">不是取代，是增强：多了按 token 限流与计费、多模型语义路由、语义缓存、注入与个人信息护栏——这些普通网关没有。很多产品（Kong、APISIX、Higress）本身就是同一网关的「AI 模式」，平滑升级即可，迁移成本近零。这题答成「换掉重建」就把客户推走了；正确姿势是在存量投资上加层。先查对方现有网关有没有 AI 插件，有就按升级路径报，没有再谈新建。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-gateway/index.html#gw-what-why"><code>ai-gateway#gw-what-why</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G2</span>我们有几百个内部 API 要让 Agent 用，是不是要一个个改造？<span class="fresh">⏳ 口径 2026-07-10</span></div>
+ <div class="a">不用。openapi-to-mcp 读 OpenAPI 描述，批量把存量 API 转成 MCP 工具，再由网关统一托管鉴权与限流——存量资产几乎零改造就能被 Agent 安全调用。不是重写业务，是给旧电器配智能插座。配一句权限话术：网关做令牌交换（RFC 8693），把用户真实身份换成「受众限定、最小权限、短时效」的窄票，Agent 手里永远没有万能钥匙——令牌透传是规范级红线。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-gateway/index.html#gw-mcp"><code>ai-gateway#gw-mcp</code></a> · <a href="../Web-version/mcp/index.html#mcp-security"><code>mcp#mcp-security</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G3</span>我们卡不多，直接 SSH 上去跑不行吗？</div>
+ <div class="a">几张卡、一个团队时够用。但卡数或用卡的人一多，SSH 模式立刻失控：抢卡、空转、互相踩踏。无管理集群常年 10–20% 利用率，上调度和配额后翻倍很常见——等于「不花钱多买了一倍的卡」，是整个 AI 投资里回报最高的一环。四问体检任何 GPU 环境：谁在用哪张卡、利用率多少、作业挂了会怎样、训练崩了能不能自动恢复。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-infra-platform/index.html#aip-overview"><code>ai-infra-platform#aip-overview</code></a> · <a href="../Web-version/ai-infra-platform/index.html#aip-scheduling"><code>ai-infra-platform#aip-scheduling</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G4</span><span class="must">★</span>有了 vLLM 这些引擎，为什么还要一套推理平台？</div>
+ <div class="a">引擎把单个模型跑快，平台把它变成能扛生产的服务：多副本高可用、按流量弹性、灰度发版、KV 感知路由。能跑 demo 和能扛百万请求，差的就是这一层。运维差异也要讲：推理扩缩看队列、首字延迟和 KV，不看 CPU；冷启动是分钟级，所以要提前预测、留热备。训练推理还能同集群混部——推理保基线、训练填谷做低优。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-infra-platform/index.html#aip-serving"><code>ai-infra-platform#aip-serving</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G5</span>一张卡到底能给几个团队用？</div>
+ <div class="a">先问租户之间信不信任：互不信任用 MIG 硬件切分，最多 7 个隔离实例；内部可信任务用时间片或 HAMi，能切更多但隔离弱。三把尺子定切法——显存隔离、故障隔离、灵活度。切分对「小而多」的推理场景立竿见影（15% 到 70%+），但大训练反而要反着来，把多张卡合成一张用。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-infra-platform/index.html#aip-sharing"><code>ai-infra-platform#aip-sharing</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G6</span>不用 NVIDIA 到底行不行？<span class="fresh">⏳ 口径 2026-07-09</span></div>
+ <div class="a">分负载：标准推理 2026 年已经行——vLLM 等框架多后端成熟，AMD、国产、ASIC 都有生产案例；大规模定制训练仍建议留在 CUDA 生态。常给的是「训练用 N 卡、推理第二供应商」的混合方案，顺带增加议价权。护城河是二十年生态不是芯片，换芯片的真实成本是软件移植和踩坑时间——「负载是否标准」是能不能离开的钥匙。国产线要把合规与供应链硬约束排在前面。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-infra-compute/index.html#aic-chips"><code>ai-infra-compute#aic-chips</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G7</span><span class="must">★</span>网关 / 平台，我们该自建还是买托管？</div>
+ <div class="a">三问定档：有没有专职基础设施团队、负载类型稳不稳、要多快上线。没团队或要快 → 托管起步；有团队、负载稳定、压长期成本 → 自建。绝大多数客户是「托管起步 → 按需转自托管或混合」，不用一步到位。要主动讲自建的隐藏成本：调度、切分、容错、观测四列活，尤其容错自愈最难——托管的溢价买的正是这些。自托管网关本身还会成为新的单点，要多副本、健康检查、多区域。</div>
+ <div class="src">深潜 → <a href="../Web-version/ai-gateway/index.html#gw-cheatsheet"><code>ai-gateway#gw-cheatsheet</code></a> · <a href="../Web-version/ai-infra-platform/index.html#aip-cloud"><code>ai-infra-platform#aip-cloud</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">G8</span>Dify 是开源的，我们为什么要付钱？</div>
+ <div class="a">开源解决「能不能用」，商业解决「谁来兜底」：托管、治理、服务等级协议与升级保障。先开源验证、规模化再评估商业版。许可证还有暗礁：Dify 是 Apache 2.0 加附加条款（多租户对外服务、去 logo 要商业授权），n8n 是 fair-code 不得转售——「开源」两个字底下各家边界差很多，把要点写进方案，别等客户法务来问。</div>
+ <div class="src">深潜 → <a href="../Web-version/agent/index.html#agent-lowcode"><code>agent#agent-lowcode</code></a></div>
+</div>
+
+<h2 id="sec-H">H · 合规与数据主权<span class="hint">答错不是丢分，是丢单或踩线</span></h2><div class="qa">
+ <div class="q"><span class="num">H1</span><span class="must">★</span>我们私有化部署、只给内部员工用，要备案吗？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">暂行办法管的是「向境内公众提供服务」——纯内部自用不适用备案，但数据安全与个人信息保护义务照常；一旦对外（哪怕只是个小程序）就要重新分诊。分诊三问是中国合规的入口：自研或微调模型向公众提供服务 → 服务备案（全流程 5–8 个月，北京 8–10 个月，无加急通道）；调用已备案模型做应用 → 应用/功能登记（地方网信办，周级）；纯内部自用 → 不适用。最常见的误区是把「登记」当「备案」自己吓自己。截至 2026-06-30 累计 988 款服务完成备案——这是常态动作，不是拦路虎。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-china"><code>security#sec-china</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H2</span><span class="must">★</span>不打 AI 标识会怎样？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">2025-09-01 起是法定义务，配套强制国标；已经有 App 因标识违规被约谈、下架——真正的代价是产品下线与渠道信任，不只是罚款数字。两层都要落：显式标识给人看（生成入口就近打标）、隐式标识给机器看（元数据或水印，导出链路别洗掉）。工程做法是把标识做成生成服务的默认输出、服务端注入，别靠各业务前端自觉补——审计时查得出、改得动。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-china"><code>security#sec-china</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H3</span>数据能不能出境？走哪条通道？<span class="fresh">⏳ 口径 2026-07-17</span></div>
+ <div class="a">先查豁免再谈通道：《促进和规范数据跨境流动规定》有六类豁免，自贸区另有负面清单；豁免不了才走三通道——安全评估（重要数据与大规模个人信息必走）、标准合同（中等规模常用）、保护认证（集团内跨境）。客户问这题先反问三件事：是不是重要数据、涉及多少人的个人信息、在不在自贸区清单内。还有一条要说清：云平台能帮到材料与护栏，但法定「服务提供者」义务不转移，审核、标识、投诉、备案主体一样不能少。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-china"><code>security#sec-china</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H4</span><span class="must">★</span>我们的数据会不会被模型学走、被别人问出来？</div>
+ <div class="a">用 RAG 不会——数据留在你的库里、带权限、可随时删，不进模型参数。只有拿敏感数据去微调再对外提供才有这个风险，那种场景用脱敏、隔离甚至差分隐私来兜。「RAG 优于微调」是数据安全侧最有力的一张牌。另一半提醒要主动给：向量化不等于匿名化，嵌入能被部分反推，该脱敏还得脱敏；多租户场景补一句带权限的检索和租户隔离，否则 A 的问题可能命中 B 的文档。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-data-privacy"><code>security#sec-data-privacy</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H5</span>向量化之后是不是就安全了？删除能真删干净吗？</div>
+ <div class="a">两个都不自动成立。向量化不等于匿名化——嵌入在一定条件下能部分反推原文，敏感数据进库前照做脱敏、向量库照做权限隔离。删除要三处联动：向量库、缓存、衍生数据（评估集、训练集候选）一起清并留审计痕。最容易翻车的是评估集——坏例回流时复制过的文档片段常被遗忘。「一键遗忘」是设计出来的能力，不是数据库自带的。上线门禁跑越权测试集（20 问零泄露），权限变更后重跑。</div>
+ <div class="src">深潜 → <a href="../Web-version/data-engineering/index.html#de-governance"><code>data-engineering#de-governance</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H6</span>用开源模型微调出来的模型算谁的？</div>
+ <div class="a">权重归你，但受基座许可证约束：MIT / Apache 基座的衍生模型基本自由；Llama 基座的衍生模型继承其条款，含命名义务。蒸馏是隐蔽雷区——用 Llama 蒸馏出的学生模型仍可能带 Llama 条款，这个坑法务常常也不知道，提前点出是加分项。微调方案里加一行默认检查项：基座许可证与衍生条款已核对。</div>
+ <div class="src">深潜 → <a href="../Web-version/model-landscape/index.html#ml-license"><code>model-landscape#ml-license</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H7</span>用 GPT 生成的数据训我们的模型，合规吗？</div>
+ <div class="a">取决于所用模型的服务条款——各家对「产出能否用于训练」约定不同，方案里写明数据来源与条款依据是标准动作。合成数据已经是主流来源（种子 → 扩量 → 判官过滤），但合规红线要先踩实：权属与出域两问答不好，技术再好也进不了采购。数据流水线里把个人信息清洗设为刚性前置。</div>
+ <div class="src">深潜 → <a href="../Web-version/fine-tuning/index.html#ft-data"><code>fine-tuning#ft-data</code></a></div>
+</div><div class="qa">
+ <div class="q"><span class="num">H8</span>我们要出海，EU AI Act 要做什么、什么时候？<span class="fresh">⏳ 口径 2026-07-09</span></div>
+ <div class="a">先看业务是否触达欧盟。触达的话：通用模型义务 2025-08 已生效，执法与罚款 2026-08 启动（最高全球营收 7%），存量模型 2027-08 前整改完——现在就该倒排。治理框架组合用：NIST 风险管理框架给自评骨架、ISO 42001 给可认证体系、EU AI Act 是法律底线，对外招标常要求前两个。落地从盘清 AI 资产开始——不知道自己有多少模型和 Agent，就无从谈合规。</div>
+ <div class="src">深潜 → <a href="../Web-version/security/index.html#sec-governance"><code>security#sec-governance</code></a></div>
+</div>
+
+<h2 id="sec-X">附 · 四个万能兜底话术</h2><div class="qa"><div class="q"><span class="num">兜底</span>被问没听过的名词</div>
+<div class="a">用框架接住——「它是压 KV、减计算还是榨硬件的？」（架构类）/「它属于哪一层：入口、编排、模型、数据、保障？」（方案类），然后坦诚回去核实细节。</div><div class="src">出处 → <a href="../Web-version/llm/index.html#llm-presales-map"><code>llm#llm-presales-map</code></a> · <a href="../Web-version/solution-patterns/index.html#sp-method"><code>solution-patterns#sp-method</code></a></div></div><div class="qa"><div class="q"><span class="num">兜底</span>被要求承诺数字</div>
+<div class="a">承诺测法不承诺数字——评估集、基线、签字验收线。</div><div class="src">出处 → <a href="../Web-version/evaluation/index.html#eval-build"><code>evaluation#eval-build</code></a></div></div><div class="qa"><div class="q"><span class="num">兜底</span>被质疑数字来源</div>
+<div class="a">每个数字给出处和日期，并主动说「任何不带日期的模型数据都值得警惕」。</div><div class="src">出处 → <a href="../Web-version/model-landscape/index.html#ml-cheatsheet"><code>model-landscape#ml-cheatsheet</code></a></div></div><div class="qa"><div class="q"><span class="num">兜底</span>被问「我们已经有 X 了」</div>
+<div class="a">增量价值三问接住：它治的是不是同一类问题（Datadog 管挂没挂、AI 观测管答得对不对）／去掉这层谁来兜／增量成本对增量收益。基本盘永远是「不是取代，是在存量投资上加层」——API 网关加 AI 模式、推理引擎加平台、RPA 加 Computer Use，都是同一个答法。</div><div class="src">出处 → <a href="../Web-version/ai-gateway/index.html#gw-what-why"><code>ai-gateway#gw-what-why</code></a> · <a href="../Web-version/ai-ops/index.html#ops-what-why"><code>ai-ops#ops-what-why</code></a> · <a href="../Web-version/ai-infra-platform/index.html#aip-serving"><code>ai-infra-platform#aip-serving</code></a></div></div>
+<p class="foot">共 91 题（★ 必背 24 题）+ 4 条兜底 · 时效机制与引用映射见 _prep/MANIFEST.md · 生成于 2026-07-10 · 末次更新 2026-07-22</p>
 </main>
 </body></html>
