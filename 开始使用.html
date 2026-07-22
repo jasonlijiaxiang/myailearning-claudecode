@@ -9,13 +9,8 @@
 <body>
 
 <nav class="topbar"><div class="tb">
- <a class="brand" href="./README.html">AI 知识库</a>
- <a class="ti" href="./Web-version/index.html">网页版</a>
- <a class="ti" href="./PPT-version/README.html">PPT 总览</a>
- <a class="ti" href="./_prep/实战包.html">实战包</a>
- <a class="ti" href="./_prep/学习路径.html">学习路径</a>
- <a class="ti" href="./_prep/全库一页纸.html">全库一页纸</a>
- <a class="ti cur" href="./开始使用.html">开始使用</a>
+ <a class="brand" href="./README.html">AI 知识库</a><a class="ti" href="./Web-version/index.html">网页版</a>
+ <a class="ti" href="./PPT-version/README.html">PPT 总览</a><a class="ti" href="./_prep/实战包.html">实战包</a><a class="ti" href="./_prep/学习路径.html">学习路径</a><a class="ti" href="./_prep/全库一页纸.html">全库一页纸</a><a class="ti cur" href="./开始使用.html">开始使用</a>
  <span class="ver">v0721m</span>
 </div></nav>
 
@@ -33,14 +28,11 @@
   <div class="grid">
     <div class="box">
       <h4><a href="./_prep/实战包.html">实战包</a></h4>
-      <p>对客交锋 91 题，每题 15–30 秒的电梯版。时间紧只刷标 ★ 的 24 道必背，约 10 分钟；
-         重要场合前通刷全量。每题「深潜」直达网页版对应章节。</p>
+      <p>对客交锋 91 题，每题 15–30 秒的电梯版。时间紧只刷标 ★ 的 24 道必背，约 10 分钟；重要场合前通刷全量。每题「深潜」直达网页版对应章节。</p>
     </div>
     <div class="box">
       <h4><a href="./Web-version/index.html">网页版</a></h4>
-      <p>19 册每册一页读完，可搜索、按层浏览；关系网告诉你讲一个模块还该带上哪几块，
-         保鲜看板告诉你哪些数字该复查了。被问住时翻
-         <a href="./Web-version/qa/index.html">全库问答库</a>——按一句话搜，直达答案所在处。</p>
+      <p>19 册每册一页读完，可搜索、按层浏览；关系网告诉你讲一个模块还该带上哪几块，保鲜看板告诉你哪些数字该复查了。被问住时翻<a href="./Web-version/qa/index.html">全库问答库</a>——按一句话搜，直达答案所在处。</p>
     </div>
     <div class="box">
       <h4><a href="./PPT-version/README.html">PPT 总览</a></h4>
@@ -49,31 +41,25 @@
   </div>
 
   <h2>整库怎么分享</h2>
-  <p><b>分享单元是整个文件夹</b>——网页样式、检查脚本、账本都在里面，只拷单个文件会缺东西。
-    整个文件夹拷给对方，断网也能双击打开，全程不需要装任何软件。</p>
+  <p><b>分享单元是整个文件夹</b>——网页样式、检查脚本、账本都在里面，只拷单个文件会缺东西。整个文件夹拷给对方，断网也能双击打开，全程不需要装任何软件。</p>
   <p>要打一个干净的压缩包，跑：</p>
   <pre class="codeblock"><code>python3 _maintenance/make_share.py</code></pre>
-  <p class="ev">打出来实测 5.2 MB（2026-07-22）：带全部讲义、书单、网页版和工具，不带作者的历史留痕，
-    也不带本机的权限配置。打包后会自动解压、在解压出来的那份里把<b>八道检查全跑一遍</b>，
-    再查一遍有没有脚本写死了本机路径——确认拆开还是一个能用的库，而不只是压缩没出错。</p>
+  <p class="ev">打出来实测 5.2 MB（2026-07-22）：带全部讲义、书单、网页版和工具，不带作者的历史留痕，也不带本机的权限配置。打包后会自动解压、在解压出来的那份里把<b>八道检查全跑一遍</b>，再查一遍有没有脚本写死了本机路径——确认拆开还是一个能用的库，而不只是压缩没出错。</p>
 
   <h2>换一台机器</h2>
   <p>两条路，结果一样。<b>拿到之后先跑一次自检</b>，别等出问题才发现少了东西。</p>
   <div class="grid">
     <div class="box">
       <h4>① 拿到库</h4>
-      <p>压缩包解压到任意目录即可，路径随便放——库里不存任何本机绝对路径。
-        有 Git 的话 <code>git clone</code> 同样可以，还能带上完整改动历史。</p>
+      <p>压缩包解压到任意目录即可，路径随便放——库里不存任何本机绝对路径。有 Git 的话 <code>git clone</code> 同样可以，还能带上完整改动历史。</p>
     </div>
     <div class="box">
       <h4>② 先读起来</h4>
-      <p>双击 <code>README.html</code> 就能读，断网也行，不用装任何东西。
-        讲义 PPTX 用 PowerPoint 或 Keynote 打开。</p>
+      <p>双击 <code>README.html</code> 就能读，断网也行，不用装任何东西。讲义 PPTX 用 PowerPoint 或 Keynote 打开。</p>
     </div>
     <div class="box">
       <h4>③ 验一遍</h4>
-      <p>在库根跑一次全套检查（下面那条命令）。八项全绿，说明这份拷贝是完整的：
-        页数账、书单账、链接、样式契约、生成物、问答指针都对得上。</p>
+      <p>在库根跑一次全套检查（下面那条命令）。八项全绿，说明这份拷贝是完整的：页数账、书单账、链接、样式契约、生成物、问答指针都对得上。</p>
     </div>
   </div>
   <pre class="codeblock"><code>cd &lt;库目录&gt;
@@ -82,31 +68,25 @@ for g in check_kb_layout check_html_links check_page_ledger check_ebook_ledger \
   python3 _maintenance/$g.py &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo "OK  $g" || echo "FAIL $g"
 done
 python3 Web-version/build.py --check</code></pre>
-  <p class="ev"><b>需要什么：</b>只要 Python 3.7 以上，用系统自带的就行——检查脚本、网页生成器、
-    打包工具<b>全部只用标准库</b>，不联网、不装包。<b>唯一的例外</b>是改讲义 PPTX 的那批工具
-    （配图、插页、缩放）需要 <code>python-pptx</code>；只读、只看网页、只跑检查都用不上它。</p>
+  <p class="ev"><b>需要什么：</b>只要 Python 3.7 以上，用系统自带的就行——检查脚本、网页生成器、打包工具<b>全部只用标准库</b>，不联网、不装包。<b>唯一的例外</b>是改讲义 PPTX 的那批工具（配图、插页、缩放）需要 <code>python-pptx</code>；只读、只看网页、只跑检查都用不上它。</p>
 
   <h2>拿到分享的人：把它变成你自己的知识库</h2>
-  <p>这个库不是死文档——维护它的那套方法打包在库里（<code>_skill-source/knowledge-base-builder.skill</code>），
-    装上就能在这份内容的基础上继续建你自己的库。三步：</p>
+  <p>这个库不是死文档——维护它的那套方法打包在库里（<code>_skill-source/knowledge-base-builder.skill</code>），装上就能在这份内容的基础上继续建你自己的库。三步：</p>
 
   <div class="grid">
     <div class="box">
       <h4>① 装技能</h4>
       <p>把 <code>_skill-source/knowledge-base-builder.skill</code> 上传到 claude.ai
         （设置 → Capabilities → Skills）；用 Claude Code 的话，解压到
-        <code>~/.claude/skills/knowledge-base-builder/</code>。
-        库根的 <code>CLAUDE.md</code> 还列了两个可选插件，装上更顺手，不装也不影响。</p>
+        <code>~/.claude/skills/knowledge-base-builder/</code>。库根的 <code>CLAUDE.md</code> 还列了两个可选插件，装上更顺手，不装也不影响。</p>
     </div>
     <div class="box">
       <h4>② 改口味</h4>
-      <p>打开 <code>KB-CONFIG.md</code>，改「读者画像」「知识领域」「知识库显示名」——
-        库的全部个性都在这一个文件里，改完下次任务就生效。</p>
+      <p>打开 <code>KB-CONFIG.md</code>，改「读者画像」「知识领域」「知识库显示名」——库的全部个性都在这一个文件里，改完下次任务就生效。</p>
     </div>
     <div class="box">
       <h4>③ 开始说话</h4>
-      <p>对 Claude 说「把 ×× 整理进知识库」——一个概念、一段对话、一份资料都行。
-        它会自己判断该新增模块还是更新已有的，做完自动跑检查。</p>
+      <p>对 Claude 说「把 ×× 整理进知识库」——一个概念、一段对话、一份资料都行。它会自己判断该新增模块还是更新已有的，做完自动跑检查。</p>
     </div>
   </div>
 

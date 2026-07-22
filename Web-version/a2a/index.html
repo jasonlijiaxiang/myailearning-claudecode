@@ -9,13 +9,8 @@
 <body>
 
 <nav class="topbar"><div class="tb">
- <a class="brand" href="../../README.html">AI 知识库</a>
- <a class="ti cur" href="../../Web-version/index.html">网页版</a>
- <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
- <a class="ti" href="../../_prep/实战包.html">实战包</a>
- <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
- <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
- <a class="ti" href="../../开始使用.html">开始使用</a>
+ <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
  <span class="ver">v0721m</span>
 </div></nav>
 
@@ -24,8 +19,7 @@
     <p class="crumb">协议层 · 网页版</p>
     <h1><span class="en">Agent2Agent Protocol</span>A2A，智能体间协议</h1>
     <p class="lede">让不同厂商、不同框架的 AI Agent 互相「发现、委派、协作」的开放协议——
-      <b>MCP 接工具，A2A 接 Agent</b>。本页从「为什么单个 Agent 不够用」讲到协议本体、
-      跑通协作、生产落地与安全。讲义 PPT 见页脚链接。</p>
+      <b>MCP 接工具，A2A 接 Agent</b>。本页从「为什么单个 Agent 不够用」讲到协议本体、跑通协作、生产落地与安全。讲义 PPT 见页脚链接。</p>
     <div class="hr"></div>
     <p class="lede" style="margin-top:0">
       <span class="badge ok">核实窗口 2026-07-09 至 07-12</span>
@@ -60,10 +54,8 @@
   <h2><span class="num">01</span>是什么 / 为什么<a class="anchor" href="#a2a-what-why">#a2a-what-why</a></h2>
 
   <div class="lead">
-    <p>真实企业里不是一个万能 Agent，而是一堆专精 Agent：订票、报销、风控……像公司里不同
-      部门的员工，靠「流程」把活儿流转。缺了标准就是 M×N 的定制对接地狱——A2A 把它塌缩成
-      M+N：规定 Agent 如何<b>发现对方、委派任务、同步进度、交换结果</b>。做好一次就通用：
-      一个「合规审查 Agent」发布后，任何遵循 A2A 的上游都能直接委派，不用一对一对接。</p>
+    <p>真实企业里不是一个万能 Agent，而是一堆专精 Agent：订票、报销、风控……像公司里不同部门的员工，靠「流程」把活儿流转。缺了标准就是 M×N 的定制对接地狱——A2A 把它塌缩成
+      M+N：规定 Agent 如何<b>发现对方、委派任务、同步进度、交换结果</b>。做好一次就通用：一个「合规审查 Agent」发布后，任何遵循 A2A 的上游都能直接委派，不用一对一对接。</p>
   </div>
 
   <div class="tw">
@@ -78,12 +70,9 @@
     </tbody>
   </table>
   </div>
-  <p>客户最爱问「选哪个」，标准答案是「都要」：一次差旅审批里，A2A 决定「谁接力这一单」
-    （出行 → 财务 → 风控三个 Agent 横向委派），MCP 决定「每个 Agent 手里有什么工具」
-    （航司 API、ERP、合规规则库纵向取能力）。选型尺子一句话：<b>单 Agent + 工具 → 只上
+  <p>客户最爱问「选哪个」，标准答案是「都要」：一次差旅审批里，A2A 决定「谁接力这一单」（出行 → 财务 → 风控三个 Agent 横向委派），MCP 决定「每个 Agent 手里有什么工具」（航司 API、ERP、合规规则库纵向取能力）。选型尺子一句话：<b>单 Agent + 工具 → 只上
     MCP；多个专精/跨厂商 Agent 要协作 → MCP + A2A 叠着上</b>。来历与治理：Google 2025-04
-    发布（50+ 合作伙伴）→ 2025-06 捐给 Linux Foundation 中立托管——与 MCP 同一条「先厂商
-    提出、再基金会治理」的路，回应「会不会被锁定」最有力的答案。</p>
+    发布（50+ 合作伙伴）→ 2025-06 捐给 Linux Foundation 中立托管——与 MCP 同一条「先厂商提出、再基金会治理」的路，回应「会不会被锁定」最有力的答案。</p>
 
   <div class="tool" id="picker">
     <h4>A2A 接入选型器</h4>
@@ -121,28 +110,16 @@
   <h2><span class="num">02</span>协议解剖：五大对象<a class="anchor" href="#a2a-protocol">#a2a-protocol</a></h2>
 
   <div class="lead">
-    <p>记忆法一行：<b>Agent Card＝名片（发现）、Task＝工单（有状态）、Message/Part＝信与
-      附件（内容）、Artifact＝成品（产出）</b>。规范 v1.0 以 Protocol Buffers 为唯一权威
-      定义——保证三种传输绑定语义一致、跨语言 SDK 不跑偏。</p>
+    <p>记忆法一行：<b>Agent Card＝名片（发现）、Task＝工单（有状态）、Message/Part＝信与附件（内容）、Artifact＝成品（产出）</b>。规范 v1.0 以 Protocol Buffers 为唯一权威定义——保证三种传输绑定语义一致、跨语言 SDK 不跑偏。</p>
   </div>
 
-  <p><b>Agent Card</b> 是一份 JSON 元数据：name、url（服务端点）、capabilities、skills、
-    鉴权要求，默认发布在 well-known URI——像商务名片 + 服务菜单，「我是谁、能做什么、去哪
-    找我、进门要什么证件」。Card 本身是公开菜单不含密钥；敏感能力靠 securitySchemes 声明
-    鉴权，v1.0 还支持签名防冒充（<a href="#a2a-security">第 7 节</a>）。<b>Task</b> 是工作
-    基本单元：唯一 ID + 状态 + 生命周期，像给外包发的工单——有进度、能查询、能补料、能
-    取消。「有状态」是 A2A 与一次性 RPC 的关键差别：天生支持长耗时、多轮、需人工介入的
-    真实协作。<b>Message</b>（一轮通信，带 role）由若干 <b>Part</b>（最小内容块：text/file/
-    data 统一抽象）组成；<b>Artifact</b> 是 Task 产出、也由 Part 组成，可增量流式返回——
-    大文件传 URI 引用而非内联。</p>
+  <p><b>Agent Card</b> 是一份 JSON 元数据：name、url（服务端点）、capabilities、skills、鉴权要求，默认发布在 well-known URI——像商务名片 + 服务菜单，「我是谁、能做什么、去哪找我、进门要什么证件」。Card 本身是公开菜单不含密钥；敏感能力靠 securitySchemes 声明鉴权，v1.0 还支持签名防冒充（<a href="#a2a-security">第 7 节</a>）。<b>Task</b> 是工作基本单元：唯一 ID + 状态 + 生命周期，像给外包发的工单——有进度、能查询、能补料、能取消。「有状态」是 A2A 与一次性 RPC 的关键差别：天生支持长耗时、多轮、需人工介入的真实协作。<b>Message</b>（一轮通信，带 role）由若干 <b>Part</b>（最小内容块：text/file/
+    data 统一抽象）组成；<b>Artifact</b> 是 Task 产出、也由 Part 组成，可增量流式返回——大文件传 URI 引用而非内联。</p>
   <p><b>Task 状态机九种状态、三条路</b>：正常线 submitted → working → completed；中断线
     working ↔ input-required / auth-required（补料补授权后回来继续）；异常线随时可进
-    failed / canceled / rejected（另有兜底 unspecified）。两条纪律：<b>终态不可回跳</b>——
-    重试＝创建新 Task（可关联旧任务），绝不修改终态历史，审计与回放靠这条撑着；<b>状态真相
-    永远在服务端</b>，客户端只是观察者。</p>
+    failed / canceled / rejected（另有兜底 unspecified）。两条纪律：<b>终态不可回跳</b>——重试＝创建新 Task（可关联旧任务），绝不修改终态历史，审计与回放靠这条撑着；<b>状态真相永远在服务端</b>，客户端只是观察者。</p>
   <p class="ev">TaskState 九态核实 2026-07-12，来源 <a href="#src-spec">a2a-protocol.org
-    规范</a>。
-        <b>不可外推边界</b>：九态是规范定义的状态集，不是各家实现的现状——对接前按对方 Agent Card 与所用 SDK 的版本核一遍，引用状态机时带规范版本号。</p>
+    规范</a>。<b>不可外推边界</b>：九态是规范定义的状态集，不是各家实现的现状——对接前按对方 Agent Card 与所用 SDK 的版本核一遍，引用状态机时带规范版本号。</p>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -151,8 +128,7 @@
 
   <div class="lead">
     <p><b>发现</b>：Agent Card 约定发布在 <code>https://&lt;host&gt;/.well-known/agent-card.json</code>
-      ——像 robots.txt 放固定位置，按约定路径去拿就有，零协商免对接；不想公开可用私有注册
-      中心 + 鉴权。<b>传输</b>三种绑定语义由 protobuf 统一约束、可互换——A2A 不逼你换技术栈。</p>
+      ——像 robots.txt 放固定位置，按约定路径去拿就有，零协商免对接；不想公开可用私有注册中心 + 鉴权。<b>传输</b>三种绑定语义由 protobuf 统一约束、可互换——A2A 不逼你换技术栈。</p>
   </div>
 
   <div class="tw">
@@ -165,13 +141,10 @@
     </tbody>
   </table>
   </div>
-  <p><b>拿结果的四种姿势</b>，先判运行条件再选交付：Blocking 同步等（短活；代价是连接占用
-    易超时）、Polling 轮询（网络最简单；代价是空轮询与状态陈旧，用退避 + 变更标记）、
-    Streaming 流式（SSE 单连接持续推增量——比 WebSocket 更轻更易穿网关；要处理断线重连与
-    背压）、Push 推送（客户端离线时服务端回调 webhook，像发快递留手机号；<b>回调必须幂等 +
+  <p><b>拿结果的四种姿势</b>，先判运行条件再选交付：Blocking 同步等（短活；代价是连接占用易超时）、Polling 轮询（网络最简单；代价是空轮询与状态陈旧，用退避 + 变更标记）、
+    Streaming 流式（SSE 单连接持续推增量——比 WebSocket 更轻更易穿网关；要处理断线重连与背压）、Push 推送（客户端离线时服务端回调 webhook，像发快递留手机号；<b>回调必须幂等 +
     URL 校验 + 签名</b>）。口诀：<b>短活阻塞、简单轮询、看进度流式、长任务推送</b>。同一个
-    Task 可同时被轮询/订阅/推送观察——通道只是观察方式。三种绑定都跑在 HTTP(S) 上，复用
-    现有 443 与网关，一般不用单独开防火墙。</p>
+    Task 可同时被轮询/订阅/推送观察——通道只是观察方式。三种绑定都跑在 HTTP(S) 上，复用现有 443 与网关，一般不用单独开防火墙。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -179,18 +152,13 @@
   <h2><span class="num">04</span>跑通一次协作<a class="anchor" href="#a2a-handson">#a2a-handson</a></h2>
 
   <div class="lead">
-    <p>接入心智模型：server 端「把已有能力包一层 A2A 外壳」——声明 Agent Card + 把现有逻辑
-      塞进 executor + 发布，三步；client 端「拉 Card + 发 message/send」，几行代码。
-      <b>业务核心基本不动</b>——这是给客户估接入量的口径。</p>
+    <p>接入心智模型：server 端「把已有能力包一层 A2A 外壳」——声明 Agent Card + 把现有逻辑塞进 executor + 发布，三步；client 端「拉 Card + 发 message/send」，几行代码。<b>业务核心基本不动</b>——这是给客户估接入量的口径。</p>
   </div>
 
-  <p>一次调用的真实报文（JSON-RPC）：请求 <code>method: "message/send"</code>，params 里
-    一条 role 为 user 的 Message、Part 装「审查这张发票是否合规」；响应返回 Task——
+  <p>一次调用的真实报文（JSON-RPC）：请求 <code>method: "message/send"</code>，params 里一条 role 为 user 的 Message、Part 装「审查这张发票是否合规」；响应返回 Task——
     <code>id: "task-7f3a"</code>、状态 completed、Artifact 里 Part 装结论。官方五语言 SDK
     （Python / JavaScript / Java / Go / .NET）覆盖主流后端栈，Python 已实现 1.0（含 0.3
-    兼容模式）；不用官方 SDK 也行——A2A 是开放的 HTTP + JSON-RPC/gRPC 协议，可手写报文
-    对接，规范以 protobuf 为准。配套工具：Inspector（调试观察报文）与 TCK（协议一致性
-    测试套件）。一个 Agent 可以既是 server 又是 client——链式协作里，中间 Agent 对上游是
+    兼容模式）；不用官方 SDK 也行——A2A 是开放的 HTTP + JSON-RPC/gRPC 协议，可手写报文对接，规范以 protobuf 为准。配套工具：Inspector（调试观察报文）与 TCK（协议一致性测试套件）。一个 Agent 可以既是 server 又是 client——链式协作里，中间 Agent 对上游是
     server、对下游是 client，这正是多 Agent 编排的基础。</p>
 </section>
 
@@ -199,22 +167,13 @@
   <h2><span class="num">05</span>多智能体协作<a class="anchor" href="#a2a-orchestration">#a2a-orchestration</a></h2>
 
   <div class="lead">
-    <p><b>opaque agents（不透明协作）</b>：Agent 之间只通过 Card 暴露能力、通过 Task 交换
-      输入输出，不共享内部提示词、工具、推理过程——像把活儿外包给另一家公司，你告诉它
-      「要什么」、它交「成品」，不会把对方员工怎么干全看光。不透明 = 更好的封装与安全边界，
-      协作靠接口契约而非看内部——对跨厂商、跨组织协作是必需的。</p>
+    <p><b>opaque agents（不透明协作）</b>：Agent 之间只通过 Card 暴露能力、通过 Task 交换输入输出，不共享内部提示词、工具、推理过程——像把活儿外包给另一家公司，你告诉它「要什么」、它交「成品」，不会把对方员工怎么干全看光。不透明 = 更好的封装与安全边界，协作靠接口契约而非看内部——对跨厂商、跨组织协作是必需的。</p>
   </div>
 
-  <p>委派拓扑三种基本形状（与单机编排同构，区别只在跨进程/跨厂商）：<b>编排者—执行者</b>
-    （主 Agent 拆活分发汇总——差旅审批调度订票/预算/风控）、<b>链式流水线</b>（A 的产出作
-    B 的输入——翻译 → 校对 → 排版）、<b>并行汇聚</b>（同时委派等全部返回再合并——尽调
-    并行查财务/法务/舆情）。<b>与框架内编排的边界</b>：LangGraph/ADK 管「一个系统里多个
-    节点怎么走」，A2A 管「跨系统跨厂商怎么标准化对接」——内部流转归框架，跨出去找别人的
+  <p>委派拓扑三种基本形状（与单机编排同构，区别只在跨进程/跨厂商）：<b>编排者—执行者</b>（主 Agent 拆活分发汇总——差旅审批调度订票/预算/风控）、<b>链式流水线</b>（A 的产出作
+    B 的输入——翻译 → 校对 → 排版）、<b>并行汇聚</b>（同时委派等全部返回再合并——尽调并行查财务/法务/舆情）。<b>与框架内编排的边界</b>：LangGraph/ADK 管「一个系统里多个节点怎么走」，A2A 管「跨系统跨厂商怎么标准化对接」——内部流转归框架，跨出去找别人的
     Agent 那一步才走 A2A。三层叠起来看：<b>编排层</b>（框架，
-    <a href="../agent/index.html#agent-orchestration">Agent 网页版</a>）/ <b>协作层</b>
-    （A2A，本页）/ <b>工具层</b>（MCP，<a href="../mcp/index.html">MCP 网页版</a>）。
-    成本提醒：跨 Agent 有网络与模型开销——能单 Agent 完成就别拆，真正需要专精/隔离/跨厂商
-    时协作的收益才划算。</p>
+    <a href="../agent/index.html#agent-orchestration">Agent 网页版</a>）/ <b>协作层</b>（A2A，本页）/ <b>工具层</b>（MCP，<a href="../mcp/index.html">MCP 网页版</a>）。成本提醒：跨 Agent 有网络与模型开销——能单 Agent 完成就别拆，真正需要专精/隔离/跨厂商时协作的收益才划算。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -222,25 +181,13 @@
   <h2><span class="num">06</span>生产落地与上云<a class="anchor" href="#a2a-production">#a2a-production</a></h2>
 
   <div class="lead">
-    <p>demo 是「能打通电话」，生产是「开一家有工号、有录音、有权限、有话务量管控的呼叫
-      中心」：多租户隔离、每个 Task 可追踪、鉴权与授权范围、限流配额、失败重试与超时。
-      <b>协议本身已就绪，生产化门槛主要在治理与可观测</b>。</p>
+    <p>demo 是「能打通电话」，生产是「开一家有工号、有录音、有权限、有话务量管控的呼叫中心」：多租户隔离、每个 Task 可追踪、鉴权与授权范围、限流配额、失败重试与超时。<b>协议本身已就绪，生产化门槛主要在治理与可观测</b>。</p>
   </div>
 
-  <p>三大云都已托管：Azure AI Foundry / Copilot Studio（Agent 托管 + 编排，原生 A2A 互
-    操作）、AWS Bedrock AgentCore Runtime、Google Vertex AI Agent Engine（发源方）——
-    对客户口径：中立标准、三云互通、不锁定。<b>AP2</b>（Agent Payments Protocol）是 A2A
-    之上的支付扩展（60+ 组织参与）：规范 Agent 代表用户发起/授权/结算支付，全程有可核验的
-    授权凭据——展示了「核心协议 + 垂直扩展」的生态方向。<b>采用度四个数字</b>（回应
-    「成熟吗、谁在用」）：150+ 参与组织（较发布时增长两倍）、v1.0.0 于 2026-03-12 发布
-    （当前补丁 v1.0.1）、五语言官方 SDK、三大云托管；核心仓库 22,000+ stars，生产案例见于
-    供应链、金融、保险、IT 运维。上线前六条验收线：发现与版本 / 任务语义（事件序列可回放）
-    / 身份与授权（跨租户越权回归）/ 异步交付（重复通知的幂等证明）/ 运营与恢复 / 质量与
-    安全——终极判断：<b>任意一次协作都能回放「谁委派、做了什么、为何结束、交付了什么、
-    谁验收」</b>。</p>
-  <p class="ev">生态数字核实 2026-07-12，来源 <a href="#src-lf">Linux Foundation 一周年
-    通稿</a>；版本号来源 <a href="#src-spec">规范仓库 releases</a>。
-        <b>不可外推边界</b>：基金会通稿的采纳规模是自报口径、未公开统计方法：它能支持的是「不是某一家的私有协议」，不能当作「已经在生产里大规模跑起来」的证据。</p>
+  <p>三大云都已托管：Azure AI Foundry / Copilot Studio（Agent 托管 + 编排，原生 A2A 互操作）、AWS Bedrock AgentCore Runtime、Google Vertex AI Agent Engine（发源方）——对客户口径：中立标准、三云互通、不锁定。<b>AP2</b>（Agent Payments Protocol）是 A2A
+    之上的支付扩展（60+ 组织参与）：规范 Agent 代表用户发起/授权/结算支付，全程有可核验的授权凭据——展示了「核心协议 + 垂直扩展」的生态方向。<b>采用度四个数字</b>（回应「成熟吗、谁在用」）：150+ 参与组织（较发布时增长两倍）、v1.0.0 于 2026-03-12 发布（当前补丁 v1.0.1）、五语言官方 SDK、三大云托管；核心仓库 22,000+ stars，生产案例见于供应链、金融、保险、IT 运维。上线前六条验收线：发现与版本 / 任务语义（事件序列可回放）
+    / 身份与授权（跨租户越权回归）/ 异步交付（重复通知的幂等证明）/ 运营与恢复 / 质量与安全——终极判断：<b>任意一次协作都能回放「谁委派、做了什么、为何结束、交付了什么、谁验收」</b>。</p>
+  <p class="ev">生态数字核实 2026-07-12，来源 <a href="#src-lf">Linux Foundation 一周年通稿</a>；版本号来源 <a href="#src-spec">规范仓库 releases</a>。<b>不可外推边界</b>：基金会通稿的采纳规模是自报口径、未公开统计方法：它能支持的是「不是某一家的私有协议」，不能当作「已经在生产里大规模跑起来」的证据。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -249,38 +196,26 @@
 
   <div class="lead">
     <p>Agent 自动发现、自动委派，攻击面随之扩大：假冒 Agent、越权调用、恶意投毒、数据经
-      Artifact 外泄——从「人工审批每一单」变成「机器自动接单」，不设门禁冒牌供应商也能
-      混进来。自动化的收益必须配套<b>默认设防</b>：验证身份、限定权限、留痕审计，安全前移
-      到协议层。</p>
+      Artifact 外泄——从「人工审批每一单」变成「机器自动接单」，不设门禁冒牌供应商也能混进来。自动化的收益必须配套<b>默认设防</b>：验证身份、限定权限、留痕审计，安全前移到协议层。</p>
   </div>
 
-  <p><b>信任基石 Signed Agent Cards</b>（v1.0 头号新特性）：给名片加密码学签名，接收方能
-    验证「这张名片确实由该域名所有者签发」——像盖了防伪钢印，不再是「谁都能印一张说自己是
-    银行」；把发现从「默认信任」升级为「可验证信任」，是跨组织自动协作的前提。鉴权与授权：
+  <p><b>信任基石 Signed Agent Cards</b>（v1.0 头号新特性）：给名片加密码学签名，接收方能验证「这张名片确实由该域名所有者签发」——像盖了防伪钢印，不再是「谁都能印一张说自己是银行」；把发现从「默认信任」升级为「可验证信任」，是跨组织自动协作的前提。鉴权与授权：
     OAuth 2.0（Card 声明 securitySchemes，调用带 token 校验 scope）+ mTLS（服务间双向证书）
-    + 授权范围（按 skill/租户限定谁能调什么，越权直接拒）。<b>五个信任边界对五组控制</b>：
-    发现（Card 可伪造→可信域+签名）、身份（凭据扩散→带外授权+audience 限定+短期凭证）、
-    任务（越权读取→逐操作鉴权+租户绑定）、模型（跨 Agent 提示注入→指令数据隔离+工具最小
-    权限）、回调（伪造重放→URL 校验+签名+幂等+限流）。与 MCP 一套安全心法：验身份、限
-    权限、默认关自动批准、全链路留痕——A2A 多出的「跨组织委派链信任」用签名名片补上。
-    安全主张要能被测试复现（签名校验日志/越权回归/注入语料/重放测试），不靠口头承诺。
-    威胁全景与架构级防御在 <a href="../security/index.html#sec-agentic">Security 网页版</a>。</p>
+    + 授权范围（按 skill/租户限定谁能调什么，越权直接拒）。<b>五个信任边界对五组控制</b>：发现（Card 可伪造→可信域+签名）、身份（凭据扩散→带外授权+audience 限定+短期凭证）、任务（越权读取→逐操作鉴权+租户绑定）、模型（跨 Agent 提示注入→指令数据隔离+工具最小权限）、回调（伪造重放→URL 校验+签名+幂等+限流）。与 MCP 一套安全心法：验身份、限权限、默认关自动批准、全链路留痕——A2A 多出的「跨组织委派链信任」用签名名片补上。安全主张要能被测试复现（签名校验日志/越权回归/注入语料/重放测试），不靠口头承诺。威胁全景与架构级防御在 <a href="../security/index.html#sec-agentic">Security 网页版</a>。</p>
 </section>
 
 <!-- ============ 问答 ============ -->
 <section class="sec" id="qa">
   <h2><span class="num">08</span>现场高频追问<a class="anchor" href="#qa">#qa</a></h2>
   <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
-  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版
-    对练页，<b>2026-07-12</b> 来自状态机与交付方式深潜。</p>
+  <p class="baseline">每题标出它<b>加入本题库</b>的日期：<b>2026-07-09</b> 来自讲义首版对练页，<b>2026-07-12</b> 来自状态机与交付方式深潜。</p>
   <div class="qa">
     <details id="q-a2a-1">
       <summary>A2A 和 MCP 到底啥区别，是不是二选一？<span class="added">2026-07-09</span></summary>
       <div class="a">
         <p>不是。MCP 连工具/数据（纵向），A2A 连 Agent（横向），一个系统里常常两个都用——
           A2A 编排的 Agent 内部往往正用 MCP 调工具。</p>
-        <p class="qa-why">这是本册最常被问的一题：粒度也不同——MCP 是一次工具调用，A2A 是
-          一次可长时运行的任务委派。</p>
+        <p class="qa-why">这是本册最常被问的一题：粒度也不同——MCP 是一次工具调用，A2A 是一次可长时运行的任务委派。</p>
         <p class="qa-next"><b>下一步</b>　用差旅审批一张图讲两层：A2A 决定谁接力这一单，
           MCP 决定每个 Agent 手里有什么工具。</p>
         <p class="qa-src">依据　<a href="#a2a-what-why">分工对照表</a></p>
@@ -289,22 +224,17 @@
     <details id="q-a2a-2">
       <summary>能不能只用一个 Agent，别搞这么复杂？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>能就别上。只有当存在多个独立、专精、可能来自不同厂商的 Agent 要协作时 A2A 才有
-          价值；单 Agent 场景直接 MCP 即可。</p>
-        <p class="qa-why">跨 Agent 有网络与模型开销——拆分本身有成本，专精/隔离/跨厂商的
-          收益要大过它才划算。</p>
-        <p class="qa-next"><b>下一步</b>　拿<a href="#picker">选型器</a>把手头场景过一遍，
-          判断尺子就一条：是否存在多个异构 Agent 要接力一件事。</p>
+        <p>能就别上。只有当存在多个独立、专精、可能来自不同厂商的 Agent 要协作时 A2A 才有价值；单 Agent 场景直接 MCP 即可。</p>
+        <p class="qa-why">跨 Agent 有网络与模型开销——拆分本身有成本，专精/隔离/跨厂商的收益要大过它才划算。</p>
+        <p class="qa-next"><b>下一步</b>　拿<a href="#picker">选型器</a>把手头场景过一遍，判断尺子就一条：是否存在多个异构 Agent 要接力一件事。</p>
         <p class="qa-src">依据　<a href="#a2a-what-why">选型尺子</a></p>
       </div>
     </details>
     <details id="q-a2a-3">
       <summary>这是不是 Google 的私有协议，用了会被锁定吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>不会。2025-06 已捐给中立的 Linux Foundation；150+ 组织参与、五语言官方 SDK、
-          三大云托管且互通，治理和演进公开。</p>
-        <p class="qa-why">「中立治理 + 广泛采用」是回应「昙花一现」质疑最有力的组合——
-          和 MCP 走的同一条去厂商化路线。</p>
+        <p>不会。2025-06 已捐给中立的 Linux Foundation；150+ 组织参与、五语言官方 SDK、三大云托管且互通，治理和演进公开。</p>
+        <p class="qa-why">「中立治理 + 广泛采用」是回应「昙花一现」质疑最有力的组合——和 MCP 走的同一条去厂商化路线。</p>
         <p class="qa-next"><b>下一步</b>　30 秒成熟度话术用四个数字组织：150+ 组织 / v1.0
           稳定版 / 5 个 SDK / 3 大云。</p>
         <p class="qa-src">依据　<a href="#a2a-production">采用度</a></p>
@@ -313,8 +243,7 @@
     <details id="q-a2a-4">
       <summary>接 A2A 要不要换我现在的 Agent 框架？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>不用。A2A 是框架之上的互操作层：LangGraph、ADK 等都能对外暴露/调用 A2A，内部
-          实现不动。server 端主要是「包壳」，client 端几行发消息。</p>
+        <p>不用。A2A 是框架之上的互操作层：LangGraph、ADK 等都能对外暴露/调用 A2A，内部实现不动。server 端主要是「包壳」，client 端几行发消息。</p>
         <p class="qa-why">「业务核心不动」是接入量评估的关键口径——新增的只有 Card 声明、
           executor 包装、发布三块。</p>
         <p class="qa-next"><b>下一步</b>　挑熟悉语言的官方 SDK 跑通 hello-world 级 server
@@ -325,34 +254,26 @@
     <details id="q-a2a-5">
       <summary>Task 有状态，服务端要一直存着？会不会很重？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>Task 状态需要持久化（内存/DB 皆可），但这正是长任务、断点续传、推送回调的基础；
-          短任务也可即时 completed，不强制长存。</p>
-        <p class="qa-why">「有状态」是 A2A 与一次性 RPC 的本质差别——真实协作是长耗时、
-          多轮、要人工介入的，工单模式才接得住。</p>
-        <p class="qa-next"><b>下一步</b>　记住终态纪律：终态不可回跳、重试建新 Task——
-          审计与回放靠它；状态真相永远在服务端。</p>
+        <p>Task 状态需要持久化（内存/DB 皆可），但这正是长任务、断点续传、推送回调的基础；短任务也可即时 completed，不强制长存。</p>
+        <p class="qa-why">「有状态」是 A2A 与一次性 RPC 的本质差别——真实协作是长耗时、多轮、要人工介入的，工单模式才接得住。</p>
+        <p class="qa-next"><b>下一步</b>　记住终态纪律：终态不可回跳、重试建新 Task——审计与回放靠它；状态真相永远在服务端。</p>
         <p class="qa-src">依据　<a href="#a2a-protocol">Task 状态机</a></p>
       </div>
     </details>
     <details id="q-a2a-6">
       <summary>长任务客户端断了怎么办？<span class="added">2026-07-12</span></summary>
       <div class="a">
-        <p>用推送通知：注册 webhook，Task 完成或变更时服务端回调你——客户端无需挂连接，
-          天然适配离线与批量。</p>
-        <p class="qa-why">四种交付各有代价：阻塞占连接、轮询会陈旧、流式要处理断线背压、
-          推送要防重复投递与回调伪造（幂等 + URL 校验 + 签名）。</p>
-        <p class="qa-next"><b>下一步</b>　口诀选型：短活阻塞、简单轮询、看进度流式、长任务
-          推送——先判运行条件再选交付。</p>
+        <p>用推送通知：注册 webhook，Task 完成或变更时服务端回调你——客户端无需挂连接，天然适配离线与批量。</p>
+        <p class="qa-why">四种交付各有代价：阻塞占连接、轮询会陈旧、流式要处理断线背压、推送要防重复投递与回调伪造（幂等 + URL 校验 + 签名）。</p>
+        <p class="qa-next"><b>下一步</b>　口诀选型：短活阻塞、简单轮询、看进度流式、长任务推送——先判运行条件再选交付。</p>
         <p class="qa-src">依据　<a href="#a2a-transport">四种交付</a></p>
       </div>
     </details>
     <details id="q-a2a-7">
       <summary>怎么防止别人伪造一个 Agent 冒充我们？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>用 v1.0 的 Signed Agent Card：名片带密码学签名，接收方验签确认确由你的域名
-          签发——伪造的 Card 过不了验证。</p>
-        <p class="qa-why">自动协作把发现从人工审批变成机器接单，「可验证信任」是跨组织
-          委派的前提——这正是 v1.0 头号新特性的动机。</p>
+        <p>用 v1.0 的 Signed Agent Card：名片带密码学签名，接收方验签确认确由你的域名签发——伪造的 Card 过不了验证。</p>
+        <p class="qa-why">自动协作把发现从人工审批变成机器接单，「可验证信任」是跨组织委派的前提——这正是 v1.0 头号新特性的动机。</p>
         <p class="qa-next"><b>下一步</b>　给安全负责人讲「默认设防」全景：验签 + 最小权限
           + 关自动批准 + 全链路审计，别只说「支持 OAuth」。</p>
         <p class="qa-src">依据　<a href="#a2a-security">Signed Agent Cards</a></p>
@@ -363,8 +284,7 @@
       <div class="a">
         <p>每个 Task 有 ID 和状态、可观测，链路上逐段查即可；生产部署给每个 Task 打
           trace，配统一可观测。</p>
-        <p class="qa-why">验收的终极判断：任意一次协作能回放「谁委派、做了什么、为何结束、
-          交付了什么、谁验收」——答不全就还没到生产。</p>
+        <p class="qa-why">验收的终极判断：任意一次协作能回放「谁委派、做了什么、为何结束、交付了什么、谁验收」——答不全就还没到生产。</p>
         <p class="qa-next"><b>下一步</b>　按六条验收线（发现/任务语义/授权/异步交付/运营/
           安全）列上线 checklist。</p>
         <p class="qa-src">依据　<a href="#a2a-production">生产验收</a></p>
@@ -380,13 +300,11 @@
   <div class="rel">
     <a href="../mcp/index.html">
       <div class="nm">MCP · 网页版</div>
-      <div class="why">协议层两兄弟：MCP 接工具（纵向）、A2A 接 Agent（横向）——同一套
-        「标准化互操作」思路的两个方向。</div>
+      <div class="why">协议层两兄弟：MCP 接工具（纵向）、A2A 接 Agent（横向）——同一套「标准化互操作」思路的两个方向。</div>
     </a>
     <a href="../agent/index.html">
       <div class="nm">Agent · 网页版</div>
-      <div class="why">那页讲框架内怎么编排多个 Agent，本页讲跨框架跨厂商怎么标准化协作
-        ——A2A 把编排的边扩到系统之外。</div>
+      <div class="why">那页讲框架内怎么编排多个 Agent，本页讲跨框架跨厂商怎么标准化协作——A2A 把编排的边扩到系统之外。</div>
     </a>
     <a href="../security/index.html">
       <div class="nm">Security · 网页版</div>
@@ -395,8 +313,7 @@
     </a>
     <a href="../evaluation/index.html">
       <div class="nm">Evaluation · 网页版</div>
-      <div class="why">多 Agent 协作的质量验收（评测集、回归、人工介入控制）用那页的
-        方法论。</div>
+      <div class="why">多 Agent 协作的质量验收（评测集、回归、人工介入控制）用那页的方法论。</div>
     </a>
     <a href="../ai-gateway/index.html">
       <div class="nm">AI-Gateway · 网页版</div>
@@ -409,8 +326,7 @@
 <!-- ============ 来源 ============ -->
 <section class="sec" id="sources">
   <h2><span class="num">10</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
-  <p>本页时效性数字均经联网核实后写入，完整登记见
-    <a href="../../PPT-version/A2A/MANIFEST.md">本模块 MANIFEST</a>。核实窗口 2026-07-09
+  <p>本页时效性数字均经联网核实后写入，完整登记见<a href="../../PPT-version/A2A/MANIFEST.md">本模块 MANIFEST</a>。核实窗口 2026-07-09
     至 07-12。<b>生态数字季度级增长，引用任何数字前先核日期。</b></p>
   <div class="tw">
   <table>
@@ -440,9 +356,7 @@
 
 <footer class="wrap">
   <p>
-    本册 PPT 讲义：<a href="../../PPT-version/A2A/A2A-讲义.pptx">A2A-讲义.pptx</a> ·
-    电子书书单：<a href="../../PPT-version/A2A/电子书书单.md">电子书书单.md</a> ·
-    模块账本：<a href="../../PPT-version/A2A/MANIFEST.md">MANIFEST.md</a>
+    本册 PPT 讲义：<a href="../../PPT-version/A2A/A2A-讲义.pptx">A2A-讲义.pptx</a> ·电子书书单：<a href="../../PPT-version/A2A/电子书书单.md">电子书书单.md</a> ·模块账本：<a href="../../PPT-version/A2A/MANIFEST.md">MANIFEST.md</a>
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->

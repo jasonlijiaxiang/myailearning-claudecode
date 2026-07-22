@@ -9,13 +9,8 @@
 <body>
 
 <nav class="topbar"><div class="tb">
- <a class="brand" href="../../README.html">AI 知识库</a>
- <a class="ti cur" href="../../Web-version/index.html">网页版</a>
- <a class="ti" href="../../PPT-version/README.html">PPT 总览</a>
- <a class="ti" href="../../_prep/实战包.html">实战包</a>
- <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
- <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
- <a class="ti" href="../../开始使用.html">开始使用</a>
+ <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
+ <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
  <span class="ver">v0721m</span>
 </div></nav>
 
@@ -23,9 +18,7 @@
   <div class="wrap">
     <p class="crumb">工程保障层 · 网页版</p>
     <h1><span class="en">AI Gateway</span>AI 网关</h1>
-    <p class="lede">一旦不止调用一个模型，「多对多」的接入、成本、安全就会失控。AI 网关把这些
-      横切关注点收到一层统一入口来管——统一接入、路由容灾、按 token 计费、护栏、可观测，
-      正在收敛的还有 MCP 与 Agent 流量。它是大模型时代的「配电箱 + 电表 + 空气开关」。</p>
+    <p class="lede">一旦不止调用一个模型，「多对多」的接入、成本、安全就会失控。AI 网关把这些横切关注点收到一层统一入口来管——统一接入、路由容灾、按 token 计费、护栏、可观测，正在收敛的还有 MCP 与 Agent 流量。它是大模型时代的「配电箱 + 电表 + 空气开关」。</p>
     <div class="hr"></div>
     <p class="lede" style="margin-top:0">
       <span class="badge ok">核实窗口 2026-07-09 至 07-12</span>
@@ -60,16 +53,10 @@
   <h2><span class="num">01</span>是什么 / 为什么<a class="anchor" href="#gw-what-why">#gw-what-why</a></h2>
 
   <div class="lead">
-    <p>M 个应用 × N 家模型 = M×N 条私接线——格式、鉴权、参数、限流各不同，改模型要动几十处
-      代码。AI 网关坐在应用与各家模型之间：对上给统一接口，对下接所有供应商，接入、路由、
-      成本、安全、观测在这一层集中治理。<b>不止一个模型，就该有一个网关。</b></p>
+    <p>M 个应用 × N 家模型 = M×N 条私接线——格式、鉴权、参数、限流各不同，改模型要动几十处代码。AI 网关坐在应用与各家模型之间：对上给统一接口，对下接所有供应商，接入、路由、成本、安全、观测在这一层集中治理。<b>不止一个模型，就该有一个网关。</b></p>
   </div>
 
-  <p>区别于普通 API 网关的「LLM 专属六件套」：统一接入/协议转换、按 token 限流、成本归集、
-    语义缓存、护栏/内容安全、AI 可观测。客户说「我有 Kong/APISIX 了」——正确回答不是取代，
-    是在它上面加 LLM 能力，很多产品本就是同一网关的「AI 模式」。多一跳会不会慢？网关转发是
-    毫秒级，而语义缓存命中、就近路由、失败快速兜底整体反而常常更快——大头延迟在模型推理，
-    不在网关。</p>
+  <p>区别于普通 API 网关的「LLM 专属六件套」：统一接入/协议转换、按 token 限流、成本归集、语义缓存、护栏/内容安全、AI 可观测。客户说「我有 Kong/APISIX 了」——正确回答不是取代，是在它上面加 LLM 能力，很多产品本就是同一网关的「AI 模式」。多一跳会不会慢？网关转发是毫秒级，而语义缓存命中、就近路由、失败快速兜底整体反而常常更快——大头延迟在模型推理，不在网关。</p>
 
   <h3>边界辨析：一张表分清四个概念</h3>
   <div class="tw">
@@ -91,27 +78,17 @@
   <h2><span class="num">02</span>统一接入<a class="anchor" href="#gw-unify">#gw-unify</a></h2>
 
   <div class="lead">
-    <p>网关对外暴露一套 OpenAI 风格接口，对内翻译成各家原生格式——应用只学一种调用姿势，
-      换模型只改 model 一个字段。像万能转接头：带一个欧标插头走遍全球。</p>
+    <p>网关对外暴露一套 OpenAI 风格接口，对内翻译成各家原生格式——应用只学一种调用姿势，换模型只改 model 一个字段。像万能转接头：带一个欧标插头走遍全球。</p>
   </div>
 
-  <p>各家在 function calling、JSON 模式、多模态、上下文长度上并不一致，网关做三件事：
-    <b>参数映射、能力探测、优雅降级</b>（不支持的特性降级或报清晰错误，个别厂商独有参数支持
-    透传）。要点澄清：网关解决的是「接入」成本，不是「效果对齐」成本——不同模型脾气不同，
-    提示词和输出解析可能要微调，后者靠<a href="../evaluation/index.html">评估</a>。</p>
+  <p>各家在 function calling、JSON 模式、多模态、上下文长度上并不一致，网关做三件事：<b>参数映射、能力探测、优雅降级</b>（不支持的特性降级或报清晰错误，个别厂商独有参数支持透传）。要点澄清：网关解决的是「接入」成本，不是「效果对齐」成本——不同模型脾气不同，提示词和输出解析可能要微调，后者靠<a href="../evaluation/index.html">评估</a>。</p>
 
   <h3>虚拟密钥：一把逻辑钥匙管多把真钥匙</h3>
-  <p>真 key 锁在网关的保险箱里，发给应用的是「房卡」：每把虚拟密钥可单独设<b>预算、限速、
-    可用模型范围、有效期</b>，出事一键注销。原厂 key 一旦泄露，账单和数据全裸奔且难吊销——
-    虚拟密钥是企业级管控的地基，也是「最小权限/爆炸半径」在网关的具体落地。</p>
+  <p>真 key 锁在网关的保险箱里，发给应用的是「房卡」：每把虚拟密钥可单独设<b>预算、限速、可用模型范围、有效期</b>，出事一键注销。原厂 key 一旦泄露，账单和数据全裸奔且难吊销——虚拟密钥是企业级管控的地基，也是「最小权限/爆炸半径」在网关的具体落地。</p>
 
   <h3>深潜：十步请求链与五层策略栈</h3>
   <p>一条请求在网关里走十步：客户端认证 → 格式检查 → PII/提示护栏 → 模型别名解析 → 配额 →
-    路由 → 协议转换 → 上游身份 → 流式转发 → 用量与追踪。<b>顺序即设计</b>：越早拒绝浪费越少
-    ——认证放第一、护栏在路由前、计量在最后（像机场动线：把安检放在登机口之后，危险品就已经
-    进了候机厅）。配套给整条链定一个端到端 deadline，别让每层各自耗尽超时叠出分钟级等待。
-    身份侧五层策略栈：调用身份 → 租户映射 → 准入策略 → 资源配额 → 上游身份——像公司报销链，
-    每层各有账本，审计能一层层对上；日志记身份映射与策略版本，<b>绝不记录原始凭据</b>。</p>
+    路由 → 协议转换 → 上游身份 → 流式转发 → 用量与追踪。<b>顺序即设计</b>：越早拒绝浪费越少——认证放第一、护栏在路由前、计量在最后（像机场动线：把安检放在登机口之后，危险品就已经进了候机厅）。配套给整条链定一个端到端 deadline，别让每层各自耗尽超时叠出分钟级等待。身份侧五层策略栈：调用身份 → 租户映射 → 准入策略 → 资源配额 → 上游身份——像公司报销链，每层各有账本，审计能一层层对上；日志记身份映射与策略版本，<b>绝不记录原始凭据</b>。</p>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -119,8 +96,7 @@
   <h2><span class="num">03</span>路由与容灾<a class="anchor" href="#gw-route">#gw-route</a></h2>
 
   <div class="lead">
-    <p>路由就是给请求分诊：医院不会让所有病人都找主任医师。简单问答用便宜模型、复杂推理用
-      强模型，再叠加「哪家现在更快/没限流」——<b>别用杀鸡的牛刀烧钱</b>。</p>
+    <p>路由就是给请求分诊：医院不会让所有病人都找主任医师。简单问答用便宜模型、复杂推理用强模型，再叠加「哪家现在更快/没限流」——<b>别用杀鸡的牛刀烧钱</b>。</p>
   </div>
 
   <div class="tw">
@@ -136,14 +112,11 @@
   </table>
   </div>
   <p>实战常叠加：先按语义/复杂度选档位，再在档内按延迟均衡，最后配容灾兜底。降本有论文背书：
-    RouteLLM（LMSYS/Berkeley）训练路由器判断走强还是弱模型，在接近旗舰质量下把大量请求分给
-    便宜模型；FrugalGPT（Stanford）用级联——先问便宜模型、不够好再逐级升级。路由是
-    <b>可控降级</b>：关键场景质量优先，只对可容忍流量降档，用评估持续盯降档流量的质量。</p>
+    RouteLLM（LMSYS/Berkeley）训练路由器判断走强还是弱模型，在接近旗舰质量下把大量请求分给便宜模型；FrugalGPT（Stanford）用级联——先问便宜模型、不够好再逐级升级。路由是<b>可控降级</b>：关键场景质量优先，只对可容忍流量降档，用评估持续盯降档流量的质量。</p>
 
   <div class="tool" id="saver">
     <h4>路由省钱计算器</h4>
-    <p class="note">把「路由 + 缓存为什么省钱」算成账。价格是你自己填的口径（默认值只是量级
-      示意，当天价格以官网为准）；节省比例取决于流量结构，先做成本画像再承诺。</p>
+    <p class="note">把「路由 + 缓存为什么省钱」算成账。价格是你自己填的口径（默认值只是量级示意，当天价格以官网为准）；节省比例取决于流量结构，先做成本画像再承诺。</p>
     <div class="controls">
       <label class="ctl">月 token 量（百万）
         <input type="number" id="sv-vol" value="1000" min="1" step="100">
@@ -166,16 +139,9 @@
   </div>
 
   <h3>容灾：把爆炸半径关进笼子</h3>
-  <p>三件套：<b>fallback</b>（主挂了自动改走备用模型/供应商，对调用方无感）、<b>指数退避重试</b>
-    （上限 1~2 次封顶——fallback 是保命不是无限重试，别把一个坏请求在多家模型上重复烧钱）、
-    <b>熔断</b>（连续失败的后端隔离一段时间，某路短路空开只跳那一路）。多区域部署再叠一层
-    地域容灾；数据合规用「数据驻留」路由约束强制——某类数据只允许走特定区域的后端，
-    网关是执行这条策略的最佳位置。</p>
-  <p class="ev">RouteLLM / FrugalGPT 见<a href="#src-route">本模块书单（arXiv 官方链接）</a>；
-    路由与选型的市场侧（三层路由 1:8:1、五约束）见
-    <a href="../model-landscape/index.html#ml-selection">Model-Landscape 网页版</a>——
-    双向互指：那页定「选哪些模型进路由池」，本页是工程落地件。
-        <b>不可外推边界</b>：两篇论文是各自数据集与模型对上的结论，说明的是「路由降本这条路走得通」，不能外推成某个客户能省多少——省多少只有拿他自己的流量画像测才算数。</p>
+  <p>三件套：<b>fallback</b>（主挂了自动改走备用模型/供应商，对调用方无感）、<b>指数退避重试</b>（上限 1~2 次封顶——fallback 是保命不是无限重试，别把一个坏请求在多家模型上重复烧钱）、<b>熔断</b>（连续失败的后端隔离一段时间，某路短路空开只跳那一路）。多区域部署再叠一层地域容灾；数据合规用「数据驻留」路由约束强制——某类数据只允许走特定区域的后端，网关是执行这条策略的最佳位置。</p>
+  <p class="ev">RouteLLM / FrugalGPT 见<a href="#src-route">本模块书单（arXiv 官方链接）</a>；路由与选型的市场侧（三层路由 1:8:1、五约束）见
+    <a href="../model-landscape/index.html#ml-selection">Model-Landscape 网页版</a>——双向互指：那页定「选哪些模型进路由池」，本页是工程落地件。<b>不可外推边界</b>：两篇论文是各自数据集与模型对上的结论，说明的是「路由降本这条路走得通」，不能外推成某个客户能省多少——省多少只有拿他自己的流量画像测才算数。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -183,26 +149,16 @@
   <h2><span class="num">04</span>成本治理<a class="anchor" href="#gw-cost">#gw-cost</a></h2>
 
   <div class="lead">
-    <p>LLM 的成本和负载由 token 数决定：一条几万字的长请求抵几百条短请求——按「请求数」限流
-      管不住成本。<b>按用电量收费，不是按开关次数</b>：TPM（token/分）+ RPM（请求/分）
-      双维度限。</p>
+    <p>LLM 的成本和负载由 token 数决定：一条几万字的长请求抵几百条短请求——按「请求数」限流管不住成本。<b>按用电量收费，不是按开关次数</b>：TPM（token/分）+ RPM（请求/分）双维度限。</p>
   </div>
 
-  <p>花费归集像公司给每个部门发预算卡：每把虚拟密钥挂 TPM/RPM 上限、日/月预算、可用模型范围，
-    网关按 key 记账聚合到团队/项目——月底能出「谁花了多少、花在哪个模型」的账。接进 FinOps
-    看板后，哪个应用突然涨了、哪个模型性价比低一目了然，再回头调路由策略——成本治理和路由
-    是一对搭档。预算撞线时是「拒绝」还是「降级到便宜模型」，是要和业务约定清楚的产品策略：
-    接近上限先告警、再降级、最后才拒绝。</p>
+  <p>花费归集像公司给每个部门发预算卡：每把虚拟密钥挂 TPM/RPM 上限、日/月预算、可用模型范围，网关按 key 记账聚合到团队/项目——月底能出「谁花了多少、花在哪个模型」的账。接进 FinOps
+    看板后，哪个应用突然涨了、哪个模型性价比低一目了然，再回头调路由策略——成本治理和路由是一对搭档。预算撞线时是「拒绝」还是「降级到便宜模型」，是要和业务约定清楚的产品策略：接近上限先告警、再降级、最后才拒绝。</p>
 
   <h3>语义缓存：把相同的问题只回答一次</h3>
-  <p>精确缓存一字不差才命中，换个说法就落空；语义缓存把请求算成向量、按相似度命中——
-    「怎么退货」和「退货流程是啥」是同一个问题，命中即毫秒级返回、零模型计费。<b>阈值是
-    关键旋钮</b>：太松会把「北京天气」和「上海天气」当一个问题答错，太紧几乎不命中。落地
-    清单四条：①按场景分级设阈值；②个性化/实时请求绕过缓存；③<b>缓存键带上租户/权限，
-    避免跨用户串答</b>（既是成本设计也是安全设计）；④监控命中率与疑似错答持续调参。</p>
+  <p>精确缓存一字不差才命中，换个说法就落空；语义缓存把请求算成向量、按相似度命中——「怎么退货」和「退货流程是啥」是同一个问题，命中即毫秒级返回、零模型计费。<b>阈值是关键旋钮</b>：太松会把「北京天气」和「上海天气」当一个问题答错，太紧几乎不命中。落地清单四条：①按场景分级设阈值；②个性化/实时请求绕过缓存；③<b>缓存键带上租户/权限，避免跨用户串答</b>（既是成本设计也是安全设计）；④监控命中率与疑似错答持续调参。</p>
   <p class="ev">云上口径核实 2026-07-09：Azure APIM 是目前<b>唯一原生内置「按 token 限流 +
-    LLM 专属策略」的云厂商网关</b>（网关侧预估 prompt token 提前拦截 + llm-semantic-cache），
-    来源 <a href="#src-azure">learn.microsoft.com</a>。缓存输入约 1 折、省约 90% 为三大厂
+    LLM 专属策略」的云厂商网关</b>（网关侧预估 prompt token 提前拦截 + llm-semantic-cache），来源 <a href="#src-azure">learn.microsoft.com</a>。缓存输入约 1 折、省约 90% 为三大厂
     2026-06 口径（登记于 Prompt-Engineering 模块事实表）。</p>
 </section>
 
@@ -211,21 +167,12 @@
   <h2><span class="num">05</span>安全与护栏<a class="anchor" href="#gw-guardrail">#gw-guardrail</a></h2>
 
   <div class="lead">
-    <p>所有对模型的请求都经过网关，所以鉴权、脱敏、审计、护栏在这一层配一次就对全公司生效
-      ——<b>一处挂、处处生效</b>，不必指望每个开发者都记得做安全。网关是 LLM 流量的安检口。</p>
+    <p>所有对模型的请求都经过网关，所以鉴权、脱敏、审计、护栏在这一层配一次就对全公司生效——<b>一处挂、处处生效</b>，不必指望每个开发者都记得做安全。网关是 LLM 流量的安检口。</p>
   </div>
 
-  <p>护栏挂成 pre/post 钩子：<b>请求前</b>（进模型前搜身）做 PII 脱敏、注入检测、敏感话题、
-    越权工具拦截；<b>响应后</b>（出模型后过检）做有害内容过滤、机密信息回收、格式与合规校验
-    ——命中就拦截、改写或告警。审计是网关的天然职能：「谁、什么时候、拿什么 prompt、调了哪个
-    模型、花了多少、命中什么护栏」只有网关能一处收全——这是 EU AI Act、NIST RMF 要的
-    「可追溯、可问责」证据链。</p>
-  <p>诚实的边界要主动讲：<b>护栏不能 100% 挡住提示注入</b>——业界共识是注入无法在模型内根治，
-    网关护栏是纵深防御的一道闸（拦掉大部分已知手法），要配合最小权限、人审关键动作一起用。
-    脱敏会有误报，规则要可配置、可审计、能回溯调优。网关自身也要按高价值资产防护：最小暴露面、
-    密钥库加密、定期红队——安检口本身也要有安保。与
-    <a href="../../PPT-version/Security/README.html">Security 模块</a>的分工：那边出
-    「威胁与对策清单」，网关做「能集中执行的那部分」；红队结论回来调网关护栏阈值。</p>
+  <p>护栏挂成 pre/post 钩子：<b>请求前</b>（进模型前搜身）做 PII 脱敏、注入检测、敏感话题、越权工具拦截；<b>响应后</b>（出模型后过检）做有害内容过滤、机密信息回收、格式与合规校验——命中就拦截、改写或告警。审计是网关的天然职能：「谁、什么时候、拿什么 prompt、调了哪个模型、花了多少、命中什么护栏」只有网关能一处收全——这是 EU AI Act、NIST RMF 要的「可追溯、可问责」证据链。</p>
+  <p>诚实的边界要主动讲：<b>护栏不能 100% 挡住提示注入</b>——业界共识是注入无法在模型内根治，网关护栏是纵深防御的一道闸（拦掉大部分已知手法），要配合最小权限、人审关键动作一起用。脱敏会有误报，规则要可配置、可审计、能回溯调优。网关自身也要按高价值资产防护：最小暴露面、密钥库加密、定期红队——安检口本身也要有安保。与
+    <a href="../../PPT-version/Security/README.html">Security 模块</a>的分工：那边出「威胁与对策清单」，网关做「能集中执行的那部分」；红队结论回来调网关护栏阈值。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -233,8 +180,7 @@
   <h2><span class="num">06</span>可观测<a class="anchor" href="#gw-observe">#gw-observe</a></h2>
 
   <div class="lead">
-    <p>流量必经之路，就是最好的仪表盘：一处埋点就能看见「调了谁、多少 token、多少钱、多快、
-      命中缓存/护栏没有、走了主还是备」——不必在每个应用里各埋一套。</p>
+    <p>流量必经之路，就是最好的仪表盘：一处埋点就能看见「调了谁、多少 token、多少钱、多快、命中缓存/护栏没有、走了主还是备」——不必在每个应用里各埋一套。</p>
   </div>
 
   <div class="tw">
@@ -247,12 +193,8 @@
     </tbody>
   </table>
   </div>
-  <p>排查实例：「某应用今天变慢又变贵」——看网关面板发现语义缓存命中率掉了、fallback 频繁
-    触发（某家在限流），几分钟定位，不用翻十个服务的日志。标准正在收敛：<b>OpenTelemetry
-    GenAI 语义约定 / OpenInference</b> 统一了模型名、token 数、成本等字段——网关按标准吐
-    数据就能接任意 APM（Grafana/Datadog/Langfuse），不锁定。两个提醒：留存日志要脱敏、分级、
-    限权（能看见 ≠ 明文全留）；可观测答「快不快贵不贵」，评估答「好不好」——网关把质量信号
-    纳入观测，就把两者连起来了（消费与行动层在
+  <p>排查实例：「某应用今天变慢又变贵」——看网关面板发现语义缓存命中率掉了、fallback 频繁触发（某家在限流），几分钟定位，不用翻十个服务的日志。标准正在收敛：<b>OpenTelemetry
+    GenAI 语义约定 / OpenInference</b> 统一了模型名、token 数、成本等字段——网关按标准吐数据就能接任意 APM（Grafana/Datadog/Langfuse），不锁定。两个提醒：留存日志要脱敏、分级、限权（能看见 ≠ 明文全留）；可观测答「快不快贵不贵」，评估答「好不好」——网关把质量信号纳入观测，就把两者连起来了（消费与行动层在
     <a href="../../PPT-version/AI-Ops/README.html">AI-Ops</a>，trace id 两层贯通）。</p>
 </section>
 
@@ -261,23 +203,17 @@
   <h2><span class="num">07</span>MCP 网关<a class="anchor" href="#gw-mcp">#gw-mcp</a></h2>
 
   <div class="lead">
-    <p>Agent 时代流量结构变了：一次任务里除了调模型，还要调大量工具（MCP Server）、甚至委派给
-      别的 Agent——这些流量同样需要统一接入、鉴权、限流、审计。Higress、Envoy、APISIX、
+    <p>Agent 时代流量结构变了：一次任务里除了调模型，还要调大量工具（MCP Server）、甚至委派给别的 Agent——这些流量同样需要统一接入、鉴权、限流、审计。Higress、Envoy、APISIX、
       Azure APIM 都在把两者做进同一产品：<b>「AI 网关 + MCP 网关」二合一是 2026 的分水岭</b>。</p>
   </div>
 
-  <p>MCP 网关＝把对「模型」的那套治理平移到「工具」上：统一代理、发现与注册（MCP 市场）、
-    鉴权与授权（最小权限）、限流与配额（防 Agent 失控狂调）、审计与观测（串进同一条 trace）、
-    安全护栏（工具描述投毒检测、危险动作拦截）。存量改造有捷径：<b>openapi-to-mcp</b> 读
+  <p>MCP 网关＝把对「模型」的那套治理平移到「工具」上：统一代理、发现与注册（MCP 市场）、鉴权与授权（最小权限）、限流与配额（防 Agent 失控狂调）、审计与观测（串进同一条 trace）、安全护栏（工具描述投毒检测、危险动作拦截）。存量改造有捷径：<b>openapi-to-mcp</b> 读
     OpenAPI 描述批量把现成 REST API 暴露成 MCP 工具——像给旧电器配智能插座，企业几百个 API
     几乎零改造就能被 Agent 安全调用，汇成自建 MCP Marketplace。</p>
 
   <h3>MCP 授权：窄票替代万能钥匙</h3>
-  <p>难点在「代理身份」：Agent 替用户调工具时，工具那头要知道真正的用户是谁。规范口径
-    （2025-11-25 修订版，OAuth 2.1 底座）：MCP Server 就是一台 OAuth 2.1 资源服务器，
-    audience 校验（RFC 8707）与资源元数据（RFC 9728）是 MUST，PKCE 强制，<b>token 透传
-    明令禁止</b>。网关做 RFC 8693 token 交换：把用户的宽 token 现场换成「audience 限定、
-    最小权限、短时效」的窄票——像演唱会实名制门票，检票口只认本场本人。</p>
+  <p>难点在「代理身份」：Agent 替用户调工具时，工具那头要知道真正的用户是谁。规范口径（2025-11-25 修订版，OAuth 2.1 底座）：MCP Server 就是一台 OAuth 2.1 资源服务器，
+    audience 校验（RFC 8707）与资源元数据（RFC 9728）是 MUST，PKCE 强制，<b>token 透传明令禁止</b>。网关做 RFC 8693 token 交换：把用户的宽 token 现场换成「audience 限定、最小权限、短时效」的窄票——像演唱会实名制门票，检票口只认本场本人。</p>
   <div class="tw">
   <table>
     <thead><tr><th>授权反模式</th><th>症状</th><th>网关怎么破</th></tr></thead>
@@ -288,15 +224,11 @@
     </tbody>
   </table>
   </div>
-  <p>三合一终态：网关从「模型的统一入口」长成<b>模型 + 工具（MCP）+ Agent（A2A）的中枢
-    控制面</b>。协议机制在 <a href="../mcp/index.html">MCP 网页版</a>，Agent 侧的多模型/
-    多工具调用在 <a href="../agent/index.html">Agent 网页版</a>——本页讲的是把这些流量
-    统一治理的运营层。</p>
+  <p>三合一终态：网关从「模型的统一入口」长成<b>模型 + 工具（MCP）+ Agent（A2A）的中枢控制面</b>。协议机制在 <a href="../mcp/index.html">MCP 网页版</a>，Agent 侧的多模型/
+    多工具调用在 <a href="../agent/index.html">Agent 网页版</a>——本页讲的是把这些流量统一治理的运营层。</p>
   <p class="ev">授权规范核实 2026-07-10（来源 <a href="#src-mcp-auth">modelcontextprotocol.io
     spec / Red Hat Developer</a>）；<b>下一版规范预计 2026-07-28 发布，本节届时复核</b>。
-    Envoy 的 MCP 授权、OIDC token 交换仍在路线图——是当前最受关注的能力缺口，也是售前要盯的
-    演进点。
-        <b>不可外推边界</b>：路线图上的能力不等于当期可用能力，方案里不能按路线图做承诺。</p>
+    Envoy 的 MCP 授权、OIDC token 交换仍在路线图——是当前最受关注的能力缺口，也是售前要盯的演进点。<b>不可外推边界</b>：路线图上的能力不等于当期可用能力，方案里不能按路线图做承诺。</p>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -304,11 +236,8 @@
   <h2><span class="num">08</span>选型与问答<a class="anchor" href="#gw-cheatsheet">#gw-cheatsheet</a></h2>
 
   <h3>自托管还是托管</h3>
-  <p><b>选自托管</b>：要多云/信创、数据敏感要留在自己边界内、想深度定制、有平台团队扛可用性
-    （代表：LiteLLM、Higress、Envoy AI Gateway、APISIX、Kong）。<b>选托管</b>：想零运维快速
-    起步、已重度用某朵云、可用性交给云 SLA（代表：Azure APIM、Bedrock、Apigee、Cloudflare
-    AI Gateway）。常见路径：<b>托管起步验证价值 → 规模/合规上来后按需转自托管或混合</b>。
-    选型三条筛：支持你要的模型与部署形态吗、原生做 token 治理与护栏吗、跟上 MCP 与 OTel
+  <p><b>选自托管</b>：要多云/信创、数据敏感要留在自己边界内、想深度定制、有平台团队扛可用性（代表：LiteLLM、Higress、Envoy AI Gateway、APISIX、Kong）。<b>选托管</b>：想零运维快速起步、已重度用某朵云、可用性交给云 SLA（代表：Azure APIM、Bedrock、Apigee、Cloudflare
+    AI Gateway）。常见路径：<b>托管起步验证价值 → 规模/合规上来后按需转自托管或混合</b>。选型三条筛：支持你要的模型与部署形态吗、原生做 token 治理与护栏吗、跟上 MCP 与 OTel
     标准吗。</p>
 
   <div class="tw">
@@ -325,9 +254,7 @@
   </table>
   </div>
   <p>三云对照一句话：Azure APIM 目前 LLM 网关能力最完整（原生 token 限流 + 语义缓存 +
-    Unified Model API）；AWS 强在 Bedrock 生态（Multi-Provider GW 仅官方 Guidance，自部署）；
-    多云/边缘看 Cloudflare。国内/云原生看 Higress，标准派看 Envoy，最快上手 LiteLLM。
-    「开源 ≠ 免费全功能」——Kong 企业订阅这类报价点提前讲。</p>
+    Unified Model API）；AWS 强在 Bedrock 生态（Multi-Provider GW 仅官方 Guidance，自部署）；多云/边缘看 Cloudflare。国内/云原生看 Higress，标准派看 Envoy，最快上手 LiteLLM。「开源 ≠ 免费全功能」——Kong 企业订阅这类报价点提前讲。</p>
 
   <h3>现场高频追问</h3>
   <p>只收会改变某个决定的问题——会改变技术方案、风险判断、验收方法、对客沟通或下一步行动。</p>
@@ -337,35 +264,26 @@
     <details id="q-ai-gateway-1">
       <summary>我已经有 API 网关了，为什么还要 AI 网关？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>不是取代，是增强：多了按 token 限流与计费、多模型语义路由、语义缓存、注入/PII 护栏
-          ——普通网关没有的 LLM 六件套。很多产品（Kong、APISIX、Higress）就是同一网关的
-          「AI 模式」，平滑升级即可。</p>
-        <p class="qa-why">这题答成「换掉重建」就把客户推走了——正确姿势是在存量投资上加层，
-          迁移成本近零。</p>
-        <p class="qa-next"><b>下一步</b>　查客户现有网关是否有 AI 插件/模式，有就按升级路径报，
-          没有再谈新建。</p>
+        <p>不是取代，是增强：多了按 token 限流与计费、多模型语义路由、语义缓存、注入/PII 护栏——普通网关没有的 LLM 六件套。很多产品（Kong、APISIX、Higress）就是同一网关的「AI 模式」，平滑升级即可。</p>
+        <p class="qa-why">这题答成「换掉重建」就把客户推走了——正确姿势是在存量投资上加层，迁移成本近零。</p>
+        <p class="qa-next"><b>下一步</b>　查客户现有网关是否有 AI 插件/模式，有就按升级路径报，没有再谈新建。</p>
         <p class="qa-src">依据　<a href="#gw-what-why">是什么 / 为什么</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-2">
       <summary>上网关到底能省多少钱？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>三个杠杆叠加：路由把简单流量切便宜模型（省大头）、语义缓存让相似问题零成本命中、
-          预算限流掐掉失控消耗。具体比例看流量结构——先做一次成本画像再测算。</p>
-        <p class="qa-why">RouteLLM/FrugalGPT 给了论文背书：大量简单流量切便宜模型，质量几乎
-          无感——「路由不是玄学，是有数据支撑的降本手段」。</p>
-        <p class="qa-next"><b>下一步</b>　用<a href="#saver">计算器</a>按客户的量和价格口径
-          当场算一版，再拿真实流量画像校准。</p>
+        <p>三个杠杆叠加：路由把简单流量切便宜模型（省大头）、语义缓存让相似问题零成本命中、预算限流掐掉失控消耗。具体比例看流量结构——先做一次成本画像再测算。</p>
+        <p class="qa-why">RouteLLM/FrugalGPT 给了论文背书：大量简单流量切便宜模型，质量几乎无感——「路由不是玄学，是有数据支撑的降本手段」。</p>
+        <p class="qa-next"><b>下一步</b>　用<a href="#saver">计算器</a>按客户的量和价格口径当场算一版，再拿真实流量画像校准。</p>
         <p class="qa-src">依据　<a href="#gw-route">路由与容灾</a> · <a href="#gw-cost">成本治理</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-3">
       <summary>自动路由到便宜模型，质量掉了怎么办？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>路由是可控降级：关键场景设质量优先固定走旗舰，只对可容忍流量降档；再用评估持续监控
-          降档流量的质量，掉了就调阈值。省钱和质量之间有旋钮，不是赌博。</p>
-        <p class="qa-why">「降档流量谁来盯质量」是网关方案最常被挑战的点——答案是接评估：
-          网关采样、判官打分、超阈值告警。</p>
+        <p>路由是可控降级：关键场景设质量优先固定走旗舰，只对可容忍流量降档；再用评估持续监控降档流量的质量，掉了就调阈值。省钱和质量之间有旋钮，不是赌博。</p>
+        <p class="qa-why">「降档流量谁来盯质量」是网关方案最常被挑战的点——答案是接评估：网关采样、判官打分、超阈值告警。</p>
         <p class="qa-next"><b>下一步</b>　给降档流量配 1~10% 采样评估（方法在 Evaluation
           网页版），把质量线写进验收。</p>
         <p class="qa-src">依据　<a href="#gw-route">可控降级</a> · <a href="../evaluation/index.html">Evaluation 网页版</a></p>
@@ -374,56 +292,43 @@
     <details id="q-ai-gateway-4">
       <summary>语义缓存会不会给不同用户串答、泄露数据？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>会，如果缓存键没带身份。正确做法：缓存键里带上租户/权限维度，个性化和带用户数据的
-          请求绕过缓存。这条既是成本设计也是安全设计。</p>
-        <p class="qa-why">阈值同理是双刃剑：太松答错（北京天气≈上海天气）、太紧白配——
-          「宁可少命中，别答错」。</p>
-        <p class="qa-next"><b>下一步</b>　按落地清单四条过一遍缓存配置：分级阈值、绕过规则、
-          键带身份、命中率监控。</p>
+        <p>会，如果缓存键没带身份。正确做法：缓存键里带上租户/权限维度，个性化和带用户数据的请求绕过缓存。这条既是成本设计也是安全设计。</p>
+        <p class="qa-why">阈值同理是双刃剑：太松答错（北京天气≈上海天气）、太紧白配——「宁可少命中，别答错」。</p>
+        <p class="qa-next"><b>下一步</b>　按落地清单四条过一遍缓存配置：分级阈值、绕过规则、键带身份、命中率监控。</p>
         <p class="qa-src">依据　<a href="#gw-cost">语义缓存</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-5">
       <summary>护栏能 100% 挡住提示注入吗？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>不能，也没有产品能这么承诺——业界共识是注入无法在模型内彻底根治。网关护栏是纵深
-          防御的关键一层，要配合最小权限、人审关键动作、模型外确定性策略一起用。</p>
-        <p class="qa-why">诚实讲边界反而更专业——「100% 防注入」的承诺本身就是方案不可信的
-          信号。</p>
-        <p class="qa-next"><b>下一步</b>　把「网关拦已知手法 + 权限控爆炸半径 + 人审兜底」
-          画成纵深防御图，逐层标注证据。</p>
+        <p>不能，也没有产品能这么承诺——业界共识是注入无法在模型内彻底根治。网关护栏是纵深防御的关键一层，要配合最小权限、人审关键动作、模型外确定性策略一起用。</p>
+        <p class="qa-why">诚实讲边界反而更专业——「100% 防注入」的承诺本身就是方案不可信的信号。</p>
+        <p class="qa-next"><b>下一步</b>　把「网关拦已知手法 + 权限控爆炸半径 + 人审兜底」画成纵深防御图，逐层标注证据。</p>
         <p class="qa-src">依据　<a href="#gw-guardrail">安全与护栏</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-6">
       <summary>合规审计具体能提供什么证据？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>网关能出完整调用链日志：身份、时间、prompt/响应（可脱敏留存）、模型、成本、命中的
-          护栏——正是 EU AI Act、NIST RMF 要的「可追溯、可问责」证据链。</p>
-        <p class="qa-why">审计日志只有网关能一处收全——这是「安全策略落在网关层」最硬的
-          理由，也是合规评审的入场券。</p>
-        <p class="qa-next"><b>下一步</b>　给合规团队演示一条完整 trace：谁调的、为何允许、
-          路由到哪、花了多少、质量怎样。</p>
+        <p>网关能出完整调用链日志：身份、时间、prompt/响应（可脱敏留存）、模型、成本、命中的护栏——正是 EU AI Act、NIST RMF 要的「可追溯、可问责」证据链。</p>
+        <p class="qa-why">审计日志只有网关能一处收全——这是「安全策略落在网关层」最硬的理由，也是合规评审的入场券。</p>
+        <p class="qa-next"><b>下一步</b>　给合规团队演示一条完整 trace：谁调的、为何允许、路由到哪、花了多少、质量怎样。</p>
         <p class="qa-src">依据　<a href="#gw-guardrail">审计</a> · <a href="#gw-observe">可观测</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-7">
       <summary>我们有几百个内部 API，要让 Agent 用，是不是要一个个改造？<span class="added">2026-07-10</span></summary>
       <div class="a">
-        <p>不用。openapi-to-mcp 读 OpenAPI 描述批量把存量 API 转成 MCP 工具，再由网关统一托管
-          鉴权限流——存量资产几乎零改造就能被 Agent 安全调用。</p>
-        <p class="qa-why">「存量资产瞬间对 Agent 可用」是 MCP 网关最实的卖点：不是重写业务，
-          是给旧电器配智能插座。</p>
-        <p class="qa-next"><b>下一步</b>　挑一个内部 API 做 openapi-to-mcp 试点，挂上鉴权限流，
-          跑通「Agent 经网关安全调用」的完整链路。</p>
+        <p>不用。openapi-to-mcp 读 OpenAPI 描述批量把存量 API 转成 MCP 工具，再由网关统一托管鉴权限流——存量资产几乎零改造就能被 Agent 安全调用。</p>
+        <p class="qa-why">「存量资产瞬间对 Agent 可用」是 MCP 网关最实的卖点：不是重写业务，是给旧电器配智能插座。</p>
+        <p class="qa-next"><b>下一步</b>　挑一个内部 API 做 openapi-to-mcp 试点，挂上鉴权限流，跑通「Agent 经网关安全调用」的完整链路。</p>
         <p class="qa-src">依据　<a href="#gw-mcp">MCP 网关</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-8">
       <summary>Agent 替用户调工具，权限会不会被放大、被滥用？<span class="added">2026-07-10</span></summary>
       <div class="a">
-        <p>这正是 MCP 授权要解决的：网关做 token 交换（RFC 8693），把用户真实身份换成
-          「audience 限定、最小权限、短时效」的窄票——Agent 手里永远没有万能钥匙。</p>
+        <p>这正是 MCP 授权要解决的：网关做 token 交换（RFC 8693），把用户真实身份换成「audience 限定、最小权限、短时效」的窄票——Agent 手里永远没有万能钥匙。</p>
         <p class="qa-why">三大反模式（透传/混淆代理/万能钥匙）都有规范级红线：token 透传是
           MUST NOT——网关做身份传递有合规依据，不是自选动作。</p>
         <p class="qa-next"><b>下一步</b>　对照反模式表审一遍现有 Agent 集成；规范下版
@@ -434,26 +339,18 @@
     <details id="q-ai-gateway-9">
       <summary>我们该自建还是买托管？<span class="added">2026-07-12</span></summary>
       <div class="a">
-        <p>小团队/快验证先用云托管零运维起步；多云、信创、数据敏感或要深度定制，上自托管
-          （LiteLLM/Higress/Envoy）。绝大多数客户是「托管起步 → 按需转自托管/混合」，
-          不用一步到位。</p>
-        <p class="qa-why">自托管网关本身会成为单点：要多副本、健康检查、多区域——没有平台
-          团队就别扛，这是路线选择的硬约束。</p>
-        <p class="qa-next"><b>下一步</b>　按三条筛（模型覆盖/token 治理/标准跟进）列两条路线的
-          对照表，标注客户现状的匹配项。</p>
+        <p>小团队/快验证先用云托管零运维起步；多云、信创、数据敏感或要深度定制，上自托管（LiteLLM/Higress/Envoy）。绝大多数客户是「托管起步 → 按需转自托管/混合」，不用一步到位。</p>
+        <p class="qa-why">自托管网关本身会成为单点：要多副本、健康检查、多区域——没有平台团队就别扛，这是路线选择的硬约束。</p>
+        <p class="qa-next"><b>下一步</b>　按三条筛（模型覆盖/token 治理/标准跟进）列两条路线的对照表，标注客户现状的匹配项。</p>
         <p class="qa-src">依据　<a href="#gw-cheatsheet">选型</a></p>
       </div>
     </details>
     <details id="q-ai-gateway-10">
       <summary>一句话，AI 网关到底给我带来什么？<span class="added">2026-07-09</span></summary>
       <div class="a">
-        <p>三件事：省钱（路由+缓存+预算）、稳（多模型容灾）、可控（护栏+审计+观测）。
-          它把散落在每个应用里的接入与治理收成一层——换模型像改配置、管成本像看电表、
-          上安全像过安检。</p>
-        <p class="qa-why">第四个字是「长」：网关正从模型入口长成模型+MCP+Agent 的三合一中枢
-          ——现在选型要把这条演进线算进去。</p>
-        <p class="qa-next"><b>下一步</b>　给客户画「应用 → 网关 → 三类后端（模型/工具/Agent）」
-          的一页架构图——这张图是网关售前的开场白。</p>
+        <p>三件事：省钱（路由+缓存+预算）、稳（多模型容灾）、可控（护栏+审计+观测）。它把散落在每个应用里的接入与治理收成一层——换模型像改配置、管成本像看电表、上安全像过安检。</p>
+        <p class="qa-why">第四个字是「长」：网关正从模型入口长成模型+MCP+Agent 的三合一中枢——现在选型要把这条演进线算进去。</p>
+        <p class="qa-next"><b>下一步</b>　给客户画「应用 → 网关 → 三类后端（模型/工具/Agent）」的一页架构图——这张图是网关售前的开场白。</p>
         <p class="qa-src">依据　<a href="#gw-what-why">定位</a> · <a href="#gw-mcp">三合一</a></p>
       </div>
     </details>
@@ -467,18 +364,15 @@
   <div class="rel">
     <a href="../model-landscape/index.html">
       <div class="nm">Model-Landscape · 网页版</div>
-      <div class="why">「选哪些模型进路由池」的格局与方法（三层路由/五约束）在那页，
-        本页是工程落地件——双向互指。</div>
+      <div class="why">「选哪些模型进路由池」的格局与方法（三层路由/五约束）在那页，本页是工程落地件——双向互指。</div>
     </a>
     <a href="../mcp/index.html">
       <div class="nm">MCP · 网页版</div>
-      <div class="why">MCP 讲协议机制，本页第 7 节讲把 MCP 流量统一代理、鉴权、限流、审计的
-        运营层。</div>
+      <div class="why">MCP 讲协议机制，本页第 7 节讲把 MCP 流量统一代理、鉴权、限流、审计的运营层。</div>
     </a>
     <a href="../agent/index.html">
       <div class="nm">Agent · 网页版</div>
-      <div class="why">网关给 Agent 的多模型/多工具调用提供统一入口与护栏；sub-agent 并发要
-        对齐网关配额。</div>
+      <div class="why">网关给 Agent 的多模型/多工具调用提供统一入口与护栏；sub-agent 并发要对齐网关配额。</div>
     </a>
     <a href="../evaluation/index.html">
       <div class="nm">Evaluation · 网页版</div>
@@ -486,8 +380,7 @@
     </a>
     <a href="../llm-inference/index.html">
       <div class="nm">LLM-Inference · 网页版</div>
-      <div class="why">网关在推理服务之上：单模型加速归那页，多模型统一治理归本页——
-        互补分工。</div>
+      <div class="why">网关在推理服务之上：单模型加速归那页，多模型统一治理归本页——互补分工。</div>
     </a>
     <a href="../../PPT-version/Security/README.html">
       <div class="nm">Security</div>
@@ -504,9 +397,7 @@
 <!-- ============ 来源 ============ -->
 <section class="sec" id="sources">
   <h2><span class="num">10</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
-  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见
-    <a href="../../PPT-version/AI-Gateway/MANIFEST.md">本模块 MANIFEST</a>。
-    核实窗口 2026-07-09 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见<a href="../../PPT-version/AI-Gateway/MANIFEST.md">本模块 MANIFEST</a>。核实窗口 2026-07-09 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
   <div class="tw">
   <table>
     <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
@@ -524,9 +415,7 @@
       <tr id="src-mcp-auth"><td><code>src-mcp-auth</code></td><td>modelcontextprotocol.io spec
           2025-11-25 / Red Hat Developer</td><td>MCP 授权规范条款（OAuth 2.1/RFC 8707/8693）</td>
           <td><b>下版规范 2026-07-28 发布后需复核</b></td></tr>
-      <tr id="src-route"><td><code>src-route</code></td><td>RouteLLM / FrugalGPT（arXiv，
-          见本模块书单）</td><td>路由降本的方法与论文证据</td><td>具体节省比例依赖流量结构，
-          不能当承诺</td></tr>
+      <tr id="src-route"><td><code>src-route</code></td><td>RouteLLM / FrugalGPT（arXiv，见本模块书单）</td><td>路由降本的方法与论文证据</td><td>具体节省比例依赖流量结构，不能当承诺</td></tr>
       <tr id="src-otel"><td><code>src-otel</code></td><td>opentelemetry.io semconv/gen-ai</td>
           <td>GenAI 观测语义约定收敛趋势</td><td>约定仍在演进，字段以当日规范为准</td></tr>
     </tbody>
@@ -540,9 +429,7 @@
 
 <footer class="wrap">
   <p>
-    本册 PPT 讲义：<a href="../../PPT-version/AI-Gateway/AI-Gateway-讲义.pptx">AI-Gateway-讲义.pptx</a> ·
-    电子书书单：<a href="../../PPT-version/AI-Gateway/电子书书单.md">电子书书单.md</a> ·
-    模块账本：<a href="../../PPT-version/AI-Gateway/MANIFEST.md">MANIFEST.md</a>
+    本册 PPT 讲义：<a href="../../PPT-version/AI-Gateway/AI-Gateway-讲义.pptx">AI-Gateway-讲义.pptx</a> ·电子书书单：<a href="../../PPT-version/AI-Gateway/电子书书单.md">电子书书单.md</a> ·模块账本：<a href="../../PPT-version/AI-Gateway/MANIFEST.md">MANIFEST.md</a>
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，账本只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->

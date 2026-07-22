@@ -4,13 +4,8 @@
 </head><body>
 
 <nav class="topbar"><div class="tb">
- <a class="brand" href="../../README.html">AI 知识库</a>
- <a class="ti" href="../../Web-version/index.html">网页版</a>
- <a class="ti cur" href="../../PPT-version/README.html">PPT 总览</a>
- <a class="ti" href="../../_prep/实战包.html">实战包</a>
- <a class="ti" href="../../_prep/学习路径.html">学习路径</a>
- <a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a>
- <a class="ti" href="../../开始使用.html">开始使用</a>
+ <a class="brand" href="../../README.html">AI 知识库</a><a class="ti" href="../../Web-version/index.html">网页版</a>
+ <a class="ti cur" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
  <span class="ver">v0721m</span>
 </div></nav>
 
@@ -48,16 +43,11 @@
 
 <div class="card">
  <b>串联：</b>本模块讲义已加「与 <a href="../Prompt-Engineering/README.html">Prompt Engineering</a> 的关系」页（↔ <code>pe#pe-advanced-reasoning</code>，ReAct/上下文工程是提示词技巧的循环化应用）。 库内已有 <a href="../RAG/README.html">RAG</a> 模块，存在真实交点——
- "检索"是 agent 最常用的工具之一，<b>Agentic RAG</b> 正是两模块的天然接缝（本模块"工具使用/编排"↔ RAG 模块的检索管线）。
- <b>该串联已双向落地</b>（2026-07-08）：RAG 模块新增第 8 章 Agentic RAG，配"与 Agent 模块的关系"专页。<br>
- <b>已补实链接（2026-07-08）：</b>本模块第 4 章工具接入 ↔ <a href="../MCP/README.html"><b>MCP</b> 模块</a>——
- 本章讲"为什么需要标准接口"，MCP 模块讲"这标准本身怎么用好、怎么上生产、怎么保安全"，两端互补。<br>
- <b>已补实链接（2026-07-08）：</b>本模块第 5 章上下文工程 ↔ <a href="../LLM/README.html"><b>LLM 原理</b></a> 模块第 4 章——
- 那边给出上下文工程的架构根源（O(n²) 成本、KV 缓存、有效窗口约束），本章讲工程做法，互为"为什么"与"怎么做"。<br>
- <b>已补实链接（2026-07-10，双向）：</b>本模块第 2 章核心组件 ↔ <a href="../Multimodal/README.html"><b>Multimodal</b></a> 模块——
- 第 2 章新增「多模态感知：agent 长出眼睛之后」页：视觉成为新的工具入参、computer use 的前提（↔ <code>multimodal#mm-what-why</code>），护栏设计要算上视觉幻觉（<code>multimodal#mm-production</code>）。<br>
- <b>已补实链接（2026-07-10）：</b>agent 评估 ↔ <a href="../Evaluation/README.html"><b>Evaluation</b></a> 模块第 6 章场景验收（turn/milestone/trajectory 评估在那边展开）；
- 第 7 章低代码平台 ↔ <a href="../MCP/README.html">MCP</a>（平台工具接入标准化）、<a href="../RAG/README.html">RAG</a>（Dify 内置 RAG = 最小管线产品化）、<a href="../Multimodal/README.html">Multimodal</a> 第 8 章（平台 bot 上语音的实时链路）。<br>
+ "检索"是 agent 最常用的工具之一，<b>Agentic RAG</b> 正是两模块的天然接缝（本模块"工具使用/编排"↔ RAG 模块的检索管线）。<b>该串联已双向落地</b>（2026-07-08）：RAG 模块新增第 8 章 Agentic RAG，配"与 Agent 模块的关系"专页。<br>
+ <b>已补实链接（2026-07-08）：</b>本模块第 4 章工具接入 ↔ <a href="../MCP/README.html"><b>MCP</b> 模块</a>——本章讲"为什么需要标准接口"，MCP 模块讲"这标准本身怎么用好、怎么上生产、怎么保安全"，两端互补。<br>
+ <b>已补实链接（2026-07-08）：</b>本模块第 5 章上下文工程 ↔ <a href="../LLM/README.html"><b>LLM 原理</b></a> 模块第 4 章——那边给出上下文工程的架构根源（O(n²) 成本、KV 缓存、有效窗口约束），本章讲工程做法，互为"为什么"与"怎么做"。<br>
+ <b>已补实链接（2026-07-10，双向）：</b>本模块第 2 章核心组件 ↔ <a href="../Multimodal/README.html"><b>Multimodal</b></a> 模块——第 2 章新增「多模态感知：agent 长出眼睛之后」页：视觉成为新的工具入参、computer use 的前提（↔ <code>multimodal#mm-what-why</code>），护栏设计要算上视觉幻觉（<code>multimodal#mm-production</code>）。<br>
+ <b>已补实链接（2026-07-10）：</b>agent 评估 ↔ <a href="../Evaluation/README.html"><b>Evaluation</b></a> 模块第 6 章场景验收（turn/milestone/trajectory 评估在那边展开）；第 7 章低代码平台 ↔ <a href="../MCP/README.html">MCP</a>（平台工具接入标准化）、<a href="../RAG/README.html">RAG</a>（Dify 内置 RAG = 最小管线产品化）、<a href="../Multimodal/README.html">Multimodal</a> 第 8 章（平台 bot 上语音的实时链路）。<br>
  <b>已补实链接（2026-07-10）：</b>第 7 章低代码平台 ↔ <a href="../Solution-Patterns/README.html"><b>Solution-Patterns</b></a> 场景解决方案库——平台是各场景方案的落地工具层，其分诊树「有没有平台」指回本章。<br>
  <b>模块内串联（2026-07-17）：</b>第 10 章 Sub-agent 编排 ↔ 第 3 章编排模式（orchestrator-workers 是蓝图，sub-agent 是车间）、第 5 章上下文工程（上下文隔离是「子 agent」板斧的机制展开）。
 </div>
