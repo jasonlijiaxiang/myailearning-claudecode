@@ -498,13 +498,10 @@
    显存账按每参数 16 字节（混合精度+Adam 口径）。无 JS 时 .tool 隐藏，静态兜底是正文公式。 */
 (function () {
   "use strict";
+  var kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("nd-out"), note = $("nd-note");
   if (!out) return;
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
   function run() {
     var n = Math.max(0.1, +$("nd-n").value || 0) * 1e9;
     var d = Math.max(0.01, +$("nd-d").value || 0) * 1e12;

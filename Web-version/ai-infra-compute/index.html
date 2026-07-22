@@ -485,14 +485,11 @@
    单价全部可编辑、默认为量级示例。无 JS 时 .tool 隐藏，静态兜底是正文 TCO 框架。 */
 (function () {
   "use strict";
+  var kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("tc-out"), note = $("tc-note");
   if (!out) return;
   var OPEX_RATIO = 0.3;   // 机房托管+运维附加，按折旧的三成计（可在正文口径内调整）
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
   function fmtWan(y) {
     return y >= 10000 ? (Math.round(y / 1000) / 10) + " 亿元"
       : Math.round(y) + " 万元";

@@ -476,6 +476,7 @@
    无 JS 时 .tool 隐藏，静态兜底是显存账正文与变体对比表。 */
 (function () {
   "use strict";
+  var kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("kv-out"), note = $("kv-note");
   if (!out) return;
@@ -484,10 +485,6 @@
   var W = { "7": 14, "70": 140 };
   var DIV = { mha: 1, gqa: 8, mla: 10 };
   function fmt(x) { return x >= 100 ? Math.round(x) : Math.round(x * 10) / 10; }
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
   function run() {
     var size = $("kv-size").value, v = $("kv-var").value;
     var ctx = Math.max(1, +$("kv-ctx").value || 0);

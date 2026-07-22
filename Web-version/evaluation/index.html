@@ -582,13 +582,10 @@
    判据全部来自本页各节，不引入新事实。无 JS 时 .tool 隐藏，静态兜底是判分四法表。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("gr-out"), note = $("gr-note");
   if (!out) return;
-  function card(t, tag, s) {
-    return '<div class="hitcard"><b>' + t + '</b>' +
-           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
-  }
   function run() {
     var task = $("gr-task").value, risk = $("gr-risk").value, use = $("gr-use").value;
     var cards = [];

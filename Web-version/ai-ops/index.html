@@ -473,13 +473,10 @@
    系数来自讲义第 1/3 章。无 JS 时 .tool 隐藏，静态兜底是正文的账法描述。 */
 (function () {
   "use strict";
+  var kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("pl-out"), note = $("pl-note");
   if (!out) return;
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
   function fmtGB(gb) {
     return gb >= 1000 ? (Math.round(gb / 100) / 10) + " TB"
       : gb >= 1 ? (Math.round(gb * 10) / 10) + " GB"

@@ -649,13 +649,10 @@
    判据全部来自本页各节，不引入新事实。无 JS 时 .tool 隐藏，静态兜底是六段诊断与生产病表。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("dr-out"), note = $("dr-note");
   if (!out) return;
-  function card(t, tag, s) {
-    return '<div class="hitcard"><b>' + t + '</b>' +
-           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
-  }
   function run() {
     var sym = $("dr-sym").value, corpus = $("dr-corpus").value;
     var cards = [];

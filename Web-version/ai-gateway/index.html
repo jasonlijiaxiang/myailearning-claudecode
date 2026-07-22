@@ -555,13 +555,10 @@
    价格由使用者填入，页面不携带会过期的单价。无 JS 时 .tool 隐藏，静态兜底是策略表与正文。 */
 (function () {
   "use strict";
+  var kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("sv-out"), note = $("sv-note");
   if (!out) return;
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
   function money(x) {
     return "$" + (x >= 1000 ? Math.round(x).toLocaleString("en-US") : Math.round(x * 10) / 10);
   }

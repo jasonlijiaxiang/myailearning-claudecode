@@ -455,10 +455,11 @@
    判据全部来自本页第 1/3/5/7 节的选型口诀。无 JS 时 .tool 隐藏，静态兜底是正文表格。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("pk-out");
   if (!out) return;
-  function card(tag, name, body, href) {
+  function card( name,tag, body, href) {
     return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
       '</b><p>' + body + (href ? ' <a href="' + href + '">详见</a>' : '') + '</p></div>';
   }
@@ -467,15 +468,15 @@
     var cards = [];
 
     if (shape === "single") {
-      cards.push(card("协议层", "只上 MCP，A2A 暂不需要",
+      cards.push(card( "只上 MCP，A2A 暂不需要","协议层",
         "单 Agent + 工具场景 MCP 就够——A2A 只有「多个专精/跨厂商 Agent 要协作」时才划算，" +
         "别为单 Agent 加一层协议。", "#a2a-what-why"));
     } else if (shape === "internal") {
-      cards.push(card("协议层", "框架编排 + MCP，A2A 备用",
+      cards.push(card( "框架编排 + MCP，A2A 备用","协议层",
         "同一系统内的多 Agent 流转归 LangGraph/ADK 等框架管；哪一步要跨出去调别家 Agent，" +
         "那一步才走 A2A——内部编排不必标准化。", "#a2a-orchestration"));
     } else {
-      cards.push(card("协议层", "MCP + A2A 叠着上",
+      cards.push(card( "MCP + A2A 叠着上","协议层",
         "跨厂商/跨组织协作正是 A2A 的主场：opaque agents 只暴露能力不开膛破肚，" +
         "M×N 对接塌缩成 M+N；每个 Agent 内部照旧用 MCP 调工具。", "#a2a-what-why"));
     }
@@ -489,7 +490,7 @@
         "protobuf 统一约束，与其它绑定可互换。"]
     };
     if (shape !== "single") {
-      cards.push(card("传输绑定", netMap[net][0], netMap[net][1], "#a2a-transport"));
+      cards.push(card( netMap[net][0],"传输绑定", netMap[net][1], "#a2a-transport"));
       var taskMap = {
         short: ["Blocking 同步等", "秒级短活直接同步拿结果最省事；注意连接占用与超时——" +
           "活儿一变长就换姿势。"],
@@ -498,10 +499,10 @@
         long: ["Push 推送通知", "注册 webhook，Task 完成/变更时回调——客户端不必挂连接。" +
           "回调必须幂等 + URL 校验 + 签名，防重复投递与伪造。"]
       };
-      cards.push(card("交付方式", taskMap[task][0], taskMap[task][1], "#a2a-transport"));
+      cards.push(card( taskMap[task][0],"交付方式", taskMap[task][1], "#a2a-transport"));
     }
     if (shape === "cross") {
-      cards.push(card("默认设防", "跨组织协作的安全底线",
+      cards.push(card( "跨组织协作的安全底线","默认设防",
         "Signed Agent Card 验签防冒充 + OAuth2/mTLS + 按 skill/租户限 scope + 全链路留痕；" +
         "终态不可回跳、重试建新 Task，让每次协作可回放可审计。", "#a2a-security"));
     }

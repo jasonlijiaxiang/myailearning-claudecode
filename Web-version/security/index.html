@@ -541,16 +541,13 @@
    速查表，不新增事实。无 JS 时 .tool 隐藏，静态兜底是上方威胁→防护映射表。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card, kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var kpiBox = $("rc-kpi"), out = $("rc-out");
   if (!out) return;
-  function card(tag, name, body, href) {
+  function card( name,tag, body, href) {
     return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
       '</b><p>' + body + ' <a href="' + href + '">详见</a></p></div>';
-  }
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
   }
   function run() {
     var ext = $("rc-ext").checked, tools = $("rc-tools").checked, mem = $("rc-mem").checked,
@@ -558,43 +555,43 @@
         eu = $("rc-eu").checked, cn = $("rc-cn").value;
     var cards = [];
 
-    if (ext) cards.push(card("LLM01 提示注入", "间接注入（头号威胁）",
+    if (ext) cards.push(card( "间接注入（头号威胁）","LLM01 提示注入",
       "恶意指令藏在它顺带会读的网页/邮件/文档里，你无法预审每一段文本。防线：输入语义闸 + " +
       "假设中招后在外兜底——高风险链路上双 LLM/CaMeL 级结构。", "#sec-prompt-injection"));
-    if (ext && tools) cards.push(card("EchoLeak 同款链路", "能读敏感数据 + 能对外动作",
+    if (ext && tools) cards.push(card( "能读敏感数据 + 能对外动作","EchoLeak 同款链路",
       "这正是零点击外泄的完整链路。切断两条链：数据面收敛（它能读什么）+ 动作面收敛" +
       "（外发/写操作过审批），比教模型拒绝更可靠。", "#sec-prompt-injection"));
-    if (tools) cards.push(card("LLM06 过度自主", "动作闸三件套",
+    if (tools) cards.push(card( "动作闸三件套","LLM06 过度自主",
       "scoped 短期身份 + 每动作授权 + 不可逆动作人在环上；先逐个工具问「真的都需要吗」，" +
       "把爆炸半径框死。", "#sec-agentic"));
-    if (tools) cards.push(card("LLM05 不当输出处理", "输出当不可信数据",
+    if (tools) cards.push(card( "输出当不可信数据","LLM05 不当输出处理",
       "模型输出进 SQL/HTML/shell 前必须净化——注入成功时这是最后一道闸。", "#sec-defense"));
-    if (mem) cards.push(card("记忆投毒", "一次下毒，长期发作",
+    if (mem) cards.push(card( "一次下毒，长期发作","记忆投毒",
       "不可信内容进记忆前过滤，任务之间清临时上下文，记忆写入要有控制——已有跨会话存活" +
       "的真实案例。", "#sec-agentic"));
-    if (oss) cards.push(card("LLM03 供应链", "模型即代码 + 工具描述投毒",
+    if (oss) cards.push(card( "模型即代码 + 工具描述投毒","LLM03 供应链",
       "safetensors 格式 + 签名/哈希校验 + 扫描 + 登记 AI-BOM；MCP 工具做来源校验与参数" +
       "校验，别工具说什么就信什么。", "#sec-supply-chain"));
-    if (ft) cards.push(card("记忆化与成员推断", "微调数据可能被套出",
+    if (ft) cards.push(card( "微调数据可能被套出","记忆化与成员推断",
       "脱敏去重后再训、面向不同租户严格隔离、高敏用差分隐私——或改走 RAG：可控、可删、" +
       "可溯源，不烧进权重。", "#sec-data-privacy"));
-    if (mt) cards.push(card("LLM08 向量/嵌入弱点", "跨租户泄露",
+    if (mt) cards.push(card( "跨租户泄露","LLM08 向量/嵌入弱点",
       "带 ACL 的权限过滤检索 + 租户隔离 + 写入鉴权；向量化 ≠ 匿名化，嵌入能被部分反推。",
       "#sec-data-privacy"));
-    if (ext && !tools) cards.push(card("LLM02/07 泄露", "输出闸与秘密管理",
+    if (ext && !tools) cards.push(card( "输出闸与秘密管理","LLM02/07 泄露",
       "输出侧敏感信息过滤；真密钥放模型够不到的地方，系统提示词按「一定会泄露」来写。",
       "#sec-data-privacy"));
 
-    if (cn === "rec") cards.push(card("中国合规 · 服务备案", "自研/微调模型对公众",
+    if (cn === "rec") cards.push(card( "自研/微调模型对公众","中国合规 · 服务备案",
       "算法备案约 2 个月 + 大模型备案 3–6 个月，全流程 5–8 个月且无加急——排进产品计划。" +
       "材料三件硬货：标注规则 / 关键词库（≥1 万词）/ 评估题集。", "#sec-china"));
-    if (cn === "reg") cards.push(card("中国合规 · 应用登记", "调用已备案模型",
+    if (cn === "reg") cards.push(card( "调用已备案模型","中国合规 · 应用登记",
       "走地方网信办应用/功能登记，周级——别按 8 个月排期吓自己；但审核、标识、投诉等" +
       "服务提供者义务仍归你。", "#sec-china"));
-    if (cn !== "no") cards.push(card("中国合规 · 两个硬约束", "内容标识 + 安全国标",
+    if (cn !== "no") cards.push(card( "内容标识 + 安全国标","中国合规 · 两个硬约束",
       "标识 2025-09 起法定（显式+隐式，违规已有下架案例）；安全评估按 GB/T 45654 三方面" +
       "准备。", "#sec-china"));
-    if (eu) cards.push(card("EU AI Act", "2026-08 执法启动",
+    if (eu) cards.push(card( "2026-08 执法启动","EU AI Act",
       "GPAI 义务 2025-08 已生效；2026-08-02 起罚款最高全球营收 7%；存量模型 2027-08 前" +
       "整改——现在倒排。", "#sec-governance"));
 
@@ -608,7 +605,7 @@
     kpiBox.innerHTML = kpis;
 
     if (!cards.length) {
-      out.innerHTML = card("基线", "低风险不等于零措施",
+      out.innerHTML = card( "低风险不等于零措施","基线",
         "错误信息（LLM09）与无限消耗（LLM10）对任何应用都在：接地与溯源、限流限额与成本" +
         "监控是底线配置。", "#sec-cheatsheet");
     } else {

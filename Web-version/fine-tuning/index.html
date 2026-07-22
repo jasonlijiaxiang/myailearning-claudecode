@@ -507,13 +507,10 @@
    判据全部来自本页各节。无 JS 时 .tool 隐藏，静态兜底是定制光谱与症状处方表。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("ad-out"), note = $("ad-note");
   if (!out) return;
-  function card(t, tag, s) {
-    return '<div class="hitcard"><b>' + t + '</b>' +
-           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
-  }
   var HW = {
     consumer: "QLoRA：7–8B 约 6–8GB、单张消费卡绰绰有余（70B 需 48G 专业卡）",
     pro: "LoRA（16-bit 底座）：7–8B 约 18–20GB；70B 走 QLoRA 约 40–48GB",

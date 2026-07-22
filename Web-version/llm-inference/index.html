@@ -702,16 +702,13 @@
    纪律：帮助理解与决策（web-rules §九）；无 JS 时 .tool 隐藏，静态兜底是公式与账本表。 */
 (function () {
   "use strict";
+  var kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var KV_FP16 = { "8": 0.13, "32": 0.26, "70": 0.32 };   // MB/token
   var W_FP16 = { "8": 16, "32": 64, "70": 140 };          // GB
   var $ = function (id) { return document.getElementById(id); };
   var out = $("c-out"), note = $("c-note");
   if (!out) return;
   function fmt(x) { return x >= 100 ? Math.round(x) : Math.round(x * 10) / 10; }
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
   function run() {
     var m = $("c-model").value;
     var pf = parseFloat($("c-prec").value);           // 字节/参数

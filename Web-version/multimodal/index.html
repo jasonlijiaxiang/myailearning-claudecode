@@ -509,10 +509,11 @@
    静态兜底是第 3 节的三问落子与正文决策框架。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("tr-out");
   if (!out) return;
-  function card(tag, name, body, href) {
+  function card( name,tag, body, href) {
     return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
       '</b><p>' + body + (href ? ' <a href="' + href + '">详见</a>' : '') + '</p></div>';
   }
@@ -522,20 +523,20 @@
     var cards = [];
 
     if (key === "no") {
-      out.innerHTML = card("方案", "用纯文本 LLM，别上多模态",
+      out.innerHTML = card( "用纯文本 LLM，别上多模态","方案",
         "非文字信息不是关键输入，多模态只会更贵更慢——这正是「为炫而上」的反例。", "#mm-what-why");
       return;
     }
     if (need === "extract" && layout === "stable") {
-      cards.push(card("方案骨架", "拼管线（专用 OCR/ASR + 文本 LLM）",
+      cards.push(card( "拼管线（专用 OCR/ASR + 文本 LLM）","方案骨架",
         "固定单据 + 只抠字段是传统链路的主场：稳定、可控、便宜、每步可审计——性价比最高。" +
         "疑难样本再兜底给多模态。", "#mm-fusion"));
     } else if (need === "reason" && layout === "varied") {
-      cards.push(card("方案骨架", "原生多模态为主（可配管线打底）",
+      cards.push(card( "原生多模态为主（可配管线打底）","方案骨架",
         "版式多变 + 开放问答/图表推理超出拼管线能力上限——原生模型端到端「连看带理解」；" +
         "量大的稳定部分仍可分流给 OCR 省钱。", "#mm-fusion"));
     } else {
-      cards.push(card("方案骨架", "混合：拼管线打底 + 原生兜底",
+      cards.push(card( "混合：拼管线打底 + 原生兜底","方案骨架",
         "稳定部分走 OCR 管线省钱，疑难部分交原生多模态——多数企业文档场景的最优解，" +
         "别当二选一。", "#mm-fusion"));
     }
@@ -548,18 +549,18 @@
       lat: ["延迟优先", "小模型 + 缓存 + 预处理降 token——视觉 token 多让 prefill 变重，" +
         "首 token 延迟是主要矛盾；语音场景另看第 8 节的流式链路。"]
     };
-    cards.push(card("铁三角", triMap[tri][0], triMap[tri][1], "#mm-selection"));
+    cards.push(card( triMap[tri][0],"铁三角", triMap[tri][1], "#mm-selection"));
 
     if (sens === "yes") {
-      cards.push(card("部署形态", "自建开源 VLM（vLLM）",
+      cards.push(card( "自建开源 VLM（vLLM）","部署形态",
         "数据不出域、量大时单位成本显著更低——Qwen3-VL / InternVL3 等开源权重自部署；" +
         "代价是要 GPU 要运维，能力可能略逊旗舰。", "#mm-selection"));
     } else {
-      cards.push(card("部署形态", "托管 API 起步",
+      cards.push(card( "托管 API 起步","部署形态",
         "开箱即用、总能用最新旗舰、按调用付费——先快速验证价值；量上来、数据敏感再评估" +
         "自建降本。", "#mm-selection"));
     }
-    cards.push(card("上线前", "四件必修",
+    cards.push(card( "四件必修","上线前",
       "成本压测设分辨率上限；自建评估集验收；图像当不可信输入防跨模态注入；生成类内容" +
       "出口打标识。", "#mm-production"));
     out.innerHTML = cards.join("");

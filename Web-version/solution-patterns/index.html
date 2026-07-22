@@ -505,80 +505,81 @@
    无 JS 时 .tool 隐藏，静态兜底是正文各场景节。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("tg-out");
   if (!out) return;
-  function card(tag, name, body, href) {
+  function card( name,tag, body, href) {
     return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
       '</b><p>' + body + (href ? ' <a href="' + href + '">详见</a>' : '') + '</p></div>';
   }
   var MAP = {
     cs: [
-      card("场景", "智能客服（对外）", "三层漏斗：L1 自助扛量、L2 Agent 办事、L3 人工处理" +
+      card( "智能客服（对外）","场景", "三层漏斗：L1 自助扛量、L2 Agent 办事、L3 人工处理" +
         "值钱对话——升级率是健康指标。", "#sp-customer-service"),
-      card("积木", "RAG + Agent + 语音链路（可选）", "兜底：Evaluation（永远不是可选件）+ " +
+      card( "RAG + Agent + 语音链路（可选）","积木", "兜底：Evaluation（永远不是可选件）+ " +
         "Gateway；高危操作 AI 草稿 + 人工确认。", "#sp-customer-service"),
-      card("成本量级", "文本 $0.01–0.05/会话 · 语音 $0.01–0.17/分钟", "对标人工 ¥3–8/通讲 " +
+      card( "文本 $0.01–0.05/会话 · 语音 $0.01–0.17/分钟","成本量级", "对标人工 ¥3–8/通讲 " +
         "ROI；集成费（呼叫中心/工单）单列。", "#sp-customer-service"),
-      card("口径提醒", "承诺测法不承诺数字", "自报 51–80% vs 独立中位 41.2%——用真实工单建" +
+      card( "承诺测法不承诺数字","口径提醒", "自报 51–80% vs 独立中位 41.2%——用真实工单建" +
         "评估集测基线，验收线双方签字。", "#sp-customer-service")
     ],
     kb: [
-      card("场景", "企业知识库 / AI 搜索（对内）", "先分形态：部门级问答（周级）vs 全司搜索" +
+      card( "企业知识库 / AI 搜索（对内）","场景", "先分形态：部门级问答（周级）vs 全司搜索" +
         "（季度级）——报价差一个数量级。", "#sp-knowledge-search"),
-      card("积木", "RAG 高级检索 + Security 权限", "权限是命门：ACL 源系统继承 + 查询时实时" +
+      card( "RAG 高级检索 + Security 权限","积木", "权限是命门：ACL 源系统继承 + 查询时实时" +
         "过滤 + 存在性保护；越权测试集进验收。", "#sp-knowledge-search"),
-      card("成本量级", "按人头订阅（Glean 模式市场定价）", "连接器按源系统个数算——每个源" +
+      card( "按人头订阅（Glean 模式市场定价）","成本量级", "连接器按源系统个数算——每个源" +
         "都是一个小项目（认证/同步/解析/ACL 映射）。", "#sp-knowledge-search")
     ],
     gen: [
-      card("场景", "营销与内容生成", "三条线分开报：文案最成熟、图像是素材工厂、视频最烧钱。",
+      card( "营销与内容生成","场景", "三条线分开报：文案最成熟、图像是素材工厂、视频最烧钱。",
         "#sp-content-gen"),
-      card("积木", "Multimodal 生成 + PE + RAG 事实源", "品牌工程四件套：风格注入/禁用词/" +
+      card( "Multimodal 生成 + PE + RAG 事实源","积木", "品牌工程四件套：风格注入/禁用词/" +
         "事实源/资产库；兜底：Security 人审分级。", "#sp-content-gen"),
-      card("成本量级", "文案 $0.001–0.01/条 · 图 $0.02–0.1/张 · 视频 $0.5–5/条起",
+      card( "文案 $0.001–0.01/条 · 图 $0.02–0.1/张 · 视频 $0.5–5/条起","成本量级",
         "迭代次数是乘数；商业安全（可溯+赔付）是入场券。", "#sp-content-gen")
     ],
     dh: [
-      card("场景", "数字人", "先分清：内容工厂（离线口播，按分钟）vs 交互服务（实时驱动，" +
+      card( "数字人","场景", "先分清：内容工厂（离线口播，按分钟）vs 交互服务（实时驱动，" +
         "按并发）——差一个量级。", "#sp-digital-human"),
-      card("积木", "Multimodal 语音链路 + 生成 + RAG 人设", "实时 = 语音 Agent + 会动的脸，" +
+      card( "Multimodal 语音链路 + 生成 + RAG 人设","积木", "实时 = 语音 Agent + 会动的脸，" +
         "延迟预算加渲染 100–200ms；口型不同步比慢更穿帮。", "#sp-digital-human"),
-      card("合规三问", "不过项目直接停", "形象书面授权（可撤回）/ 深度合成显著标识 / 声音" +
+      card( "不过项目直接停","合规三问", "形象书面授权（可撤回）/ 深度合成显著标识 / 声音" +
         "克隆授权——答得好合规就是竞争力。", "#sp-digital-human")
     ],
     code: [
-      card("场景", "AI Coding 与研发提效", "双层组合不是三选一：IDE 层（Copilot/Cursor）+ " +
+      card( "AI Coding 与研发提效","场景", "双层组合不是三选一：IDE 层（Copilot/Cursor）+ " +
         "agent 层（Claude Code 类），网关统一管预算。", "#sp-ai-coding"),
-      card("积木", "Agent + AI-Gateway", "兜底：Security（不训练承诺+审计+私有化选项）；" +
+      card( "Agent + AI-Gateway","积木", "兜底：Security（不训练承诺+审计+私有化选项）；" +
         "私有库上下文是效果差异主要来源。", "#sp-ai-coding"),
-      card("成本量级", "$19–40/人/月 + agent 层用量", "试点出自己的 ROI 数字（PR 周期/缺陷率）" +
+      card( "$19–40/人/月 + agent 层用量","成本量级", "试点出自己的 ROI 数字（PR 周期/缺陷率）" +
         "；enablement 决定效果差 3 倍。", "#sp-ai-coding")
     ],
     bi: [
-      card("场景", "ChatBI 与数据分析", "三层需求分清再报价：L1 查数（两三周）/ L2 归因" +
+      card( "ChatBI 与数据分析","场景", "三层需求分清再报价：L1 查数（两三周）/ L2 归因" +
         "（靠语义层）/ L3 报告（Agent 工程）。", "#sp-chatbi"),
-      card("积木", "RAG 结构化 + 语义层 + Security 行级权限", "三道闸：高频走语义层确定性" +
+      card( "RAG 结构化 + 语义层 + Security 行级权限","积木", "三道闸：高频走语义层确定性" +
         "生成、SQL 只读+行级过滤、答案附出处。", "#sp-chatbi"),
-      card("口径提醒", "准确率差距在语义层不在模型", "裸 SQL 真实企业库 10–21% → 语义模型后 " +
+      card( "准确率差距在语义层不在模型","口径提醒", "裸 SQL 真实企业库 10–21% → 语义模型后 " +
         "90%+；成本大头是口径治理人力，真难点在甲方组织。", "#sp-chatbi")
     ],
     meet: [
-      card("场景", "会议与办公助手", "按层递进卖：笔记器（单会）→ 会议记忆库（组织资产）→ " +
+      card( "会议与办公助手","场景", "按层递进卖：笔记器（单会）→ 会议记忆库（组织资产）→ " +
         "agentic 闭环（要审批边界）。", "#sp-meeting"),
-      card("积木", "Multimodal ASR + RAG 记忆库 + Agent 审批", "先问「开会用什么」——原生派" +
+      card( "Multimodal ASR + RAG 记忆库 + Agent 审批","积木", "先问「开会用什么」——原生派" +
         "够用就别引入新工具；跨平台记忆库才是独立方案入场券。", "#sp-meeting"),
-      card("口径提醒", "准确率分三层，混谈必翻车", "转写 WER / 摘要忠实度 / 行动项召回——" +
+      card( "准确率分三层，混谈必翻车","口径提醒", "转写 WER / 摘要忠实度 / 行动项召回——" +
         "漏项比编造多，是客诉源；合规按企业搜索标准评审。", "#sp-meeting")
     ],
     all: [
-      card("分诊", "回到方法层：排优先级矩阵", "按数据就绪度 × 容错成本排：通用答案是内部" +
+      card( "回到方法层：排优先级矩阵","分诊", "按数据就绪度 × 容错成本排：通用答案是内部" +
         "知识库或客服先行（数据现成/风险可控/ROI 好算）。", "#sp-what-why"),
-      card("方法", "POC 三要素前置", "真数据 + 签字的指标 + 验收线——缺一个就会「永远再试试」" +
+      card( "POC 三要素前置","方法", "真数据 + 签字的指标 + 验收线——缺一个就会「永远再试试」" +
         "；一页 intake 先锁结果/用户/数据/风险。", "#sp-method")
     ],
     plat: [
-      card("分诊", "低代码平台选型", "「有没有平台」的答案在 Agent 侧：Coze / Dify / HiAgent " +
+      card( "低代码平台选型","分诊", "「有没有平台」的答案在 Agent 侧：Coze / Dify / HiAgent " +
         "类平台的选型判据与边界。", "../agent/index.html#agent-lowcode")
     ]
   };

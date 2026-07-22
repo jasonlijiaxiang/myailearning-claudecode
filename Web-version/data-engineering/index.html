@@ -444,14 +444,11 @@
    无 JS 时 .tool 隐藏，静态兜底是正文四问与工具表。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card, kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var kpiBox = $("rd-kpi"), out = $("rd-out");
   if (!out) return;
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
-  function card(tag, name, body, href) {
+  function card( name,tag, body, href) {
     return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
       '</b><p>' + body + ' <a href="' + href + '">详见</a></p></div>';
   }
@@ -484,7 +481,7 @@
       scan: ["解析路线", "MinerU 自托管优先", "CJK 复杂版面是 MinerU 主场（英文基准分数在" +
         "这里参考有限）；高价值文档叠 VLM 解析兜底；敏感文档不出域。"]
     };
-    cards.push(card(docMap[doc][0], docMap[doc][1], docMap[doc][2], "#de-parsing"));
+    cards.push(card( docMap[doc][1],docMap[doc][0], docMap[doc][2], "#de-parsing"));
 
     var infraMap = {
       pg: ["向量库", "pgvector 就地起步", "生产可用至约 50–100M 向量、免新系统——触顶预案" +
@@ -494,24 +491,24 @@
       none: ["向量库", "托管起步", "Pinecone 类按量计费零运维快速上线；规模或合规要求出现" +
         "再评估 Qdrant/Milvus 自托管。"]
     };
-    cards.push(card(infraMap[infra][0], infraMap[infra][1], infraMap[infra][2], "#de-vectordb"));
+    cards.push(card( infraMap[infra][1],infraMap[infra][0], infraMap[infra][2], "#de-vectordb"));
 
     if (fresh === "rt") {
-      cards.push(card("同步节奏", "分级同步", "只给真需要新鲜的内容上 webhook 准实时（要" +
+      cards.push(card( "分级同步","同步节奏", "只给真需要新鲜的内容上 webhook 准实时（要" +
         "回调支持+丢消息补偿），制度手册类保持天级轮询——分级省一大笔。", "#de-pipeline"));
     } else {
-      cards.push(card("同步节奏", "天级轮询够用", "低频源轮询最简单；把去重（内容指纹）与" +
+      cards.push(card( "天级轮询够用","同步节奏", "低频源轮询最简单；把去重（内容指纹）与" +
         "失效（联动下架）写进运营包按月做——它们决定第二个月的信任。", "#de-pipeline"));
     }
     if (acl === "multi") {
-      cards.push(card("治理", "ACL 映射 + 越权测试集门禁", "权限元数据随连接器同步、检索时" +
+      cards.push(card( "ACL 映射 + 越权测试集门禁","治理", "权限元数据随连接器同步、检索时" +
         "实时过滤、存在性保护；上线前无权限账号 20 问零泄露，调岗离职后重跑。",
         "#de-governance"));
     } else if (acl === "simple") {
-      cards.push(card("治理", "单源权限 + 采集点脱敏", "权限继承相对简单，但 PII 进库前照做" +
+      cards.push(card( "单源权限 + 采集点脱敏","治理", "权限继承相对简单，但 PII 进库前照做" +
         "脱敏（向量化 ≠ 匿名化）——观测与评估链路同样别留明文。", "#de-governance"));
     }
-    cards.push(card("质量运营", "四指标进月报", "解析保真率/重复率/新鲜度/覆盖率自动化采集" +
+    cards.push(card( "四指标进月报","质量运营", "解析保真率/重复率/新鲜度/覆盖率自动化采集" +
       "——坏答案归因一路到数据层，修数据而不是改提示词。", "#de-quality"));
     out.innerHTML = cards.join("");
   }

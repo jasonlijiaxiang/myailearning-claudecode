@@ -6,6 +6,24 @@
   "use strict";
   document.documentElement.className += " js-on";
 
+  /* ---------- 交互件公共渲染件：全站唯一出处 ----------
+     各模块交互件的结果卡片与指标块由这里统一渲染，页面内联脚本只留数据与判定逻辑。
+     缘由：这两个函数曾在 11 个交互件里各复制一份，card() 已漂成三个变体——参数顺序、
+     DOM 顺序、href 是否可选都不一致，属「组件契约漂移」（与类名契约漂移同族）。
+     DOM 顺序以 kb.css 的 .tagline2 上紧下松边距为准：标题在前、标签作副标题、正文在后。
+     类名一律写成完整字面量，不做字符串拼接——静态扫描（check_css_classes.py）看不见拼接。 */
+  function card(name, tag, body, href) {
+    var head = '<div class="hitcard"><b>' + name + '</b>';
+    var line = tag ? '<div class="tagline2">' + tag + '</div>' : '';
+    var more = href ? ' <a href="' + href + '">详见</a>' : '';
+    return head + line + '<p>' + body + more + '</p></div>';
+  }
+  function kpi(label, val, warn) {
+    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
+    return open + label + '<b>' + val + '</b></div>';
+  }
+  window.KBUI = { card: card, kpi: kpi };
+
   /* ---------- 全站搜索：索引由 data.js（MANIFEST 生成）来，不另维护一份 ---------- */
   function buildIndex() {
     var kb = window.KB, out = [];

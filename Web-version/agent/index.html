@@ -826,17 +826,10 @@
    纪律：帮助决策（web-rules §九）；无 JS 时 .tool 隐藏，静态兜底是启用条件表。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card, kpi = window.KBUI.kpi;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("ad-out"), extra = $("ad-extra"), note = $("ad-note");
   if (!out) return;
-  function kpi(label, val, warn) {
-    var open = warn ? '<div class="kpi warn2">' : '<div class="kpi">';
-    return open + label + '<b>' + val + '</b></div>';
-  }
-  function card(t, tag, s) {
-    return '<div class="hitcard"><b>' + t + '</b>' +
-           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
-  }
   function run() {
     var path = $("ad-path").value, risk = $("ad-risk").value,
         shape = $("ad-shape").value, team = $("ad-team").value,

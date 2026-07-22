@@ -455,10 +455,11 @@
    无 JS 时 .tool 隐藏，静态兜底是正文四形态与三问。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("tp-out");
   if (!out) return;
-  function card(tag, name, body, href) {
+  function card( name,tag, body, href) {
     return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
       '</b><p>' + body + (href ? ' <a href="' + href + '">详见</a>' : '') + '</p></div>';
   }
@@ -467,30 +468,30 @@
     var cards = [];
 
     if (load === "api") {
-      cards.push(card("形态", "托管 API（住酒店）",
+      cards.push(card( "托管 API（住酒店）","形态",
         "只调用现成模型能力，API 最快最省心——别碰硬件。转自建的三个信号：账单摸到盈亏线、" +
         "合规要私有化、微调常态化。", "#aip-cloud"));
     } else if (load === "mix" && team === "full" && speed === "slow") {
-      cards.push(card("形态", "裸金属自建 + 自研平台（毛坯房）",
+      cards.push(card( "裸金属自建 + 自研平台（毛坯房）","形态",
         "大规模稳定负载 + 有平台团队 + 能等——自建压长期成本；调度/切分/容错/观测四列活" +
         "全自己扛，容错自愈最难，先掂量。", "#aip-cloud"));
-      cards.push(card("组合建议", "混合是常态",
+      cards.push(card( "混合是常态","组合建议",
         "基线自建保成本、弹性和尝鲜上托管/API——混合方案最能体现顾问价值；底层用 K8s/DRA " +
         "开源标准防锁定。", "#aip-cloud"));
     } else if (team === "no" || speed === "fast") {
-      cards.push(card("形态", "托管训练/推理集群（酒店式公寓）",
+      cards.push(card( "托管训练/推理集群（酒店式公寓）","形态",
         "有 AI 团队但不想养基础设施：提交作业/部署模型即可——调度、容错自愈云全包" +
         "（HyperPod 类开箱即带），是「该不该上云」最有力的论据。", "#aip-faulttol"));
     } else {
-      cards.push(card("形态", "托管 K8s + GPU（精装公寓）",
+      cards.push(card( "托管 K8s + GPU（精装公寓）","形态",
         "有 K8s 能力、要灵活可控：云管控制面和 GPU 插件，平台策略自己配——起手式：" +
         "GPU Operator → Kueue+KAI → 切分 → DCGM 监控，新平台按 DRA 设计。", "#aip-k8s-gpu"));
     }
     if (load !== "api") {
-      cards.push(card("责任递交线", "自建的隐藏工作量四列",
+      cards.push(card( "自建的隐藏工作量四列","责任递交线",
         "调度（gang/装箱）、切分（MIG/HAMi）、容错（自愈体系——最难）、观测（DCGM+MFU+" +
         "chargeback）——形态选型不是比卡价，是比这四列活你想扛几列。", "#aip-cloud"));
-      cards.push(card("验收口径", "承诺用 MFU / goodput",
+      cards.push(card( "承诺用 MFU / goodput","验收口径",
         "nvidia-smi 的 90% 是活跃率常是幻觉；训练看 MFU（40% 即优秀）、生产看 goodput——" +
         "前者是钱，后者是错觉。", "#aip-observability"));
     }

@@ -433,13 +433,10 @@
    无 JS 时 .tool 隐藏，静态兜底是速查表与各节正文。 */
 (function () {
   "use strict";
+  var card = window.KBUI.card;   /* 公共渲染件，见 assets/site.js */
   var $ = function (id) { return document.getElementById(id); };
   var out = $("dr-out"), note = $("dr-note");
   if (!out) return;
-  function card(t, tag, s) {
-    return '<div class="hitcard"><b>' + t + '</b>' +
-           '<div class="tagline2">' + tag + '</div><p>' + s + '</p></div>';
-  }
   function run() {
     var sym = $("dr-sym").value, m = $("dr-model").value;
     var cards = [];
