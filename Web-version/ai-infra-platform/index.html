@@ -57,9 +57,28 @@
     <p><b>裸机之痛四种浪费</b>：卡在谁手里靠群里喊 Excel 记、贵卡半夜空转（无管理集群平均利用率常只有 10–20%）、一个人的进程 OOM 把同机别人拖垮、训练跑到第 20 天崩了从头再来。上了调度 + 配额 + 抢占后翻到 50%+ 很常见——<b>卖 AI 平台的第一句话不是「我们能管 GPU」，而是「我们能把您已经买的卡的利用率翻一倍」</b>。</p>
   </div>
 
-  <p>平台四大职责像机场塔台（塔台不开飞机，但没它机场就瘫痪）：<b>调度</b>（排跑道——最贵的卡永远有活干）、<b>隔离</b>（分廊桥不打架）、<b>容错</b>(天气突变改航保安全）、<b>观测</b>（雷达全程盯着）——客户的任何平台需求先归类到这四项，方案就有骨架。为什么都长在 Kubernetes 上：像盖楼不自己烧砖——声明式 API、自愈、CRD 生态、云全托管，GPU
-    调度监控存储都是往框架上挂的插件；<b>AI 平台 ≈ K8s + 一堆 GPU 感知的插件</b>。Slurm 在纯训练/HPC 仍主流且常与 K8s 并存——趋势是融合不是替代。分工一句话：Compute 讲铁、
-    Training/Inference 讲负载本身、本页讲「把负载高效跑在铁上」的中间层。</p>
+  <h3>平台四大职责</h3>
+  <p>像机场塔台——塔台不开飞机，但没它机场就瘫痪。<b>客户的任何平台需求先归类到这四项，方案就有骨架</b>：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>调度</h4>
+    <p><b>排跑道</b>——最贵的卡永远有活干。</p>
+   </div>
+   <div class="box">
+    <h4>隔离</h4>
+    <p><b>分廊桥</b>——不打架。</p>
+   </div>
+   <div class="box">
+    <h4>容错</h4>
+    <p><b>天气突变改航</b>——保安全。</p>
+   </div>
+   <div class="box">
+    <h4>观测</h4>
+    <p><b>雷达</b>——全程盯着。</p>
+   </div>
+  </div>
+  <p><b>为什么都长在 Kubernetes 上</b>：像盖楼不自己烧砖——声明式 API、自愈、CRD 生态、云全托管，GPU 调度监控存储都是往框架上挂的插件；<b>AI 平台 ≈ K8s + 一堆 GPU 感知的插件</b>。Slurm 在纯训练/HPC 仍主流且常与 K8s 并存——趋势是融合不是替代。</p>
+  <p>分工一句话：Compute 讲铁、Training/Inference 讲负载本身、本页讲「把负载高效跑在铁上」的中间层。</p>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -70,11 +89,42 @@
     <p>K8s 原生只认可数资源（CPU 毫核、内存字节），GPU 是「整块、有型号差异、能多种方式共享」的特殊设备——需要「翻译层」讲给调度器听。<b>第一代 device plugin</b> 解决了「看见卡」（nvidia.com/gpu: 2），但三个天花板：只能数数量（表达不了「要 80GB 显存那种」「要 NVLink 直连的两张」）、共享方式僵硬、调度器不懂拓扑——像点菜只能说「来 2 份」，不能说「要不辣的、靠窗的」。</p>
   </div>
 
-  <p><b>第二代 DRA</b>（K8s v1.34 于 2025-08 GA 并默认启用，GKE/AKS/OpenShift 已跟进；
-    KubeCon EU 2026 上 NVIDIA 把 GPU 的 DRA 驱动捐给 CNCF——<b>2026 年 GPU 调度的社区主线就是它</b>）：用「设备类 + 声明」结构化表达需求——型号/显存/是否 MIG、要不要拓扑相邻、以什么方式共享，调度器第一次真正「读懂」GPU。从「来 2 份」升级成标准点餐单。对客口径：新平台按 DRA 设计、老平台 device plugin 仍能跑、两者可共存过渡；机制是 K8s
-    上游标准，AMD 也有对应插件——标准化本身就是防锁定。<b>GPU Operator</b> 是一揽子安装器：驱动、容器运行时、插件/DRA 驱动、DCGM 监控、MIG 管理器一个 CRD 装齐——扩容
-    100 节点自动就绪版本统一，是集群能弹性长大的前提。平台标准起手式：<b>托管 K8s →
-    GPU Operator → 选调度器 → 配切分 → 接监控</b>。</p>
+  <h3>两代对照：从「来 2 份」到标准点餐单</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>第一代 device plugin</th><th>第二代 DRA</th></tr></thead>
+    <tbody>
+     <tr><td><b>能表达什么</b></td><td>只能数数量（<code>nvidia.com/gpu: 2</code>）</td><td>「设备类 + 声明」结构化表达——型号/显存/是否 MIG、要不要拓扑相邻、以什么方式共享</td></tr>
+     <tr><td><b>调度器懂不懂 GPU</b></td><td>不懂拓扑</td><td>第一次真正「读懂」GPU</td></tr>
+     <tr><td><b>共享方式</b></td><td>僵硬</td><td>按声明走</td></tr>
+     <tr><td><b>状态</b></td><td>老平台仍能跑</td><td>K8s v1.34 于 2025-08 GA 并默认启用，GKE/AKS/OpenShift 已跟进；KubeCon EU 2026 上 NVIDIA 把 GPU 的 DRA 驱动捐给 CNCF——<b>2026 年 GPU 调度的社区主线就是它</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>对客口径</b>：新平台按 DRA 设计、老平台 device plugin 仍能跑、两者可共存过渡；机制是 K8s 上游标准，AMD 也有对应插件——<b>标准化本身就是防锁定</b>。</p>
+  <p><b>GPU Operator</b> 是一揽子安装器：驱动、容器运行时、插件/DRA 驱动、DCGM 监控、MIG 管理器一个 CRD 装齐——扩容 100 节点自动就绪版本统一，是集群能弹性长大的前提。</p>
+
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 96" role="img" aria-label="平台标准起手式五步：托管 K8s、GPU Operator、选调度器、配切分、接监控">
+     <g font-family="var(--sans)">
+      <rect x="8" y="26" width="128" height="40" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="72" y="51" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">托管 K8s</text>
+      <rect x="152" y="26" width="128" height="40" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="216" y="51" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">GPU Operator</text>
+      <rect x="296" y="26" width="128" height="40" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="360" y="51" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">选调度器</text>
+      <rect x="440" y="26" width="128" height="40" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="504" y="51" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">配切分</text>
+      <rect x="584" y="26" width="128" height="40" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="648" y="51" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">接监控</text>
+      <path d="M136 46 L148 46 M280 46 L292 46 M424 46 L436 46 M568 46 L580 46" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M148 46 l-6 -3.5 v7 z M292 46 l-6 -3.5 v7 z M436 46 l-6 -3.5 v7 z M580 46 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>平台标准起手式：五步搭起一个能弹性长大的 GPU 集群。</figcaption>
+  </figure>
   <p class="ev">DRA GA 与捐赠核实 2026-07-09，来源 <a href="#src-k8s">kubernetes.io /
     KubeCon EU 2026 报道</a>。<b>不可外推边界</b>：GA 说的是接口稳定，不等于各发行版与云厂商都已跟进；落地前查目标集群的版本与厂商支持矩阵。</p>
 </section>
@@ -88,9 +138,41 @@
       12 个不但划不动还白占着船。分布式训练要么一次给齐、要么一张都不给；K8s 默认调度器没有它，会造成「半个作业占着卡启动不了」的死锁——<b>这不是优化项，是能不能正确跑起来的问题</b>。判断调度器能不能跑训练，第一问就是支不支持 gang。</p>
   </div>
 
-  <p><b>碎片是贵卡空转的隐形元凶</b>：像电影院还剩 20 个座但都是单座——总空闲卡够、却拼不出「同机 8 卡/同域 64 卡」的形状，大作业照样排不进去，利用率虚高实低。解法是
-    bin-packing 装箱 + 拓扑感知：小作业塞满同节点、给大作业留整块——碎片治理直接等于利用率。<b>调度器不是二选一，是分层叠用</b>（2026 共识）：准入/配额层用 Kueue（队列、配额、作业准入），成组放置层用 Volcano（老牌批调度、稳）或 KAI Scheduler（NVIDIA
-    2025-04 开源 Apache 2.0，gang + 拓扑感知 + 装箱 + DRA 集成，<b>与商业版 Run:ai 同一调度核</b>——Run:ai 的溢价买的是 UI/多集群/分片运行时/SLA）；Slurm 守 HPC 与托管服务。小集群（&lt;16 卡）单用 Kueue 或 KAI 够用。<b>配额 + 抢占 + 回填三件套</b>让贵卡既公平又不空转（像手术室排班：科室保底额度、急诊插队、大手术备台空档插小手术）：生产训练高优先级保按时、实验作业可抢占享受空闲卡——被抢占的作业先 checkpoint 再暂停、从断点续跑（靠第 5 节容错），是双赢不是牺牲。</p>
+  <h3>碎片是贵卡空转的隐形元凶</h3>
+  <p>像电影院还剩 20 个座但都是单座——总空闲卡够、却拼不出「同机 8 卡/同域 64 卡」的形状，大作业照样排不进去，<b>利用率虚高实低</b>。解法是 bin-packing 装箱 + 拓扑感知：小作业塞满同节点、给大作业留整块——碎片治理直接等于利用率。</p>
+
+  <h3>调度器不是二选一，是分层叠用</h3>
+  <p>这是 2026 共识——三层各司其职：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>层</th><th>选谁</th><th>说明</th></tr></thead>
+    <tbody>
+     <tr><td><b>准入 / 配额</b></td><td>Kueue</td><td>队列、配额、作业准入</td></tr>
+     <tr><td rowspan="2"><b>成组放置</b></td><td>Volcano</td><td>老牌批调度、稳</td></tr>
+     <tr><td>KAI Scheduler</td><td>NVIDIA 2025-04 开源 Apache 2.0，gang + 拓扑感知 + 装箱 + DRA 集成，<b>与商业版 Run:ai 同一调度核</b>——Run:ai 的溢价买的是 UI/多集群/分片运行时/SLA</td></tr>
+     <tr><td><b>HPC 与托管</b></td><td>Slurm</td><td>守 HPC 与托管服务</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>小集群（&lt;16 卡）单用 Kueue 或 KAI 够用。</p>
+
+  <h3>配额 + 抢占 + 回填三件套</h3>
+  <p>让贵卡既公平又不空转，像手术室排班：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>配额</h4>
+    <p>科室保底额度——生产训练高优先级保按时。</p>
+   </div>
+   <div class="box">
+    <h4>抢占</h4>
+    <p>急诊插队——实验作业可抢占，享受空闲卡。</p>
+   </div>
+   <div class="box">
+    <h4>回填</h4>
+    <p>大手术备台空档插小手术。</p>
+   </div>
+  </div>
+  <p>被抢占的作业先 checkpoint 再暂停、从断点续跑（靠<a href="#aip-faulttol">第 5 节容错</a>），<b>是双赢不是牺牲</b>。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -126,9 +208,83 @@
       H100 上 54 天中断 466 次、约八成硬件相关——平均每天好几次，是万卡尺度的物理规律。<b>比的不是坏不坏，是坏了多快恢复</b>。</p>
   </div>
 
-  <p><b>checkpoint 两难与破局</b>：存太勤浪费吞吐（每次暂停写 TB 级）、存太疏一崩重算几小时——像写论文存档。破局 = 异步（先秒级快照到内存/本地盘、后台慢慢刷远端——解耦「暂停时间」与「落盘时间」）+ 分级（高频存内存、低频存远端）。频率是「拿存储换算力」的保险费，异步技术让保险变便宜；存储侧的洪峰设计在<a href="../ai-infra-compute/index.html#aic-storage">姊妹册第 7 节</a>。<b>自愈循环四步</b>：检测（DCGM 指标 + 主动探测发现坏卡坏链路）→ 驱逐 → 替换（备用池补位）→
-    续训（全体从最近 checkpoint 恢复）——像自动驾驶的赛车维修队，车手不用下车。有无自愈的差距：人工救火每次几十分钟到几小时、自动化压到分钟级——乘以中断次数，goodput 差距可达一成以上，纯利润。<b>托管训练服务的容错是「该不该上云」的关键论据</b>：HyperPod 类自动健康检查、坏节点替换、断点续训开箱即带（2026 又加一键建集群、Slurm continuous
-    provisioning）——自建这套自愈体系工程量巨大；「省下的救火人力 + 挽回的 goodput」比功能清单更打动人。</p>
+  <h3>checkpoint 两难：存多勤才对</h3>
+  <p>像写论文存档——存太勤和存太疏各有各的亏法：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>做法</th><th>代价</th></tr></thead>
+    <tbody>
+     <tr><td><b>存太勤</b></td><td>浪费吞吐——每次暂停写 TB 级</td></tr>
+     <tr><td><b>存太疏</b></td><td>一崩重算几小时</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>破局两条，可以叠加用：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>异步</h4>
+    <p>先秒级快照到内存/本地盘、后台慢慢刷远端——<b>解耦「暂停时间」与「落盘时间」</b>。</p>
+   </div>
+   <div class="box">
+    <h4>分级</h4>
+    <p>高频存内存、低频存远端。</p>
+   </div>
+  </div>
+  <p>频率是「拿存储换算力」的保险费，异步技术让保险变便宜；存储侧的洪峰设计在<a href="../ai-infra-compute/index.html#aic-storage">姊妹册第 7 节</a>。</p>
+
+  <h3>自愈循环：坏了多快回来</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 200" role="img" aria-label="自愈循环四步：检测坏卡坏链路 → 驱逐 → 从备用池替换 → 全体从最近 checkpoint 续训，然后回到检测继续循环">
+     <g font-family="var(--sans)">
+      <rect x="14" y="40" width="152" height="76" rx="8" fill="var(--card)" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="90" y="68" text-anchor="middle" font-size="14.5" font-weight="700" fill="var(--ink-900)">① 检测</text>
+      <text x="90" y="88" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">DCGM 指标 + 主动探测</text>
+      <text x="90" y="104" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">发现坏卡坏链路</text>
+
+      <rect x="194" y="40" width="152" height="76" rx="8" fill="var(--card)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="270" y="68" text-anchor="middle" font-size="14.5" font-weight="700" fill="var(--ink-900)">② 驱逐</text>
+      <text x="270" y="90" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">把坏节点摘出去</text>
+
+      <rect x="374" y="40" width="152" height="76" rx="8" fill="var(--card)" stroke="var(--line)" stroke-width="1.5"/>
+      <text x="450" y="68" text-anchor="middle" font-size="14.5" font-weight="700" fill="var(--ink-900)">③ 替换</text>
+      <text x="450" y="90" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">备用池补位</text>
+
+      <rect x="554" y="40" width="152" height="76" rx="8" fill="var(--card)" stroke="var(--ok)" stroke-width="1.5"/>
+      <text x="630" y="68" text-anchor="middle" font-size="14.5" font-weight="700" fill="var(--ink-900)">④ 续训</text>
+      <text x="630" y="88" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">全体从最近</text>
+      <text x="630" y="104" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">checkpoint 恢复</text>
+
+      <path d="M166 78 L188 78" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M188 78 l-7 -4 v8 z" fill="var(--ink-400)"/>
+      <path d="M346 78 L368 78" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M368 78 l-7 -4 v8 z" fill="var(--ink-400)"/>
+      <path d="M526 78 L548 78" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M548 78 l-7 -4 v8 z" fill="var(--ink-400)"/>
+
+      <path d="M630 116 V150 H90 V122" stroke="var(--ink-400)" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+      <path d="M90 122 l-4 8 h8 z" fill="var(--ink-400)"/>
+      <text x="360" y="170" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">循环往复——像自动驾驶的赛车维修队，车手不用下车</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>自愈循环四步：检测 → 驱逐 → 替换 → 续训。</figcaption>
+  </figure>
+  <p>有无自愈的差距，乘以中断次数就是纯利润：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>恢复方式</th><th>每次耗时</th><th>累计影响</th></tr></thead>
+    <tbody>
+     <tr><td>人工救火</td><td>几十分钟到几小时</td><td rowspan="2">乘以中断次数，<b>goodput 差距可达一成以上</b>，纯利润</td></tr>
+     <tr><td><b>自动化自愈</b></td><td><b>压到分钟级</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="box">
+   <h4>托管训练服务的容错是「该不该上云」的关键论据</h4>
+   <p>HyperPod 类自动健康检查、坏节点替换、断点续训开箱即带（2026 又加一键建集群、Slurm continuous provisioning）——自建这套自愈体系工程量巨大；<b>「省下的救火人力 + 挽回的 goodput」比功能清单更打动人</b>。</p>
+  </div>
   <p class="ev">HyperPod 更新核实 2026-07-09，来源 <a href="#src-hyperpod">AWS 官方文档</a>。<b>不可外推边界</b>：这是单一云厂商的产品能力，不能外推成「托管训练平台都这样」——各家在容错粒度与计费方式上差别很大。</p>
 </section>
 
@@ -141,9 +297,34 @@
       在执行，不管是不是有用功）≠ 有效率（真载着客人往目的地开——MFU/goodput）。三者能差好几倍：同一训练 nvidia-smi 显示 95% 活跃，MFU 一算只有 38%。</p>
   </div>
 
-  <p><b>承诺和验收都用 MFU（训练）和 goodput（生产），别用活跃率——前者是钱，后者是错觉</b>。MFU 40% 不是水平差，是行业顶尖（Llama 3 也在 40% 上下）——目标不是 100%，是把黑洞一个个堵小。<b>四大利用率黑洞</b>按大小排查：数据加载（GPU 等存储喂数据——常是最大的洞）→ 通信等待（集合通信没和计算重叠）→ 碎片排队 → 故障重算——本册前几章正好是四把铲子，观测的价值是告诉你「今天漏得最多的是哪个洞」。观测底座：<b>DCGM</b>
-    （显存/算力/温度/功耗/NVLink 流量/XID 错误码全从它出）喂 Prometheus/Grafana。机制侧是 <b>showback/chargeback 成本分摊</b>：像合租装分户电表——以前电费均摊没人关灯，每户看到自己的账单浪费立刻自觉下降；没有分摊，利用率是「公地悲剧」。闭环：DCGM 采数 →
-    看板暴露黑洞 → MFU 定基线 → chargeback 让各团队为自己的利用率负责——技术 + 机制双管，利用率才可持续。</p>
+  <p><b>承诺和验收都用 MFU（训练）和 goodput（生产），别用活跃率——前者是钱，后者是错觉</b>。MFU 40% 不是水平差，是行业顶尖（Llama 3 也在 40% 上下）——<b>目标不是 100%，是把黑洞一个个堵小</b>。</p>
+
+  <h3>四大利用率黑洞（按大小排查）</h3>
+  <p>本册前几章正好是四把铲子，观测的价值是告诉你「今天漏得最多的是哪个洞」：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>顺序</th><th>黑洞</th><th>怎么回事</th><th>拿哪一章的铲子</th></tr></thead>
+    <tbody>
+     <tr><td>①</td><td><b>数据加载</b></td><td>GPU 等存储喂数据——<b>常是最大的洞</b></td><td><a href="../ai-infra-compute/index.html#aic-storage">姊妹册存储章</a></td></tr>
+     <tr><td>②</td><td>通信等待</td><td>集合通信没和计算重叠</td><td><a href="../ai-infra-compute/index.html#aic-scaleout">姊妹册网络章</a></td></tr>
+     <tr><td>③</td><td>碎片排队</td><td>总空闲卡够、拼不出形状</td><td><a href="#aip-scheduling">第 3 节 作业调度</a></td></tr>
+     <tr><td>④</td><td>故障重算</td><td>崩了从最近 checkpoint 重来</td><td><a href="#aip-faulttol">第 5 节 训练容错</a></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>技术 + 机制双管，利用率才可持续</h3>
+  <div class="grid">
+   <div class="box">
+    <h4>技术侧：DCGM 观测底座</h4>
+    <p>显存/算力/温度/功耗/NVLink 流量/XID 错误码全从它出，喂 Prometheus/Grafana。</p>
+   </div>
+   <div class="box">
+    <h4>机制侧：showback / chargeback 成本分摊</h4>
+    <p>像合租装分户电表——以前电费均摊没人关灯，每户看到自己的账单浪费立刻自觉下降。<b>没有分摊，利用率是「公地悲剧」</b>。</p>
+   </div>
+  </div>
+  <p><b>闭环</b>：DCGM 采数 → 看板暴露黑洞 → MFU 定基线 → chargeback 让各团队为自己的利用率负责。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -154,9 +335,56 @@
     <p>训练与推理对平台的要求几乎相反：训练是作业、批处理心态（包场办婚宴——gang 一次要一大把卡、跑完释放、能排队）；推理是服务、7×24 常驻（开快餐店——延迟敏感、按流量弹性、多副本高可用）。混部常态：<b>推理占基线卡保 SLA、训练作为低优先级填谷</b>，流量一涨就被抢占让位——一套集群两种节奏。</p>
   </div>
 
-  <p><b>引擎是货、平台是货架</b>：vLLM/SGLang 负责把模型跑快（细节在
-    <a href="../llm-inference/index.html">LLM-Inference 网页版</a>），平台层负责部署好、扩缩好、路由好——KServe（K8s 标准推理服务框架）、llm-d 与 NVIDIA Dynamo（1.0 于
-    2026-03 GTC GA：P/D 分离编排 + KV 感知路由 + NIXL 传输）。厨房再强，没有连锁运营也开不成店——能跑 demo 和能扛百万请求，差的就是这一层。<b>弹性扩缩三要点</b>：按队列长度/TTFT/并发/KV 占用而非 CPU（LLM 推理瓶颈在 GPU 显存，CPU 很闲——像餐厅加服务员看排队长度不看后厨电表）；提前预测扩容（冷启动要加载几十上百 GB 权重、几十秒到分钟级，不能等队列爆了才扩）；留热备副本。发布要可追溯：源与数据、运行与环境、制品与评测、发布与运营四类对象用不可变 ID 连成图（食品溯源码：出问题一码到底、双向可查）——审批与门禁长在图上，不在流程文档里。</p>
+  <h3>引擎是货、平台是货架</h3>
+  <p>厨房再强，没有连锁运营也开不成店——<b>能跑 demo 和能扛百万请求，差的就是这一层</b>。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>干什么</th><th>代表</th></tr></thead>
+    <tbody>
+     <tr><td><b>引擎（货）</b></td><td>把模型跑快</td><td>vLLM / SGLang（细节在 <a href="../llm-inference/index.html">LLM-Inference 网页版</a>）</td></tr>
+     <tr><td><b>平台（货架）</b></td><td>部署好、扩缩好、路由好</td><td>KServe（K8s 标准推理服务框架）、llm-d、NVIDIA Dynamo（1.0 于 2026-03 GTC GA：P/D 分离编排 + KV 感知路由 + NIXL 传输）</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>弹性扩缩三要点</h3>
+  <div class="grid">
+   <div class="box">
+    <h4>看对指标</h4>
+    <p>按队列长度/TTFT/并发/KV 占用而非 CPU——LLM 推理瓶颈在 GPU 显存，CPU 很闲。像餐厅加服务员看排队长度，不看后厨电表。</p>
+   </div>
+   <div class="box">
+    <h4>提前预测扩容</h4>
+    <p>冷启动要加载几十上百 GB 权重、几十秒到分钟级，<b>不能等队列爆了才扩</b>。</p>
+   </div>
+   <div class="box">
+    <h4>留热备副本</h4>
+    <p>把冷启动的那几十秒挡在用户前面。</p>
+   </div>
+  </div>
+
+  <h3>发布要可追溯</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 108" role="img" aria-label="四类对象用不可变 ID 连成图：源与数据、运行与环境、制品与评测、发布与运营，相邻两类之间双向可查">
+     <g font-family="var(--sans)">
+      <rect x="6" y="20" width="150" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="81" y="46" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">源与数据</text>
+      <rect x="194" y="20" width="150" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="269" y="46" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">运行与环境</text>
+      <rect x="382" y="20" width="150" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="457" y="46" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">制品与评测</text>
+      <rect x="570" y="20" width="150" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="645" y="46" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink-900)">发布与运营</text>
+      <path d="M162 41 H188 M350 41 H376 M538 41 H564" stroke="var(--blue)" stroke-width="1.5"/>
+      <path d="M188 41 l-7 -4 v8 z M376 41 l-7 -4 v8 z M564 41 l-7 -4 v8 z" fill="var(--blue)"/>
+      <path d="M162 41 l7 -4 v8 z M350 41 l7 -4 v8 z M538 41 l7 -4 v8 z" fill="var(--blue)"/>
+      <text x="360" y="88" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">用不可变 ID 连成图——像食品溯源码，出问题一码到底、双向可查</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>发布可追溯：四类对象连成一张图，审批与门禁长在图上，不在流程文档里。</figcaption>
+  </figure>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -168,9 +396,78 @@
       API（住酒店——连模型都给）。越往上越省心、越少定制、单位价越高——<b>选形态本质是选「你想自己扛多少平台层」</b>。</p>
   </div>
 
-  <p>本页四大能力对应「自建的隐藏工作量」清单：调度（裸金属自装 Kueue/Volcano/KAI）、切分（自配 MIG/HAMi）、容错（自建自愈体系——最难，常是压垮自建决心的那根稻草）、观测（自搭 DCGM + 看板）——客户说「我们自己买卡建」时，把四列活摆给他看。<b>三问定档</b>：有没有专职基础设施团队（没有 → 往上选托管）、负载是啥（只调 API → 直接 API；训练微调
-    → 托管训练或托管 K8s；极致定制压成本 → 裸金属）、多快上线（急 → 托管）。常见落点：初创只调模型 → API；有 AI 团队要微调 → 托管训练集群；大厂稳定大负载 → 自建 + 自研平台；<b>多数成熟客户是混合：基线自建、弹性和尝鲜上托管/API</b>——混合方案恰恰最能体现顾问价值。演进纪律：按责任递交线渐进（先托管验证、量上来再下沉自建），底层用
-    K8s/DRA 开源标准降低锁定风险。售前别一上来推最贵的——先诚实定档，信任感比单笔大单更值钱。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 250" role="img" aria-label="责任递交线：四种云上形态里，硬件、调度、切分、容错、观测、模型六层各由谁负责。裸金属只有硬件是云给的，托管 K8s 多给控制面，托管训练推理集群连调度容错都包，托管 API 连模型都给">
+     <g font-family="var(--sans)">
+      <text x="200" y="26" font-size="11" fill="var(--ink-400)">硬件</text>
+      <text x="292" y="26" font-size="11" fill="var(--ink-400)">调度</text>
+      <text x="376" y="26" font-size="11" fill="var(--ink-400)">切分</text>
+      <text x="459" y="26" font-size="11" fill="var(--ink-400)">容错</text>
+      <text x="542" y="26" font-size="11" fill="var(--ink-400)">观测</text>
+      <text x="626" y="26" font-size="11" fill="var(--ink-400)">模型</text>
+
+      <text x="10" y="56" font-size="13" font-weight="700" fill="var(--ink-900)">① 裸金属/虚机</text>
+      <text x="10" y="72" font-size="11" fill="var(--ink-400)">毛坯房</text>
+      <rect x="200" y="40" width="83" height="34" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <rect x="283" y="40" width="417" height="34" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="491" y="62" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">调度/切分/容错/观测全自己搭</text>
+
+      <text x="10" y="101" font-size="13" font-weight="700" fill="var(--ink-900)">② 托管 K8s+GPU</text>
+      <text x="10" y="117" font-size="11" fill="var(--ink-400)">精装公寓</text>
+      <rect x="200" y="85" width="167" height="34" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <rect x="367" y="85" width="333" height="34" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="533" y="107" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">云管控制面和插件，策略自己配</text>
+
+      <text x="10" y="146" font-size="13" font-weight="700" fill="var(--ink-900)">③ 托管训练/推理集群</text>
+      <text x="10" y="162" font-size="11" fill="var(--ink-400)">酒店式公寓 · HyperPod/Vertex 类</text>
+      <rect x="200" y="130" width="417" height="34" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="408" y="152" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">连调度容错都包</text>
+      <rect x="617" y="130" width="83" height="34" fill="var(--line-2)" stroke="var(--line)"/>
+
+      <text x="10" y="191" font-size="13" font-weight="700" fill="var(--ink-900)">④ 托管 API</text>
+      <text x="10" y="207" font-size="11" fill="var(--ink-400)">住酒店</text>
+      <rect x="200" y="175" width="500" height="34" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="450" y="197" text-anchor="middle" font-size="11.5" fill="var(--ink-500)">连模型都给</text>
+
+      <rect x="10" y="225" width="14" height="12" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="32" y="235" font-size="11.5" fill="var(--ink-500)">云负责</text>
+      <rect x="90" y="225" width="14" height="12" fill="var(--line-2)" stroke="var(--line)"/>
+      <text x="112" y="235" font-size="11.5" fill="var(--ink-500)">你负责</text>
+      <text x="700" y="235" text-anchor="end" font-size="11.5" fill="var(--ink-400)">越往下越省心、越少定制、单位价越高</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>责任递交线：选形态本质是选「你想自己扛多少平台层」。</figcaption>
+  </figure>
+
+  <h3>自建的隐藏工作量</h3>
+  <p>本页四大能力对应四列活——客户说「我们自己买卡建」时，把这张表摆给他看：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>能力</th><th>自建要做什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>调度</b></td><td>裸金属自装 Kueue/Volcano/KAI</td></tr>
+     <tr><td><b>切分</b></td><td>自配 MIG/HAMi</td></tr>
+     <tr><td><b>容错</b></td><td>自建自愈体系——<b>最难，常是压垮自建决心的那根稻草</b></td></tr>
+     <tr><td><b>观测</b></td><td>自搭 DCGM + 看板</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>三问定档</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>问</th><th>答什么 → 落在哪一档</th></tr></thead>
+    <tbody>
+     <tr><td>有没有专职基础设施团队</td><td>没有 → 往上选托管</td></tr>
+     <tr><td>负载是啥</td><td>只调 API → 直接 API；训练微调 → 托管训练或托管 K8s；极致定制压成本 → 裸金属</td></tr>
+     <tr><td>多快上线</td><td>急 → 托管</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>常见落点</b>：初创只调模型 → API；有 AI 团队要微调 → 托管训练集群；大厂稳定大负载 → 自建 + 自研平台；<b>多数成熟客户是混合：基线自建、弹性和尝鲜上托管/API</b>——混合方案恰恰最能体现顾问价值。</p>
+  <p><b>演进纪律</b>：按责任递交线渐进（先托管验证、量上来再下沉自建），底层用 K8s/DRA 开源标准降低锁定风险。售前别一上来推最贵的——先诚实定档，信任感比单笔大单更值钱。</p>
 
   <div class="tool" id="tierpicker">
     <h4>云上算力形态定档器</h4>
