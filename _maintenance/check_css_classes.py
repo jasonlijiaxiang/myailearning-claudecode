@@ -8,8 +8,10 @@
 
   轴一 · 孤儿类：kb.css 里定义了、但全部页面/生成器/JS 都没用到的类。
         每个孤儿都是一次类名契约漂移的现场（要么页面丢了类，要么 CSS 该删）。
-  轴二 · 版本戳：每页的 kb.css?v= 缓存戳与页面上可见的构建标记（.ver）必须
-        全站一个值——改了 CSS 忘了齐戳，用户端就会出现"改了但看不见"。
+  轴二 · 版本戳：每页的 kb.css?v= 缓存戳、site.js / data.js 的同名戳，与页面上可见的
+        构建标记（.ver）必须全站一个值——改了 CSS 或 JS 忘了齐戳，用户端就会出现
+        "改了但看不见"。脚本戳是 2026-07-22 补的：此前只有 CSS 带戳，改完 site.js
+        浏览器照吃旧缓存，同一个坑只堵了一半（当天调本页查找时实测踩到）。
 
 用法: python3 _maintenance/check_css_classes.py
 退出码: 0 = 通过, 1 = 有失联类或版本戳不齐。
@@ -31,6 +33,10 @@ DYNAMIC = {
     "js-on", "on", "cur",                    # site.js：JS 就绪 / 注释器选中 / 目录高亮
     "f",                                     # 报文注释器字段（标记里有，JS 也会重写）
     "over", "none",                          # build.py 保鲜看板/关系网的行状态
+    "soon",                                  # 入口卡「未完成」状态：2026-07-22 网页版
+                                             # 19/19 全覆盖后，首页入口卡改回 .st.ok，
+                                             # 该分支暂不触发；下一个「先落 PPT、网页
+                                             # 版还在路上」的阶段会重新出现，故保留定义
     "ppt",                                   # build.py 知识地图「仅 PPT」标记：2026-07-21
                                              # 起 19/19 模块都有网页版，该分支暂不触发；
                                              # 新模块先落 PPT 面时会重新出现，故保留定义
@@ -76,13 +82,20 @@ def check_orphans():
 
 
 def check_stamps():
-    stamps = {}
+    stamps, script_bad = {}, []
     for f in pages():
         t = io.open(f, encoding="utf-8").read()
         css_v = re.findall(r"kb\.css\?v=(\w+)", t)
         ver = re.findall(r'class="ver">v?(\w+)<', t)
         stamps[os.path.relpath(f, ROOT)] = (css_v[0] if css_v else "无",
                                             ver[0] if ver else "无")
+        # 脚本引用要么不引，要引就必须带戳且与 CSS 同值
+        for src in re.findall(r'<script src="([^"]+\.js)(?:\?v=(\w+))?"', t):
+            path, sv = src
+            if not sv or (css_v and sv != css_v[0]):
+                script_bad.append("%s: %s 的戳是 %s，CSS 是 %s"
+                                  % (os.path.relpath(f, ROOT), path,
+                                     sv or "（没有）", css_v[0] if css_v else "无"))
     css_set = {v[0] for v in stamps.values()}
     ver_set = {v[1] for v in stamps.values()}
     ok = len(css_set) == 1 and len(ver_set) == 1 and "无" not in css_set | ver_set
@@ -92,7 +105,9 @@ def check_stamps():
     if not ok:
         for f, (c, v) in sorted(stamps.items()):
             print("  [戳] %s: kb.css?v=%s / 标记 v%s" % (f, c, v))
-    return ok
+    for b in script_bad:
+        print("  [脚本戳] " + b)
+    return ok and not script_bad
 
 
 def main():

@@ -87,6 +87,10 @@ def main():
     for f in pages():
         t = io.open(f, encoding="utf-8").read()
         n = t.replace("kb.css?v=" + css_v, "kb.css?v=" + new_css)
+        # 脚本同戳（2026-07-22 补）：此前只有 CSS 带戳，site.js / data.js 裸引，
+        # 改完 JS 浏览器照吃旧缓存——同一个「改了但看不见」的坑，之前只堵了一半。
+        n = n.replace("site.js?v=" + css_v, "site.js?v=" + new_css)
+        n = n.replace("data.js?v=" + css_v, "data.js?v=" + new_css)
         n = n.replace('class="ver">v' + ver_v + "<", 'class="ver">v' + new_ver + "<")
         n = n.replace('class="ver">' + ver_v + "<", 'class="ver">' + new_ver + "<")
         if n != t:

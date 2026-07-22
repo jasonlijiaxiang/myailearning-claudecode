@@ -39,8 +39,44 @@
   --maxw: 1200px;
 }
 
+/* 深色：只改令牌，不改任何一条布局或组件规则——上面那份令牌表是唯一出处，
+   这里是它的第二套取值。跟随系统设置，不做手动开关：
+   开关要持久化就得有脚本，脚本要不闪就得写进 47 个页面的 <head>，
+   而 prefers-color-scheme 零脚本、零标记、零闪烁，覆盖的正是绝大多数场景。
+   取值按暗底反过来配：底最深、卡片次之、描边再亮一档；强调色整体提亮，
+   因为深色底上 #2563EB 这类饱和蓝会发闷。 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:      #0F1520;
+    --card:    #161E2C;
+    --line:    #2A3547;
+    --line-2:  #1E2836;
+
+    --ink-900: #E8EDF5;
+    --ink-700: #C0CBDA;
+    --ink-500: #97A6B8;
+    --ink-400: #74849A;
+
+    --blue:    #60A5FA;
+    --blue-d:  #93C5FD;
+    --blue-bg: #16243C;
+    --blue-ln: #2E4A6E;
+
+    --ok:      #4ADE80;  --ok-bg:  #10241A;  --ok-ln:  #2A5741;
+    --warn:    #FBBF24;  --warn-bg:#2A2113;  --warn-ln:#5C4818;
+    --red:     #F87171;  --red-bg: #2A1618;  --red-ln: #5C2A2C;
+
+    --shadow:    0 1px 2px rgba(0,0,0,.35);
+    --shadow-up: 0 4px 14px rgba(0,0,0,.45);
+  }
+  /* 图与代码块：SVG 里写死的浅色底在暗色下会成为一块刺眼白斑，压一档亮度 */
+  svg, img, .codeblock { filter: brightness(.92); }
+}
+/* 七层色相的深色取值放在浅色定义之后（本文件末），否则会被同优先级的浅色规则盖掉 */
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html { color-scheme: light dark; }   /* 让滚动条、表单控件也跟着走 */
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 
 body {
@@ -198,11 +234,13 @@ h2:hover .anchor, .anchor:focus { opacity: 1; }
 table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 th, td { padding: .55rem .8rem; text-align: left; vertical-align: top;
          border-bottom: 1px solid var(--line-2); }
-th { background: #F8FAFC; color: var(--ink-500); font-weight: 600; font-size: 12px;
+/* 表头底色走令牌，不写死——写死的 #F8FAFC 在深色下是一条刺眼白带（2026-07-22 目检发现，
+   全文件仅此一处漏网）。令牌唯一出处就是为了让第二套配色一次生效。 */
+th { background: var(--line-2); color: var(--ink-500); font-weight: 600; font-size: 12px;
      letter-spacing: .04em; white-space: nowrap; }
 td { line-height: 1.65; color: var(--ink-700); }
 tbody tr:last-child td { border-bottom: 0; }
-tbody tr:hover { background: #FAFBFD; }
+tbody tr:hover { background: var(--line-2); }
 
 /* 证据边注 */
 .ev { font-size: 14px; color: var(--ink-400); line-height: 1.65;
@@ -365,7 +403,7 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
    跨册聚合，纸面做不到的那一类：19 册各印各的问答汇到一处，按一句话搜。
    本页只登记题目与去处——答案留在原处，不做副本。
    无 JavaScript 时筛选条整块隐藏，下面的分组长列表本身就完整可读。 */
-.qa-tools { display: none; position: sticky; top: 0; z-index: 5;
+.qa-tools { display: none; position: sticky; top: var(--topbar-h, 0px); z-index: 5;
             background: var(--bg); padding: .8rem 0 .6rem; margin-bottom: .4rem;
             border-bottom: 1px solid var(--line); }
 .js-on .qa-tools { display: block; }
@@ -431,12 +469,48 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
 /* ============ 响应式 ============ */
 @media (max-width: 960px) {
   .cols { grid-template-columns: 1fr; gap: 1rem; }
-  .toc { position: static; }
+  /* 窄屏目录做成吸顶折叠：此前是页顶一个静态平铺列表，往下滚就再也回不去，
+     手机上翻一册两万字全靠拇指划——现在任何位置都能拉出目录跳章。 */
+  /* 吸在顶栏下沿而不是视口顶——顶栏本身也 sticky，top:0 会让目录滑到它背后。
+     顶栏在窄屏会折成两行，高度不定，故由 site.js 实测后写进 --topbar-h。 */
+  .toc { position: sticky; top: var(--topbar-h, 0px); z-index: 6; margin-bottom: .6rem; }
   .toc ol { display: flex; flex-wrap: wrap; gap: .15rem .25rem; }
+  /* 折叠开关由 site.js 挂在 data- 属性上（不新增类名，静态扫描无需登记）。 */
+  .toc[data-fold="shut"] ol, .toc[data-fold="shut"] .pf { display: none; }
+  .toc[data-fold] > h4 { cursor: pointer; margin: 0; padding-right: 1.2rem; position: relative; }
+  .toc[data-fold] > h4::after { content: "▴"; position: absolute; right: .1rem; top: 0;
+                                color: var(--ink-400); font-size: 12px; }
+  .toc[data-fold="shut"] > h4::after { content: "▾"; }
   .wire-grid { grid-template-columns: 1fr; }
   .wire-grid > * + * { border-left: 0; border-top: 1px solid var(--line); }
   .anchor { opacity: 1; }
 }
+
+/* ============ 模块页：本页查找 + 前后册导航 ============ */
+/* 本页查找由 site.js 注入进目录（19 册标记不用各改一遍）；无 JavaScript 时不出现，
+   目录本身仍是完整的阅读路径。单册最长两万余字，靠滚找太慢。 */
+.pf { display: none; margin: .5rem 0 0; }
+.js-on .pf { display: block; }
+.pf input { width: 100%; font: inherit; font-size: 13px; color: var(--ink-900);
+            background: var(--bg); border: 1px solid var(--line);
+            border-radius: 8px; padding: .3rem .55rem; }
+.pf input:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.pf ol { margin: .4rem 0 0; padding: 0; list-style: none; display: block; }
+.pf li { margin: .1rem 0; }
+.pf a { display: block; font-size: 12.5px; line-height: 1.5; color: var(--ink-500);
+        padding: .2rem .35rem; border-radius: 6px; }
+.pf a:hover { background: var(--blue-bg); color: var(--blue-d); text-decoration: none; }
+.pf .k { display: block; font-size: 11px; color: var(--ink-400); }
+.pf .miss { font-size: 12.5px; color: var(--ink-400); padding: .2rem .35rem; }
+
+.prevnext { display: flex; flex-wrap: wrap; gap: .6rem; margin: .9rem 0 0; }
+.prevnext a { flex: 1 1 14rem; min-width: 0; display: block; padding: .6rem .85rem;
+              background: var(--card); border: 1px solid var(--line);
+              border-radius: var(--radius); text-decoration: none; color: inherit; }
+.prevnext a:hover { border-color: var(--blue-ln); text-decoration: none; }
+.prevnext .k { display: block; font-size: 11.5px; color: var(--ink-400); }
+.prevnext b { font-size: 14px; color: var(--ink-900); }
+.prevnext .nx { text-align: right; }
 @media (max-width: 680px) {
   body { font-size: 14px; }
   .faces { grid-template-columns: 1fr; }
@@ -484,8 +558,9 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
         padding: .12rem .75rem; font-size: 13px; color: var(--ink-500); }
 .stat b { color: var(--ink-900); font-size: 14px; margin-right: .15rem; }
 
-/* 页头轻渐变（所有页共用，给白顶一点纵深） */
-.top { background: linear-gradient(180deg, #F0F5FD 0%, var(--card) 78%); }
+/* 页头轻渐变（所有页共用，给白顶一点纵深）——起始色也走令牌，
+   否则深色下页头是一条亮蓝带（与表头同一类漏网） */
+.top { background: linear-gradient(180deg, var(--blue-bg) 0%, var(--card) 78%); }
 
 /* ============ 全站顶栏（唯一导航模型，2026-07-21 定版）============
    每个页面同一条顶栏：品牌回首页 + 六个常用入口，当前页高亮。
@@ -508,3 +583,15 @@ footer { border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 
    2026-07-21 三个旧标签页渲染两套 CSS，靠猜排查了两轮，此后不猜。 */
 .topbar .ver { margin-left: auto; font-family: var(--mono); font-size: 11px;
                color: var(--ink-400); opacity: .65; white-space: nowrap; }
+
+/* 七层色相 · 深色取值（必须排在浅色定义之后：同优先级，后者赢）。
+   暗底上原来的紫 #7C3AED、靛 #6366F1 会糊进背景，整体提亮一档。 */
+@media (prefers-color-scheme: dark) {
+  .hue-0 { --hue: #A78BFA; --hue-bg: #221B38; }
+  .hue-1 { --hue: #60A5FA; --hue-bg: #16243C; }
+  .hue-2 { --hue: #22D3EE; --hue-bg: #0E2A31; }
+  .hue-3 { --hue: #FB923C; --hue-bg: #2B1D11; }
+  .hue-4 { --hue: #4ADE80; --hue-bg: #10241A; }
+  .hue-5 { --hue: #818CF8; --hue-bg: #1B1E3A; }
+  .hue-6 { --hue: #FBBF24; --hue-bg: #2A2113; }
+}

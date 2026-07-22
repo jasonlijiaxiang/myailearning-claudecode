@@ -6,6 +6,18 @@
   "use strict";
   document.documentElement.className += " js-on";
 
+  /* 顶栏实高写进 --topbar-h：所有吸顶元素（模块页目录、问答库筛选条）都吸在它下沿。
+     顶栏自己也是 sticky，窄屏还会折成两行——写死一个 top 值必然在某个宽度上错位。 */
+  (function () {
+    var bar = document.querySelector(".topbar");
+    if (!bar) return;
+    var sync = function () {
+      document.documentElement.style.setProperty("--topbar-h", bar.offsetHeight + "px");
+    };
+    sync();
+    window.addEventListener("resize", sync);
+  }());
+
   /* ---------- 交互件公共渲染件：全站唯一出处 ----------
      各模块交互件的结果卡片与指标块由这里统一渲染，页面内联脚本只留数据与判定逻辑。
      缘由：这两个函数曾在 11 个交互件里各复制一份，card() 已漂成三个变体——参数顺序、
@@ -150,6 +162,103 @@
       if (e.key === "Escape") { qf.value = ""; apply(); }
     });
     apply();
+  }
+
+  /* ---------- 模块页：本页查找 + 窄屏折叠目录 ----------
+     两件都由脚本注入，19 册标记不用各改一遍；无 JavaScript 时都不出现，
+     目录本身仍是完整的阅读路径（web-design-system 可访问性底线）。 */
+  var tocEl = document.querySelector(".toc");
+  if (tocEl && document.querySelector("article")) {
+    /* 本页查找：索引本页的章标题、小标题与问答题面——单册最长两万余字，靠滚找太慢。 */
+    var targets = [];
+    /* 章标题里混着序号徽标和锚点链接（<span class="num">01</span>…<a>#id</a>），
+       直接取 textContent 会把「06生产落地#mcp-production」整串当成小节名。 */
+    var label = function (el) {
+      var c = el.cloneNode(true);
+      Array.prototype.forEach.call(c.querySelectorAll("a, .num, .added"), function (x) {
+        x.parentNode.removeChild(x);
+      });
+      return c.textContent.replace(/\s+/g, " ").trim();
+    };
+    Array.prototype.forEach.call(
+      document.querySelectorAll("article h2, article h3, article summary"),
+      function (el) {
+        var host = el.tagName === "SUMMARY" ? el.parentElement : el;
+        var id = host.id || (el.closest("section") || {}).id;
+        if (!id) return;
+        var txt = label(el);
+        if (!txt) return;
+        var sec = el.closest("section");
+        var where = sec && sec.querySelector("h2");
+        targets.push({
+          id: host.id || id,
+          t: txt.length > 44 ? txt.slice(0, 44) + "…" : txt,
+          k: where && where !== el ? label(where).slice(0, 24) : "",
+          s: txt.toLowerCase()
+        });
+      });
+
+    var box = document.createElement("div");
+    box.className = "pf";
+    box.innerHTML = '<input type="search" placeholder="在本页找…" autocomplete="off">'
+      + "<ol></ol>";
+    tocEl.appendChild(box);
+    var pfIn = box.querySelector("input");
+    var pfList = box.querySelector("ol");
+    pfIn.addEventListener("input", function () {
+      var v = pfIn.value.trim().toLowerCase();
+      pfList.innerHTML = "";
+      if (v.length < 1) return;
+      var n = 0, i;
+      for (i = 0; i < targets.length && n < 10; i++) {
+        if (targets[i].s.indexOf(v) === -1) continue;
+        n += 1;
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = "#" + targets[i].id;
+        a.textContent = targets[i].t;
+        if (targets[i].k) {
+          var k = document.createElement("span");
+          k.className = "k";
+          k.textContent = targets[i].k;
+          a.appendChild(k);
+        }
+        li.appendChild(a);
+        pfList.appendChild(li);
+      }
+      if (!n) {
+        var p = document.createElement("p");
+        p.className = "miss";
+        p.textContent = "本页没有匹配的小节或问答";
+        pfList.appendChild(p);
+      }
+    });
+
+    /* 窄屏折叠：默认收起，点标题开合；宽屏（>960px）侧栏常驻，不加这个开关。 */
+    var narrow = window.matchMedia("(max-width: 960px)");
+    var head = tocEl.querySelector("h4");
+    if (head) {
+      var syncFold = function () {
+        if (narrow.matches) {
+          tocEl.setAttribute("data-fold", "shut");
+        } else {
+          tocEl.removeAttribute("data-fold");
+        }
+      };
+      head.addEventListener("click", function () {
+        if (!narrow.matches) return;
+        tocEl.setAttribute("data-fold",
+          tocEl.getAttribute("data-fold") === "shut" ? "open" : "shut");
+      });
+      /* 跳走之后自动收起，否则目录会一直盖着刚跳到的那一段 */
+      tocEl.addEventListener("click", function (e) {
+        if (narrow.matches && e.target.tagName === "A") {
+          tocEl.setAttribute("data-fold", "shut");
+        }
+      });
+      syncFold();
+      if (narrow.addEventListener) narrow.addEventListener("change", syncFold);
+    }
   }
 
   /* ---------- 模块页目录高亮（当前位置指示） ---------- */

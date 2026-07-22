@@ -316,6 +316,38 @@ def render_qa(data, prep_qs):
     return "\n".join(o)
 
 
+def shelf_order(data):
+    """七层书架顺序里的模块序列——前后册导航按它走。
+
+    此前模块页只有语义跳转的「相关模块」，没有线性读法的入口：想按书架从头读一遍，
+    每翻一册都得回首页。顺序取 LAYER_ORDER × 层内 MANIFEST 目录序，与首页知识地图一致。
+    """
+    out = []
+    for layer in data["layers"]:
+        for m in data["modules"]:
+            if m["layer"] == layer and m["id"] in WEB_DIRS:
+                out.append(m)
+    return out
+
+
+def prevnext(shelf, mid):
+    ids = [m["id"] for m in shelf]
+    if mid not in ids:
+        return ""
+    i = ids.index(mid)
+    parts = ['\n  <nav class="prevnext" aria-label="书架前后册">']
+    if i > 0:
+        p = shelf[i - 1]
+        parts.append('   <a href="../%s/index.html"><span class="k">上一册 · %s</span>'
+                     "<b>%s</b></a>" % (esc(WEB_DIRS[p["id"]]), esc(p["layer"]), esc(p["dir"])))
+    if i < len(shelf) - 1:
+        n = shelf[i + 1]
+        parts.append('   <a class="nx" href="../%s/index.html"><span class="k">下一册 · %s</span>'
+                     "<b>%s</b></a>" % (esc(WEB_DIRS[n["id"]]), esc(n["layer"]), esc(n["dir"])))
+    parts.append("  </nav>")
+    return "\n".join(parts) if len(parts) > 2 else ""
+
+
 def load_blurbs():
     """模块一句话简介，解析自 PPT 总览的模块表——那是「主题一句话」的账面位置
     （library-rules 索引两层），这里是读账，不是另建第二份。"""
@@ -582,6 +614,7 @@ def main(argv):
 
         mod_cur, mod_new, anchored = {}, {}, 0
         by_id = {m["id"]: m for m in data["modules"]}
+        shelf = shelf_order(data)
         for mid, path in MOD_PAGES.items():
             if not os.path.exists(path) or mid not in by_id:
                 continue
@@ -590,7 +623,8 @@ def main(argv):
             cur = open(path, encoding="utf-8").read()
             base = page_edits[path][1] if path in page_edits else cur
             block = ('  <p class="updated">本册最近改动 <b>%s</b>'
-                     '（以模块账本 MANIFEST 为准）。</p>' % esc(by_id[mid]["updated"]))
+                     '（以模块账本 MANIFEST 为准）。</p>' % esc(by_id[mid]["updated"])
+                     + prevnext(shelf, mid))
             mod_cur[path] = cur
             mod_new[path] = inject(base, MOD_BEGIN, MOD_END, block, "UPDATED@" + mid)
             if page_edits.pop(path, None):  # 已并进 mod_new，别再单独写一遍
