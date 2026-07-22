@@ -67,8 +67,41 @@
     <p>注意力＝<b>可学习的加权平均</b>：每个词对全句所有词打「相关度分数」，按分数加权吸收信息。「这个苹果很甜」vs「苹果发布了新手机」——同一个词，看谁、看多重，权重由数据学出来，这就是它全部的魔法。</p>
   </div>
 
-  <p><b>QKV 三件套用图书馆检索记</b>：Q（Query）是你手里的检索词（我想找什么）、K（Key）是每本书的书脊标签（我是讲什么的）、V（Value）是书的正文内容（真正被取走的东西）。为什么要三个分身？「我在找什么」和「我能提供什么」是两回事——K ≠ V；三个矩阵都是训练出来的。三步计算：<b>点积算相关</b>（方向越一致越相关，n 个词 n² 对关系——O(n²) 诞生在这一步）→
-    <b>缩放 + Softmax 分预算</b>（除以 √dₖ 给分数降温防饱和；softmax 把分数变成总和 100% 的注意力预算）→ <b>加权求和取货</b>（新「苹果」≈ 0.6×V(发布) + 0.25×V(手机) + …，已经是「科技公司的苹果」）。公式全貌只此一次：Attention(Q,K,V) = softmax(QKᵀ/√dₖ)·V——三步拆开，每步都是常识。</p>
+  <h3>QKV 三件套用图书馆检索记</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>是什么</th><th>图书馆里对应</th></tr></thead>
+    <tbody>
+     <tr><td><b>Q</b>（Query）</td><td>我想找什么</td><td>你手里的检索词</td></tr>
+     <tr><td><b>K</b>（Key）</td><td>我是讲什么的</td><td>每本书的书脊标签</td></tr>
+     <tr><td><b>V</b>（Value）</td><td>真正被取走的东西</td><td>书的正文内容</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>为什么要三个分身</b>？「我在找什么」和「我能提供什么」是两回事——<b>K ≠ V</b>；三个矩阵都是训练出来的。</p>
+
+  <h3>三步计算</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 116" role="img" aria-label="注意力三步：点积算相关（O(n²) 诞生在这一步）、缩放加 Softmax 分预算、加权求和取货">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="216" height="52" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="114" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">① 点积算相关</text>
+      <text x="114" y="64" text-anchor="middle" font-size="11" fill="var(--warn)">O(n²) 诞生在这一步</text>
+      <rect x="252" y="24" width="216" height="52" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="360" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">② 缩放 + Softmax</text>
+      <text x="360" y="64" text-anchor="middle" font-size="11" fill="var(--ink-500)">分成总和 100% 的注意力预算</text>
+      <rect x="498" y="24" width="216" height="52" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="606" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">③ 加权求和取货</text>
+      <text x="606" y="64" text-anchor="middle" font-size="11" fill="var(--ink-500)">得到带上下文的新向量</text>
+      <path d="M222 50 H246 M468 50 H492" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M246 50 l-7 -4 v8 z M492 50 l-7 -4 v8 z" fill="var(--ink-400)"/>
+      <text x="360" y="106" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">Attention(Q,K,V) = softmax(QKᵀ/√dₖ)·V　——三步拆开，每步都是常识</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>①方向越一致越相关，n 个词 n² 对关系；②除以 √dₖ 给分数降温防饱和；③新「苹果」≈ 0.6×V(发布) + 0.25×V(手机) + …，已经是「科技公司的苹果」。</figcaption>
+  </figure>
   <p><b>因果掩码</b>：生成式训练是「预测下一个词」，第 i 个词只许看位置 1…i——做完形填空不许偷看后文答案。妙处：一句 100 词 = 100 道练习题一次并行算完（训练效率的关键），也顺带解释了 GPT 写到一半不会回头修改。<b>多头注意力</b>像专家会诊：把向量空间切成 h 份各看一面（语法头盯主谓、指代头盯「它」指谁），拼接融合——头数不是越多越好（头数 × 每头维度 =
     固定预算）。白板口诀：<b>Q 问、K 答、V 给货，softmax 分预算</b>。</p>
   <p>顺带一条边界：多模态不是新架构——ViT 把图切成 16×16 的 patch，每块地位与词向量完全等同，
@@ -95,8 +128,16 @@
     </tbody>
   </table>
   </div>
-  <p>几个必答的「为什么」：<b>位置编码</b>——注意力天生不分先后（打乱词序点积不变），必须显式注入位置；RoPE 把相对距离编码成旋转角度（座位牌不写第 5 号，写「你和每个人各隔几个座位」），是主流开源模型的事实标准，超长上下文靠插值/YaRN 扩展。<b>残差与 LayerNorm</b>
-    ——残差是高速公路主路，信息与梯度沿主路直达，百层网络训得动的根本原因；LayerNorm 是稳压器。<b>Decoder-only 为什么统治</b>——「预测下一个词」一个目标通吃所有任务、配合因果掩码训练信号最密、结构单一好规模化；BERT 系双向架构仍活跃在检索嵌入侧（RAG 检索端常见）。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>必答的「为什么」</th><th>答案</th></tr></thead>
+    <tbody>
+     <tr><td><b>为什么要位置编码</b></td><td>注意力天生不分先后（打乱词序点积不变），必须显式注入位置。RoPE 把相对距离编码成旋转角度（<b>座位牌不写第 5 号，写「你和每个人各隔几个座位」</b>），是主流开源模型的事实标准，超长上下文靠插值 / YaRN 扩展</td></tr>
+     <tr><td><b>残差与 LayerNorm 干什么</b></td><td>残差是高速公路主路，信息与梯度沿主路直达——<b>百层网络训得动的根本原因</b>；LayerNorm 是稳压器</td></tr>
+     <tr><td><b>Decoder-only 为什么统治</b></td><td>「预测下一个词」一个目标通吃所有任务、配合因果掩码训练信号最密、结构单一好规模化。BERT 系双向架构仍活跃在<b>检索嵌入侧</b>（RAG 检索端常见）</td></tr>
+    </tbody>
+   </table>
+  </div>
   <p><b>MoE</b>（Mixture of Experts）像三甲医院分诊台：1000 位专家在编（总参数），挂一次号只见 2 位相关科室的（激活参数）。DeepSeek-V3 总参 671B、每 token 只激活约 37B——2026 主流旗舰基本都是 MoE。看 MoE 要问两个数：总参数（存储账）和激活参数（计算账），两个都真、衡量的东西不同。「参数账」不等于「显存账」——推理时显存大头常是 KV 缓存，下一节。</p>
 </section>
 
@@ -108,10 +149,24 @@
     <p>推理的「钱」和「慢」都写在两行账里：<b>O(n²) 的 prefill</b> 与 <b>KV 缓存的显存</b>。会算这两笔账，就会谈成本——按 token 计费、输出比输入贵、首字慢、并发爆卡，全是它们的直接映射，不是定价花招。</p>
   </div>
 
-  <p>生成是自回归循环：写 500 字 ≈ 完整跑 700 多次前向——流式输出不是产品特效，是模型本来的节奏；每个输出 token 都是一轮完整前向，这就是输出单价高于输入的架构原因。两阶段像餐厅：
-    <b>prefill 备菜慢</b>（整段并行、算力密集、O(n²)——50 页文档半天不出字就是它在啃）、
-    <b>decode 上菜快</b>（逐 token、带宽密集）——TTFT 与 TPOT 分开谈。<b>KV 缓存</b>是空间换时间：历史 token 的 K/V 算一次存起来反复用（翻会议纪要，不重放录音）——代价是纪要越记越厚：<b>7B 模型一条 32K 对话的缓存 ≈ 16GB，比 14GB 的模型权重还大</b>；并发 10 条 =
-    权重十倍量级的显存。窗口长度翻倍：prefill 计算 ×4、KV 显存 ×2。</p>
+  <p>生成是自回归循环：<b>写 500 字 ≈ 完整跑 700 多次前向</b>——流式输出不是产品特效，是模型本来的节奏；每个输出 token 都是一轮完整前向，<b>这就是输出单价高于输入的架构原因</b>。</p>
+  <h3>两阶段像餐厅</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>阶段</th><th>怎么跑</th><th>吃什么</th><th>症状</th></tr></thead>
+    <tbody>
+     <tr><td><b>prefill 备菜慢</b></td><td>整段并行，O(n²)</td><td>算力密集</td><td>50 页文档半天不出字就是它在啃</td></tr>
+     <tr><td><b>decode 上菜快</b></td><td>逐 token</td><td>带宽密集</td><td>字一个个往外蹦</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>TTFT 与 TPOT 分开谈。</b></p>
+
+  <div class="box">
+   <h4>KV 缓存是空间换时间</h4>
+   <p>历史 token 的 K/V 算一次存起来反复用（<b>翻会议纪要，不重放录音</b>）——代价是纪要越记越厚：<b>7B 模型一条 32K 对话的缓存 ≈ 16GB，比 14GB 的模型权重还大</b>；并发 10 条 = 权重十倍量级的显存。</p>
+  </div>
+  <p><b>窗口长度翻倍</b>：prefill 计算 ×4、KV 显存 ×2。</p>
 
   <div class="tool" id="kvcalc">
     <h4>注意力变体 KV 账速算</h4>
@@ -143,11 +198,21 @@
   </div>
 
   <h3>标称 1M ≠ 有效 1M：四堵墙</h3>
-  <p>2026 现状：托管商用模型已有 13 家提供 ≥1M 窗口（Gemini 3.1 Pro 2M、Llama 4 Scout 标称
-    10M），但 RULER/MRCR v2/NoLiMa 等基准显示<b>多事实检索过 200K 普遍掉 30–60 分</b>——塞得进 ≠ 记得住。窗口是「训练出来的能力」不是「配置出来的参数」，中间隔四堵墙：
-    ①<b>训练</b>——长程依赖数据天然稀缺（整本书才 100–300K token）+ 平方级训练成本；
-    ②<b>架构</b>——O(n²) 硬撑不可持续，稀疏/线性是有损压缩；③<b>服务</b>——KV 巨量、
-    HBM 带宽墙、超长 prefill 无缓存则分钟级；④<b>质量</b>——标称 ≠ 有效。最强拉长驱动是视频（约 300 token/秒，1 小时 ≈ 108 万 token）。主战场已从标称长度竞赛转向<b>有效长度 × 单位 token 经济性 × 记忆分层</b>。</p>
+  <p><b>2026 现状</b>：托管商用模型已有 13 家提供 ≥1M 窗口（Gemini 3.1 Pro 2M、Llama 4 Scout 标称 10M），但 RULER / MRCR v2 / NoLiMa 等基准显示<b>多事实检索过 200K 普遍掉 30–60 分</b>——<b>塞得进 ≠ 记得住</b>。</p>
+  <h3>窗口是「训练出来的能力」，不是「配置出来的参数」</h3>
+  <p>中间隔四堵墙：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>墙</th><th>卡在哪</th></tr></thead>
+    <tbody>
+     <tr><td>① 训练</td><td>长程依赖数据天然稀缺（整本书才 100–300K token）+ 平方级训练成本</td></tr>
+     <tr><td>② 架构</td><td>O(n²) 硬撑不可持续，稀疏 / 线性是<b>有损压缩</b></td></tr>
+     <tr><td>③ 服务</td><td>KV 巨量、HBM 带宽墙、超长 prefill 无缓存则分钟级</td></tr>
+     <tr><td>④ 质量</td><td><b>标称 ≠ 有效</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>最强拉长驱动是视频（约 300 token/秒，1 小时 ≈ 108 万 token）。主战场已从标称长度竞赛转向<b>有效长度 × 单位 token 经济性 × 记忆分层</b>。</p>
   <p>这也是两条高频答辩的架构论据：<b>「1M 窗口还要 RAG 吗」</b>——要：全量塞入平方级烧钱、过 200K 有效性衰减、新鲜度与行级权限只能在检索层做（应用视角见
     <a href="../rag/index.html#rag-what-why">RAG 网页版</a>）；<b>上下文工程为什么非做不可</b>——每多塞 1K token，所有后续轮次都为它付费（复利型成本），做法见
     <a href="../agent/index.html#agent-context">Agent 网页版</a>。服务系统怎么管好这笔账（分页、前缀缓存、容量规划）在 <a href="../llm-inference/index.html">LLM-Inference
@@ -177,7 +242,18 @@
     </tbody>
   </table>
   </div>
-  <p>几条讲透的机制：GQA 让每 8 个 Q 头共用一组 KV（32 位专家每 8 人共用一套百科全书，够用又省地方）；MLA 不砍头数、把 K/V 低秩压缩成潜在向量存缓存（把书压成 zip，看时解压——柜子省得更狠，代价是解压要定制 kernel）；DSA 稀疏像读 500 页标书先扫目录标出 20 页重点再精读；线性混合的格局一句话——<b>混合线性是效率前沿，全注意力仍是精度前沿</b>（MiniMax 从线性退回全注意力是行业公开的教训）；FlashAttention 是换了动线设计的厨房——菜谱一个字没改，出菜速度翻几倍。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>机制</th><th>怎么省</th><th>像什么 / 代价</th></tr></thead>
+    <tbody>
+     <tr><td><b>GQA</b></td><td>每 8 个 Q 头共用一组 KV</td><td>32 位专家每 8 人共用一套百科全书——够用又省地方</td></tr>
+     <tr><td><b>MLA</b></td><td>不砍头数，把 K/V 低秩压缩成潜在向量存缓存</td><td>把书压成 zip、看时解压——<b>柜子省得更狠，代价是解压要定制 kernel</b></td></tr>
+     <tr><td><b>DSA 稀疏</b></td><td>只精读重点</td><td>读 500 页标书先扫目录标出 20 页重点再精读</td></tr>
+     <tr><td><b>FlashAttention</b></td><td>只改搬运不改数学</td><td>换了动线设计的厨房——<b>菜谱一个字没改，出菜速度翻几倍</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>线性混合的格局一句话——<b>混合线性是效率前沿，全注意力仍是精度前沿</b>（MiniMax 从线性退回全注意力是行业公开的教训）。</p>
   <p><b>价格差从哪来</b>：注意力变体决定 KV 显存 → 决定单卡并发 → 决定每 token 摊薄成本；
     MoE 决定激活计算量；FA 与引擎决定硬件利用率。「DeepSeek 为什么便宜」三行拆完：
     MLA（KV ↓10×）+ MoE（激活 37B/总 671B）+ 自研推理工程——<b>便宜是设计出来的，不是补贴出来的</b>。看懂一家模型的注意力设计，就看懂了它的成本结构：架构表就是价目表的底稿（市场侧对照见 <a href="../model-landscape/index.html">Model-Landscape 网页版</a>）。</p>

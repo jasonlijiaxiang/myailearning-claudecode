@@ -57,8 +57,63 @@
     <p>微调改的是<b>模型本身（权重）</b>，把「每次都要在提示词里交代的要求」内化成默认习惯。招人视角：预训练模型 = 名校毕业生，微调 = 入职培训，RAG = 发工作手册——绝大多数企业只需要「培训」，不需要「养人」。<b>会劝退的售前，比什么都推微调的售前更容易赢单。</b></p>
   </div>
 
-  <p>定制光谱是一把梯子，<b>左边一档没榨干之前不动右边</b>：提示词工程（分钟级、零训练）→
-    RAG（小时级、建索引）→ 微调（天级、要数据）→ 继续预训练（月级、极少数场景）。最重要的分界线：<b>「不知道」是知识问题上 RAG，「不听话」是行为问题才微调，「不够聪明」是能力问题换底座</b>——分类对了，处方几乎不会错。微调能兑现五类价值：格式合规（99%+ 不再靠提示词祈祷）、语气与人设、领域行话、规模化降本降延迟（小模型顶替大模型 + 砍长提示词）、蒸馏。四条劝退清单：知识频繁更新（用 RAG）、样本攒不够（先 few-shot 顶着）、需求还在天天变（先提示词快速迭代）、只是想「更聪明」（微调不加智商）。</p>
+  <p>定制光谱是一把梯子，<b>左边一档没榨干之前不动右边</b>：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 108" role="img" aria-label="定制光谱四档：提示词工程分钟级零训练、RAG 小时级建索引、微调天级要数据、继续预训练月级极少数场景">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="160" height="48" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="86" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">提示词工程</text>
+      <text x="86" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">分钟级 · 零训练</text>
+      <rect x="190" y="24" width="160" height="48" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="270" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">RAG</text>
+      <text x="270" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">小时级 · 建索引</text>
+      <rect x="374" y="24" width="160" height="48" rx="8" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="454" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">微调</text>
+      <text x="454" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">天级 · 要数据</text>
+      <rect x="558" y="24" width="156" height="48" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="636" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">继续预训练</text>
+      <text x="636" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">月级 · 极少数场景</text>
+      <path d="M166 48 H186 M350 48 H370 M534 48 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 48 l-6 -3.5 v7 z M370 48 l-6 -3.5 v7 z M554 48 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="98" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">越往右越慢越贵——左边一档没榨干之前不动右边</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>最重要的分界线在下面这张表——分类对了，处方几乎不会错。</figcaption>
+  </figure>
+  <div class="tw">
+   <table>
+    <thead><tr><th>症状</th><th>本质</th><th>处方</th></tr></thead>
+    <tbody>
+     <tr><td><b>不知道</b></td><td>知识问题</td><td>上 RAG</td></tr>
+     <tr><td><b>不听话</b></td><td>行为问题</td><td>才微调</td></tr>
+     <tr><td><b>不够聪明</b></td><td>能力问题</td><td>换底座</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>微调能兑现五类价值</h3>
+  <div class="grid">
+   <div class="box"><h4>格式合规</h4><p>99%+，不再靠提示词祈祷。</p></div>
+   <div class="box"><h4>语气与人设</h4></div>
+   <div class="box"><h4>领域行话</h4></div>
+   <div class="box"><h4>规模化降本降延迟</h4><p>小模型顶替大模型 + 砍长提示词。</p></div>
+   <div class="box"><h4>蒸馏</h4></div>
+  </div>
+
+  <h3>四条劝退清单</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>如果……</th><th>先做别的</th></tr></thead>
+    <tbody>
+     <tr><td>知识频繁更新</td><td>用 RAG</td></tr>
+     <tr><td>样本攒不够</td><td>先 few-shot 顶着</td></tr>
+     <tr><td>需求还在天天变</td><td>先提示词快速迭代</td></tr>
+     <tr><td>只是想「更聪明」</td><td><b>微调不加智商</b></td></tr>
+    </tbody>
+   </table>
+  </div>
   <p>成本收益账：一次性成本 = 数据整理 + 训练算力 + 评估验收（<b>数据是大头</b>）；每次调用的收益 = 更短提示词 + 更小模型 + 更低延迟——<b>调用量 × 单次收益 &gt; 一次性成本才立项</b>。微调是「高频窄任务的规模生意」：日均百万次的客服几周回本，日均一千次的内部工具一年省的
     token 钱不够付一次标注。</p>
 
@@ -120,9 +175,35 @@
     </tbody>
   </table>
   </div>
-  <p>心算规则：<b>全参 ≈ 参数量 × 16 字节</b>（权重+梯度+优化器状态+主权重，bf16+Adam 口径）；
-    <b>QLoRA 底座 ≈ 参数量 × 0.5 字节</b>——先报量级，精确数留给 POC。LoRA 超参不用炼丹：标准配方 r=16、alpha=32、挂 all-linear、学习率 2e-4、2 个 epoch，先跑通拿基线再动个别旋钮。取舍的实证结论（Databricks）：<b>LoRA 学得少、也忘得少</b>——行为定制与多任务共存
-    LoRA 先行；要深度灌注大量新知识才考虑全参，且必须配防遗忘门禁。DoRA/AdaLoRA 类变体思路全是「冻结底座 + 小旁路」，生产默认仍是 LoRA/QLoRA——为效果负责，不为名词负责。</p>
+  <h3>显存心算规则</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td><b>全参</b></td><td>≈ 参数量 × <b>16 字节</b>（权重 + 梯度 + 优化器状态 + 主权重，bf16 + Adam 口径）</td></tr>
+     <tr><td><b>QLoRA 底座</b></td><td>≈ 参数量 × <b>0.5 字节</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>先报量级，<b>精确数留给 POC</b>。</p>
+
+  <h3>LoRA 超参不用炼丹</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>参数</th><th>标准配方</th></tr></thead>
+    <tbody>
+     <tr><td>r</td><td>16</td></tr>
+     <tr><td>alpha</td><td>32</td></tr>
+     <tr><td>挂哪</td><td>all-linear</td></tr>
+     <tr><td>学习率</td><td>2e-4</td></tr>
+     <tr><td>epoch</td><td>2</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>先跑通拿基线，再动个别旋钮。</b></p>
+  <div class="box">
+   <h4>取舍的实证结论（Databricks）</h4>
+   <p><b>LoRA 学得少、也忘得少</b>——行为定制与多任务共存 LoRA 先行；要深度灌注大量新知识才考虑全参，<b>且必须配防遗忘门禁</b>。DoRA / AdaLoRA 类变体思路全是「冻结底座 + 小旁路」，生产默认仍是 LoRA / QLoRA——<b>为效果负责，不为名词负责</b>。</p>
+  </div>
   <p class="ev">显存口径来源 <a href="#src-qlora">QLoRA 论文与 2026 实践指南</a>，核实 2026-07-09。</p>
 </section>
 
@@ -135,9 +216,44 @@
       messages 数组 + JSONL 每行一条 + 正确的聊天模板——训练用 A 家模板、推理用 B 家模板，效果「神秘变差」且无报错，是最阴险的一类事故。</p>
   </div>
 
-  <p><b>量级</b>：官方口径 50–10,000 条，窄分类 200–500 条常见效；先 100 条跑一版看验收信号，有信号再加码——数据是逐步投资。<b>质量 &gt; 数量</b>：LIMA 用 1,000 条精选样本逼近大流程对齐的效果——能力早在预训练里学会了，微调只是「唤醒」；经验是 <b>100 条脏数据的伤害大于
-    1,000 条好数据的收益</b>，预算优先花在清洗与精选。<b>不够就造</b>：种子样本（人工 50–200
-    条，边界案例占七成）→ frontier 模型扩量 → judge 按标准过滤 → 人工抽检——人负责「标准」，模型负责「产量」。<b>蒸馏</b>是名师写详解：大模型连推理轨迹一起产出教学数据，小模型对着学——「frontier 效果 + 小模型成本 + 权重可私有」，讲降本与私有化的主角。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>结论</th></tr></thead>
+    <tbody>
+     <tr><td><b>量级</b></td><td>官方口径 50–10,000 条，窄分类 200–500 条常见效。<b>先 100 条跑一版看验收信号</b>，有信号再加码——数据是逐步投资</td></tr>
+     <tr><td><b>质量 &gt; 数量</b></td><td>LIMA 用 1,000 条精选样本逼近大流程对齐的效果——<b>能力早在预训练里学会了，微调只是「唤醒」</b>。经验是 <b>100 条脏数据的伤害大于 1,000 条好数据的收益</b>，预算优先花在清洗与精选</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>不够就造</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="合成数据四步：人工写 50 到 200 条种子样本（边界案例占七成）、frontier 模型扩量、judge 按标准过滤、人工抽检">
+     <g font-family="var(--sans)">
+      <rect x="6" y="22" width="160" height="46" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="86" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">种子样本</text>
+      <text x="86" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">人工 50–200 条</text>
+      <rect x="190" y="22" width="160" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="270" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">扩量</text>
+      <text x="270" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">frontier 模型</text>
+      <rect x="374" y="22" width="160" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="454" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">过滤</text>
+      <text x="454" y="60" text-anchor="middle" font-size="11" fill="var(--ink-500)">judge 按标准</text>
+      <rect x="558" y="22" width="156" height="46" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="636" y="43" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">人工抽检</text>
+      <path d="M166 45 H186 M350 45 H370 M534 45 H554" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M186 45 l-6 -3.5 v7 z M370 45 l-6 -3.5 v7 z M554 45 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="94" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">人负责「标准」，模型负责「产量」——种子里边界案例占七成</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>合成四步：标准定在最前面，产量才敢放大。</figcaption>
+  </figure>
+  <div class="box">
+   <h4>蒸馏是名师写详解</h4>
+   <p>大模型连推理轨迹一起产出教学数据，小模型对着学——<b>「frontier 效果 + 小模型成本 + 权重可私有」</b>，是讲降本与私有化的主角。</p>
+  </div>
   <p><b>数据治理三问</b>（答不好技术再好也进不了采购）：①隐私与 PII——训练前清洗脱敏是刚性前置；②权属与条款——用第三方模型产出的数据训练要核对其服务条款，方案书写明依据；
     ③数据出域——托管微调 = 数据交平台，金融政务提前备好 VPC 内训练/本地自建的替代路径。</p>
 </section>
@@ -161,9 +277,25 @@
     </tbody>
   </table>
   </div>
-  <p><b>盯 eval 不盯 train</b>：train loss 是刷题正确率（背题也会高），eval loss 是没见过的模拟考——eval 掉头上翘就是过拟合起点，取上翘前的 checkpoint 交付，别「再训久一点」。<b>九成事故来自四个坑</b>，按顺序排查：①学习率过大（loss 震荡/NaN——降一个数量级）
-    ②epoch 过多（小数据转十几轮=背题，1–3 起步）③模板不匹配（最阴险，永远用框架自带模板）
-    ④停止符缺失（生成停不下来、答案拖垃圾）。效果不对先查四坑、再怀疑数据、最后才怀疑方法——顺序反了浪费一周。成本结构：LoRA 级单卡几小时、云上几十到几百美元——<b>算力是零头，数据与评估的人力是大头</b>，报价拆开给客户看。</p>
+  <div class="box">
+   <h4>盯 eval 不盯 train</h4>
+   <p>train loss 是刷题正确率（<b>背题也会高</b>），eval loss 是没见过的模拟考——<b>eval 掉头上翘就是过拟合起点</b>，取上翘前的 checkpoint 交付，别「再训久一点」。</p>
+  </div>
+
+  <h3>九成事故来自四个坑，按顺序排查</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>顺序</th><th>坑</th><th>症状与解法</th></tr></thead>
+    <tbody>
+     <tr><td>①</td><td>学习率过大</td><td>loss 震荡 / NaN——降一个数量级</td></tr>
+     <tr><td>②</td><td>epoch 过多</td><td>小数据转十几轮 = 背题，1–3 起步</td></tr>
+     <tr><td>③</td><td><b>模板不匹配</b></td><td><b>最阴险</b>——永远用框架自带模板</td></tr>
+     <tr><td>④</td><td>停止符缺失</td><td>生成停不下来、答案拖垃圾</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>效果不对<b>先查四坑、再怀疑数据、最后才怀疑方法</b>——顺序反了浪费一周。</p>
+  <p><b>成本结构</b>：LoRA 级单卡几小时、云上几十到几百美元——<b>算力是零头，数据与评估的人力是大头</b>，报价拆开给客户看。</p>
   <p class="ev">框架格局与版本边界核实 2026-07-09/12（PEFT v0.19.1、TRL v1.8.0 KTO 转正），来源 <a href="#src-frameworks">GitHub releases 与框架对比</a>。<b>不可外推边界</b>：版本号是当日快照，微调框架在小版本间也会破坏兼容；方案里锁版本号，别写「用最新版」。</p>
 </section>
 
@@ -187,8 +319,21 @@
     </tbody>
   </table>
   </div>
-  <p>DPO 直接在偏好对（chosen/rejected）上优化，跳过奖励模型——<b>成本接近再跑一次 SFT</b>，「RLHF 很贵」是 2023 年的旧闻。偏好对三个来源混用：线上 A/B 选择、专家挑选、judge 合成，几百到几千对开工；生产纪律是「先小批人工、再对齐 judge（一致率 ≥80%）、最后放量」。
-    RFT 用可编程打分器当奖励（代码跑单元测试、抽取对错），几十到几百条样本就能显著提升窄任务——门槛在「写不写得出靠谱 grader」，判分规则含糊、能被钻空子就退回 DPO/SFT。现实比例：<b>多数企业项目止步于 SFT + 少量 DPO，RFT 是尖刀不是标配</b>。过度拒答是对齐失败的常见形态：偏好数据里要有「该答就答」的正例，拒答率和有用性两头设门禁。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>方法</th><th>怎么做</th><th>门槛与用量</th></tr></thead>
+    <tbody>
+     <tr><td><b>DPO</b></td><td>直接在偏好对（chosen / rejected）上优化，<b>跳过奖励模型</b></td><td>成本接近再跑一次 SFT——<b>「RLHF 很贵」是 2023 年的旧闻</b>。几百到几千对开工</td></tr>
+     <tr><td><b>RFT</b></td><td>用可编程打分器当奖励（代码跑单元测试、抽取对错）</td><td>几十到几百条样本就能显著提升窄任务；<b>门槛在「写不写得出靠谱 grader」</b>——判分规则含糊、能被钻空子就退回 DPO / SFT</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>偏好对三个来源混用</b>：线上 A/B 选择、专家挑选、judge 合成。生产纪律是<b>「先小批人工、再对齐 judge（一致率 ≥80%）、最后放量」</b>。</p>
+  <p><b>现实比例</b>：多数企业项目止步于 SFT + 少量 DPO，<b>RFT 是尖刀不是标配</b>。</p>
+  <div class="box">
+   <h4>过度拒答是对齐失败的常见形态</h4>
+   <p>偏好数据里<b>要有「该答就答」的正例</b>，拒答率和有用性两头设门禁。</p>
+  </div>
   <p class="ev">RFT/GRPO 为 2026 微调新风向，核实 2026-07-09，来源
     <a href="#src-rft">OpenAI RFT 文档与行业综述</a>；原理（奖励模型/RLHF/RLVR）在
     <a href="../../PPT-version/LLM-Training/README.html">LLM-Training</a> 第 5/6 章。<b>不可外推边界</b>：「新风向」说的是方法关注度上升，不等于已成生产默认；引入按探索型排期，别按成熟件承诺。</p>
@@ -234,10 +379,48 @@
 
   <p><b>防遗忘</b>是微调的安全带：目标任务涨分、通用能力掉分的偏科风险，四件套防住——LoRA
     天然温和、低学习率少 epoch、训练集混通用数据、上线前跑通用回归。上线门禁双达标：目标任务过验收线 + 通用回归不低于基线的 98%；几百题的回归集跑一次几分钟，性价比最高的保险。<b>四类实验失真</b>要防：数据泄漏（近重复没扫，测试分虚高十个点上线现原形——冻结切分哈希）、随机性挑 run（多 seed 报区间不报单点）、judge 偏差（人工校准兜底）、指标替代目标（loss 好业务差）。</p>
-  <p><b>部署两形态</b>：单一稳定任务合并权重（W+BA 合成普通模型，运维简单）；多任务/多租户挂 adapter——1 个共享底座 + N 套 LoRA，vLLM 多 LoRA 按请求路由，省一个数量级显存、秒级回滚（动态加载有官方安全警告：仅限隔离受信环境）。发布控制五层：产物（base 版本+adapter
-    哈希+模板+许可证）→ 转换 → 服务 → 流量（影子/金丝雀/兜底）→ 治理（审计/回滚/急停）——<b>把 base+adapter+模板+引擎+镜像作为一个组合发布号</b>，只登记 adapter 哈希没锁 base
-    版本，底座一升级行为就漂移。<b>迭代闭环才是交付物</b>：上线 → bad case 归因 → 修数据 →
-    再训 → 回归验收 → 灰度，每圈同一套门禁——一次性交付的微调，半年后一定劣化成新的痛点。</p>
+  <h3>部署两形态</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>形态</th><th>怎么做</th><th>适合</th></tr></thead>
+    <tbody>
+     <tr><td><b>合并权重</b></td><td>W + BA 合成普通模型</td><td>单一稳定任务，运维简单</td></tr>
+     <tr><td><b>挂 adapter</b></td><td>1 个共享底座 + N 套 LoRA，vLLM 多 LoRA 按请求路由</td><td>多任务 / 多租户——<b>省一个数量级显存、秒级回滚</b>（动态加载有官方安全警告：仅限隔离受信环境）</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>发布控制五层</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 110" role="img" aria-label="微调发布控制五层：产物、转换、服务、流量、治理">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="69" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">产物</text>
+      <text x="69" y="61" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">base + adapter 哈希</text>
+      <rect x="150" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="213" y="52" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">转换</text>
+      <rect x="294" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="357" y="52" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">服务</text>
+      <rect x="438" y="24" width="126" height="46" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="501" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">流量</text>
+      <text x="501" y="61" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">影子 / 金丝雀 / 兜底</text>
+      <rect x="582" y="24" width="132" height="46" rx="8" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="648" y="45" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">治理</text>
+      <text x="648" y="61" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">审计 / 回滚 / 急停</text>
+      <path d="M132 47 H146 M276 47 H290 M420 47 H434 M564 47 H578" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M146 47 l-6 -3.5 v7 z M290 47 l-6 -3.5 v7 z M434 47 l-6 -3.5 v7 z M578 47 l-6 -3.5 v7 z" fill="var(--ink-400)"/>
+      <text x="360" y="98" text-anchor="middle" font-size="11.5" fill="var(--red)">把 base + adapter + 模板 + 引擎 + 镜像作为一个组合发布号</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>只登记 adapter 哈希、没锁 base 版本——<b>底座一升级行为就漂移</b>。</figcaption>
+  </figure>
+
+  <div class="box">
+   <h4>迭代闭环才是交付物</h4>
+   <p>上线 → bad case 归因 → 修数据 → 再训 → 回归验收 → 灰度，<b>每圈同一套门禁</b>。一次性交付的微调，半年后一定劣化成新的痛点。</p>
+  </div>
   <p class="ev">完整验收方法（判分/校准/门禁）在
     <a href="../evaluation/index.html">Evaluation 网页版</a>展开；部署深水区（量化/批处理/SLO）在 <a href="../llm-inference/index.html">LLM-Inference 网页版</a>。</p>
 </section>

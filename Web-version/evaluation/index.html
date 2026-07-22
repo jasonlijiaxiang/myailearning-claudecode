@@ -93,9 +93,16 @@
     Gemini 3.1 Pro 领跑 ARC-AGI-2 等，GPT-5.2 领跑 τ²-bench——<b>没有全能冠军，按任务选对口基准</b>。能力比拼已从「答题」转向「干活」。</p>
 
   <h3>三个暗面：污染、偏好、择优</h3>
-  <p><b>数据污染</b>＝考前泄题：基准题目混进训练数据，分数反映的是记忆不是能力——老基准分数异常亮眼、新基准平平，先怀疑污染。反污染看三件：私有保留集、动态换题、污染检测。
-    <b>Arena</b>（原 Chatbot Arena，2026-01 更名，累计 600 万+ 投票）量的是「真人偏好」，会被风格与排版左右——适合看通用对话讨喜度，专业任务还得看任务型基准。
-    <b>Leaderboard Illusion</b>（2025 实证）：厂商在 Arena 私测多变体择优公开，曾有厂商私测 27 个变体只发最好那个——为榜单调的那一版和你拿到的 API 版本，表现可能不一致。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>暗面</th><th>怎么回事</th><th>怎么识破 / 怎么用</th></tr></thead>
+    <tbody>
+     <tr><td><b>数据污染</b></td><td>＝考前泄题：基准题目混进训练数据，<b>分数反映的是记忆不是能力</b></td><td>老基准分数异常亮眼、新基准平平，先怀疑污染。反污染看三件：私有保留集、动态换题、污染检测</td></tr>
+     <tr><td><b>偏好</b></td><td>Arena（原 Chatbot Arena，2026-01 更名，累计 600 万+ 投票）量的是「真人偏好」，会被风格与排版左右</td><td>适合看通用对话讨喜度，<b>专业任务还得看任务型基准</b></td></tr>
+     <tr><td><b>择优</b></td><td>Leaderboard Illusion（2025 实证）：厂商在 Arena 私测多变体择优公开，曾有厂商<b>私测 27 个变体只发最好那个</b></td><td>为榜单调的那一版和你拿到的 API 版本，<b>表现可能不一致</b></td></tr>
+    </tbody>
+   </table>
+  </div>
   <p class="ev">核实 2026-07-09，来源 <a href="#src-bench">2026 基准综述</a>、
     <a href="#src-illusion">arXiv 2504.20879</a>。这套「榜单怎么骗人」的弹药与
     <a href="../model-landscape/index.html#ml-selection">Model-Landscape 网页版</a>的选型两道防线互为表里。<b>不可外推边界</b>：领跑格局是当期快照，且每个基准只对它那类任务有效——「没有全能冠军」的另一面是：任何单一基准分数都不能外推成整体能力。</p>
@@ -223,8 +230,19 @@
   </div>
 
   <h3>RAG：检索与生成分开评</h3>
-  <p>Ragas 三角：<b>忠实度</b>（答案是否只基于检索材料）、<b>上下文精确率</b>（检回来的相关吗）、<b>上下文召回率</b>（该检的检全了吗）——开卷考试三件事：翻到对的页、别抄不相干段落、答案只依据书上写的。用三角定位问题：忠实度低→生成端在编造（改 prompt/换模型）；召回率低→检索端没找到（修 chunking/embedding/混合检索）。评估顺序：先把检索评到位（recall@k、MRR，代码判、便宜），再评端到端（判官判忠实度，贵）——经验规律：<b>RAG 生产事故的大头出在检索端</b>，先修检索是性价比最高的路径。管线机制见
-    <a href="../rag/index.html">RAG 网页版</a>。</p>
+  <h3>Ragas 三角</h3>
+  <p>开卷考试三件事：翻到对的页、别抄不相干段落、答案只依据书上写的。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>指标</th><th>量什么</th><th>低了说明</th><th>去修哪</th></tr></thead>
+    <tbody>
+     <tr><td><b>忠实度</b></td><td>答案是否只基于检索材料</td><td>生成端在编造</td><td>改 prompt / 换模型</td></tr>
+     <tr><td><b>上下文精确率</b></td><td>检回来的相关吗</td><td>检回来一堆噪声</td><td>重排序 / 过滤</td></tr>
+     <tr><td><b>上下文召回率</b></td><td>该检的检全了吗</td><td>检索端没找到</td><td>修 chunking / embedding / 混合检索</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>评估顺序</b>：先把检索评到位（recall@k、MRR，代码判、便宜），再评端到端（判官判忠实度，贵）。经验规律：<b>RAG 生产事故的大头出在检索端</b>——先修检索是性价比最高的路径。管线机制见 <a href="../rag/index.html">RAG 网页版</a>。</p>
 
   <h3>Agent：结果与轨迹双轨，五层展开</h3>
   <p>结果评估管验收（办成没有），轨迹评估管定位（该调的工具调了吗、有没有绕路死循环）——像考驾照：只看到没到终点，危险驾驶也算通过。再往下拆五层：Outcome → Trajectory → Tools →
@@ -243,11 +261,22 @@
     <p>开发期用开源框架（快、进 CI），生产期用平台（观测、追溯）——<b>两套并行，没有单一工具通吃两端</b>。先框架后平台：评估习惯没建立就买平台，买回来也是闲置。</p>
   </div>
 
-  <p>开发期三件套：<b>Ragas</b>（RAG 专项指标的事实标准）、<b>DeepEval</b>（50+ 指标，
-    pytest 风格直接进 CI）、<b>promptfoo</b>（多模型 × 多 prompt 矩阵对比 + 红队测试
-    40+ 插件，十分钟出一张对比表）——可组合不互斥。平台型（LangSmith / Braintrust /
-    Arize Phoenix / W&amp;B Weave）管数据集版本、评估记录、trace、生产监控；深绑 LangChain
-    选 LangSmith，重开源自托管选 Phoenix。在线评估：生产流量 1~10% 采样跑判官、指标进看板、超阈值告警；新 prompt 先灰度 5% A/B 一周再全量——<b>离线管变更，在线管日常</b>。</p>
+  <h3>开发期三件套（可组合不互斥）</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>工具</th><th>强在哪</th></tr></thead>
+    <tbody>
+     <tr><td><b>Ragas</b></td><td>RAG 专项指标的事实标准</td></tr>
+     <tr><td><b>DeepEval</b></td><td>50+ 指标，pytest 风格直接进 CI</td></tr>
+     <tr><td><b>promptfoo</b></td><td>多模型 × 多 prompt 矩阵对比 + 红队测试 40+ 插件，<b>十分钟出一张对比表</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>平台型</b>（LangSmith / Braintrust / Arize Phoenix / W&amp;B Weave）管数据集版本、评估记录、trace、生产监控：深绑 LangChain 选 LangSmith，重开源自托管选 Phoenix。</p>
+  <div class="box">
+   <h4>在线评估</h4>
+   <p>生产流量 1~10% 采样跑判官、指标进看板、超阈值告警；新 prompt 先灰度 5% A/B 一周再全量——<b>离线管变更，在线管日常</b>。</p>
+  </div>
 
   <h3>评估资产要可迁移</h3>
   <p>OpenAI 平台内置 Evals 已官宣 <b>2026-10-31 起只读、11-30 关停</b>——教训：评估资产（题集、细则、历史结果）的寿命远长于任何平台。落地三件事：黄金集进 git 管版本、判官
@@ -267,8 +296,47 @@
   <h2><span class="num">08</span>速查与问答<a class="anchor" href="#eval-cheatsheet">#eval-cheatsheet</a></h2>
 
   <h3>「哪个模型最好」应答三步</h3>
-  <p>① 先问场景（什么任务、什么约束——把「哪个最好」翻译成「哪个最合适」）→ ② 看对口基准（代码看 SWE-bench、客服 Agent 看 τ²-bench、知识问答看 GPQA/HLE，只当入围参考）→
-    ③ 黄金集实测（20~50 道客户真题、统一判分、一周出报告）。POC 验收四件套：黄金集（客户参与出题、签字确认）+ 判分口径（判官附细则）+ 验收线（分维度）+ 复测规则。谈判三要点：验收线别拍胸脯（先跑基线再谈线）、题集签字防临场加题、细则双方确认防标准漂移——<b>「先对题、再对线、后跑分」，顺序反了 POC 就变扯皮现场</b>。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 108" role="img" aria-label="选型三步：先问场景、再看对口基准、最后黄金集实测">
+     <g font-family="var(--sans)">
+      <rect x="6" y="24" width="216" height="50" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="114" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">① 先问场景</text>
+      <text x="114" y="64" text-anchor="middle" font-size="11" fill="var(--ink-500)">把「哪个最好」翻译成「哪个最合适」</text>
+      <rect x="252" y="24" width="216" height="50" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="360" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">② 看对口基准</text>
+      <text x="360" y="64" text-anchor="middle" font-size="11" fill="var(--ink-500)">只当入围参考</text>
+      <rect x="498" y="24" width="216" height="50" rx="8" fill="var(--card)" stroke="var(--ok)" stroke-width="1.5"/>
+      <text x="606" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">③ 黄金集实测</text>
+      <text x="606" y="64" text-anchor="middle" font-size="11" fill="var(--ink-500)">20–50 道客户真题 · 一周出报告</text>
+      <path d="M222 49 H246 M468 49 H492" stroke="var(--ink-400)" stroke-width="1.5"/>
+      <path d="M246 49 l-7 -4 v8 z M492 49 l-7 -4 v8 z" fill="var(--ink-400)"/>
+      <text x="360" y="98" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">代码看 SWE-bench、客服 Agent 看 τ²-bench、知识问答看 GPQA/HLE</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>只有第三步的结论能写进合同——前两步是筛选，不是验收。</figcaption>
+  </figure>
+
+  <h3>POC 验收四件套</h3>
+  <div class="grid">
+   <div class="box"><h4>黄金集</h4><p>客户参与出题、签字确认。</p></div>
+   <div class="box"><h4>判分口径</h4><p>判官附细则。</p></div>
+   <div class="box"><h4>验收线</h4><p>分维度设。</p></div>
+   <div class="box"><h4>复测规则</h4></div>
+  </div>
+
+  <h3>谈判三要点</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>验收线别拍胸脯</td><td>先跑基线再谈线</td></tr>
+     <tr><td>题集签字</td><td>防临场加题</td></tr>
+     <tr><td>细则双方确认</td><td>防标准漂移</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>「先对题、再对线、后跑分」，顺序反了 POC 就变扯皮现场。</b></p>
 
   <div class="tw">
   <table>
