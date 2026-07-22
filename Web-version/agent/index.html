@@ -284,9 +284,35 @@
   </div>
 
   <h3>两张图：认知分类与工程分层</h3>
-  <p><b>记什么</b>（认知分类）：working 工作记忆（手头便签）、episodic 情景记忆（日记）、
-    semantic 语义记忆（常识卡片）、procedural 程序记忆（肌肉记忆）。<b>存哪里、归谁管、怎么删</b>（工程分层）：工作状态（任务结束即归档，归 agent 运行时）→ 会话状态（会话期，归 Session
-    存储）→ 长期记忆（带 TTL、可更正删除，归记忆服务）→ 业务事实（订单/合同，归权威系统）。设计评审两张图都要过。事故常态是把一次推断（「客户好像要退货」）写进长期记忆甚至业务库——铁律：<b>模型可以从四层读，但写回权威事实库或长期记忆必须过验证</b>。</p>
+  <h3>记什么（认知分类）</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td><b>working</b> 工作记忆</td><td>手头便签</td></tr>
+     <tr><td><b>episodic</b> 情景记忆</td><td>日记</td></tr>
+     <tr><td><b>semantic</b> 语义记忆</td><td>常识卡片</td></tr>
+     <tr><td><b>procedural</b> 程序记忆</td><td>肌肉记忆</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>存哪里、归谁管、怎么删（工程分层）</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>层</th><th>存多久</th><th>归谁管</th></tr></thead>
+    <tbody>
+     <tr><td>工作状态</td><td>任务结束即归档</td><td>agent 运行时</td></tr>
+     <tr><td>会话状态</td><td>会话期</td><td>Session 存储</td></tr>
+     <tr><td>长期记忆</td><td>带 TTL、可更正删除</td><td>记忆服务</td></tr>
+     <tr><td>业务事实</td><td>永久</td><td>权威系统（订单 / 合同）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>设计评审两张表都要过。</b></p>
+  <div class="box">
+   <h4>事故常态：把一次推断写进长期记忆甚至业务库</h4>
+   <p>比如「客户好像要退货」被当成事实存下来。铁律：<b>模型可以从四层读，但写回权威事实库或长期记忆必须过验证</b>。</p>
+  </div>
 
   <div class="tw">
   <table>
@@ -403,9 +429,39 @@
     ③ CLAUDE.md 常备指令（放倾向，别放硬流程）→ ④ skill 绑 context: fork（显式触发，硬保证）。</p>
 
   <h3>派与不派：一本账</h3>
-  <p>口诀：<b>「我要的是结果，还是过程？」</b>——只要结果，外包给 sub-agent；过程影响后续决策，留在主对话。手算一本账（基线：一次 10K token 的对话任务）：单 agent 循环 ≈ 4× →
-    40K；multi-agent ≈ 15× → 150K——放大一个数量级。买到什么：Anthropic 多 agent 研究系统内部评测比单 agent Opus 4 高 90.2%，token 用量单因素解释 80% 的性能方差——<b>性能就是用
-    token 买的</b>。不派：两三步的活、步骤强顺序依赖、依赖主对话已积累的理解；派 1 个：过程废料多、结论短（全库搜索、调研）；派 N 个：能切成互不依赖的块。治理三件：按任务价值分层开、并发限额、token 预算与超额熔断——<b>先上追踪和预算，再开 multi-agent</b>。</p>
+  <p>口诀：<b>「我要的是结果，还是过程？」</b>——只要结果，外包给 sub-agent；过程影响后续决策，留在主对话。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 116" role="img" aria-label="token 用量对比：基线一次 10K token 的对话任务，单 agent 循环约 4 倍到 40K，multi-agent 约 15 倍到 150K">
+     <g font-family="var(--sans)">
+      <text x="4" y="16" font-size="12" font-weight="700" fill="var(--ink-500)">基线：一次 10K token 的对话任务</text>
+      <text x="4" y="44" font-size="12.5" fill="var(--ink-900)">基线</text>
+      <rect x="130" y="30" width="38" height="18" rx="4" fill="var(--ink-400)" opacity=".4"/>
+      <text x="180" y="44" font-size="12" fill="var(--ink-500)">10K</text>
+      <text x="4" y="76" font-size="12.5" fill="var(--ink-900)">单 agent 循环</text>
+      <rect x="130" y="62" width="152" height="18" rx="4" fill="var(--blue)" opacity=".65"/>
+      <text x="294" y="76" font-size="12" font-weight="700" fill="var(--ink-500)">≈ 4× → 40K</text>
+      <text x="4" y="108" font-size="12.5" fill="var(--ink-900)">multi-agent</text>
+      <rect x="130" y="94" width="570" height="18" rx="4" fill="var(--warn)"/>
+      <text x="400" y="108" font-size="12" font-weight="700" fill="var(--card)">≈ 15× → 150K　放大一个数量级</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>柱长按 token 量等比画。买到什么：Anthropic 多 agent 研究系统内部评测比单 agent Opus 4 高 90.2%，token 用量单因素解释 80% 的性能方差——<b>性能就是用 token 买的</b>。</figcaption>
+  </figure>
+
+  <h3>派与不派</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>怎么办</th><th>什么情况</th></tr></thead>
+    <tbody>
+     <tr><td><b>不派</b></td><td>两三步的活；步骤强顺序依赖；依赖主对话已积累的理解</td></tr>
+     <tr><td><b>派 1 个</b></td><td>过程废料多、结论短（全库搜索、调研）</td></tr>
+     <tr><td><b>派 N 个</b></td><td>能切成互不依赖的块</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>治理三件</b>：按任务价值分层开、并发限额、token 预算与超额熔断——<b>先上追踪和预算，再开 multi-agent</b>。</p>
   <p class="ev">机制与配置核实 2026-07-17，来源 <a href="#src-subagent">Claude Code / Codex
     官方文档</a>；决策账数字来源 <a href="#src-anthropic">Anthropic 多 agent 研究系统工程博客</a>（BrowseComp 内部评测口径，两家产品迭代都快，引用前先核日期）。</p>
 </section>

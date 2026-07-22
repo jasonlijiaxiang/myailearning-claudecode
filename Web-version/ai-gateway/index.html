@@ -87,8 +87,51 @@
   <p>真 key 锁在网关的保险箱里，发给应用的是「房卡」：每把虚拟密钥可单独设<b>预算、限速、可用模型范围、有效期</b>，出事一键注销。原厂 key 一旦泄露，账单和数据全裸奔且难吊销——虚拟密钥是企业级管控的地基，也是「最小权限/爆炸半径」在网关的具体落地。</p>
 
   <h3>深潜：十步请求链与五层策略栈</h3>
-  <p>一条请求在网关里走十步：客户端认证 → 格式检查 → PII/提示护栏 → 模型别名解析 → 配额 →
-    路由 → 协议转换 → 上游身份 → 流式转发 → 用量与追踪。<b>顺序即设计</b>：越早拒绝浪费越少——认证放第一、护栏在路由前、计量在最后（像机场动线：把安检放在登机口之后，危险品就已经进了候机厅）。配套给整条链定一个端到端 deadline，别让每层各自耗尽超时叠出分钟级等待。身份侧五层策略栈：调用身份 → 租户映射 → 准入策略 → 资源配额 → 上游身份——像公司报销链，每层各有账本，审计能一层层对上；日志记身份映射与策略版本，<b>绝不记录原始凭据</b>。</p>
+  <h3>一条请求在网关里走十步</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 128" role="img" aria-label="网关十步：客户端认证、格式检查、PII 与提示护栏、模型别名解析、配额、路由、协议转换、上游身份、流式转发、用量与追踪">
+     <g font-family="var(--sans)">
+      <rect x="6" y="26" width="136" height="34" rx="6" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="74" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">① 客户端认证</text>
+      <rect x="150" y="26" width="126" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="213" y="48" text-anchor="middle" font-size="12" fill="var(--ink-900)">② 格式检查</text>
+      <rect x="284" y="26" width="146" height="34" rx="6" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="357" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">③ PII / 提示护栏</text>
+      <rect x="438" y="26" width="146" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="511" y="48" text-anchor="middle" font-size="12" fill="var(--ink-900)">④ 模型别名解析</text>
+      <rect x="592" y="26" width="122" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="653" y="48" text-anchor="middle" font-size="12" fill="var(--ink-900)">⑤ 配额</text>
+      <rect x="6" y="70" width="136" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="74" y="92" text-anchor="middle" font-size="12" fill="var(--ink-900)">⑥ 路由</text>
+      <rect x="150" y="70" width="126" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="213" y="92" text-anchor="middle" font-size="12" fill="var(--ink-900)">⑦ 协议转换</text>
+      <rect x="284" y="70" width="146" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="357" y="92" text-anchor="middle" font-size="12" fill="var(--ink-900)">⑧ 上游身份</text>
+      <rect x="438" y="70" width="146" height="34" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="511" y="92" text-anchor="middle" font-size="12" fill="var(--ink-900)">⑨ 流式转发</text>
+      <rect x="592" y="70" width="122" height="34" rx="6" fill="var(--card)" stroke="var(--ok)"/>
+      <text x="653" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">⑩ 用量追踪</text>
+      <text x="360" y="122" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">顺序即设计：越早拒绝浪费越少——认证第一、护栏在路由前、计量在最后</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>像机场动线：把安检放在登机口之后，危险品就已经进了候机厅。配套给整条链定一个端到端 deadline，别让每层各自耗尽超时、叠出分钟级等待。</figcaption>
+  </figure>
+
+  <h3>身份侧五层策略栈</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>① 调用身份</td><td>谁在调</td></tr>
+     <tr><td>② 租户映射</td><td>算哪个租户的</td></tr>
+     <tr><td>③ 准入策略</td><td>允不允许</td></tr>
+     <tr><td>④ 资源配额</td><td>还有没有额度</td></tr>
+     <tr><td>⑤ 上游身份</td><td>用什么身份去调模型</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>像公司报销链，每层各有记录，审计能一层层对上。日志记身份映射与策略版本，<b>绝不记录原始凭据</b>。</p>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -193,9 +236,16 @@
     </tbody>
   </table>
   </div>
-  <p>排查实例：「某应用今天变慢又变贵」——看网关面板发现语义缓存命中率掉了、fallback 频繁触发（某家在限流），几分钟定位，不用翻十个服务的日志。标准正在收敛：<b>OpenTelemetry
-    GenAI 语义约定 / OpenInference</b> 统一了模型名、token 数、成本等字段——网关按标准吐数据就能接任意 APM（Grafana/Datadog/Langfuse），不锁定。两个提醒：留存日志要脱敏、分级、限权（能看见 ≠ 明文全留）；可观测答「快不快贵不贵」，评估答「好不好」——网关把质量信号纳入观测，就把两者连起来了（消费与行动层在
-    <a href="../../PPT-version/AI-Ops/README.html">AI-Ops</a>，trace id 两层贯通）。</p>
+  <div class="box">
+   <h4>排查实例：「某应用今天变慢又变贵」</h4>
+   <p>看网关面板发现<b>语义缓存命中率掉了、fallback 频繁触发</b>（某家在限流）——几分钟定位，不用翻十个服务的日志。</p>
+  </div>
+  <p><b>标准正在收敛</b>：OpenTelemetry GenAI 语义约定 / OpenInference 统一了模型名、token 数、成本等字段——网关按标准吐数据就能接任意 APM（Grafana / Datadog / Langfuse），<b>不锁定</b>。</p>
+  <div class="grid">
+   <div class="box"><h4>留存日志三条</h4><p>脱敏、分级、限权——<b>能看见 ≠ 明文全留</b>。</p></div>
+   <div class="box"><h4>观测与评估的分工</h4><p>可观测答「快不快贵不贵」，评估答「好不好」——网关把质量信号纳入观测，就把两者连起来了。</p></div>
+  </div>
+  <p>消费与行动层在 <a href="../../PPT-version/AI-Ops/README.html">AI-Ops</a>，trace id 两层贯通。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -236,9 +286,22 @@
   <h2><span class="num">08</span>选型与问答<a class="anchor" href="#gw-cheatsheet">#gw-cheatsheet</a></h2>
 
   <h3>自托管还是托管</h3>
-  <p><b>选自托管</b>：要多云/信创、数据敏感要留在自己边界内、想深度定制、有平台团队扛可用性（代表：LiteLLM、Higress、Envoy AI Gateway、APISIX、Kong）。<b>选托管</b>：想零运维快速起步、已重度用某朵云、可用性交给云 SLA（代表：Azure APIM、Bedrock、Apigee、Cloudflare
-    AI Gateway）。常见路径：<b>托管起步验证价值 → 规模/合规上来后按需转自托管或混合</b>。选型三条筛：支持你要的模型与部署形态吗、原生做 token 治理与护栏吗、跟上 MCP 与 OTel
-    标准吗。</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th></th><th>什么时候选</th><th>代表</th></tr></thead>
+    <tbody>
+     <tr><td><b>自托管</b></td><td>要多云 / 信创；数据敏感要留在自己边界内；想深度定制；有平台团队扛可用性</td><td>LiteLLM、Higress、Envoy AI Gateway、APISIX、Kong</td></tr>
+     <tr><td><b>托管</b></td><td>想零运维快速起步；已重度用某朵云；可用性交给云 SLA</td><td>Azure APIM、Bedrock、Apigee、Cloudflare AI Gateway</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>常见路径</b>：托管起步验证价值 → 规模 / 合规上来后按需转自托管或混合。</p>
+  <h3>选型三条筛</h3>
+  <div class="grid">
+   <div class="box"><h4>模型与形态</h4><p>支持你要的模型与部署形态吗。</p></div>
+   <div class="box"><h4>治理是不是原生的</h4><p>原生做 token 治理与护栏吗。</p></div>
+   <div class="box"><h4>跟不跟标准</h4><p>跟上 MCP 与 OTel 标准吗。</p></div>
+  </div>
 
   <div class="tw">
   <table>

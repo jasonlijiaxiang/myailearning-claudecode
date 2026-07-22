@@ -33,7 +33,9 @@ LONG_P = 260          # 超长段阈值：只用来"点名"，不是上限
 
 SECTION = re.compile(r'<section class="sec" id="([^"]+)">(.*?)</section>', re.S)
 H2 = re.compile(r"<h2[^>]*>(.*?)</h2>", re.S)
-P = re.compile(r"<p[^>]*>(.*?)</p>", re.S)
+# `<p[^>]*>` 会顺手匹配 SVG 的 `<path …>`，把「图里的文字 + 图注」拼成一个假的超长段
+# （2026-07-22 加图后实测）。要求 `<p` 后面跟空白或直接闭合。
+P = re.compile(r"<p(?:\s[^>]*)?>(.*?)</p>", re.S)
 GUARD = re.compile(r"<pre\b.*?</pre>|<script\b.*?</script>|<style\b.*?</style>", re.S | re.I)
 
 
@@ -50,8 +52,12 @@ def scan(path):
         title = plain(h2.group(1)) if h2 else sid
         title = re.sub(r"^\d+\s*", "", title).replace("#" + sid, "").strip()
         longs = []
-        for p in P.findall(blk):
-            t = plain(p)
+        # 证据注（.ev）是标注不是正文：它天然要写全「核实日期 + 来源 + 不可外推边界」，
+        # 长是应该的，不该被当成散文墙点名。
+        for tag in re.findall(r"<p(?:\s[^>]*)?>.*?</p>", blk, re.S):
+            if 'class="ev"' in tag[:40]:
+                continue
+            t = plain(tag)
             if len(t) > LONG_P:
                 longs.append((len(t), t[:38]))
         out.append({

@@ -52,8 +52,12 @@ def scan(path):
         title = plain(h2.group(1)) if h2 else sid
         title = re.sub(r"^\d+\s*", "", title).replace("#" + sid, "").strip()
         longs = []
-        for p in P.findall(blk):
-            t = plain(p)
+        # 证据注（.ev）是标注不是正文：它天然要写全「核实日期 + 来源 + 不可外推边界」，
+        # 长是应该的，不该被当成散文墙点名。
+        for tag in re.findall(r"<p(?:\s[^>]*)?>.*?</p>", blk, re.S):
+            if 'class="ev"' in tag[:40]:
+                continue
+            t = plain(tag)
             if len(t) > LONG_P:
                 longs.append((len(t), t[:38]))
         out.append({

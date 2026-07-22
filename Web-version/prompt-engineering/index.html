@@ -81,8 +81,38 @@
     <p>常用工具箱四件：给不给例子（zero/few-shot）、先想再答（CoT）、锁定格式（结构化输出）、把话说清（清晰指令）。<b>不是一次全上，而是按需叠加</b>：从 zero-shot 起步，不够再加下一件工具。</p>
   </div>
 
-  <p><b>Few-shot 的门道</b>：2–5 个例子够用（边际收益递减）；覆盖典型尤其别漏边界/易错类（分类三类却只给两类例子，模型就当第三类不存在）；所有例子格式必须统一——模型学的就是这个模板。<b>思维链 CoT</b>：让模型把中间步骤写出来再给答案（给它一张草稿纸），多步计算与逻辑推理提升最明显——但推理模型已内建，不必手写（第 4 节）。<b>结构化输出</b>三种强度：提示里说「只输出 JSON」→ 给 JSON 示例 → API 级强约束（JSON mode/function calling/schema）——生产要接系统，<b>必须用 API 级强约束，不能只靠提示词自觉</b>。<b>清晰指令</b>四招：给角色、说清约束（字数/受众/必须与禁止）、用正向表述（「请用简洁短句」优于「不要啰嗦」）、拆解复杂任务；再给一个「不知道就说不知道」的出口，显著降低编造。卡住时换个问法：
-    step-back 先问框架再填细节、任务分解、让模型自检。</p>
+  <h3>Few-shot 的门道</h3>
+  <div class="tw">
+   <table>
+    <tbody>
+     <tr><td>给几个</td><td>2–5 个够用（边际收益递减）</td></tr>
+     <tr><td>给哪些</td><td>覆盖典型，<b>尤其别漏边界 / 易错类</b>——分类三类却只给两类例子，模型就当第三类不存在</td></tr>
+     <tr><td>怎么给</td><td>所有例子<b>格式必须统一</b>——模型学的就是这个模板</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>结构化输出三种强度</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>强度</th><th>做法</th><th>够不够生产用</th></tr></thead>
+    <tbody>
+     <tr><td>弱</td><td>提示里说「只输出 JSON」</td><td>不够</td></tr>
+     <tr><td>中</td><td>给 JSON 示例</td><td>不够</td></tr>
+     <tr><td><b>强</b></td><td>API 级强约束（JSON mode / function calling / schema）</td><td><b>生产要接系统必须用这个，不能只靠提示词自觉</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>清晰指令四招</h3>
+  <div class="grid">
+   <div class="box"><h4>给角色</h4></div>
+   <div class="box"><h4>说清约束</h4><p>字数 / 受众 / 必须与禁止。</p></div>
+   <div class="box"><h4>用正向表述</h4><p>「请用简洁短句」优于「不要啰嗦」。</p></div>
+   <div class="box"><h4>拆解复杂任务</h4></div>
+  </div>
+  <p>再给一个<b>「不知道就说不知道」的出口</b>，显著降低编造。</p>
+  <p><b>思维链 CoT</b>：让模型把中间步骤写出来再给答案（给它一张草稿纸），多步计算与逻辑推理提升最明显——但<b>推理模型已内建，不必手写</b>（第 4 节）。卡住时换个问法：step-back 先问框架再填细节、任务分解、让模型自检。</p>
 
   <div class="tool" id="doctor">
     <h4>提示词处方器</h4>
@@ -139,11 +169,44 @@
   <p><b>工程化三件事</b>：模板化（可变部分抽成变量）、版本管理（可对比可回滚——「有人顺手优化了提示词导致线上变差」的事故靠它一键回滚）、与代码解耦。<b>评估驱动</b>：准备测试样例
     + 打分标准，每版跑分对比而不是凭感觉——「第 3 版措辞更漂亮但分数反而降了」没有评估集根本发现不了（判分方法在 <a href="../evaluation/index.html">Evaluation 网页版</a>）。<b>自动优化</b>：DSPy 定义「要做什么 + 怎么衡量」自动编译提示词——MIPROv2 较手写
     +10~40%（结构化任务），GEPA 再 +13%、rollout 少 35×（ICLR 2026 oral）。</p>
-  <p><b>缓存省钱</b>（成本方案必带）：三大厂缓存输入价均约 1 折（省约 90%），机制不同——
-    OpenAI 自动（≥1024 token）、Anthropic 手动 cache_control 且写入加价（5min 1.25×/1h 2×）、
-    Gemini 显式+按小时存储计费。设计口径：<b>把稳定不变的部分放在最前面</b>，最利于命中。上下文预算四分区管好才命中得高：稳定区（策略/示例，配缓存）→ 用户区（长历史要摘要）→
-    证据区（先授权过滤再进窗口）→ 运行区（截断优先牺牲这区）——窗口是预算不是仓库，「工具返回 50KB JSON 原样塞进窗口」就是预算失控的样子。云上闭环：Bedrock Prompt
-    Management / Vertex Prompt Optimizer / Azure Prompt Flow。</p>
+  <h3>缓存省钱（成本方案必带）</h3>
+  <p>三大厂缓存输入价均约 1 折（省约 90%），<b>但机制不同</b>：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>厂商</th><th>怎么开</th><th>要注意</th></tr></thead>
+    <tbody>
+     <tr><td>OpenAI</td><td>自动（≥1024 token）</td><td>——</td></tr>
+     <tr><td>Anthropic</td><td>手动 cache_control</td><td><b>写入加价</b>（5min 1.25× / 1h 2×）</td></tr>
+     <tr><td>Gemini</td><td>显式</td><td>按小时存储计费</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>设计口径：<b>把稳定不变的部分放在最前面</b>，最利于命中。</p>
+
+  <h3>上下文预算四分区</h3>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 104" role="img" aria-label="上下文预算四分区，从前到后：稳定区配缓存、用户区长历史要摘要、证据区先授权过滤再进窗口、运行区截断优先牺牲">
+     <g font-family="var(--sans)">
+      <rect x="6" y="26" width="176" height="44" rx="6" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="94" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">稳定区</text>
+      <text x="94" y="62" text-anchor="middle" font-size="11" fill="var(--blue-d)">策略 / 示例 · 配缓存</text>
+      <rect x="190" y="26" width="176" height="44" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="278" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">用户区</text>
+      <text x="278" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">长历史要摘要</text>
+      <rect x="374" y="26" width="176" height="44" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="462" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">证据区</text>
+      <text x="462" y="62" text-anchor="middle" font-size="11" fill="var(--ink-500)">先授权过滤再进窗口</text>
+      <rect x="558" y="26" width="156" height="44" rx="6" fill="var(--card)" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="636" y="46" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">运行区</text>
+      <text x="636" y="62" text-anchor="middle" font-size="11" fill="var(--warn)">截断优先牺牲这区</text>
+      <text x="360" y="94" text-anchor="middle" font-size="11.5" fill="var(--ink-400)">窗口是预算不是仓库——「工具返回 50KB JSON 原样塞进窗口」就是预算失控的样子</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>越靠前越稳定，缓存命中率就越高；越靠后越易变，截断从后往前砍。</figcaption>
+  </figure>
+  <p><b>云上闭环</b>：Bedrock Prompt Management / Vertex Prompt Optimizer / Azure Prompt Flow。</p>
   <p class="ev">DSPy/GEPA 与缓存口径核实 2026-07-09（缓存 07-20 补核），来源
     <a href="#src-dspy">futureagi/morphllm</a> 与 <a href="#src-cache">三大厂官方定价文档</a>。<b>不可外推边界</b>：缓存折扣是各厂当期定价策略，命中率则完全取决于你的提示词结构——「等效价砍半」是高复用场景的量级，低复用场景基本无感。</p>
 </section>

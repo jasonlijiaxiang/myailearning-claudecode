@@ -103,8 +103,27 @@
 
   <p>两个旋钮的起点：<b>每块约 300–500 Token、重叠 10–20%</b>（重叠像剪胶片时让相邻段共享几帧，避免把一句话拦腰劈断）——没有万能数值，起步后拿评估集实测调优。策略从简单到讲究：固定长度切（快速起步）→ <b>按结构切</b>（顺着标题/段落/表格边界，结构清晰文档的好默认）→
     语义切分（句向量找话题切换点）→ 父子多粒度（小块精准检索、命中后回溯大块作答）。</p>
-  <p><b>上下文检索</b>（Contextual Retrieval，Anthropic 提出）是近年最实用的低门槛增强：入库前用大模型给每个块生成一句「它在整篇文档里的定位」前置进块里再嵌入——像给每张便利贴补一行「这是《退货政策》里关于生鲜商品的部分」。实测：上下文嵌入把 Top-20 检索失败率降约
-    35%，配合上下文 BM25 降约 49%，再叠加重排可降约 67%。几乎不改架构，是「效果立竿见影」的演示好牌。文档全是 PDF/扫描件时先过文档智能解析（OCR），<b>解析质量决定切分质量</b>（上游供给见 <a href="../../PPT-version/Data-Engineering/README.html">Data-Engineering</a>）。</p>
+  <p><b>上下文检索</b>（Contextual Retrieval，Anthropic 提出）是近年最实用的低门槛增强：入库前用大模型给每个块生成一句「它在整篇文档里的定位」，前置进块里再嵌入——<b>像给每张便利贴补一行「这是《退货政策》里关于生鲜商品的部分」</b>。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 112" role="img" aria-label="上下文检索的实测降幅：上下文嵌入把 Top-20 检索失败率降约 35%，配合上下文 BM25 降约 49%，再叠加重排可降约 67%">
+     <g font-family="var(--sans)">
+      <text x="4" y="16" font-size="12" font-weight="700" fill="var(--ink-500)">Top-20 检索失败率的相对降幅</text>
+      <text x="4" y="42" font-size="12.5" fill="var(--ink-900)">上下文嵌入</text>
+      <rect x="150" y="28" width="196" height="18" rx="4" fill="var(--blue)" opacity=".5"/>
+      <text x="358" y="42" font-size="12.5" font-weight="700" fill="var(--ink-500)">≈ 35%</text>
+      <text x="4" y="72" font-size="12.5" fill="var(--ink-900)">+ 上下文 BM25</text>
+      <rect x="150" y="58" width="274" height="18" rx="4" fill="var(--blue)" opacity=".75"/>
+      <text x="436" y="72" font-size="12.5" font-weight="700" fill="var(--ink-500)">≈ 49%</text>
+      <text x="4" y="102" font-size="12.5" fill="var(--ink-900)">+ 重排</text>
+      <rect x="150" y="88" width="374" height="18" rx="4" fill="var(--blue)"/>
+      <text x="536" y="102" font-size="12.5" font-weight="700" fill="var(--blue-d)">≈ 67%</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>三招叠加，几乎不改架构——是「效果立竿见影」的演示好牌。柱长按降幅等比画。</figcaption>
+  </figure>
+  <p>文档全是 PDF / 扫描件时先过文档智能解析（OCR），<b>解析质量决定切分质量</b>（上游供给见 <a href="../../PPT-version/Data-Engineering/README.html">Data-Engineering</a>）。</p>
   <p class="ev">上下文检索数据来源 <a href="#src-anthropic-cb">Anthropic Cookbook</a>，核实 2026-07-07。<b>不可外推边界</b>：这是在特定数据集上、对检索失败率的相对降幅，不是准确率的绝对提升；换语料与切分策略结果会变。</p>
 </section>
 
@@ -130,8 +149,41 @@
     <p>评估集就是 RAG 的体重秤：没有秤，你不知道换的饮食有没有用，甚至越调越糟还沾沾自喜。切分、Top-K、重排这些旋钮，都要靠评估告诉你「拧对了没有」——<b>可度量，才可优化</b>。</p>
   </div>
 
-  <p>归因先分两侧：<b>检索侧</b>（没找到对的资料——调切分/Top-K/重排）与<b>生成侧</b>（资料对了但答歪了——改 Prompt 或换模型）。四个核心指标与生产参考阈值：忠实度（Faithfulness，答案是否只基于资料）≥0.75、答案相关性 ≥0.80、上下文精确率（检回来的有用占比）≥0.70、上下文召回率（该检的检全了吗）≥0.80——最终按业务风险定线。框架分工：Ragas 开发期迭代、DeepEval 做 CI 门禁、TruLens 生产监控。评估方法论的完整展开（判分四法/判官校准/黄金集）在 <a href="../evaluation/index.html">Evaluation
-    网页版</a>——那页收编了本节的三角指标。</p>
+  <h3>归因先分两侧</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>侧</th><th>症状</th><th>去调什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>检索侧</b></td><td>没找到对的资料</td><td>调切分 / Top-K / 重排</td></tr>
+     <tr><td><b>生成侧</b></td><td>资料对了但答歪了</td><td>改 Prompt 或换模型</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <h3>四个核心指标与生产参考阈值</h3>
+  <div class="tw">
+   <table>
+    <thead><tr><th>指标</th><th>量什么</th><th>参考阈值</th></tr></thead>
+    <tbody>
+     <tr><td>忠实度 Faithfulness</td><td>答案是否只基于资料</td><td>≥0.75</td></tr>
+     <tr><td>答案相关性</td><td>答的是不是问的</td><td>≥0.80</td></tr>
+     <tr><td>上下文精确率</td><td>检回来的有用占比</td><td>≥0.70</td></tr>
+     <tr><td>上下文召回率</td><td>该检的检全了吗</td><td>≥0.80</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>最终按业务风险定线。</b></p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>框架</th><th>用在哪一段</th></tr></thead>
+    <tbody>
+     <tr><td>Ragas</td><td>开发期迭代</td></tr>
+     <tr><td>DeepEval</td><td>CI 门禁</td></tr>
+     <tr><td>TruLens</td><td>生产监控</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>评估方法论的完整展开（判分四法 / 判官校准 / 黄金集）在 <a href="../evaluation/index.html">Evaluation 网页版</a>——那页收编了本节的三角指标。</p>
 
   <p>更细一层是<b>六段诊断</b>：解析（内容完整进库？）→ 切分（块边界合理？）→ 召回（证据进候选池？）→ 重排（证据排到前面？）→ 上下文（证据密度够？）→ 生成引用（主张被支撑？）——同样是「答错」，三种病吃三种药：gold chunk 没进池修检索、进了池没进上下文修重排与预算、进了上下文还答错修提示词或换模型。</p>
 
@@ -303,9 +355,19 @@
   <p>裸 Text-to-SQL 为什么不及格：模型写标准 SQL 语法早已过关，难在语义落地——真实企业库几百张表、字段名像密码、同一个「收入」五种口径，<b>准确率只有 50–70%</b>，而且错法危险：
     SQL 跑得通、数字是错的（静默错误）。同一个「去年营收多少」，sum 订单表（含取消单）和
     sum 财务确认收入能差 15%，都「语法正确」。</p>
-  <p><b>语义层</b>是解药：指标/维度/同义词的确定性定义（「营收 = 确认收入 − 退款」）——给空降的 SQL 高手发一本《公司指标口径手册》，把「猜口径」变成「查口径」，<b>准确率抬到
-    85–95%</b>，覆盖到的问题近乎全对。不用先重构几百张表：先给 20 个高频指标建口径映射就能上线——语义层是「乱库上面的整洁层」。风险三道闸：高频指标只走语义层确定性生成、SQL 执行只读权限+行级过滤、答案附生成的 SQL 与口径出处可复核。生产定式：RAG 做检索层 + 语义层做回答层，查文/查数入口路由；场景视角（ChatBI 口径战场）在
-    <a href="../../PPT-version/Solution-Patterns/README.html">Solution-Patterns</a> 第 8 章。</p>
+  <div class="box">
+   <h4>语义层是解药</h4>
+   <p>指标 / 维度 / 同义词的确定性定义（「营收 = 确认收入 − 退款」）——<b>给空降的 SQL 高手发一本《公司指标口径手册》</b>，把「猜口径」变成「查口径」，<b>准确率抬到 85–95%</b>，覆盖到的问题近乎全对。</p>
+  </div>
+  <p>不用先重构几百张表：<b>先给 20 个高频指标建口径映射就能上线</b>——语义层是「乱库上面的整洁层」。</p>
+
+  <h3>风险三道闸</h3>
+  <div class="grid">
+   <div class="box"><h4>① 只走语义层</h4><p>高频指标走确定性生成。</p></div>
+   <div class="box"><h4>② 只读 + 行级过滤</h4><p>SQL 执行权限锁死。</p></div>
+   <div class="box"><h4>③ 可复核</h4><p>答案附生成的 SQL 与口径出处。</p></div>
+  </div>
+  <p><b>生产定式</b>：RAG 做检索层 + 语义层做回答层，查文 / 查数入口路由。场景视角（ChatBI 口径战场）在 <a href="../../PPT-version/Solution-Patterns/README.html">Solution-Patterns</a> 第 8 章。</p>
   <p class="ev">50–70% → 85–95% 为 dbt 2026 基准口径，核实 2026-07-09，来源
     <a href="#src-sql">dbt 基准</a>。</p>
 </section>
