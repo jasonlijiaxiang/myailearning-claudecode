@@ -34,7 +34,16 @@ SLIDE_RE = re.compile(r'^ppt/slides/slide[0-9]+\.xml$')
 MODULE_README_RE = re.compile(r'主力成品[，,][^0-9]{0,40}(\d+)\s*页')
 # 双布局兼容：v4.0 起 _prep 的模块链接带 PPT-version/ 前缀（v4.0 只给顶层 README 加了这个
 # 兼容、漏了 _prep，导致本账静默失配——2026-07-20 补）。
-PREP_SPAN_TMPL = r'href="\.\./(?:PPT-version/)?{mod}/README\.html">[^<]*</a>\s*<span class="pg">(\d+)\s*页</span>'
+# 2026-07-22 一页纸改双链接（模块名 → 网页版、页数徽标 → PPT 讲义）后，页数不再是
+# 模块链接后面的旁注 span，而是**长在 PPT 链接自己身上**——这反而更结实：页数与它标注的
+# 那份讲义成了同一个元素，改一个必然看见另一个。旧的 span 形态一并保留，兼容尚未改造的库。
+PREP_SPAN_TMPL = (
+    r'(?:'
+    r'href="\.\./(?:PPT-version/)?{mod}/README\.html">[^<]*</a>\s*<span class="pg">(\d+)\s*页</span>'
+    r'|'
+    r'<a class="pg" href="\.\./(?:PPT-version/)?{mod}/README\.html">(\d+)\s*页</a>'
+    r')'
+)
 MANIFEST_FIELD_RE = re.compile(r'\|\s*讲义页数\s*\|\s*(\d+)\s*\|')
 MANIFEST_UPDATE_RE = re.compile(r'\|\s*最后更新\s*\|(.*?)\|\s*$', re.MULTILINE)
 PAGE_NUM_RE = re.compile(r'(\d+)\s*页')
@@ -132,8 +141,11 @@ def check_module(lib_root, mod_root, mod):
         m = re.search(PREP_SPAN_TMPL.format(mod=re.escape(mod)), prep_html)
         if not m:
             issues.append("全库一页纸未找到本模块的页数标注")
-        elif int(m.group(1)) != actual:
-            issues.append(f"_prep/全库一页纸 标 {m.group(1)} 页，与实测 {actual} 页不符")
+        else:
+            # 两种形态各占一个捕获组，命中哪个取哪个。
+            declared = int(m.group(1) or m.group(2))
+            if declared != actual:
+                issues.append(f"_prep/全库一页纸 标 {declared} 页，与实测 {actual} 页不符")
 
     manifest_path = os.path.join(mod_root, mod, "MANIFEST.md")
     if os.path.isfile(manifest_path):
