@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fine-tuning 微调工程实践 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721o">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721q">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721o</span>
+ <span class="ver">v0721q</span>
 </div></nav>
 
 <header class="top">
@@ -162,7 +162,12 @@
   <h2><span class="num">02</span>方法谱系与显存账<a class="anchor" href="#ft-methods">#ft-methods</a></h2>
 
   <div class="lead">
-    <p>三种方法三个比喻：全参微调是<b>整本书重编</b>（上限高、要集群、毁版风险）；LoRA 是<b>贴便利贴</b>（冻结底座 + 低秩旁路，可训参数不到 1%，产物几十 MB）；QLoRA 是<b>压缩影印再贴</b>（4-bit 底座 + 分页优化器，单张消费卡微调大模型）。</p>
+    <p>三种方法三个比喻：</p>
+    <div class="keypoints">
+      <div><b>全参微调</b><span>是整本书重编——上限高、要集群、毁版风险</span></div>
+      <div><b>LoRA</b><span>是贴便利贴——冻结底座 + 低秩旁路，可训参数不到 1%，产物几十 MB</span></div>
+      <div><b>QLoRA</b><span>是压缩影印再贴——4-bit 底座 + 分页优化器，单张消费卡微调大模型</span></div>
+    </div>
   </div>
 
   <div class="tw">
@@ -600,8 +605,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721o"></script>
-<script src="../assets/site.js?v=20260721o"></script>
+<script src="../data.js?v=20260721q"></script>
+<script src="../assets/site.js?v=20260721q"></script>
 <script>
 /* 该不该微调决策器：第 1 章分界线 + 第 5 章对齐三级 + 第 2 章显存账的交互合成。
    判据全部来自本页各节。无 JS 时 .tool 隐藏，静态兜底是定制光谱与症状处方表。 */

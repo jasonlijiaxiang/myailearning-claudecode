@@ -115,11 +115,20 @@ body {
 .top .hr { height: 1px; background: var(--line-2); margin: .9rem 0; }
 /* 页头要点行：把「四件事：A（…）、B（…）、C（…）、D（…）」这种挤在一句里的并列拆开。
    放页头而不是正文卡片——页头底色即卡片色，再套一层卡会看不见边界（2026-07-22）。 */
+/* align-items 必须是 start：grid 默认把同一行的格子拉成等高，注解一长一短时，
+   短的那格竖线会拖出一截空白（四件事实测：成本注 5 行、质量注 2 行，竖线都是 124px）。 */
 .keypoints { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-             gap: .55rem 1rem; margin: .8rem 0 .2rem; max-width: 72ch; }
+             gap: .55rem 1rem; margin: .8rem 0 .2rem; max-width: 72ch; align-items: start; }
 .keypoints > div { border-left: 2px solid var(--blue-ln); padding-left: .65rem; }
 .keypoints b { display: block; font-size: 14px; color: var(--ink-900); line-height: 1.5; }
 .keypoints span { font-size: 12.5px; color: var(--ink-500); line-height: 1.6; }
+/* 同一个件也用在正文的引言块里。要点词必须比它周围的字**大一档**才压得住：页头正文
+   13.5px 配 14px 成立，lead 正文是 14.5px，照搬就反而更小了，所以进 lead 提到 15px。 */
+/* 正文列比页头窄（实测 634px）：9.5rem 起步时四项会挤成 3+1 折行，降到 8.5rem 才排得下四列。 */
+.lead .keypoints { margin: .65rem 0 .75rem; max-width: none;
+                   grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+.lead .keypoints b { font-size: 15px; }
+.lead .keypoints span { font-size: 13px; }
 
 /* 搜索 */
 .search { margin: .9rem 0 0; max-width: 34rem; }

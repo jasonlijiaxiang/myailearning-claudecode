@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Ops 可观测与运维 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721o">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721q">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721o</span>
+ <span class="ver">v0721q</span>
 </div></nav>
 
 <header class="top">
@@ -269,9 +269,13 @@
   <h2><span class="num">06</span>事故响应<a class="anchor" href="#ops-incident">#ops-incident</a></h2>
 
   <div class="lead">
-    <p>AI runbook 四问——传统 runbook 没有的四章：<b>答错了</b>（幻觉率告警 → 降级保守模式/升级人工）、<b>被攻破了</b>（注入检测 + 工具权限急冻，弹药在
-      <a href="../security/index.html">Security 网页版</a>）、<b>卡死了</b>（循环检测 →
-      步数/预算上限强制中断）、<b>复盘不了</b>（必须靠 trace 留证——第 2 节是本节的前提）。</p>
+    <p>AI runbook 四问——传统 runbook 没有的四章：</p>
+    <div class="keypoints">
+      <div><b>答错了</b><span>幻觉率告警 → 降级保守模式/升级人工</span></div>
+      <div><b>被攻破了</b><span>注入检测 + 工具权限急冻，弹药在<a href="../security/index.html">Security 网页版</a></span></div>
+      <div><b>卡死了</b><span>循环检测 → 步数/预算上限强制中断</span></div>
+      <div><b>复盘不了</b><span>必须靠 trace 留证——第 2 节是本节的前提</span></div>
+    </div>
   </div>
 
   <div class="box">
@@ -564,8 +568,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721o"></script>
-<script src="../assets/site.js?v=20260721o"></script>
+<script src="../data.js?v=20260721q"></script>
+<script src="../assets/site.js?v=20260721q"></script>
 <script>
 /* 观测成本与采样规划器：遥测量 = 日调用 × span 数 × span 大小；评估条数 = 日调用 × 采样率。
    系数来自讲义第 1/3 章。无 JS 时 .tool 隐藏，静态兜底是正文的账法描述。 */

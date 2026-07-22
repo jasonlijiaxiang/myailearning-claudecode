@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Solution-Patterns 场景方案库 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721o">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721q">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721o</span>
+ <span class="ver">v0721q</span>
 </div></nav>
 
 <header class="top">
@@ -88,10 +88,41 @@
   <h2><span class="num">02</span>方案共性方法<a class="anchor" href="#sp-method">#sp-method</a></h2>
 
   <div class="lead">
-    <p>通用参考架构五层：<b>入口</b>（网关：限流/审计/成本治理）→ <b>编排</b>（Agent/工作流/
-      低代码）→ <b>模型</b>（选型/提示词/微调）→ <b>数据</b>(知识库/检索/权限) →
-      <b>保障</b>（评估/护栏/内容安全）。<b>POC 常只建模型 + 数据两层，方案书必须画全五层</b>——客户的安全团队和采购看的恰恰是后三层，这也是「POC 成功了为什么上生产还要收钱」的答案。</p>
+    <p>通用参考架构五层：<b>POC 常只建模型 + 数据两层，方案书必须画全五层</b>——客户的安全团队和采购看的恰恰是后三层，这也是「POC 成功了为什么上生产还要收钱」的答案。</p>
   </div>
+
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 268" role="img" aria-label="通用参考架构五层，自上而下：入口（网关：限流/审计/成本治理）、编排（Agent/工作流/低代码）、模型（选型/提示词/微调）、数据（知识库/检索/权限）、保障（评估/护栏/内容安全）。其中模型与数据是 POC 常只建的两层。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="470" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="33" font-size="13.5" font-weight="700" fill="var(--ink-900)">入口</text>
+      <line x1="86" y1="18" x2="86" y2="38" stroke="var(--line)"/>
+      <text x="102" y="33" font-size="11.5" fill="var(--ink-500)">网关：限流/审计/成本治理</text>
+      <rect x="6" y="58" width="470" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="85" font-size="13.5" font-weight="700" fill="var(--ink-900)">编排</text>
+      <line x1="86" y1="70" x2="86" y2="90" stroke="var(--line)"/>
+      <text x="102" y="85" font-size="11.5" fill="var(--ink-500)">Agent/工作流/低代码</text>
+      <rect x="6" y="110" width="470" height="44" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="24" y="137" font-size="13.5" font-weight="700" fill="var(--ink-900)">模型</text>
+      <line x1="86" y1="122" x2="86" y2="142" stroke="var(--blue-ln)"/>
+      <text x="102" y="137" font-size="11.5" fill="var(--ink-500)">选型/提示词/微调</text>
+      <rect x="6" y="162" width="470" height="44" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="24" y="189" font-size="13.5" font-weight="700" fill="var(--ink-900)">数据</text>
+      <line x1="86" y1="174" x2="86" y2="194" stroke="var(--blue-ln)"/>
+      <text x="102" y="189" font-size="11.5" fill="var(--ink-500)">知识库/检索/权限</text>
+      <rect x="6" y="214" width="470" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="241" font-size="13.5" font-weight="700" fill="var(--ink-900)">保障</text>
+      <line x1="86" y1="226" x2="86" y2="246" stroke="var(--line)"/>
+      <text x="102" y="241" font-size="11.5" fill="var(--ink-500)">评估/护栏/内容安全</text>
+      <path d="M 492 110 H 502 V 206 H 492" fill="none" stroke="var(--blue-ln)" stroke-width="1.5"/>
+      <text x="512" y="152" font-size="11.5" fill="var(--ink-500)">POC 常只建</text>
+      <text x="512" y="169" font-size="11.5" fill="var(--ink-500)">模型 + 数据两层</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>通用参考架构五层，自上而下。</figcaption>
+  </figure>
 
   <h3>POC 三要素</h3>
   <p>像装修先砌样板墙——三样缺一样，POC 就会变成永远「再试试」：</p>
@@ -218,7 +249,13 @@
   <h2><span class="num">05</span>营销与内容生成<a class="anchor" href="#sp-content-gen">#sp-content-gen</a></h2>
 
   <div class="lead">
-    <p>三条线成熟度与成本各不同：<b>文案最成熟</b>（$0.001–0.01/条，按吨算——Jasper 模式风格指南全局生效）、<b>图像是素材工厂</b>（$0.02–0.1/张，迭代是乘数）、<b>视频最烧钱</b>（$0.5–5/条起步）。按线报价、按线设坑检。</p>
+    <p>三条线成熟度与成本各不同：</p>
+    <div class="keypoints">
+      <div><b>文案最成熟</b><span>$0.001–0.01/条，按吨算——Jasper 模式风格指南全局生效</span></div>
+      <div><b>图像是素材工厂</b><span>$0.02–0.1/张，迭代是乘数</span></div>
+      <div><b>视频最烧钱</b><span>$0.5–5/条起步</span></div>
+    </div>
+    <p>按线报价、按线设坑检。</p>
   </div>
 
   <h3>品牌一致性是工程不是运气</h3>
@@ -659,8 +696,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721o"></script>
-<script src="../assets/site.js?v=20260721o"></script>
+<script src="../data.js?v=20260721q"></script>
+<script src="../assets/site.js?v=20260721q"></script>
 <script>
 /* 场景分诊器：讲义第 10 章分诊树 + 场景→积木总表 + 成本速查卡的交互合体。
    无 JS 时 .tool 隐藏，静态兜底是正文各场景节。 */

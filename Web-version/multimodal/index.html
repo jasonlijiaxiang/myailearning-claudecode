@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Multimodal 多模态 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721o">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721q">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721o</span>
+ <span class="ver">v0721q</span>
 </div></nav>
 
 <header class="top">
@@ -269,8 +269,13 @@
   <h2><span class="num">07</span>生产落地与坑<a class="anchor" href="#mm-production">#mm-production</a></h2>
 
   <div class="lead">
-    <p>上线前四件事：<b>成本</b>（真实图量 × 分辨率做 token 压测估月度账单、设分辨率上限——别等账单来了才发现分辨率设高了）、<b>质量</b>（自建评估集 + 关键字段二次校验/
-      人审）、<b>安全</b>（图像当不可信输入 + 输出审核 + 水印）、<b>架构</b>（稳定走 OCR、疑难走大模型、缓存 + 批处理）。</p>
+    <p>上线前四件事：</p>
+    <div class="keypoints">
+      <div><b>成本</b><span>真实图量 × 分辨率做 token 压测估月度账单、设分辨率上限——别等账单来了才发现分辨率设高了</span></div>
+      <div><b>质量</b><span>自建评估集 + 关键字段二次校验/人审</span></div>
+      <div><b>安全</b><span>图像当不可信输入 + 输出审核 + 水印</span></div>
+      <div><b>架构</b><span>稳定走 OCR、疑难走大模型、缓存 + 批处理</span></div>
+    </div>
   </div>
 
   <h3>失效模式表（不只是「答错」）</h3>
@@ -407,10 +412,19 @@
   <h2><span class="num">09</span>视频生成<a class="anchor" href="#mm-video-generation">#mm-video-generation</a></h2>
 
   <div class="lead">
-    <p>四家旗舰四张王牌（2026-07 口径，名单月度在变）：<b>Seedance 2.0</b>（字节，创意控制：原生音视频同步、参考输入 12 文件同代最强，Fast $0.022/秒）、<b>Sora 2</b>
-      （物理真实感 + 故事板最长 25 秒叙事）、<b>可灵 3.0</b>（性价比 + 原生 4K@60fps，
-      $0.029/秒）、<b>Veo 3.1</b>（电影级质感 + 原生音频，$0.75/秒——最贵，约为 Seedance
-      Fast 的 34 倍）。</p>
+    <p>四家旗舰四张王牌（2026-07 口径，名单月度在变）：</p>
+  </div>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>旗舰</th><th>王牌</th><th>单价</th></tr></thead>
+    <tbody>
+      <tr><td><b>Seedance 2.0</b></td><td>字节，创意控制：原生音视频同步、参考输入 12 文件同代最强</td><td>Fast $0.022/秒</td></tr>
+      <tr><td><b>Sora 2</b></td><td>物理真实感 + 故事板最长 25 秒叙事</td><td>未列</td></tr>
+      <tr><td><b>可灵 3.0</b></td><td>性价比 + 原生 4K@60fps</td><td>$0.029/秒</td></tr>
+      <tr><td><b>Veo 3.1</b></td><td>电影级质感 + 原生音频</td><td>$0.75/秒——最贵，约为 Seedance Fast 的 34 倍</td></tr>
+    </tbody>
+  </table>
   </div>
 
   <h3>三大难</h3>
@@ -631,8 +645,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721o"></script>
-<script src="../assets/site.js?v=20260721o"></script>
+<script src="../data.js?v=20260721q"></script>
+<script src="../assets/site.js?v=20260721q"></script>
 <script>
 /* 多模态方案分诊器：五问决策树（讲义第 10 章）的交互版。无 JS 时 .tool 隐藏，
    静态兜底是第 3 节的三问落子与正文决策框架。 */
