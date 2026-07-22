@@ -55,7 +55,51 @@
     <p>语言的本质困难是<b>长距离依赖</b>：合同第 12 页的「上述甲方」指向第 1 页的定义条款。两个硬要求——记得住远处的信息、分得清哪些此刻相关——正是注意力被发明出来要解决的问题。</p>
   </div>
 
-  <p>Transformer 之前的 RNN 像传声筒游戏：逐词读入、把一切压进固定大小的记忆向量——三宗罪是<b>遗忘</b>（长文装不下）、<b>串行</b>（GPU 上千核心干瞪眼）、<b>梯度消失</b>（学不会长距离依赖）。2017 年《Attention Is All You Need》做了激进的减法：扔掉递归骨架，让注意力从配角变唯一主角——所有词两两直连，信息路径长度恒为 1（直达电梯，不是 12 页的接力）。最值钱的副产品是<b>全序列并行训练</b>：可以疯狂堆数据堆算力，直接解锁了 GPT 路线。</p>
+  <p>Transformer 之前的 RNN 像传声筒游戏：逐词读入、把一切压进固定大小的记忆向量——三宗罪：</p>
+  <div class="grid">
+   <div class="box warn">
+    <h4>遗忘</h4>
+    <p>长文装不下。</p>
+   </div>
+   <div class="box warn">
+    <h4>串行</h4>
+    <p>GPU 上千核心干瞪眼。</p>
+   </div>
+   <div class="box warn">
+    <h4>梯度消失</h4>
+    <p>学不会长距离依赖。</p>
+   </div>
+  </div>
+  <p>2017 年《Attention Is All You Need》做了激进的减法：扔掉递归骨架，让注意力从配角变唯一主角——所有词两两直连，信息路径长度恒为 1（直达电梯，不是 12 页的接力）。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 168" role="img" aria-label="RNN 与 Transformer 对照：RNN 逐词读入、把一切压进固定大小的记忆向量，信息串行传递；Transformer 所有词两两直连，信息路径长度恒为 1，可全序列并行训练。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="348" height="150" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="30" font-size="13" font-weight="700" fill="var(--ink-900)">RNN（2017 之前）</text>
+      <text x="24" y="49" font-size="11" fill="var(--ink-500)">逐词读入，压进固定大小的记忆向量</text>
+      <circle cx="28" cy="70" r="2.5" fill="var(--ink-400)"/>
+      <text x="40" y="74" font-size="11.5" fill="var(--ink-700)">遗忘：长文装不下</text>
+      <circle cx="28" cy="94" r="2.5" fill="var(--ink-400)"/>
+      <text x="40" y="98" font-size="11.5" fill="var(--ink-700)">串行：GPU 上千核心干瞪眼</text>
+      <circle cx="28" cy="118" r="2.5" fill="var(--ink-400)"/>
+      <text x="40" y="122" font-size="11.5" fill="var(--ink-700)">梯度消失：学不会长距离依赖</text>
+      <path d="M 356 81 L 366 81" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 367 81 l -5 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="366" y="6" width="348" height="150" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="384" y="30" font-size="13" font-weight="700" fill="var(--ink-900)">Transformer（2017—）</text>
+      <text x="384" y="49" font-size="11" fill="var(--ink-500)">所有词两两直连，路径长度恒为 1</text>
+      <circle cx="388" cy="70" r="2.5" fill="var(--ink-400)"/>
+      <text x="400" y="74" font-size="11.5" fill="var(--ink-700)">直达：信息路径长度恒为 1</text>
+      <circle cx="388" cy="94" r="2.5" fill="var(--ink-400)"/>
+      <text x="400" y="98" font-size="11.5" fill="var(--ink-700)">并行：全序列并行训练</text>
+      <circle cx="388" cy="118" r="2.5" fill="var(--ink-400)"/>
+      <text x="400" y="122" font-size="11.5" fill="var(--ink-700)">可扩展：堆数据堆算力有回报</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>扔掉递归骨架，让注意力从配角变唯一主角——高亮那列是赢家。</figcaption>
+  </figure>
+  <p>最值钱的副产品是<b>全序列并行训练</b>：可以疯狂堆数据堆算力，直接解锁了 GPT 路线。</p>
   <p>总览像一场圆桌会议：每个词是一位与会者，发言前先环顾全场（注意力）——谁与我相关就多听谁的；然后回座位独立消化整理（前馈网络 FFN）。会要开 N 轮（N 层），每轮理解更深。代价写在最后一行：<b>注意力是 O(n²)</b>——大模型的成本、延迟、上下文限制，根子都在这，它是第 4、5 节全部工程故事的伏笔。一句话：<b>Transformer 赢在可扩展——它让「变大」第一次变得既可行（并行）又有回报（scaling）</b>。</p>
 </section>
 
