@@ -167,7 +167,8 @@
     和「给对上下文」</b>。预算控制的市场侧（overthinking 陷阱）见
     <a href="../model-landscape/index.html#ml-capability">Model-Landscape 网页版</a>。</p>
   <p class="ev">推理模型口径核实 2026-07-09，来源 <a href="#src-reasoning">OpenAI/Anthropic
-    文档综述</a>。</p>
+    文档综述</a>。
+        <b>不可外推边界</b>：厂商文档描述的是各自模型的行为，不同家的「推理模式」在触发条件与计费方式上并不一致；提示词写法按目标模型的文档来，不能跨家照搬。</p>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -193,7 +194,8 @@
     「工具返回 50KB JSON 原样塞进窗口」就是预算失控的样子。云上闭环：Bedrock Prompt
     Management / Vertex Prompt Optimizer / Azure Prompt Flow。</p>
   <p class="ev">DSPy/GEPA 与缓存口径核实 2026-07-09（缓存 07-20 补核），来源
-    <a href="#src-dspy">futureagi/morphllm</a> 与 <a href="#src-cache">三大厂官方定价文档</a>。</p>
+    <a href="#src-dspy">futureagi/morphllm</a> 与 <a href="#src-cache">三大厂官方定价文档</a>。
+        <b>不可外推边界</b>：缓存折扣是各厂当期定价策略，命中率则完全取决于你的提示词结构——「等效价砍半」是高复用场景的量级，低复用场景基本无感。</p>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -218,7 +220,8 @@
     攻防机制的深化在 <a href="../../PPT-version/Security/README.html">Security 模块</a>，
     网关层的集中执行在 <a href="../ai-gateway/index.html#gw-guardrail">AI-Gateway 网页版</a>。</p>
   <p class="ev">OWASP 口径核实 2026-07-09，来源 <a href="#src-owasp">OWASP GenAI Top 10
-    for LLM Applications 2025</a>。</p>
+    for LLM Applications 2025</a>。
+        <b>不可外推边界</b>：清单给的是风险分类，不是防护方案，也不构成合规依据；条目与排序随版本变，引用带版本年份。</p>
 </section>
 
 <!-- ============ 7 ============ -->

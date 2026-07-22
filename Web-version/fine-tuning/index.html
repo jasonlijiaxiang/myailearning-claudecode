@@ -199,7 +199,8 @@
     ——顺序反了浪费一周。成本结构：LoRA 级单卡几小时、云上几十到几百美元——<b>算力是零头，
     数据与评估的人力是大头</b>，报价拆开给客户看。</p>
   <p class="ev">框架格局与版本边界核实 2026-07-09/12（PEFT v0.19.1、TRL v1.8.0 KTO 转正），
-    来源 <a href="#src-frameworks">GitHub releases 与框架对比</a>。</p>
+    来源 <a href="#src-frameworks">GitHub releases 与框架对比</a>。
+        <b>不可外推边界</b>：版本号是当日快照，微调框架在小版本间也会破坏兼容；方案里锁版本号，别写「用最新版」。</p>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -232,7 +233,8 @@
     形态：偏好数据里要有「该答就答」的正例，拒答率和有用性两头设门禁。</p>
   <p class="ev">RFT/GRPO 为 2026 微调新风向，核实 2026-07-09，来源
     <a href="#src-rft">OpenAI RFT 文档与行业综述</a>；原理（奖励模型/RLHF/RLVR）在
-    <a href="../../PPT-version/LLM-Training/README.html">LLM-Training</a> 第 5/6 章。</p>
+    <a href="../../PPT-version/LLM-Training/README.html">LLM-Training</a> 第 5/6 章。
+        <b>不可外推边界</b>：「新风向」说的是方法关注度上升，不等于已成生产默认；引入按探索型排期，别按成熟件承诺。</p>
 </section>
 
 <!-- ============ 6 ============ -->

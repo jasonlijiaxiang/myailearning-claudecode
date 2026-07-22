@@ -169,7 +169,8 @@
   <p class="ev">A2A 版本与采用规模核实 2026-07-12，来源 <a href="#src-a2a">A2A releases /
     Linux Foundation 公告</a>；框架现状（Microsoft Agent Framework 1.0 GA 合并 AutoGen 与
     Semantic Kernel；LangGraph 已过 1.0、OpenAI Agents SDK 仍 0.x——短名单都能用，API 稳定性
-    承诺不同）同日核实，来源 <a href="#src-frameworks">官方公告与 GitHub releases</a>。</p>
+    承诺不同）同日核实，来源 <a href="#src-frameworks">官方公告与 GitHub releases</a>。
+        <b>不可外推边界</b>：版本号与 API 稳定性承诺都是当日快照；「短名单都能用」指的是都有公开生产案例，不是能力等价——选型仍要按自己的负载实测。</p>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -206,7 +207,8 @@
     「看到什么」，提示词只决定「怎么看」。<b>评审 agent 方案先翻它的工具清单</b>：六层缺哪层，
     事故就从哪层来。</p>
   <p class="ev">MCP 版本现状核实 2026-07-07（建议复查日 2026-07-28），来源
-    <a href="#src-mcp">modelcontextprotocol.io</a>。</p>
+    <a href="#src-mcp">modelcontextprotocol.io</a>。
+        <b>不可外推边界</b>：已排定 2026-07-28 发新版，届时本节结论按新规范重写；在那之前引用必须带版本号。</p>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -289,7 +291,8 @@
     够不够克制。</b></p>
   <p class="ev">OWASP 清单与工具格局核实 2026-07-07，来源 <a href="#src-owasp">genai.owasp.org
     与各官方文档</a>。深入的攻防机制见 <a href="../../PPT-version/Security/README.html">Security
-    模块</a>。</p>
+    模块</a>。
+        <b>不可外推边界</b>：OWASP 清单是风险面的行业共识，不是覆盖度承诺——清单上没有的不等于不存在，记忆投毒（ASI06）就是后补进来的。</p>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -376,7 +379,8 @@
     后门，不主动审计根本发现不了。</p>
   <p class="ev">框架横评与投毒研究核实 2026-07-11，来源 <a href="#src-memory">2026 横评 /
     arXiv 2601.05504、2607.06595</a>。防线与 <a href="../../PPT-version/Security/README.html">Security</a>
-    第 5 章同源展开。</p>
+    第 5 章同源展开。
+        <b>不可外推边界</b>：投毒成功率来自研究环境的对抗实验，不能外推成生产系统的实际发生率；它支持的是「必须有写入过滤与审计」，不是「你已经被投毒了」。</p>
 </section>
 
 <!-- ============ 9 ============ -->
@@ -412,7 +416,8 @@
     输入</b>——网页里藏一行字就可能指挥 agent，注入面转移到了屏幕上。成本提醒：每步都要截图
     进模型，视觉 token 是大头——按「步数 × 每步截图成本」估算，长流程常是 RPA 混合的账更好看。</p>
   <p class="ev">路线与基准核实 2026-07-11，来源 <a href="#src-cu">2026 对比矩阵 /
-    arXiv 2606.29537</a>。</p>
+    arXiv 2606.29537</a>。
+        <b>不可外推边界</b>：两个基准的口径差得很远（短窄任务 vs 长程多应用），任何一个数字单拎出来都会误导，对客必须两个一起给。</p>
 </section>
 
 <!-- ============ 10 ============ -->
