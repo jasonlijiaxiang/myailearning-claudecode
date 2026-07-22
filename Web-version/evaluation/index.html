@@ -56,15 +56,54 @@
       assert 式单元测试直接失效。LLM 评估天生是<b>「改作文」不是「对答案」</b>：量的不是对不对，而是<b>好不好 + 稳不稳</b>。</p>
   </div>
 
-  <p>「感觉不错」不可规模化：手感只能覆盖个位数场景，真实问题分布是长尾的——「demo 惊艳、上线客诉」是行业常态，因为 demo 挑的是顺手问题。最常见的事故是<b>隐性回归</b>：改一版
-    prompt，盯着的问题答好了，原本正常的三个场景悄悄答坏——没有回归评估根本发现不了。有没有可重复、可比较、可回归的评估，是玩具与产品的分水岭。</p>
+  <p>「感觉不错」不可规模化：手感只能覆盖个位数场景，真实问题分布是长尾的——「demo 惊艳、上线客诉」是行业常态，因为 demo 挑的是顺手问题。</p>
+
+  <div class="box warn">
+   <h4>最常见的事故是隐性回归</h4>
+   <p>改一版 prompt，盯着的问题答好了，<b>原本正常的三个场景悄悄答坏</b>——没有回归评估根本发现不了。</p>
+  </div>
+
+  <p>有没有可重复、可比较、可回归的评估，是玩具与产品的分水岭。</p>
 
   <h3>三层分工：高考、面试、试用期</h3>
-  <p><b>基准测试</b>量模型通用能力（高考），<b>应用评估</b>量你的场景加你的数据（面试），<b>生产监控</b>量真实流量下的持续质量（试用期）——三层各管一段、互相不能替代。某客户按榜单选了第一名模型，POC 一跑发现它在自家行业术语上不如第二名——榜单是高考分，客户场景是岗位面试。口径：<b>榜单筛入围、应用评估定选型、生产监控保长期</b>。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 92" role="img" aria-label="评估三层各管一段：基准测试量模型通用能力（高考），口径是榜单筛入围；应用评估量你的场景加你的数据（面试），口径是应用评估定选型；生产监控量真实流量下的持续质量（试用期），口径是生产监控保长期。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="225" height="76" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="118" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">基准测试</text>
+      <text x="118" y="51" text-anchor="middle" font-size="11" fill="var(--ink-500)">量模型通用能力（高考）</text>
+      <text x="118" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--blue-d)">榜单筛入围</text>
+      <rect x="247" y="6" width="225" height="76" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="359" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">应用评估</text>
+      <text x="359" y="51" text-anchor="middle" font-size="11" fill="var(--ink-500)">量你的场景加你的数据（面试）</text>
+      <text x="359" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--blue-d)">应用评估定选型</text>
+      <path d="M 233 44 L 242 44" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 243 44 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="488" y="6" width="225" height="76" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="600" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink-900)">生产监控</text>
+      <text x="600" y="51" text-anchor="middle" font-size="11" fill="var(--ink-500)">量真实流量下的持续质量（试用期）</text>
+      <text x="600" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="var(--blue-d)">生产监控保长期</text>
+      <path d="M 474 44 L 483 44" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 484 44 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>蓝色那行是口径：这一层用来做哪个决定。</figcaption>
+  </figure>
+  <p>三层各管一段、互相不能替代。某客户按榜单选了第一名模型，POC 一跑发现它在自家行业术语上不如第二名——榜单是高考分，客户场景是岗位面试。</p>
 
   <h3>评估集是真正的护城河</h3>
-  <p>模型会换、prompt 会改、框架会过时；沉淀下来的是「你的场景里什么算好」加一套能验证它的题——评估集是复用率最高的工程资产。换模型时，有评估集的团队一天内跑完回归给出数据化结论；没有的团队人肉重试拖两周还说不清。边界声明：本册管「质量」，延迟/吞吐归
-    <a href="../llm-inference/index.html">LLM-Inference 网页版</a>——快不快找推理，好不好找评估。</p>
+  <p>模型会换、prompt 会改、框架会过时；沉淀下来的是「你的场景里什么算好」加一套能验证它的题——评估集是复用率最高的工程资产。换模型时：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>有评估集的团队</h4>
+    <p><b>一天内</b>跑完回归给出数据化结论。</p>
+   </div>
+   <div class="box warn">
+    <h4>没有的团队</h4>
+    <p>人肉重试拖<b>两周</b>还说不清。</p>
+   </div>
+  </div>
+  <p>边界声明：本册管「质量」，延迟/吞吐归 <a href="../llm-inference/index.html">LLM-Inference 网页版</a>——快不快找推理，好不好找评估。</p>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -169,7 +208,12 @@
   </div>
 
   <h3>三种判法与三大偏差</h3>
-  <p>LLM 更擅长判别式任务：<b>成对比较</b>（两个输出选更好，最稳）和<b>评分细则</b>（把「好」拆成可核对条款逐条判，最可控）远比裸的<b>单点打分</b>稳定——问「这碗面打几分」难答稳，问「这两碗哪碗好吃」谁都答得准。选题型：回归监控用细则、版本对比用成对比较、绝对分数只作趋势参考。</p>
+  <p>LLM 更擅长判别式任务：<b>成对比较</b>（两个输出选更好，最稳）和<b>评分细则</b>（把「好」拆成可核对条款逐条判，最可控）远比裸的<b>单点打分</b>稳定——问「这碗面打几分」难答稳，问「这两碗哪碗好吃」谁都答得准。选题型：</p>
+  <div class="keypoints">
+    <div><b>回归监控</b><span>用细则</span></div>
+    <div><b>版本对比</b><span>用成对比较</span></div>
+    <div><b>绝对分数</b><span>只作趋势参考</span></div>
+  </div>
   <div class="tw">
   <table>
     <thead><tr><th>偏差</th><th>表现</th><th>实验证据</th><th>缓解手段</th></tr></thead>
@@ -199,12 +243,47 @@
   </div>
 
   <h3>黄金集与错误分析</h3>
-  <p>构成配比参考：<b>60% 高频典型题 + 25% 边界与刁钻题 + 15% 必须完美的高价值题</b>（涉及价格、合规话术等），比例按业务风险调。错误分析的做法：先逐条看几十条真实输出，每条错误用短语记下来，归并成类别，每个高频类别对应一个评估项——像给 AI 建错题本。实例：某企业问答系统看 50 条日志归出三类高频错误（引用过期文档 38%、过度拒答 24%、术语用错 18%），评估集立刻有了三个专项维度，比拍脑袋写的「准确性/流畅性」有用得多。</p>
+  <p>构成配比参考（15% 那档涉及价格、合规话术等）：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 92" role="img" aria-label="黄金集构成配比：60% 高频典型题、25% 边界与刁钻题、15% 必须完美的高价值题。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="422" height="28" rx="4" fill="var(--blue)" fill-opacity="1"/>
+      <rect x="430" y="6" width="176" height="28" rx="4" fill="var(--blue)" fill-opacity="0.55"/>
+      <rect x="608" y="6" width="106" height="28" rx="4" fill="var(--blue)" fill-opacity="0.3"/>
+      <text x="217" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">60%</text>
+      <text x="217" y="72" text-anchor="middle" font-size="11" fill="var(--ink-500)">高频典型题</text>
+      <text x="518" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">25%</text>
+      <text x="518" y="72" text-anchor="middle" font-size="11" fill="var(--ink-500)">边界与刁钻题</text>
+      <text x="661" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">15%</text>
+      <text x="661" y="72" text-anchor="middle" font-size="11" fill="var(--ink-500)">必须完美的高价值题</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>比例按业务风险调。</figcaption>
+  </figure>
+  <p>错误分析的做法：先逐条看几十条真实输出，每条错误用短语记下来，归并成类别，每个高频类别对应一个评估项——像给 AI 建错题本。实例：某企业问答系统看 50 条日志归出三类高频错误（引用过期文档 38%、过度拒答 24%、术语用错 18%），评估集立刻有了三个专项维度，比拍脑袋写的「准确性/流畅性」有用得多。</p>
 
   <h3>冷启动三条路与指标设计</h3>
-  <p>没有标注数据的三条起步路：<b>专家手写</b>（半天 30 题，质量最高）、<b>日志采样</b>（分布最真）、<b>合成造题</b>（量最大，但模型爱出「文档原句就能答」的软柿子题——造题
-    prompt 里要强制出对比题、多跳题、无答案题，且必须人工抽审后才能入集）。三路并进，两周从 0 到 100 题。</p>
-  <p>指标设计两条：<b>先定成功标准再倒推指标</b>（「95% 事实正确、100% 不泄露内部价格」好过「回答质量高」）；<b>能二分类就别打分</b>——每题「通过/不通过」判得稳、算得清、和验收线好挂钩，五分制里 3.8 和 4.1 的差别没人说得清。指标不超过 5 个，每个都要能翻译成一句业务话（事实错误率↔客诉风险；拒答率↔转人工成本）。</p>
+  <p>没有标注数据的三条起步路：</p>
+  <div class="keypoints">
+    <div><b>专家手写</b><span>半天 30 题，质量最高</span></div>
+    <div><b>日志采样</b><span>分布最真</span></div>
+    <div><b>合成造题</b><span>量最大，但模型爱出「文档原句就能答」的软柿子题——造题 prompt 里要强制出对比题、多跳题、无答案题，且必须人工抽审后才能入集</span></div>
+  </div>
+  <p>三路并进，两周从 0 到 100 题。</p>
+  <p>指标设计两条：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>先定成功标准再倒推指标</h4>
+    <p>「95% 事实正确、100% 不泄露内部价格」好过「回答质量高」。</p>
+   </div>
+   <div class="box">
+    <h4>能二分类就别打分</h4>
+    <p>每题「通过/不通过」判得稳、算得清、和验收线好挂钩，五分制里 3.8 和 4.1 的差别没人说得清。</p>
+   </div>
+  </div>
+  <p>指标不超过 5 个，每个都要能翻译成一句业务话（事实错误率↔客诉风险；拒答率↔转人工成本）。</p>
 
   <h3>进 CI、持续生长</h3>
   <p>把评估当测试跑：prompt 改动、模型升级、检索配置变更都触发评估集回归，通过率低于门槛就挡住上线——「只改了一个词」和「只改了一行代码」一样都是变更。评估集要持续生长：线上坏例回流（同一个坑不踩第二次），像免疫系统越打越强。两个维护点：<b>防泄漏</b>（评估题别混进微调训练数据）、<b>防过拟合</b>（留 10–20% 保留集不参与日常调优，定期补新题）。</p>
@@ -284,7 +363,36 @@
     Vertex 评估服务）——客户在哪朵云就从哪家起步，黄金集保持平台无关。</p>
 
   <h3>四道发布门与质量飞轮</h3>
-  <p>把评测结果变成发布决策的四道门：<b>契约门</b>（schema/工具/权限：零关键失败，挂了阻断构建）→ <b>质量门</b>(数据集+评分器：基线与分片达标) → <b>风险门</b>（安全/红队/隐私：高风险清零或例外签批）→ <b>生产门</b>（金丝雀 SLI/业务结果：预算内持续达标）。两条铁规矩：<b>不能用下游平均分覆盖上游硬失败</b>；数据集与评分器的版本是门禁的一部分——换了判官必须重新校准、重建可比基线。</p>
+  <p>把评测结果变成发布决策的四道门：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 222" role="img" aria-label="把评测结果变成发布决策的四道门，自上而下：契约门查 schema、工具、权限，零关键失败，挂了阻断构建；质量门查数据集加评分器，基线与分片达标；风险门查安全、红队、隐私，高风险清零或例外签批；生产门查金丝雀 SLI 与业务结果，预算内持续达标。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="32" font-size="12.5" font-weight="700" fill="var(--ink-900)">契约门</text>
+      <line x1="98" y1="17" x2="98" y2="37" stroke="var(--line)"/>
+      <text x="114" y="32" font-size="11.5" fill="var(--ink-500)">schema / 工具 / 权限：零关键失败，挂了阻断构建</text>
+      <rect x="6" y="60" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="86" font-size="12.5" font-weight="700" fill="var(--ink-900)">质量门</text>
+      <line x1="98" y1="71" x2="98" y2="91" stroke="var(--line)"/>
+      <text x="114" y="86" font-size="11.5" fill="var(--ink-500)">数据集 + 评分器：基线与分片达标</text>
+      <path d="M 52 49 L 52 56" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 52 57 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+      <rect x="6" y="114" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="140" font-size="12.5" font-weight="700" fill="var(--ink-900)">风险门</text>
+      <line x1="98" y1="125" x2="98" y2="145" stroke="var(--line)"/>
+      <text x="114" y="140" font-size="11.5" fill="var(--ink-500)">安全 / 红队 / 隐私：高风险清零或例外签批</text>
+      <path d="M 52 103 L 52 110" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 52 111 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+      <rect x="6" y="168" width="708" height="42" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="24" y="194" font-size="12.5" font-weight="700" fill="var(--ink-900)">生产门</text>
+      <line x1="98" y1="179" x2="98" y2="199" stroke="var(--line)"/>
+      <text x="114" y="194" font-size="11.5" fill="var(--ink-500)">金丝雀 SLI / 业务结果：预算内持续达标</text>
+      <path d="M 52 157 L 52 164" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 52 165 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>上游硬失败不许被下游平均分盖过去。</figcaption>
+  </figure>
+  <p>两条铁规矩：<b>不能用下游平均分覆盖上游硬失败</b>；数据集与评分器的版本是门禁的一部分——换了判官必须重新校准、重建可比基线。</p>
   <p>质量飞轮：线上坏例 → 错误分析归类 → 进评估集 → 针对性修 → 过回归门禁 → 上线 → 监控采样
     → 新坏例……每转一圈评估集厚一分。给客户的运营建议：每周半天「评估例会」一起看坏例——整个体系里回报率最高的投入。<b>上线不是项目结束，而是飞轮起点。</b></p>
   <p class="ev">工具与云服务格局核实 2026-07-09，来源 <a href="#src-tools">2026 对比评测</a>与
