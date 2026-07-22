@@ -15,6 +15,9 @@
       document.documentElement.style.setProperty("--topbar-h", bar.offsetHeight + "px");
     };
     sync();
+    /* 脚本解析时字体可能还没加载完，顶栏高度会量偏，而下游的锚点落点、目录吸顶位置
+       全挂在这个值上。load 后再量一次自我校正——量错一次不报错，只是所有跳转都差一截。 */
+    window.addEventListener("load", sync);
     window.addEventListener("resize", sync);
   }());
 
@@ -261,24 +264,45 @@
     }
   }
 
-  /* ---------- 模块页目录高亮（当前位置指示） ---------- */
+  /* ---------- 模块页目录高亮（当前位置指示） ----------
+     算「读到哪一节」，而不是「哪一节恰好落进观察带」。旧版用 IntersectionObserver
+     逐条 entry 设高亮：两节同时压在带里时谁后触发谁赢，于是点开第 7 节、再往下滚
+     一点，高亮就跳回第 6 节（2026-07-22 用户报）。观察带那套本身没有「当前」的
+     概念，换成直接判定——**取最后一个顶边已经越过阅读线的节**，结果与滚动方向无关。 */
   var toc = document.querySelector(".toc");
-  if (toc && "IntersectionObserver" in window) {
+  if (toc) {
     var links = {}, secs = [];
     Array.prototype.forEach.call(toc.querySelectorAll("a[href^='#']"), function (a) {
       var id = a.getAttribute("href").slice(1);
       var el = document.getElementById(id);
       if (el) { links[id] = a; secs.push(el); }
     });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        Object.keys(links).forEach(function (k) { links[k].className = ""; });
-        var a = links[en.target.id];
-        if (a) a.className = "on";
-      });
-    }, { rootMargin: "0px 0px -70% 0px", threshold: 0 });
-    secs.forEach(function (s) { io.observe(s); });
+    if (secs.length) {
+      var bar = document.querySelector(".topbar");
+      var pending = false;
+      var spy = function () {
+        pending = false;
+        /* 阅读线必须落在**锚点落点之下**。落点由 CSS 的 --anchor-top 定 = 顶栏 + 1rem
+           (16px)；线若取得比它高，跳转后当前节的顶边还没越过线，高亮就停在上一节——
+           那是把同一个 bug 换个数字重演。这里取顶栏 + 28px，留 12px 余量。
+           改 --anchor-top 时这个数要跟着改，两者是一对。 */
+        var line = (bar ? bar.offsetHeight : 0) + 28;
+        var cur = secs[0];
+        for (var i = 0; i < secs.length; i++) {
+          if (secs[i].getBoundingClientRect().top <= line) cur = secs[i]; else break;
+        }
+        for (var k in links) { if (links[k]) links[k].className = ""; }
+        if (links[cur.id]) links[cur.id].className = "on";
+      };
+      var queue = function () {
+        if (pending) return;
+        pending = true;
+        window.requestAnimationFrame(spy);
+      };
+      spy();
+      window.addEventListener("scroll", queue, { passive: true });
+      window.addEventListener("resize", queue);
+    }
   }
 
   /* ---------- 首页统计条（装饰性增强：无 JS 时不显示，不影响阅读路径） ---------- */

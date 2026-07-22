@@ -80,9 +80,11 @@ def scan(path):
             "id": sid, "title": title,
             "svg": len(re.findall(r"<svg\b", blk)),
             "table": len(re.findall(r"<table\b", blk)),
-            # <details> 折叠问答与 <ul>/<ol> 列表本身就是结构化承载，不算散文
-            "card": len(re.findall(r'class="box|class="hitcard|class="grid"|<details\b|<ul\b|<ol\b',
-                                   blk)),
+            # <details> 折叠问答与 <ul>/<ol> 列表本身就是结构化承载，不算散文。
+            # `.keypoints` 要点行同理——2026-07-22 漏登记过一次：整章都换成要点行了，
+            # 报表还在报「通篇散文」，差点让人回头去拆已经拆过的段。
+            "card": len(re.findall(r'class="box|class="hitcard|class="grid"|class="keypoints"'
+                                   r'|<details\b|<ul\b|<ol\b', blk)),
             "tool": len(re.findall(r'class="tool"|class="wire"', blk)),
             "longs": sorted(longs, reverse=True),
             "crammed": sorted(crammed, reverse=True),

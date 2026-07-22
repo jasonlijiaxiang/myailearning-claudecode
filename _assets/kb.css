@@ -37,6 +37,11 @@
   --shadow: 0 1px 2px rgba(15,23,42,.05);
   --shadow-up: 0 4px 14px rgba(15,23,42,.09);
   --maxw: 1200px;
+  /* 锚点落点：顶栏是吸顶的，浏览器把目标滚到视口顶就正好被它盖住半截标题
+     （2026-07-22 用户报：点「7 · MCP 网关」跳过去只看得见半行）。所有可跳转的
+     元素统一让出顶栏实高再加一点余量。--topbar-h 由 site.js 实测写入；
+     无 JS 时退回 2.8rem，是顶栏单行高度的保守值。 */
+  --anchor-top: calc(var(--topbar-h, 2.8rem) + 1rem);
 }
 
 /* 深色：只改令牌，不改任何一条布局或组件规则——上面那份令牌表是唯一出处，
@@ -192,7 +197,7 @@ pre.codeblock code { background: none; padding: 0; }
 .face .st.soon { color: var(--warn); }
 
 /* ============ 知识地图（卡片矩阵）============ */
-.layer { margin: 0 0 1.6rem; scroll-margin-top: .8rem; }
+.layer { margin: 0 0 1.6rem; scroll-margin-top: var(--anchor-top); }
 .layer > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .55rem; font-size: 16px; }
 .layer > h3::before { content: ""; width: 8px; height: 8px; border-radius: 3px; background: var(--blue); }
 .layer > h3 .n { font-size: 12.5px; font-weight: 400; color: var(--ink-400); }
@@ -215,9 +220,13 @@ pre.codeblock code { background: none; padding: 0; }
 .tag.ppt { background: var(--line-2); color: var(--ink-500); border: 1px solid var(--line); }
 
 /* ============ 模块页两栏 ============ */
-.cols { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr); gap: 2.2rem; align-items: start; }
+/* 两栏与页头之间要留白：贴着页头的分隔线开始，目录卡片看着像页头的一部分。 */
+.cols { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr); gap: 2.2rem;
+        align-items: start; margin-top: 1.5rem; }
 .cols > *, .grid > *, .cards > *, .rel > *, .wire-grid > *, .faces > * { min-width: 0; }
-.toc { position: sticky; top: 1rem; font-size: 14px; background: var(--card);
+/* 吸顶位置也要在顶栏下沿，否则滚动时目录会滑进顶栏底下。 */
+.toc { position: sticky; top: calc(var(--topbar-h, 2.8rem) + .9rem); font-size: 14px;
+       background: var(--card);
        border: 1px solid var(--line); border-radius: var(--radius); padding: .8rem .6rem; }
 .toc h4 { margin: 0 0 .5rem .5rem; font-size: 11.5px; letter-spacing: .12em;
           text-transform: uppercase; color: var(--ink-400); }
@@ -227,7 +236,9 @@ pre.codeblock code { background: none; padding: 0; }
 .toc a:hover { background: var(--line-2); color: var(--ink-900); text-decoration: none; }
 .toc a.on { background: var(--blue-bg); color: var(--blue-d); font-weight: 600; }
 
-.sec { scroll-margin-top: 1rem; }
+.sec { scroll-margin-top: var(--anchor-top); }
+/* 问答折叠件也是分享出去的锚点（q-<模块ID>-<n>），同样别被顶栏盖住。 */
+details[id], .qa[id] { scroll-margin-top: var(--anchor-top); }
 .sec > h2 { margin-top: 2.6rem; font-size: 17px; }
 .sec:first-of-type > h2 { margin-top: .2rem; }
 .sec > h2 .num { font-family: var(--mono); font-size: 12px; color: var(--blue);
@@ -390,7 +401,7 @@ td.day { font-family: var(--mono); font-weight: 700; color: var(--blue-d);
 .navbar .chip { background: var(--card); color: var(--ink-700); border: 1px solid var(--line);
                 text-decoration: none; padding: .22rem .7rem; font-size: 13.5px; }
 .navbar .chip:hover { background: var(--blue-bg); border-color: var(--blue-ln); color: var(--blue-d); }
-h2[id^="sec-"] { scroll-margin-top: 1rem; }
+h2[id^="sec-"] { scroll-margin-top: var(--anchor-top); }
 .plumb, .foot { font-size: 14px; color: var(--ink-400); line-height: 1.75;
                 border-top: 1px solid var(--line); padding-top: .9rem; margin-top: 2.2rem; }
 

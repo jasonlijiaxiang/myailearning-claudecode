@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM-Training 训练全景 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721q">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721q</span>
+ <span class="ver">v0721r</span>
 </div></nav>
 
 <header class="top">
@@ -55,12 +55,58 @@
   <h2><span class="num">01</span>全景总览<a class="anchor" href="#llmtrain-overview">#llmtrain-overview</a></h2>
 
   <div class="lead">
-    <p>流水线六道工序：数据准备 → 预训练 → （中期训练）→ SFT → 偏好对齐 → 推理训练，评估贯穿全程当质检。预训练造「博学但不会聊天」的底座，后训练教「听话、分寸、思考」——<b>市面模型的差距大头在后训练</b>。</p>
+    <p>流水线六道工序，评估贯穿全程当质检。预训练造「博学但不会聊天」的底座，后训练教「听话、分寸、思考」——<b>市面模型的差距大头在后训练</b>。</p>
   </div>
 
-  <p>三种出厂形态对应工序深度：<b>base</b>（仅预训练——只会接着往下写，问它问题可能反问你，适合二次开发底座）、<b>instruct</b>（+SFT+对齐——日常用的 ChatGPT 类产品，企业应用主力）、
-    <b>reasoning</b>（再加 RLVR——答题前先想，慢而准、贵而强）。「同尺寸为什么能力差很多」：数据质量 × 训练配方 × 后训练深度，参数量只是一个变量。</p>
-  <p><b>训练 vs 推理的两笔账</b>要先分清：训练是「改权重」——几千张卡跑数周的一次性资本投入（建电厂）；推理是「用权重」——按 token 持续计费（发电卖电），客户日常账单的 99% 在推理侧。行业测算 2030 年推理算力占 AI 总算力约 75%。权重发布后是冻结的，不会「越用越聪明」——更新知识走 RAG 或增量微调。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 100" role="img" aria-label="训练流水线六道工序，自左向右：数据准备、预训练、中期训练（虚线框表示可选）、SFT、偏好对齐、推理训练；评估横跨全部六道，贯穿全程当质检。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="708" height="22" rx="6" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="360" y="21" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--blue-d)">评估贯穿全程当质检</text>
+      <rect x="6" y="44" width="106" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="59" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">数据准备</text>
+      <rect x="126" y="44" width="106" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="179" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">预训练</text>
+      <rect x="246" y="44" width="106" height="44" rx="8" fill="var(--card)" stroke="var(--line)" stroke-dasharray="4 3"/>
+      <text x="299" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">（中期训练）</text>
+      <rect x="366" y="44" width="106" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="419" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">SFT</text>
+      <rect x="486" y="44" width="106" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="539" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">偏好对齐</text>
+      <rect x="606" y="44" width="106" height="44" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="659" y="71" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">推理训练</text>
+      <path d="M 114 66 L 123 66" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 124 66 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <path d="M 234 66 L 243 66" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 244 66 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <path d="M 354 66 L 363 66" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 364 66 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <path d="M 474 66 L 483 66" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 484 66 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <path d="M 594 66 L 603 66" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 604 66 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>六道工序，评估横跨全程。虚线那道加了括号——可选。</figcaption>
+  </figure>
+
+  <h3>三种出厂形态对应工序深度</h3>
+  <div class="keypoints">
+    <div><b>base</b><span>仅预训练——只会接着往下写，问它问题可能反问你，适合二次开发底座</span></div>
+    <div><b>instruct</b><span>+SFT+对齐——日常用的 ChatGPT 类产品，企业应用主力</span></div>
+    <div><b>reasoning</b><span>再加 RLVR——答题前先想，慢而准、贵而强</span></div>
+  </div>
+  <p>「同尺寸为什么能力差很多」：数据质量 × 训练配方 × 后训练深度，参数量只是一个变量。</p>
+
+  <p><b>训练 vs 推理的两笔账</b>要先分清：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>训练是「改权重」</h4>
+    <p>几千张卡跑数周的一次性资本投入（<b>建电厂</b>）。</p>
+   </div>
+   <div class="box">
+    <h4>推理是「用权重」</h4>
+    <p>按 token 持续计费（<b>发电卖电</b>），客户日常账单的 99% 在推理侧。</p>
+   </div>
+  </div>
+  <p>行业测算 2030 年推理算力占 AI 总算力约 75%。权重发布后是冻结的，不会「越用越聪明」——更新知识走 RAG 或增量微调。</p>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -68,12 +114,47 @@
   <h2><span class="num">02</span>数据：模型的粮食<a class="anchor" href="#llmtrain-data">#llmtrain-data</a></h2>
 
   <div class="lead">
-    <p>「Garbage in, garbage out」在大模型时代被放大一万倍：旗舰模型的饭量在 15–30 万亿 token
-      （Kimi K2 吃了 15.5T、MiMo-V2.5-Pro 27T）。语料三大件：网页打量、书籍论文提质、代码练逻辑——<b>原料人人有，清洗去重的手艺才是护城河</b>。</p>
+    <p>「Garbage in, garbage out」在大模型时代被放大一万倍：旗舰模型的饭量在 15–30 万亿 token（Kimi K2 吃了 15.5T、MiMo-V2.5-Pro 27T）。语料三大件：</p>
+    <div class="keypoints">
+      <div><b>网页</b><span>打量</span></div>
+      <div><b>书籍论文</b><span>提质</span></div>
+      <div><b>代码</b><span>练逻辑</span></div>
+    </div>
+    <p><b>原料人人有，清洗去重的手艺才是护城河</b>。</p>
   </div>
 
   <p>清洗去重是最值钱的环节：重复数据让模型死记硬背、浪费算力、放大隐私风险——FineWeb 把公开的 Common Crawl 反复过滤去重做出 15T 高质量语料，同源数据、更好的洗法、明显更强的模型，是数据工程的公开教科书。<b>分词</b>是模型的切菜刀：BPE 从语料统计出词表，常见词整颗下锅、生僻词切成碎末——<b>同样内容中文通常比英文多花 30–100% 的 token</b>，直接影响账单和有效上下文；估成本别拿英文基准直接换算中文。</p>
-  <p><b>数据墙</b>已至：互联网高质量文本存量约 10–50 万亿 token，按 Chinchilla 训 1T 参数就要约 20T——新一代模型把公开好数据基本吃完了。三条出路：精耕存量、多轮复用（收益递减）、<b>合成数据</b>（强模型生成教材级文本，已是重要成分）。合成的风险要讲透：模型吃自己生成的数据可能「近亲繁殖」（模型坍缩）——真实数据打底、合成增强、严格过滤。给客户的叙事：数据红利期结束，竞争转向数据工程和后训练——这解释了主旋律从「更大」变成「更会想」。</p>
+  <h3>数据墙已至</h3>
+  <p>互联网高质量文本存量约 10–50 万亿 token，按 Chinchilla 训 1T 参数就要约 20T——新一代模型把公开好数据基本吃完了。</p>
+
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 160" role="img" aria-label="数据墙：互联网高质量文本存量约 10 到 50 万亿 token，旗舰模型一次训练的饭量 15 到 30 万亿 token，两段区间高度重叠；按 Chinchilla 口径训 1T 参数约需 20 万亿 token。">
+     <g font-family="var(--sans)">
+      <text x="260" y="14" text-anchor="middle" font-size="10.5" fill="var(--warn)">训 1T 参数约需 20T</text>
+      <line x1="260" y1="20" x2="260" y2="130" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="250" y="44" text-anchor="end" font-size="11.5" fill="var(--ink-500)">互联网高质量文本存量　约 10–50 万亿 token</text>
+      <rect x="150" y="52" width="440" height="18" rx="4" fill="var(--blue-ln)"/>
+      <text x="250" y="94" text-anchor="end" font-size="11.5" fill="var(--ink-500)">旗舰模型一次的饭量　15–30 万亿 token</text>
+      <rect x="205" y="102" width="165" height="18" rx="4" fill="var(--blue)"/>
+      <line x1="40" y1="130" x2="700" y2="130" stroke="var(--line)"/>
+      <line x1="40" y1="130" x2="40" y2="135" stroke="var(--line)"/><text x="40" y="148" text-anchor="middle" font-size="10.5" fill="var(--ink-400)">0</text>
+      <line x1="260" y1="130" x2="260" y2="135" stroke="var(--line)"/><text x="260" y="148" text-anchor="middle" font-size="10.5" fill="var(--ink-400)">20</text>
+      <line x1="480" y1="130" x2="480" y2="135" stroke="var(--line)"/><text x="480" y="148" text-anchor="middle" font-size="10.5" fill="var(--ink-400)">40</text>
+      <line x1="700" y1="130" x2="700" y2="135" stroke="var(--line)"/><text x="700" y="148" text-anchor="middle" font-size="10.5" fill="var(--ink-400)">60</text>
+     </g>
+    </svg>
+   </div>
+   <figcaption>新一代模型把公开好数据基本吃完了。两条都是区间估计，所以画成带宽而不是柱子。</figcaption>
+  </figure>
+
+  <p>三条出路：</p>
+  <div class="keypoints">
+    <div><b>精耕存量</b></div>
+    <div><b>多轮复用</b><span>收益递减</span></div>
+    <div><b>合成数据</b><span>强模型生成教材级文本，已是重要成分</span></div>
+  </div>
+  <p>合成的风险要讲透：模型吃自己生成的数据可能「近亲繁殖」（模型坍缩）——真实数据打底、合成增强、严格过滤。给客户的叙事：数据红利期结束，竞争转向数据工程和后训练——这解释了主旋律从「更大」变成「更会想」。</p>
   <p class="ev">数据墙口径核实 2026-07-08，来源 <a href="#src-data">多方分析</a>。</p>
 </section>
 
@@ -113,8 +194,24 @@
     <p>base 模型像博学的书呆子：问「北京有什么好玩的」，它可能接着写「？这是游客最常问的问题之一」。SFT 用「指令→示范回答」的成对数据告诉它：你的新工作是当助手——<b>是雕刻，不是浇筑</b>：不灌新知识，只定型行为，知识上限仍由预训练决定。</p>
   </div>
 
-  <p>数据量比预训练小四五个数量级（几万到几百万条），且<b>质量碾压数量</b>：LIMA 实验仅用
-    1,000 条精选示范就逼近几十倍数据的效果——模型的知识在预训练已就位，SFT 只是「唤醒格式」。好数据主流靠<b>蒸馏</b>：强模型批量生成候选、过滤改写、人工抽检（Tülu 3 把整条配方开源）。两个坑：示范里塞模型「其实不会」的知识会教出自信的胡说；风格单一会把模型训「僵」。容易被忽略的细节是<b>对话模板</b>（Chat Template）：用特殊标记包住各角色，模型才分清「谁在说话、我该在哪开口」——<b>用错模板是开源模型部署后胡言乱语的头号原因</b>。</p>
+  <p>数据量比预训练小四五个数量级（几万到几百万条），且<b>质量碾压数量</b>：LIMA 实验仅用 1,000 条精选示范就逼近几十倍数据的效果——模型的知识在预训练已就位，SFT 只是「唤醒格式」。好数据主流靠<b>蒸馏</b>：强模型批量生成候选、过滤改写、人工抽检（Tülu 3 把整条配方开源）。</p>
+
+  <p>两个坑：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>示范里塞模型「其实不会」的知识</h4>
+    <p>会教出自信的胡说。</p>
+   </div>
+   <div class="box">
+    <h4>风格单一</h4>
+    <p>会把模型训「僵」。</p>
+   </div>
+  </div>
+
+  <div class="box warn">
+   <h4>容易被忽略的细节是对话模板（Chat Template）</h4>
+   <p>用特殊标记包住各角色，模型才分清「谁在说话、我该在哪开口」——<b>用错模板是开源模型部署后胡言乱语的头号原因</b>。</p>
+  </div>
   <p>选型口诀与镜像模块：「改知识用 RAG、改行为用微调、先试提示词」——应用侧在
     <a href="../rag/index.html#rag-what-why">RAG 网页版</a>，落地工程（LoRA/QLoRA/托管服务）在 <a href="../fine-tuning/index.html">Fine-tuning 网页版</a>——本页只讲训练侧原理。</p>
 </section>
@@ -276,10 +373,22 @@
     <p>只看笔试成绩发 offer，是选型翻车的标准姿势。</p>
   </div>
 
-  <p>榜单通胀的三个病：<b>数据污染</b>（基准题泄进训练语料，「见过题」不等于「会解题」）、<b>刷榜</b>（针对热门基准定向优化）、<b>饱和</b>（老基准 90+ 分区分度归零）。行业应对：基准持续换代、私有保留集、污染检测。售前的分寸：引用榜单时主动说明局限，反而比无脑报分数更建立信任。训练内部还有「过程评估」：每个阶段跑全套基准防「补了数学、塌了写作」。</p>
-  <p><b>模型卡五盯点</b>（五分钟读懂一次发布）：①许可证（Apache 2.0 已成主流、DeepSeek 用
-    MIT——「开源」不等于「随便商用」，法务看原文）②架构与激活参数 ③训练数据截止日期
-    ④上下文窗口 ⑤基准分数的评测条件（0-shot 和 5-shot 能差好几分，两家各报对自己有利的条件是常态——对比时拉齐条件或看第三方统一复测）。企业自建评估集的最小配方（50–200 道真题、业务专家评分、版本化管理）在 <a href="../evaluation/index.html">Evaluation 网页版</a>展开成完整方法论。</p>
+  <h3>榜单通胀的三个病</h3>
+  <div class="keypoints">
+    <div><b>数据污染</b><span>基准题泄进训练语料，「见过题」不等于「会解题」</span></div>
+    <div><b>刷榜</b><span>针对热门基准定向优化</span></div>
+    <div><b>饱和</b><span>老基准 90+ 分区分度归零</span></div>
+  </div>
+  <p>行业应对：基准持续换代、私有保留集、污染检测。售前的分寸：引用榜单时主动说明局限，反而比无脑报分数更建立信任。训练内部还有「过程评估」：每个阶段跑全套基准防「补了数学、塌了写作」。</p>
+  <p><b>模型卡五盯点</b>（五分钟读懂一次发布）：</p>
+  <div class="keypoints">
+    <div><b>① 许可证</b><span>Apache 2.0 已成主流、DeepSeek 用 MIT——「开源」不等于「随便商用」，法务看原文</span></div>
+    <div><b>② 架构与激活参数</b></div>
+    <div><b>③ 训练数据截止日期</b></div>
+    <div><b>④ 上下文窗口</b></div>
+    <div><b>⑤ 基准分数的评测条件</b><span>0-shot 和 5-shot 能差好几分，两家各报对自己有利的条件是常态——对比时拉齐条件或看第三方统一复测</span></div>
+  </div>
+  <p>企业自建评估集的最小配方（50–200 道真题、业务专家评分、版本化管理）在 <a href="../evaluation/index.html">Evaluation 网页版</a>展开成完整方法论。</p>
   <p class="ev">许可格局核实 2026-07-08，来源 <a href="#src-eval-lt">OpenRouter 2026-06
     盘点</a>。<b>不可外推边界</b>：许可格局按发布批次变动（Meta 转向就是本节的例子）；许可证结论一律以当日 LICENSE 原文为准。</p>
 </section>
@@ -460,8 +569,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721q"></script>
-<script src="../assets/site.js?v=20260721q"></script>
+<script src="../data.js?v=20260721r"></script>
+<script src="../assets/site.js?v=20260721r"></script>
 <script>
 /* 6ND 训练成本速算器：讲义第 7 章公式的交互版。总算力=6×N×D；天数=总算力÷(卡数×峰值×MFU)。
    显存账按每参数 16 字节（混合精度+Adam 口径）。无 JS 时 .tool 隐藏，静态兜底是正文公式。 */
