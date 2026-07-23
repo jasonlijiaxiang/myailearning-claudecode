@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>网页版 · AI 知识库</title>
-<link rel="stylesheet" href="../_assets/kb.css?v=20260723e">
+<link rel="stylesheet" href="../_assets/kb.css?v=20260723g">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../README.html">AI 知识库</a><a class="ti cur" href="../Web-version/index.html">网页版</a>
  <a class="ti" href="../PPT-version/README.html">PPT 总览</a><a class="ti" href="../_prep/实战包.html">实战包</a><a class="ti" href="../_prep/学习路径.html">学习路径</a><a class="ti" href="../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../开始使用.html">开始使用</a>
- <span class="ver">v0723e</span>
+ <span class="ver">v0723g</span>
 </div></nav>
 
 <header class="top">
@@ -37,7 +37,7 @@
   <h2 id="net">知识地图 · 链接图</h2>
   <p>全库 19 个模块<b>按七层排开</b>（和 PPT 总览同一套层级），模块之间的连线是「讲这一块时该带上的另一块」——关系登记在各模块清单的「串联出边」里，这里把它们连成一张图。19 册讲义各印各的、纸面上没法互相指，这是网页版才做得到的事。</p>
   <!-- NET:BEGIN 由 build.py 从 MANIFEST 串联出边生成，请勿手工编辑 -->
-  <p class="net-lead">按 7 层排布的全库 19 个模块，连线＝讲一块时该带上的另一块。<b>悬停任意模块</b>看它牵出哪些；点开进那一册。关联最密的三块：<b>Agent（12）、Evaluation（12）、RAG（12）</b>——括号是它连着的模块数，最容易牵出别的话题。</p>
+  <p class="net-lead">按 7 层排布的全库 19 个模块，连线＝讲一块时该带上的另一块。<b>点任意模块</b>——它会滑到中间、把关联的模块拉到身边连成一张小网，再点周围的模块继续跳。关联最密的三块：<b>Agent（12）、Evaluation（12）、RAG（12）</b>——括号是它连着的模块数，最容易牵出别的话题。</p>
   <div class="kgraph-wrap"><div class="kgraph-scroll">
   <svg class="kgraph" viewBox="0 0 1000 718" role="img" aria-label="全库 19 个模块按七层排布的关系图，边表示讲一块时该带上的另一块">
    <g class="kbands">
@@ -156,157 +156,143 @@
     <path class="kedge hue-0" data-a="security" data-b="solution-patterns" d="M593.4 339.0C593.4 212.0 803.3 212.0 803.3 85.0"><title>Security ↔ Solution-Patterns</title></path>
    </g>
    <g class="knodes">
-    <g class="hue-0">
-     <a class="knode" href="./model-landscape/index.html" data-m="model-landscape" data-adj="ai-gateway,ai-ops,evaluation,fine-tuning,llm,llm-inference,multimodal,rag,security,solution-patterns" tabindex="0">
-      <title>Model-Landscape · 关联 10 个模块</title>
-      <rect class="kbox" x="293.0" y="45.0" width="162" height="40" rx="10"/>
-      <rect class="kchip" x="300.0" y="52.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="313.0" y="69.0" font-size="11" text-anchor="middle">ML</text>
-      <text class="knm" x="334.0" y="69.0" font-size="12.5">Model-Landscape</text>
-     </a>
-     <a class="knode" href="./solution-patterns/index.html" data-m="solution-patterns" data-adj="agent,ai-gateway,ai-ops,data-engineering,evaluation,model-landscape,multimodal,rag,security" tabindex="0">
-      <title>Solution-Patterns · 关联 9 个模块</title>
-      <rect class="kbox" x="690.0" y="45.0" width="176" height="40" rx="10"/>
-      <rect class="kchip" x="697.0" y="52.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="710.0" y="69.0" font-size="11" text-anchor="middle">SP</text>
-      <text class="knm" x="731.0" y="69.0" font-size="12.5">Solution-Patterns</text>
-     </a>
-    </g>
-    <g class="hue-1">
-     <a class="knode" href="./agent/index.html" data-m="agent" data-adj="a2a,ai-gateway,evaluation,llm,llm-inference,llm-training,mcp,multimodal,pe,rag,security,solution-patterns" tabindex="0">
-      <title>Agent · 关联 12 个模块</title>
-      <rect class="kbox" x="256.7" y="143.0" width="100" height="40" rx="10"/>
-      <rect class="kchip" x="263.7" y="150.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="276.7" y="167.0" font-size="11" text-anchor="middle">AG</text>
-      <text class="knm" x="297.7" y="167.0" font-size="12.5">Agent</text>
-     </a>
-     <a class="knode" href="./multimodal/index.html" data-m="multimodal" data-adj="agent,evaluation,llm,llm-inference,model-landscape,rag,security,solution-patterns" tabindex="0">
-      <title>Multimodal · 关联 8 个模块</title>
-      <rect class="kbox" x="512.5" y="143.0" width="127" height="40" rx="10"/>
-      <rect class="kchip" x="519.5" y="150.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="532.5" y="167.0" font-size="11" text-anchor="middle">MM</text>
-      <text class="knm" x="553.5" y="167.0" font-size="12.5">Multimodal</text>
-     </a>
-     <a class="knode" href="./rag/index.html" data-m="rag" data-adj="agent,data-engineering,evaluation,fine-tuning,llm,llm-inference,llm-training,model-landscape,multimodal,pe,security,solution-patterns" tabindex="0">
-      <title>RAG · 关联 12 个模块</title>
-      <rect class="kbox" x="795.3" y="143.0" width="100" height="40" rx="10"/>
-      <rect class="kchip" x="802.3" y="150.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="815.3" y="167.0" font-size="11" text-anchor="middle">RA</text>
-      <text class="knm" x="836.3" y="167.0" font-size="12.5">RAG</text>
-     </a>
-    </g>
-    <g class="hue-2">
-     <a class="knode" href="./a2a/index.html" data-m="a2a" data-adj="agent,ai-gateway,mcp" tabindex="0">
-      <title>A2A · 关联 3 个模块</title>
-      <rect class="kbox" x="324.0" y="241.0" width="100" height="40" rx="10"/>
-      <rect class="kchip" x="331.0" y="248.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="344.0" y="265.0" font-size="11" text-anchor="middle">A2</text>
-      <text class="knm" x="365.0" y="265.0" font-size="12.5">A2A</text>
-     </a>
-     <a class="knode" href="./mcp/index.html" data-m="mcp" data-adj="a2a,agent,ai-gateway,security" tabindex="0">
-      <title>MCP · 关联 4 个模块</title>
-      <rect class="kbox" x="728.0" y="241.0" width="100" height="40" rx="10"/>
-      <rect class="kchip" x="735.0" y="248.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="748.0" y="265.0" font-size="11" text-anchor="middle">MC</text>
-      <text class="knm" x="769.0" y="265.0" font-size="12.5">MCP</text>
-     </a>
-    </g>
-    <g class="hue-3">
-     <a class="knode" href="./ai-gateway/index.html" data-m="ai-gateway" data-adj="a2a,agent,ai-ops,evaluation,llm-inference,mcp,model-landscape,security,solution-patterns" tabindex="0">
-      <title>AI-Gateway · 关联 9 个模块</title>
-      <rect class="kbox" x="189.3" y="339.0" width="127" height="40" rx="10"/>
-      <rect class="kchip" x="196.3" y="346.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="209.3" y="363.0" font-size="11" text-anchor="middle">GW</text>
-      <text class="knm" x="230.3" y="363.0" font-size="12.5">AI-Gateway</text>
-     </a>
-     <a class="knode" href="./ai-ops/index.html" data-m="ai-ops" data-adj="ai-gateway,ai-infra-platform,data-engineering,evaluation,model-landscape,pe,security,solution-patterns" tabindex="0">
-      <title>AI-Ops · 关联 8 个模块</title>
-      <rect class="kbox" x="364.4" y="339.0" width="100" height="40" rx="10"/>
-      <rect class="kchip" x="371.4" y="346.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="384.4" y="363.0" font-size="11" text-anchor="middle">OP</text>
-      <text class="knm" x="405.4" y="363.0" font-size="12.5">AI-Ops</text>
-     </a>
-     <a class="knode" href="./security/index.html" data-m="security" data-adj="agent,ai-gateway,ai-ops,data-engineering,evaluation,fine-tuning,mcp,model-landscape,multimodal,rag,solution-patterns" tabindex="0">
-      <title>Security · 关联 11 个模块</title>
-      <rect class="kbox" x="519.5" y="339.0" width="113" height="40" rx="10"/>
-      <rect class="kchip" x="526.5" y="346.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="539.5" y="363.0" font-size="11" text-anchor="middle">SE</text>
-      <text class="knm" x="560.5" y="363.0" font-size="12.5">Security</text>
-     </a>
-     <a class="knode" href="./evaluation/index.html" data-m="evaluation" data-adj="agent,ai-gateway,ai-ops,fine-tuning,llm-inference,llm-training,model-landscape,multimodal,pe,rag,security,solution-patterns" tabindex="0">
-      <title>Evaluation · 关联 12 个模块</title>
-      <rect class="kbox" x="674.1" y="339.0" width="127" height="40" rx="10"/>
-      <rect class="kchip" x="681.1" y="346.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="694.1" y="363.0" font-size="11" text-anchor="middle">EV</text>
-      <text class="knm" x="715.1" y="363.0" font-size="12.5">Evaluation</text>
-     </a>
-     <a class="knode" href="./fine-tuning/index.html" data-m="fine-tuning" data-adj="ai-infra-platform,data-engineering,evaluation,llm-inference,llm-training,model-landscape,pe,rag,security" tabindex="0">
-      <title>Fine-tuning · 关联 9 个模块</title>
-      <rect class="kbox" x="832.2" y="339.0" width="134" height="40" rx="10"/>
-      <rect class="kchip" x="839.2" y="346.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="852.2" y="363.0" font-size="11" text-anchor="middle">FT</text>
-      <text class="knm" x="873.2" y="363.0" font-size="12.5">Fine-tuning</text>
-     </a>
-    </g>
-    <g class="hue-4">
-     <a class="knode" href="./llm/index.html" data-m="llm" data-adj="agent,llm-inference,llm-training,model-landscape,multimodal,pe,rag" tabindex="0">
-      <title>LLM · 关联 7 个模块</title>
-      <rect class="kbox" x="223.0" y="437.0" width="100" height="40" rx="10"/>
-      <rect class="kchip" x="230.0" y="444.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="243.0" y="461.0" font-size="11" text-anchor="middle">LM</text>
-      <text class="knm" x="264.0" y="461.0" font-size="12.5">LLM</text>
-     </a>
-     <a class="knode" href="./llm-inference/index.html" data-m="llm-inference" data-adj="agent,ai-gateway,ai-infra-compute,ai-infra-platform,evaluation,fine-tuning,llm,llm-training,model-landscape,multimodal,rag" tabindex="0">
-      <title>LLM-Inference · 关联 11 个模块</title>
-      <rect class="kbox" x="401.0" y="437.0" width="148" height="40" rx="10"/>
-      <rect class="kchip" x="408.0" y="444.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="421.0" y="461.0" font-size="11" text-anchor="middle">LI</text>
-      <text class="knm" x="442.0" y="461.0" font-size="12.5">LLM-Inference</text>
-     </a>
-     <a class="knode" href="./llm-training/index.html" data-m="llm-training" data-adj="agent,ai-infra-compute,ai-infra-platform,evaluation,fine-tuning,llm,llm-inference,rag" tabindex="0">
-      <title>LLM-Training · 关联 8 个模块</title>
-      <rect class="kbox" x="606.5" y="437.0" width="141" height="40" rx="10"/>
-      <rect class="kchip" x="613.5" y="444.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="626.5" y="461.0" font-size="11" text-anchor="middle">LT</text>
-      <text class="knm" x="647.5" y="461.0" font-size="12.5">LLM-Training</text>
-     </a>
-     <a class="knode" href="./prompt-engineering/index.html" data-m="pe" data-adj="agent,ai-ops,evaluation,fine-tuning,llm,rag" tabindex="0">
-      <title>Prompt-Engineering · 关联 6 个模块</title>
-      <rect class="kbox" x="787.5" y="437.0" width="183" height="40" rx="10"/>
-      <rect class="kchip" x="794.5" y="444.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="807.5" y="461.0" font-size="11" text-anchor="middle">PE</text>
-      <text class="knm" x="828.5" y="461.0" font-size="12.5">Prompt-Engineering</text>
-     </a>
-    </g>
-    <g class="hue-5">
-     <a class="knode" href="./ai-infra-compute/index.html" data-m="ai-infra-compute" data-adj="ai-infra-platform,llm-inference,llm-training" tabindex="0">
-      <title>AI-Infra-Compute · 关联 3 个模块</title>
-      <rect class="kbox" x="289.5" y="535.0" width="169" height="40" rx="10"/>
-      <rect class="kchip" x="296.5" y="542.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="309.5" y="559.0" font-size="11" text-anchor="middle">IC</text>
-      <text class="knm" x="330.5" y="559.0" font-size="12.5">AI-Infra-Compute</text>
-     </a>
-     <a class="knode" href="./ai-infra-platform/index.html" data-m="ai-infra-platform" data-adj="ai-infra-compute,ai-ops,fine-tuning,llm-inference,llm-training" tabindex="0">
-      <title>AI-Infra-Platform · 关联 5 个模块</title>
-      <rect class="kbox" x="690.0" y="535.0" width="176" height="40" rx="10"/>
-      <rect class="kchip" x="697.0" y="542.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="710.0" y="559.0" font-size="11" text-anchor="middle">IP</text>
-      <text class="knm" x="731.0" y="559.0" font-size="12.5">AI-Infra-Platform</text>
-     </a>
-    </g>
-    <g class="hue-6">
-     <a class="knode" href="./data-engineering/index.html" data-m="data-engineering" data-adj="ai-ops,fine-tuning,rag,security,solution-patterns" tabindex="0">
-      <title>Data-Engineering · 关联 5 个模块</title>
-      <rect class="kbox" x="491.5" y="633.0" width="169" height="40" rx="10"/>
-      <rect class="kchip" x="498.5" y="640.0" width="26" height="26" rx="7"/>
-      <text class="kmono" x="511.5" y="657.0" font-size="11" text-anchor="middle">DE</text>
-      <text class="knm" x="532.5" y="657.0" font-size="12.5">Data-Engineering</text>
-     </a>
-    </g>
+    <a class="knode hue-0" href="./model-landscape/index.html" data-m="model-landscape" data-adj="ai-gateway,ai-ops,evaluation,fine-tuning,llm,llm-inference,multimodal,rag,security,solution-patterns" transform="translate(374.0,65.0)" tabindex="0">
+     <title>Model-Landscape · 关联 10 个模块</title>
+     <rect class="kbox" x="-81.0" y="-20.0" width="162" height="40" rx="10"/>
+     <rect class="kchip" x="-74.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-61.0" y="4" font-size="11" text-anchor="middle">ML</text>
+     <text class="knm" x="-40.0" y="4" font-size="12.5">Model-Landscape</text>
+    </a>
+    <a class="knode hue-0" href="./solution-patterns/index.html" data-m="solution-patterns" data-adj="agent,ai-gateway,ai-ops,data-engineering,evaluation,model-landscape,multimodal,rag,security" transform="translate(778.0,65.0)" tabindex="0">
+     <title>Solution-Patterns · 关联 9 个模块</title>
+     <rect class="kbox" x="-88.0" y="-20.0" width="176" height="40" rx="10"/>
+     <rect class="kchip" x="-81.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-68.0" y="4" font-size="11" text-anchor="middle">SP</text>
+     <text class="knm" x="-47.0" y="4" font-size="12.5">Solution-Patterns</text>
+    </a>
+    <a class="knode hue-1" href="./agent/index.html" data-m="agent" data-adj="a2a,ai-gateway,evaluation,llm,llm-inference,llm-training,mcp,multimodal,pe,rag,security,solution-patterns" transform="translate(306.7,163.0)" tabindex="0">
+     <title>Agent · 关联 12 个模块</title>
+     <rect class="kbox" x="-50.0" y="-20.0" width="100" height="40" rx="10"/>
+     <rect class="kchip" x="-43.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-30.0" y="4" font-size="11" text-anchor="middle">AG</text>
+     <text class="knm" x="-9.0" y="4" font-size="12.5">Agent</text>
+    </a>
+    <a class="knode hue-1" href="./multimodal/index.html" data-m="multimodal" data-adj="agent,evaluation,llm,llm-inference,model-landscape,rag,security,solution-patterns" transform="translate(576.0,163.0)" tabindex="0">
+     <title>Multimodal · 关联 8 个模块</title>
+     <rect class="kbox" x="-63.5" y="-20.0" width="127" height="40" rx="10"/>
+     <rect class="kchip" x="-56.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-43.5" y="4" font-size="11" text-anchor="middle">MM</text>
+     <text class="knm" x="-22.5" y="4" font-size="12.5">Multimodal</text>
+    </a>
+    <a class="knode hue-1" href="./rag/index.html" data-m="rag" data-adj="agent,data-engineering,evaluation,fine-tuning,llm,llm-inference,llm-training,model-landscape,multimodal,pe,security,solution-patterns" transform="translate(845.3,163.0)" tabindex="0">
+     <title>RAG · 关联 12 个模块</title>
+     <rect class="kbox" x="-50.0" y="-20.0" width="100" height="40" rx="10"/>
+     <rect class="kchip" x="-43.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-30.0" y="4" font-size="11" text-anchor="middle">RA</text>
+     <text class="knm" x="-9.0" y="4" font-size="12.5">RAG</text>
+    </a>
+    <a class="knode hue-2" href="./a2a/index.html" data-m="a2a" data-adj="agent,ai-gateway,mcp" transform="translate(374.0,261.0)" tabindex="0">
+     <title>A2A · 关联 3 个模块</title>
+     <rect class="kbox" x="-50.0" y="-20.0" width="100" height="40" rx="10"/>
+     <rect class="kchip" x="-43.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-30.0" y="4" font-size="11" text-anchor="middle">A2</text>
+     <text class="knm" x="-9.0" y="4" font-size="12.5">A2A</text>
+    </a>
+    <a class="knode hue-2" href="./mcp/index.html" data-m="mcp" data-adj="a2a,agent,ai-gateway,security" transform="translate(778.0,261.0)" tabindex="0">
+     <title>MCP · 关联 4 个模块</title>
+     <rect class="kbox" x="-50.0" y="-20.0" width="100" height="40" rx="10"/>
+     <rect class="kchip" x="-43.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-30.0" y="4" font-size="11" text-anchor="middle">MC</text>
+     <text class="knm" x="-9.0" y="4" font-size="12.5">MCP</text>
+    </a>
+    <a class="knode hue-3" href="./ai-gateway/index.html" data-m="ai-gateway" data-adj="a2a,agent,ai-ops,evaluation,llm-inference,mcp,model-landscape,security,solution-patterns" transform="translate(252.8,359.0)" tabindex="0">
+     <title>AI-Gateway · 关联 9 个模块</title>
+     <rect class="kbox" x="-63.5" y="-20.0" width="127" height="40" rx="10"/>
+     <rect class="kchip" x="-56.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-43.5" y="4" font-size="11" text-anchor="middle">GW</text>
+     <text class="knm" x="-22.5" y="4" font-size="12.5">AI-Gateway</text>
+    </a>
+    <a class="knode hue-3" href="./ai-ops/index.html" data-m="ai-ops" data-adj="ai-gateway,ai-infra-platform,data-engineering,evaluation,model-landscape,pe,security,solution-patterns" transform="translate(414.4,359.0)" tabindex="0">
+     <title>AI-Ops · 关联 8 个模块</title>
+     <rect class="kbox" x="-50.0" y="-20.0" width="100" height="40" rx="10"/>
+     <rect class="kchip" x="-43.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-30.0" y="4" font-size="11" text-anchor="middle">OP</text>
+     <text class="knm" x="-9.0" y="4" font-size="12.5">AI-Ops</text>
+    </a>
+    <a class="knode hue-3" href="./security/index.html" data-m="security" data-adj="agent,ai-gateway,ai-ops,data-engineering,evaluation,fine-tuning,mcp,model-landscape,multimodal,rag,solution-patterns" transform="translate(576.0,359.0)" tabindex="0">
+     <title>Security · 关联 11 个模块</title>
+     <rect class="kbox" x="-56.5" y="-20.0" width="113" height="40" rx="10"/>
+     <rect class="kchip" x="-49.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-36.5" y="4" font-size="11" text-anchor="middle">SE</text>
+     <text class="knm" x="-15.5" y="4" font-size="12.5">Security</text>
+    </a>
+    <a class="knode hue-3" href="./evaluation/index.html" data-m="evaluation" data-adj="agent,ai-gateway,ai-ops,fine-tuning,llm-inference,llm-training,model-landscape,multimodal,pe,rag,security,solution-patterns" transform="translate(737.6,359.0)" tabindex="0">
+     <title>Evaluation · 关联 12 个模块</title>
+     <rect class="kbox" x="-63.5" y="-20.0" width="127" height="40" rx="10"/>
+     <rect class="kchip" x="-56.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-43.5" y="4" font-size="11" text-anchor="middle">EV</text>
+     <text class="knm" x="-22.5" y="4" font-size="12.5">Evaluation</text>
+    </a>
+    <a class="knode hue-3" href="./fine-tuning/index.html" data-m="fine-tuning" data-adj="ai-infra-platform,data-engineering,evaluation,llm-inference,llm-training,model-landscape,pe,rag,security" transform="translate(899.2,359.0)" tabindex="0">
+     <title>Fine-tuning · 关联 9 个模块</title>
+     <rect class="kbox" x="-67.0" y="-20.0" width="134" height="40" rx="10"/>
+     <rect class="kchip" x="-60.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-47.0" y="4" font-size="11" text-anchor="middle">FT</text>
+     <text class="knm" x="-26.0" y="4" font-size="12.5">Fine-tuning</text>
+    </a>
+    <a class="knode hue-4" href="./llm/index.html" data-m="llm" data-adj="agent,llm-inference,llm-training,model-landscape,multimodal,pe,rag" transform="translate(273.0,457.0)" tabindex="0">
+     <title>LLM · 关联 7 个模块</title>
+     <rect class="kbox" x="-50.0" y="-20.0" width="100" height="40" rx="10"/>
+     <rect class="kchip" x="-43.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-30.0" y="4" font-size="11" text-anchor="middle">LM</text>
+     <text class="knm" x="-9.0" y="4" font-size="12.5">LLM</text>
+    </a>
+    <a class="knode hue-4" href="./llm-inference/index.html" data-m="llm-inference" data-adj="agent,ai-gateway,ai-infra-compute,ai-infra-platform,evaluation,fine-tuning,llm,llm-training,model-landscape,multimodal,rag" transform="translate(475.0,457.0)" tabindex="0">
+     <title>LLM-Inference · 关联 11 个模块</title>
+     <rect class="kbox" x="-74.0" y="-20.0" width="148" height="40" rx="10"/>
+     <rect class="kchip" x="-67.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-54.0" y="4" font-size="11" text-anchor="middle">LI</text>
+     <text class="knm" x="-33.0" y="4" font-size="12.5">LLM-Inference</text>
+    </a>
+    <a class="knode hue-4" href="./llm-training/index.html" data-m="llm-training" data-adj="agent,ai-infra-compute,ai-infra-platform,evaluation,fine-tuning,llm,llm-inference,rag" transform="translate(677.0,457.0)" tabindex="0">
+     <title>LLM-Training · 关联 8 个模块</title>
+     <rect class="kbox" x="-70.5" y="-20.0" width="141" height="40" rx="10"/>
+     <rect class="kchip" x="-63.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-50.5" y="4" font-size="11" text-anchor="middle">LT</text>
+     <text class="knm" x="-29.5" y="4" font-size="12.5">LLM-Training</text>
+    </a>
+    <a class="knode hue-4" href="./prompt-engineering/index.html" data-m="pe" data-adj="agent,ai-ops,evaluation,fine-tuning,llm,rag" transform="translate(879.0,457.0)" tabindex="0">
+     <title>Prompt-Engineering · 关联 6 个模块</title>
+     <rect class="kbox" x="-91.5" y="-20.0" width="183" height="40" rx="10"/>
+     <rect class="kchip" x="-84.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-71.5" y="4" font-size="11" text-anchor="middle">PE</text>
+     <text class="knm" x="-50.5" y="4" font-size="12.5">Prompt-Engineering</text>
+    </a>
+    <a class="knode hue-5" href="./ai-infra-compute/index.html" data-m="ai-infra-compute" data-adj="ai-infra-platform,llm-inference,llm-training" transform="translate(374.0,555.0)" tabindex="0">
+     <title>AI-Infra-Compute · 关联 3 个模块</title>
+     <rect class="kbox" x="-84.5" y="-20.0" width="169" height="40" rx="10"/>
+     <rect class="kchip" x="-77.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-64.5" y="4" font-size="11" text-anchor="middle">IC</text>
+     <text class="knm" x="-43.5" y="4" font-size="12.5">AI-Infra-Compute</text>
+    </a>
+    <a class="knode hue-5" href="./ai-infra-platform/index.html" data-m="ai-infra-platform" data-adj="ai-infra-compute,ai-ops,fine-tuning,llm-inference,llm-training" transform="translate(778.0,555.0)" tabindex="0">
+     <title>AI-Infra-Platform · 关联 5 个模块</title>
+     <rect class="kbox" x="-88.0" y="-20.0" width="176" height="40" rx="10"/>
+     <rect class="kchip" x="-81.0" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-68.0" y="4" font-size="11" text-anchor="middle">IP</text>
+     <text class="knm" x="-47.0" y="4" font-size="12.5">AI-Infra-Platform</text>
+    </a>
+    <a class="knode hue-6" href="./data-engineering/index.html" data-m="data-engineering" data-adj="ai-ops,fine-tuning,rag,security,solution-patterns" transform="translate(576.0,653.0)" tabindex="0">
+     <title>Data-Engineering · 关联 5 个模块</title>
+     <rect class="kbox" x="-84.5" y="-20.0" width="169" height="40" rx="10"/>
+     <rect class="kchip" x="-77.5" y="-13.0" width="26" height="26" rx="7"/>
+     <text class="kmono" x="-64.5" y="4" font-size="11" text-anchor="middle">DE</text>
+     <text class="knm" x="-43.5" y="4" font-size="12.5">Data-Engineering</text>
+    </a>
    </g>
   </svg>
   </div>
-  <p class="kgraph-hint">连线太密看不清时，悬停某个模块只亮它这一支。需要逐条读关系，展开下面的文字表。</p></div>
+  <p class="kgraph-hint">点一个模块看它连着谁；点中心那个可打开该册，按返回全景 / Esc 回到这张总图。需要逐条读关系，展开下面的文字表。</p></div>
   <details class="kgraph-alt"><summary>换成文字表看（逐模块列出边）</summary>
   <p class="net-lead">关联最密的三块：<b>Agent（21）、RAG（20）、Evaluation（18）</b>——括号是它连出与连入的模块数。讲这几块时最容易牵出别的话题，也最值得先吃透。</p>
   <div class="tw">
@@ -372,7 +358,7 @@
   <p>本页的关系网与保鲜看板都来自各模块的账本 <code>MANIFEST.md</code>，内容更新时自动重建。整站是纯静态页面，可以离线双击打开。</p>
 </footer>
 
-<script src="./data.js?v=20260723e"></script>
-<script src="./assets/site.js?v=20260723e"></script>
+<script src="./data.js?v=20260723g"></script>
+<script src="./assets/site.js?v=20260723g"></script>
 </body>
 </html>

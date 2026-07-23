@@ -821,43 +821,44 @@ def render_graph(data):
     o.extend(edges)
     o.append("   </g>")
 
-    o.append('   <g class="knodes">')               # ③ 节点（压在边之上，出口藏进胶囊）
+    # ③ 节点（压在边之上）。用 transform 定位、子元素相对中心画——点选聚焦时 JS 靠
+    #    改 translate 平滑挪动节点；hue-N 类给胶囊上层色（深浅色自动跟随）。
+    o.append('   <g class="knodes">')
     for l in layers:
         i = layer_i[l]
         yc = padTop + i * bandH + bandH / 2
-        o.append('    <g class="hue-%d">' % i)
         for mid in lay_nodes[l]:
             m = by_id[mid]
             xc, _ = pos[mid]
             w = NW[mid]
-            x0, y0 = xc - w / 2, yc - nh / 2
             deg = len(adj[mid])
             adjids = ",".join(sorted(adj[mid]))
-            o.append('     <a class="knode" href="./%s/index.html" data-m="%s" data-adj="%s" tabindex="0">'
-                     % (esc(WEB_DIRS[mid]), esc(mid), esc(adjids)))
-            o.append('      <title>%s · 关联 %d 个模块</title>' % (esc(m["dir"]), deg))
-            o.append('      <rect class="kbox" x="%.1f" y="%.1f" width="%d" height="%d" rx="10"/>'
-                     % (x0, y0, w, nh))
-            o.append('      <rect class="kchip" x="%.1f" y="%.1f" width="%d" height="%d" rx="7"/>'
-                     % (x0 + 7, yc - chip / 2, chip, chip))
-            o.append('      <text class="kmono" x="%.1f" y="%.1f" font-size="11" text-anchor="middle">%s</text>'
-                     % (x0 + 7 + chip / 2, yc + 4, esc(mono(m["dir"]))))
-            o.append('      <text class="knm" x="%.1f" y="%.1f" font-size="12.5">%s</text>'
-                     % (x0 + 7 + chip + 8, yc + 4, esc(m["dir"])))
-            o.append("     </a>")
-        o.append("    </g>")
+            o.append('    <a class="knode hue-%d" href="./%s/index.html" data-m="%s" '
+                     'data-adj="%s" transform="translate(%.1f,%.1f)" tabindex="0">'
+                     % (i, esc(WEB_DIRS[mid]), esc(mid), esc(adjids), xc, yc))
+            o.append('     <title>%s · 关联 %d 个模块</title>' % (esc(m["dir"]), deg))
+            o.append('     <rect class="kbox" x="%.1f" y="%.1f" width="%d" height="%d" rx="10"/>'
+                     % (-w / 2, -nh / 2, w, nh))
+            o.append('     <rect class="kchip" x="%.1f" y="%.1f" width="%d" height="%d" rx="7"/>'
+                     % (-w / 2 + 7, -chip / 2, chip, chip))
+            o.append('     <text class="kmono" x="%.1f" y="4" font-size="11" text-anchor="middle">%s</text>'
+                     % (-w / 2 + 7 + chip / 2, esc(mono(m["dir"]))))
+            o.append('     <text class="knm" x="%.1f" y="4" font-size="12.5">%s</text>'
+                     % (-w / 2 + 7 + chip + 8, esc(m["dir"])))
+            o.append("    </a>")
     o.append("   </g>")
     o.append("  </svg>")
 
     deg_all = sorted(mods, key=lambda m: -len(adj[m["id"]]))
     hubs = "、".join("%s（%d）" % (m["dir"], len(adj[m["id"]])) for m in deg_all[:3])
     lead = ('  <p class="net-lead">按 7 层排布的全库 19 个模块，连线＝讲一块时该带上的另一块。'
-            '<b>悬停任意模块</b>看它牵出哪些；点开进那一册。关联最密的三块：'
-            '<b>%s</b>——括号是它连着的模块数，最容易牵出别的话题。</p>' % esc(hubs))
+            '<b>点任意模块</b>——它会滑到中间、把关联的模块拉到身边连成一张小网，'
+            '再点周围的模块继续跳。关联最密的三块：<b>%s</b>——括号是它连着的模块数，'
+            '最容易牵出别的话题。</p>' % esc(hubs))
     graph = (lead + '\n  <div class="kgraph-wrap"><div class="kgraph-scroll">\n'
              + "\n".join(o) + "\n  </div>\n"
-             '  <p class="kgraph-hint">连线太密看不清时，悬停某个模块只亮它这一支。'
-             '需要逐条读关系，展开下面的文字表。</p></div>')
+             '  <p class="kgraph-hint">点一个模块看它连着谁；点中心那个可打开该册，'
+             '按返回全景 / Esc 回到这张总图。需要逐条读关系，展开下面的文字表。</p></div>')
 
     alt = ('  <details class="kgraph-alt"><summary>换成文字表看（逐模块列出边）</summary>\n'
            + render_network(data) + "\n  </details>")

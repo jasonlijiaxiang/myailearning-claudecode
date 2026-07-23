@@ -31,8 +31,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 报失联先分清是「契约漂移」还是「分支未触发」——前者要改页面，后者登记即可。
 DYNAMIC = {
     "js-on", "on", "cur",                    # site.js：JS 就绪 / 注释器选中 / 目录高亮
-    "hot", "self",                           # site.js：链接图悬停态（svg.hot / 被悬停的节点.self）
-                                             # ——setAttribute("class","knode self") 拼串，静态扫不到
+    "focus", "self", "faded", "off",         # site.js：链接图点选聚焦态（svg.focus / 中心.self /
+                                             # 邻居.on / 淡出.faded / 非中心边.off）——classList 加，静态扫不到
     "f",                                     # 报文注释器字段（标记里有，JS 也会重写）
     "over", "none",                          # build.py 保鲜看板/关系网的行状态
     "soon",                                  # 入口卡「未完成」状态：2026-07-22 网页版

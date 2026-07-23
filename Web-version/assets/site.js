@@ -117,46 +117,138 @@
   /* 知识地图不在这里渲染——它由 build.py 生成期静态注入 index.html，
      以保证无 JavaScript 时首页仍有完整阅读路径（web-design-system 可访问性底线）。 */
 
-  /* ---------- 分层链接图：悬停/聚焦一个模块，亮它这一支 ----------
-     图本身是静态 SVG（无 JS 也完整可读、每个节点都是链接）；这里只做高亮增强。
-     状态类写成整串字面量（"on"/"self"/"hot"），供 check_css_classes 静态扫到。 */
+  /* ---------- 分层链接图：点选聚焦（ego 网络）----------
+     图是静态 SVG（无 JS 也完整可读、每个节点都是链接）。这里做「点一个模块 → 它滑到中间、
+     关联模块环绕它连成一张小网」的动效：节点用 transform 平移、rAF 插值，中心的边每帧跟手重算。
+     状态类（focus/self/on/off/faded）写成整串字面量，供 check_css_classes 静态扫到。 */
   var kg = document.querySelector("svg.kgraph");
-  if (kg) {
-    var kedges = [].slice.call(kg.querySelectorAll(".kedge"));
+  if (kg && kg.viewBox && kg.viewBox.baseVal) {
+    var vb = kg.viewBox.baseVal;
+    var CX = vb.width / 2, CY = vb.height * 0.47;
+    var RX = Math.min(430, vb.width * 0.43), RY = vb.height * 0.34;
     var knodes = [].slice.call(kg.querySelectorAll(".knode"));
-    var lift = function (id) {
-      var self = null, adj = {};
-      knodes.forEach(function (a) {
-        if (a.getAttribute("data-m") === id) {
-          self = a;
-          (a.getAttribute("data-adj") || "").split(",").forEach(function (x) {
-            if (x) adj[x] = 1;
-          });
+    var edges = [].slice.call(kg.querySelectorAll(".kedge")).map(function (el) {
+      return { el: el, a: el.getAttribute("data-a"), b: el.getAttribute("data-b"),
+               mapD: el.getAttribute("d") };
+    });
+    var N = {};
+    knodes.forEach(function (el) {
+      var t = /translate\(\s*([-\d.]+)[ ,]+([-\d.]+)/.exec(el.getAttribute("transform")) || [0, 0, 0];
+      var id = el.getAttribute("data-m");
+      N[id] = { el: el, home: { x: +t[1], y: +t[2] }, cur: { x: +t[1], y: +t[2] },
+                adj: (el.getAttribute("data-adj") || "").split(",").filter(Boolean) };
+    });
+    var mode = "map", center = null, raf = null;
+
+    var back = document.createElement("button");
+    back.className = "kg-back";
+    back.type = "button";
+    back.textContent = "← 返回全景";
+    back.style.display = "none";
+    var wrap = kg.closest(".kgraph-wrap");
+    if (wrap) wrap.insertBefore(back, wrap.firstChild);
+    var hint = wrap ? wrap.querySelector(".kgraph-hint") : null;
+    var hintMap = hint ? hint.textContent : "";
+
+    function place(id, x, y) {
+      var n = N[id]; n.cur.x = x; n.cur.y = y;
+      n.el.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ")");
+    }
+    function fpath(a, b) {              // 中心↔邻居：带一点弧度的曲线，任意方向都自然
+      var A = N[a].cur, B = N[b].cur, dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy) || 1;
+      var ox = -dy / L * L * 0.09, oy = dx / L * L * 0.09;
+      return "M" + A.x.toFixed(1) + " " + A.y.toFixed(1) +
+             "Q" + ((A.x + B.x) / 2 + ox).toFixed(1) + " " + ((A.y + B.y) / 2 + oy).toFixed(1) +
+             " " + B.x.toFixed(1) + " " + B.y.toFixed(1);
+    }
+    function redrawCenterEdges() {
+      if (center === null) return;
+      edges.forEach(function (e) {
+        if (e.a === center || e.b === center) e.el.setAttribute("d", fpath(e.a, e.b));
+      });
+    }
+    function targets(id) {
+      var t = {}; t[id] = { x: CX, y: CY };
+      var nb = N[id].adj, n = nb.length || 1;
+      nb.forEach(function (o, k) {
+        var ang = -Math.PI / 2 + 2 * Math.PI * k / n;
+        if (N[o]) t[o] = { x: CX + RX * Math.cos(ang), y: CY + RY * Math.sin(ang) };
+      });
+      Object.keys(N).forEach(function (o) { if (!(o in t)) t[o] = N[o].home; });  // 其余原地淡出
+      return t;
+    }
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function animate(tg, dur, done) {
+      if (raf) cancelAnimationFrame(raf);
+      if (reduce) {              // 尊重「减少动态效果」：直接到位，不做补间
+        Object.keys(N).forEach(function (id) { var b = tg[id] || N[id].cur; place(id, b.x, b.y); });
+        redrawCenterEdges(); if (done) done(); return;
+      }
+      var s = {}, t0 = null;
+      Object.keys(N).forEach(function (id) { s[id] = { x: N[id].cur.x, y: N[id].cur.y }; });
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;  // easeInOutCubic
+        Object.keys(N).forEach(function (id) {
+          var a = s[id], b = tg[id] || a;
+          place(id, a.x + (b.x - a.x) * e, a.y + (b.y - a.y) * e);
+        });
+        redrawCenterEdges();
+        if (p < 1) { raf = requestAnimationFrame(step); }
+        else { raf = null; if (done) done(); }
+      }
+      raf = requestAnimationFrame(step);
+    }
+    function enter(id) {
+      if (!N[id]) return;
+      mode = "focus"; center = id; kg.classList.add("focus");
+      knodes.forEach(function (el) {
+        var m = el.getAttribute("data-m");
+        el.classList.remove("self", "on", "faded");
+        el.classList.add(m === id ? "self" : (N[id].adj.indexOf(m) >= 0 ? "on" : "faded"));
+      });
+      edges.forEach(function (e) {
+        var on = (e.a === id || e.b === id);
+        e.el.classList.toggle("on", on);
+        e.el.classList.toggle("off", !on);
+      });
+      animate(targets(id), 500);
+      back.style.display = "inline-flex";
+      if (hint) hint.textContent = "点周围的模块继续跳，点中间的「" + id +
+        "」打开那一册；按「返回全景」或 Esc 回到总图。";
+    }
+    function toMap() {
+      if (mode !== "focus") return;
+      mode = "map";
+      knodes.forEach(function (el) { el.classList.remove("self", "on", "faded"); });
+      var tg = {}; Object.keys(N).forEach(function (id) { tg[id] = N[id].home; });
+      animate(tg, 460, function () {
+        center = null; kg.classList.remove("focus");
+        edges.forEach(function (e) {
+          e.el.setAttribute("d", e.mapD); e.el.classList.remove("on", "off");
+        });
+      });
+      back.style.display = "none";
+      if (hint) hint.textContent = hintMap;
+    }
+    knodes.forEach(function (el) {
+      var id = el.getAttribute("data-m");
+      el.addEventListener("click", function (ev) {
+        if (mode === "map") { ev.preventDefault(); enter(id); }
+        else if (id === center) { /* 打开该册：放行默认导航 */ }
+        else if (N[center].adj.indexOf(id) >= 0) { ev.preventDefault(); enter(id); }
+        else { ev.preventDefault(); }   // 已淡出的模块不响应
+      });
+      el.addEventListener("keydown", function (ev) {
+        if ((ev.key === "Enter" || ev.key === " ") && mode === "map") {
+          ev.preventDefault(); enter(id);
         }
       });
-      if (!self) return;
-      kg.classList.add("hot");
-      knodes.forEach(function (a) {
-        var m = a.getAttribute("data-m");
-        a.setAttribute("class", m === id ? "knode self"
-                       : (adj[m] ? "knode on" : "knode"));
-      });
-      kedges.forEach(function (e) {
-        var hit = e.getAttribute("data-a") === id || e.getAttribute("data-b") === id;
-        e.setAttribute("class", hit ? "kedge on" : "kedge");
-      });
-    };
-    var drop = function () {
-      kg.classList.remove("hot");
-      knodes.forEach(function (a) { a.setAttribute("class", "knode"); });
-      kedges.forEach(function (e) { e.setAttribute("class", "kedge"); });
-    };
-    knodes.forEach(function (a) {
-      var id = a.getAttribute("data-m");
-      a.addEventListener("mouseenter", function () { lift(id); });
-      a.addEventListener("mouseleave", drop);
-      a.addEventListener("focus", function () { lift(id); });
-      a.addEventListener("blur", drop);
+    });
+    back.addEventListener("click", toMap);
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key === "Escape" && mode === "focus") toMap();
     });
   }
 
