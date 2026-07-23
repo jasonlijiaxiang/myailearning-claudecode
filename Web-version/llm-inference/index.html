@@ -66,21 +66,21 @@
   <figure>
    <div class="fig-wrap">
     <svg viewBox="0 0 720 210" role="img" aria-label="prefill 与 decode 两阶段对照：prefill 并行读入吃算力决定首字延迟，decode 逐字生成吃带宽决定每字延迟">
-     <rect width="720" height="210" fill="#FFFFFF"/>
-     <rect x="24" y="28" width="330" height="130" fill="#fff" stroke="#0F172A"/>
-     <text x="42" y="56" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14.5" font-weight="700" fill="#0F172A">Prefill 预填充 · 读题</text>
-     <text x="42" y="80" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">所有输入 token 并行算，一次大矩阵乘</text>
-     <text x="42" y="100" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">瓶颈：算力受限（Compute-bound）</text>
-     <text x="42" y="120" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="#2563EB">决定 TTFT（首字延迟）</text>
-     <text x="42" y="142" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">读题快慢看「理解力」（算力）</text>
-     <rect x="366" y="28" width="330" height="130" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
-     <text x="384" y="56" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14.5" font-weight="700" fill="#0F172A">Decode 解码 · 写字</text>
-     <text x="384" y="80" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">逐 token 生成，每步搬一遍全部权重</text>
-     <text x="384" y="100" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="#5B6B7F">瓶颈：带宽受限（Memory-bound）</text>
-     <text x="384" y="120" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="#2563EB">决定 TPOT（每字延迟）</text>
-     <text x="384" y="142" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">「不在算得慢，在搬得慢」——手速（带宽）</text>
-     <line x1="24" y1="176" x2="696" y2="176" stroke="#E2E8F0"/>
-     <text x="24" y="196" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="#5B6B7F">考试类比：读题可以一目十行（prefill），答题只能一个字一个字写（decode）——混在同一张卡上必然互相干扰（第 7 节的伏笔）</text>
+     <rect width="720" height="210" fill="var(--card)"/>
+     <rect x="24" y="28" width="330" height="130" fill="var(--card)" stroke="var(--ink-900)"/>
+     <text x="42" y="56" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14.5" font-weight="700" fill="var(--ink-900)">Prefill 预填充 · 读题</text>
+     <text x="42" y="80" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="var(--ink-500)">所有输入 token 并行算，一次大矩阵乘</text>
+     <text x="42" y="100" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="var(--ink-500)">瓶颈：算力受限（Compute-bound）</text>
+     <text x="42" y="120" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="var(--blue)">决定 TTFT（首字延迟）</text>
+     <text x="42" y="142" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="var(--ink-500)">读题快慢看「理解力」（算力）</text>
+     <rect x="366" y="28" width="330" height="130" fill="var(--blue-bg)" stroke="var(--blue)" stroke-width="1.5"/>
+     <text x="384" y="56" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="14.5" font-weight="700" fill="var(--ink-900)">Decode 解码 · 写字</text>
+     <text x="384" y="80" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="var(--ink-500)">逐 token 生成，每步搬一遍全部权重</text>
+     <text x="384" y="100" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" fill="var(--ink-500)">瓶颈：带宽受限（Memory-bound）</text>
+     <text x="384" y="120" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="12.5" font-weight="600" fill="var(--blue)">决定 TPOT（每字延迟）</text>
+     <text x="384" y="142" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="var(--ink-500)">「不在算得慢，在搬得慢」——手速（带宽）</text>
+     <line x1="24" y1="176" x2="696" y2="176" stroke="var(--line)"/>
+     <text x="24" y="196" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,sans-serif" font-size="11.5" fill="var(--ink-500)">考试类比：读题可以一目十行（prefill），答题只能一个字一个字写（decode）——混在同一张卡上必然互相干扰（第 7 节的伏笔）</text>
     </svg>
    </div>
    <figcaption>两阶段的账要分开算：prefill 拼算力利用率，decode 拼显存带宽。</figcaption>
