@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>网页版 · AI 知识库</title>
-<link rel="stylesheet" href="../_assets/kb.css?v=20260723g">
+<link rel="stylesheet" href="../_assets/kb.css?v=20260723h">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../README.html">AI 知识库</a><a class="ti cur" href="../Web-version/index.html">网页版</a>
  <a class="ti" href="../PPT-version/README.html">PPT 总览</a><a class="ti" href="../_prep/实战包.html">实战包</a><a class="ti" href="../_prep/学习路径.html">学习路径</a><a class="ti" href="../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../开始使用.html">开始使用</a>
- <span class="ver">v0723g</span>
+ <span class="ver">v0723h</span>
 </div></nav>
 
 <header class="top">
@@ -37,7 +37,8 @@
   <h2 id="net">知识地图 · 链接图</h2>
   <p>全库 19 个模块<b>按七层排开</b>（和 PPT 总览同一套层级），模块之间的连线是「讲这一块时该带上的另一块」——关系登记在各模块清单的「串联出边」里，这里把它们连成一张图。19 册讲义各印各的、纸面上没法互相指，这是网页版才做得到的事。</p>
   <!-- NET:BEGIN 由 build.py 从 MANIFEST 串联出边生成，请勿手工编辑 -->
-  <p class="net-lead">按 7 层排布的全库 19 个模块，连线＝讲一块时该带上的另一块。<b>点任意模块</b>——它会滑到中间、把关联的模块拉到身边连成一张小网，再点周围的模块继续跳。关联最密的三块：<b>Agent（12）、Evaluation（12）、RAG（12）</b>——括号是它连着的模块数，最容易牵出别的话题。</p>
+  <p class="net-lead">按 7 层排布的全库 19 个模块。<b>两种学法</b>——<b>单点学习</b>：直接点模块进那一册；<b>关联学习</b>：显示连线，点一个模块它会滑到中间、把关联的模块拉到身边连成小网，连线上标着桥接两块的关键技术词，顺着一路深挖。关联最密的三块：<b>Agent（12）、Evaluation（12）、RAG（12）</b>。</p>
+  <div class="kg-modes" role="tablist"><button type="button" class="kg-mode on" data-mode="solo">单点学习</button><button type="button" class="kg-mode" data-mode="link">关联学习</button><span class="kg-modenote">单点＝直接进册；关联＝看连线、逐步深挖</span></div>
   <div class="kgraph-wrap"><div class="kgraph-scroll">
   <svg class="kgraph" viewBox="0 0 1000 718" role="img" aria-label="全库 19 个模块按七层排布的关系图，边表示讲一块时该带上的另一块">
    <g class="kbands">
@@ -78,82 +79,82 @@
     </g>
    </g>
    <g class="kedges">
-    <path class="kedge hue-1" data-a="a2a" data-b="agent" d="M374.0 241.0C374.0 212.0 288.7 212.0 288.7 183.0"><title>A2A ↔ Agent</title></path>
-    <path class="kedge hue-2" data-a="a2a" data-b="ai-gateway" d="M362.0 281.0C362.0 310.0 237.6 310.0 237.6 339.0"><title>A2A ↔ AI-Gateway</title></path>
-    <path class="kedge hue-2" data-a="a2a" data-b="mcp" d="M386.0 281.0C386.0 309.0 778.0 309.0 778.0 281.0"><title>A2A ↔ MCP</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="ai-gateway" d="M276.7 183.0C276.7 261.0 222.3 261.0 222.3 339.0"><title>Agent ↔ AI-Gateway</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="evaluation" d="M318.7 183.0C318.7 261.0 707.1 261.0 707.1 339.0"><title>Agent ↔ Evaluation</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="llm" d="M282.7 183.0C282.7 310.0 251.4 310.0 251.4 437.0"><title>Agent ↔ LLM</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="llm-inference" d="M294.7 183.0C294.7 310.0 448.4 310.0 448.4 437.0"><title>Agent ↔ LLM-Inference</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="llm-training" d="M312.7 183.0C312.7 310.0 646.5 310.0 646.5 437.0"><title>Agent ↔ LLM-Training</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="mcp" d="M324.7 183.0C324.7 212.0 778.0 212.0 778.0 241.0"><title>Agent ↔ MCP</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="multimodal" d="M300.7 183.0C300.7 211.0 556.4 211.0 556.4 183.0"><title>Agent ↔ Multimodal</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="pe" d="M336.7 183.0C336.7 310.0 835.1 310.0 835.1 437.0"><title>Agent ↔ Prompt-Engineering</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="rag" d="M330.7 183.0C330.7 211.0 822.4 211.0 822.4 183.0"><title>Agent ↔ RAG</title></path>
-    <path class="kedge hue-1" data-a="agent" data-b="security" d="M306.7 183.0C306.7 261.0 546.9 261.0 546.9 339.0"><title>Agent ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="agent" data-b="solution-patterns" d="M306.7 143.0C306.7 114.0 740.0 114.0 740.0 85.0"><title>Agent ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-3" data-a="ai-gateway" data-b="ai-ops" d="M225.4 379.0C225.4 407.0 388.7 407.0 388.7 379.0"><title>AI-Gateway ↔ AI-Ops</title></path>
-    <path class="kedge hue-3" data-a="ai-gateway" data-b="evaluation" d="M280.2 379.0C280.2 407.0 703.3 407.0 703.3 379.0"><title>AI-Gateway ↔ Evaluation</title></path>
-    <path class="kedge hue-3" data-a="ai-gateway" data-b="llm-inference" d="M243.7 379.0C243.7 408.0 435.0 408.0 435.0 437.0"><title>AI-Gateway ↔ LLM-Inference</title></path>
-    <path class="kedge hue-2" data-a="ai-gateway" data-b="mcp" d="M268.0 339.0C268.0 310.0 760.0 310.0 760.0 281.0"><title>AI-Gateway ↔ MCP</title></path>
-    <path class="kedge hue-0" data-a="ai-gateway" data-b="model-landscape" d="M252.8 339.0C252.8 212.0 326.3 212.0 326.3 85.0"><title>AI-Gateway ↔ Model-Landscape</title></path>
-    <path class="kedge hue-3" data-a="ai-gateway" data-b="security" d="M261.9 379.0C261.9 407.0 548.9 407.0 548.9 379.0"><title>AI-Gateway ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="ai-gateway" data-b="solution-patterns" d="M283.3 339.0C283.3 212.0 727.3 212.0 727.3 85.0"><title>AI-Gateway ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-5" data-a="ai-infra-compute" data-b="ai-infra-platform" d="M374.0 575.0C374.0 603.0 778.0 603.0 778.0 575.0"><title>AI-Infra-Compute ↔ AI-Infra-Platform</title></path>
-    <path class="kedge hue-4" data-a="ai-infra-compute" data-b="llm-inference" d="M353.7 535.0C353.7 506.0 464.3 506.0 464.3 477.0"><title>AI-Infra-Compute ↔ LLM-Inference</title></path>
-    <path class="kedge hue-4" data-a="ai-infra-compute" data-b="llm-training" d="M394.3 535.0C394.3 506.0 666.8 506.0 666.8 477.0"><title>AI-Infra-Compute ↔ LLM-Training</title></path>
-    <path class="kedge hue-3" data-a="ai-infra-platform" data-b="ai-ops" d="M740.0 535.0C740.0 457.0 429.8 457.0 429.8 379.0"><title>AI-Infra-Platform ↔ AI-Ops</title></path>
-    <path class="kedge hue-3" data-a="ai-infra-platform" data-b="fine-tuning" d="M816.0 535.0C816.0 457.0 923.3 457.0 923.3 379.0"><title>AI-Infra-Platform ↔ Fine-tuning</title></path>
-    <path class="kedge hue-4" data-a="ai-infra-platform" data-b="llm-inference" d="M765.3 535.0C765.3 506.0 507.0 506.0 507.0 477.0"><title>AI-Infra-Platform ↔ LLM-Inference</title></path>
-    <path class="kedge hue-4" data-a="ai-infra-platform" data-b="llm-training" d="M790.7 535.0C790.7 506.0 707.5 506.0 707.5 477.0"><title>AI-Infra-Platform ↔ LLM-Training</title></path>
-    <path class="kedge hue-3" data-a="ai-ops" data-b="data-engineering" d="M399.0 379.0C399.0 506.0 535.4 506.0 535.4 633.0"><title>AI-Ops ↔ Data-Engineering</title></path>
-    <path class="kedge hue-3" data-a="ai-ops" data-b="evaluation" d="M419.5 379.0C419.5 407.0 714.7 407.0 714.7 379.0"><title>AI-Ops ↔ Evaluation</title></path>
-    <path class="kedge hue-0" data-a="ai-ops" data-b="model-landscape" d="M402.4 339.0C402.4 212.0 347.5 212.0 347.5 85.0"><title>AI-Ops ↔ Model-Landscape</title></path>
-    <path class="kedge hue-3" data-a="ai-ops" data-b="pe" d="M440.1 379.0C440.1 408.0 857.0 408.0 857.0 437.0"><title>AI-Ops ↔ Prompt-Engineering</title></path>
-    <path class="kedge hue-3" data-a="ai-ops" data-b="security" d="M409.3 379.0C409.3 407.0 562.4 407.0 562.4 379.0"><title>AI-Ops ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="ai-ops" data-b="solution-patterns" d="M426.4 339.0C426.4 212.0 765.3 212.0 765.3 85.0"><title>AI-Ops ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-3" data-a="data-engineering" data-b="fine-tuning" d="M616.6 633.0C616.6 506.0 875.1 506.0 875.1 379.0"><title>Data-Engineering ↔ Fine-tuning</title></path>
-    <path class="kedge hue-1" data-a="data-engineering" data-b="rag" d="M596.3 633.0C596.3 408.0 835.5 408.0 835.5 183.0"><title>Data-Engineering ↔ RAG</title></path>
-    <path class="kedge hue-3" data-a="data-engineering" data-b="security" d="M555.7 633.0C555.7 506.0 576.0 506.0 576.0 379.0"><title>Data-Engineering ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="data-engineering" data-b="solution-patterns" d="M576.0 633.0C576.0 359.0 778.0 359.0 778.0 85.0"><title>Data-Engineering ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-3" data-a="evaluation" data-b="fine-tuning" d="M771.9 379.0C771.9 407.0 911.3 407.0 911.3 379.0"><title>Evaluation ↔ Fine-tuning</title></path>
-    <path class="kedge hue-3" data-a="evaluation" data-b="llm-inference" d="M726.2 379.0C726.2 408.0 488.3 408.0 488.3 437.0"><title>Evaluation ↔ LLM-Inference</title></path>
-    <path class="kedge hue-3" data-a="evaluation" data-b="llm-training" d="M749.0 379.0C749.0 408.0 666.8 408.0 666.8 437.0"><title>Evaluation ↔ LLM-Training</title></path>
-    <path class="kedge hue-0" data-a="evaluation" data-b="model-landscape" d="M722.4 339.0C722.4 212.0 389.9 212.0 389.9 85.0"><title>Evaluation ↔ Model-Landscape</title></path>
-    <path class="kedge hue-1" data-a="evaluation" data-b="multimodal" d="M737.6 339.0C737.6 261.0 595.6 261.0 595.6 183.0"><title>Evaluation ↔ Multimodal</title></path>
-    <path class="kedge hue-3" data-a="evaluation" data-b="pe" d="M760.5 379.0C760.5 408.0 879.0 408.0 879.0 437.0"><title>Evaluation ↔ Prompt-Engineering</title></path>
-    <path class="kedge hue-1" data-a="evaluation" data-b="rag" d="M768.1 339.0C768.1 261.0 861.7 261.0 861.7 183.0"><title>Evaluation ↔ RAG</title></path>
-    <path class="kedge hue-3" data-a="evaluation" data-b="security" d="M737.6 379.0C737.6 407.0 589.6 407.0 589.6 379.0"><title>Evaluation ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="evaluation" data-b="solution-patterns" d="M752.8 339.0C752.8 212.0 816.0 212.0 816.0 85.0"><title>Evaluation ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-3" data-a="fine-tuning" data-b="llm-inference" d="M863.0 379.0C863.0 408.0 515.0 408.0 515.0 437.0"><title>Fine-tuning ↔ LLM-Inference</title></path>
-    <path class="kedge hue-3" data-a="fine-tuning" data-b="llm-training" d="M899.2 379.0C899.2 408.0 707.5 408.0 707.5 437.0"><title>Fine-tuning ↔ LLM-Training</title></path>
-    <path class="kedge hue-0" data-a="fine-tuning" data-b="model-landscape" d="M883.1 339.0C883.1 212.0 421.7 212.0 421.7 85.0"><title>Fine-tuning ↔ Model-Landscape</title></path>
-    <path class="kedge hue-3" data-a="fine-tuning" data-b="pe" d="M935.4 379.0C935.4 408.0 922.9 408.0 922.9 437.0"><title>Fine-tuning ↔ Prompt-Engineering</title></path>
-    <path class="kedge hue-1" data-a="fine-tuning" data-b="rag" d="M915.3 339.0C915.3 261.0 874.8 261.0 874.8 183.0"><title>Fine-tuning ↔ RAG</title></path>
-    <path class="kedge hue-3" data-a="fine-tuning" data-b="security" d="M887.1 379.0C887.1 407.0 603.1 407.0 603.1 379.0"><title>Fine-tuning ↔ Security</title></path>
-    <path class="kedge hue-4" data-a="llm" data-b="llm-inference" d="M255.0 477.0C255.0 505.0 443.0 505.0 443.0 477.0"><title>LLM ↔ LLM-Inference</title></path>
-    <path class="kedge hue-4" data-a="llm" data-b="llm-training" d="M273.0 477.0C273.0 505.0 646.5 505.0 646.5 477.0"><title>LLM ↔ LLM-Training</title></path>
-    <path class="kedge hue-0" data-a="llm" data-b="model-landscape" d="M265.8 437.0C265.8 261.0 336.9 261.0 336.9 85.0"><title>LLM ↔ Model-Landscape</title></path>
-    <path class="kedge hue-1" data-a="llm" data-b="multimodal" d="M280.2 437.0C280.2 310.0 543.3 310.0 543.3 183.0"><title>LLM ↔ Multimodal</title></path>
-    <path class="kedge hue-4" data-a="llm" data-b="pe" d="M291.0 477.0C291.0 505.0 879.0 505.0 879.0 477.0"><title>LLM ↔ Prompt-Engineering</title></path>
-    <path class="kedge hue-1" data-a="llm" data-b="rag" d="M294.6 437.0C294.6 310.0 815.9 310.0 815.9 183.0"><title>LLM ↔ RAG</title></path>
-    <path class="kedge hue-4" data-a="llm-inference" data-b="llm-training" d="M485.7 477.0C485.7 505.0 687.2 505.0 687.2 477.0"><title>LLM-Inference ↔ LLM-Training</title></path>
-    <path class="kedge hue-0" data-a="llm-inference" data-b="model-landscape" d="M461.7 437.0C461.7 261.0 358.1 261.0 358.1 85.0"><title>LLM-Inference ↔ Model-Landscape</title></path>
-    <path class="kedge hue-1" data-a="llm-inference" data-b="multimodal" d="M475.0 437.0C475.0 310.0 569.5 310.0 569.5 183.0"><title>LLM-Inference ↔ Multimodal</title></path>
-    <path class="kedge hue-1" data-a="llm-inference" data-b="rag" d="M501.6 437.0C501.6 310.0 829.0 310.0 829.0 183.0"><title>LLM-Inference ↔ RAG</title></path>
-    <path class="kedge hue-1" data-a="llm-training" data-b="rag" d="M687.2 437.0C687.2 310.0 855.2 310.0 855.2 183.0"><title>LLM-Training ↔ RAG</title></path>
-    <path class="kedge hue-2" data-a="mcp" data-b="security" d="M796.0 281.0C796.0 310.0 581.8 310.0 581.8 339.0"><title>MCP ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="model-landscape" data-b="multimodal" d="M368.7 85.0C368.7 114.0 560.8 114.0 560.8 143.0"><title>Model-Landscape ↔ Multimodal</title></path>
-    <path class="kedge hue-0" data-a="model-landscape" data-b="rag" d="M411.1 85.0C411.1 114.0 833.3 114.0 833.3 143.0"><title>Model-Landscape ↔ RAG</title></path>
-    <path class="kedge hue-0" data-a="model-landscape" data-b="security" d="M379.3 85.0C379.3 212.0 558.6 212.0 558.6 339.0"><title>Model-Landscape ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="model-landscape" data-b="solution-patterns" d="M400.5 85.0C400.5 113.0 752.7 113.0 752.7 85.0"><title>Model-Landscape ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-1" data-a="multimodal" data-b="rag" d="M608.7 183.0C608.7 211.0 842.1 211.0 842.1 183.0"><title>Multimodal ↔ RAG</title></path>
-    <path class="kedge hue-1" data-a="multimodal" data-b="security" d="M582.5 183.0C582.5 261.0 570.2 261.0 570.2 339.0"><title>Multimodal ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="multimodal" data-b="solution-patterns" d="M591.2 143.0C591.2 114.0 790.7 114.0 790.7 85.0"><title>Multimodal ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-1" data-a="pe" data-b="rag" d="M901.0 437.0C901.0 310.0 868.2 310.0 868.2 183.0"><title>Prompt-Engineering ↔ RAG</title></path>
-    <path class="kedge hue-1" data-a="rag" data-b="security" d="M848.6 183.0C848.6 261.0 605.1 261.0 605.1 339.0"><title>RAG ↔ Security</title></path>
-    <path class="kedge hue-0" data-a="rag" data-b="solution-patterns" d="M857.3 143.0C857.3 114.0 828.7 114.0 828.7 85.0"><title>RAG ↔ Solution-Patterns</title></path>
-    <path class="kedge hue-0" data-a="security" data-b="solution-patterns" d="M593.4 339.0C593.4 212.0 803.3 212.0 803.3 85.0"><title>Security ↔ Solution-Patterns</title></path>
+    <path class="kedge hue-1" data-a="a2a" data-b="agent" data-term="跨 Agent 协作" d="M374.0 241.0C374.0 212.0 288.7 212.0 288.7 183.0"><title>A2A ↔ Agent　·　跨 Agent 协作</title></path>
+    <path class="kedge hue-2" data-a="a2a" data-b="ai-gateway" data-term="统一身份传递" d="M362.0 281.0C362.0 310.0 237.6 310.0 237.6 339.0"><title>A2A ↔ AI-Gateway　·　统一身份传递</title></path>
+    <path class="kedge hue-2" data-a="a2a" data-b="mcp" data-term="纵向 vs 横向" d="M386.0 281.0C386.0 309.0 778.0 309.0 778.0 281.0"><title>A2A ↔ MCP　·　纵向 vs 横向</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="ai-gateway" data-term="统一入口 · 护栏" d="M276.7 183.0C276.7 261.0 222.3 261.0 222.3 339.0"><title>Agent ↔ AI-Gateway　·　统一入口 · 护栏</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="evaluation" data-term="轨迹评估" d="M318.7 183.0C318.7 261.0 707.1 261.0 707.1 339.0"><title>Agent ↔ Evaluation　·　轨迹评估</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="llm" data-term="上下文工程根源" d="M282.7 183.0C282.7 310.0 251.4 310.0 251.4 437.0"><title>Agent ↔ LLM　·　上下文工程根源</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="llm-inference" data-term="Prefix Caching" d="M294.7 183.0C294.7 310.0 448.4 310.0 448.4 437.0"><title>Agent ↔ LLM-Inference　·　Prefix Caching</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="llm-training" data-term="推理模型 · RLVR" d="M312.7 183.0C312.7 310.0 646.5 310.0 646.5 437.0"><title>Agent ↔ LLM-Training　·　推理模型 · RLVR</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="mcp" data-term="工具接入 · MCP" d="M324.7 183.0C324.7 212.0 778.0 212.0 778.0 241.0"><title>Agent ↔ MCP　·　工具接入 · MCP</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="multimodal" data-term="多模态感知 · CU" d="M300.7 183.0C300.7 211.0 556.4 211.0 556.4 183.0"><title>Agent ↔ Multimodal　·　多模态感知 · CU</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="pe" data-term="上下文工程 · ReAct" d="M336.7 183.0C336.7 310.0 835.1 310.0 835.1 437.0"><title>Agent ↔ Prompt-Engineering　·　上下文工程 · ReAct</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="rag" data-term="Agentic RAG" d="M330.7 183.0C330.7 211.0 822.4 211.0 822.4 183.0"><title>Agent ↔ RAG　·　Agentic RAG</title></path>
+    <path class="kedge hue-1" data-a="agent" data-b="security" data-term="记忆投毒 · 控权" d="M306.7 183.0C306.7 261.0 546.9 261.0 546.9 339.0"><title>Agent ↔ Security　·　记忆投毒 · 控权</title></path>
+    <path class="kedge hue-0" data-a="agent" data-b="solution-patterns" data-term="低代码平台" d="M306.7 143.0C306.7 114.0 740.0 114.0 740.0 85.0"><title>Agent ↔ Solution-Patterns　·　低代码平台</title></path>
+    <path class="kedge hue-3" data-a="ai-gateway" data-b="ai-ops" data-term="trace 贯通" d="M225.4 379.0C225.4 407.0 388.7 407.0 388.7 379.0"><title>AI-Gateway ↔ AI-Ops　·　trace 贯通</title></path>
+    <path class="kedge hue-3" data-a="ai-gateway" data-b="evaluation" data-term="路由质量验收" d="M280.2 379.0C280.2 407.0 703.3 407.0 703.3 379.0"><title>AI-Gateway ↔ Evaluation　·　路由质量验收</title></path>
+    <path class="kedge hue-3" data-a="ai-gateway" data-b="llm-inference" data-term="网关 vs 引擎" d="M243.7 379.0C243.7 408.0 435.0 408.0 435.0 437.0"><title>AI-Gateway ↔ LLM-Inference　·　网关 vs 引擎</title></path>
+    <path class="kedge hue-2" data-a="ai-gateway" data-b="mcp" data-term="MCP 网关治理" d="M268.0 339.0C268.0 310.0 760.0 310.0 760.0 281.0"><title>AI-Gateway ↔ MCP　·　MCP 网关治理</title></path>
+    <path class="kedge hue-0" data-a="ai-gateway" data-b="model-landscape" data-term="路由 · 防锁定" d="M252.8 339.0C252.8 212.0 326.3 212.0 326.3 85.0"><title>AI-Gateway ↔ Model-Landscape　·　路由 · 防锁定</title></path>
+    <path class="kedge hue-3" data-a="ai-gateway" data-b="security" data-term="护栏 · 爆炸半径" d="M261.9 379.0C261.9 407.0 548.9 407.0 548.9 379.0"><title>AI-Gateway ↔ Security　·　护栏 · 爆炸半径</title></path>
+    <path class="kedge hue-0" data-a="ai-gateway" data-b="solution-patterns" data-term="token · 并发治理" d="M283.3 339.0C283.3 212.0 727.3 212.0 727.3 85.0"><title>AI-Gateway ↔ Solution-Patterns　·　token · 并发治理</title></path>
+    <path class="kedge hue-5" data-a="ai-infra-compute" data-b="ai-infra-platform" data-term="硬件 vs 平台" d="M374.0 575.0C374.0 603.0 778.0 603.0 778.0 575.0"><title>AI-Infra-Compute ↔ AI-Infra-Platform　·　硬件 vs 平台</title></path>
+    <path class="kedge hue-4" data-a="ai-infra-compute" data-b="llm-inference" data-term="KV Cache · HBM" d="M353.7 535.0C353.7 506.0 464.3 506.0 464.3 477.0"><title>AI-Infra-Compute ↔ LLM-Inference　·　KV Cache · HBM</title></path>
+    <path class="kedge hue-4" data-a="ai-infra-compute" data-b="llm-training" data-term="并行 · 显存切分" d="M394.3 535.0C394.3 506.0 666.8 506.0 666.8 477.0"><title>AI-Infra-Compute ↔ LLM-Training　·　并行 · 显存切分</title></path>
+    <path class="kedge hue-3" data-a="ai-infra-platform" data-b="ai-ops" data-term="集群可观测边界" d="M740.0 535.0C740.0 457.0 429.8 457.0 429.8 379.0"><title>AI-Infra-Platform ↔ AI-Ops　·　集群可观测边界</title></path>
+    <path class="kedge hue-3" data-a="ai-infra-platform" data-b="fine-tuning" data-term="云上托管训练" d="M816.0 535.0C816.0 457.0 923.3 457.0 923.3 379.0"><title>AI-Infra-Platform ↔ Fine-tuning　·　云上托管训练</title></path>
+    <path class="kedge hue-4" data-a="ai-infra-platform" data-b="llm-inference" data-term="P/D 分离 · 承载" d="M765.3 535.0C765.3 506.0 507.0 506.0 507.0 477.0"><title>AI-Infra-Platform ↔ LLM-Inference　·　P/D 分离 · 承载</title></path>
+    <path class="kedge hue-4" data-a="ai-infra-platform" data-b="llm-training" data-term="调度 · 容错" d="M790.7 535.0C790.7 506.0 707.5 506.0 707.5 477.0"><title>AI-Infra-Platform ↔ LLM-Training　·　调度 · 容错</title></path>
+    <path class="kedge hue-3" data-a="ai-ops" data-b="data-engineering" data-term="坏答案回流" d="M399.0 379.0C399.0 506.0 535.4 506.0 535.4 633.0"><title>AI-Ops ↔ Data-Engineering　·　坏答案回流</title></path>
+    <path class="kedge hue-3" data-a="ai-ops" data-b="evaluation" data-term="离线 vs 在线评估" d="M419.5 379.0C419.5 407.0 714.7 407.0 714.7 379.0"><title>AI-Ops ↔ Evaluation　·　离线 vs 在线评估</title></path>
+    <path class="kedge hue-0" data-a="ai-ops" data-b="model-landscape" data-term="换模型回归" d="M402.4 339.0C402.4 212.0 347.5 212.0 347.5 85.0"><title>AI-Ops ↔ Model-Landscape　·　换模型回归</title></path>
+    <path class="kedge hue-3" data-a="ai-ops" data-b="pe" data-term="提示词发布工程" d="M440.1 379.0C440.1 408.0 857.0 408.0 857.0 437.0"><title>AI-Ops ↔ Prompt-Engineering　·　提示词发布工程</title></path>
+    <path class="kedge hue-3" data-a="ai-ops" data-b="security" data-term="急停 · 事故响应" d="M409.3 379.0C409.3 407.0 562.4 407.0 562.4 379.0"><title>AI-Ops ↔ Security　·　急停 · 事故响应</title></path>
+    <path class="kedge hue-0" data-a="ai-ops" data-b="solution-patterns" data-term="运营包 · SLA" d="M426.4 339.0C426.4 212.0 765.3 212.0 765.3 85.0"><title>AI-Ops ↔ Solution-Patterns　·　运营包 · SLA</title></path>
+    <path class="kedge hue-3" data-a="data-engineering" data-b="fine-tuning" data-term="数据配方" d="M616.6 633.0C616.6 506.0 875.1 506.0 875.1 379.0"><title>Data-Engineering ↔ Fine-tuning　·　数据配方</title></path>
+    <path class="kedge hue-1" data-a="data-engineering" data-b="rag" data-term="解析 · 向量库" d="M596.3 633.0C596.3 408.0 835.5 408.0 835.5 183.0"><title>Data-Engineering ↔ RAG　·　解析 · 向量库</title></path>
+    <path class="kedge hue-3" data-a="data-engineering" data-b="security" data-term="ACL · 越权测试" d="M555.7 633.0C555.7 506.0 576.0 506.0 576.0 379.0"><title>Data-Engineering ↔ Security　·　ACL · 越权测试</title></path>
+    <path class="kedge hue-0" data-a="data-engineering" data-b="solution-patterns" data-term="数据就绪 · 报价" d="M576.0 633.0C576.0 359.0 778.0 359.0 778.0 85.0"><title>Data-Engineering ↔ Solution-Patterns　·　数据就绪 · 报价</title></path>
+    <path class="kedge hue-3" data-a="evaluation" data-b="fine-tuning" data-term="微调验收门禁" d="M771.9 379.0C771.9 407.0 911.3 407.0 911.3 379.0"><title>Evaluation ↔ Fine-tuning　·　微调验收门禁</title></path>
+    <path class="kedge hue-3" data-a="evaluation" data-b="llm-inference" data-term="质量 vs 延迟" d="M726.2 379.0C726.2 408.0 488.3 408.0 488.3 437.0"><title>Evaluation ↔ LLM-Inference　·　质量 vs 延迟</title></path>
+    <path class="kedge hue-3" data-a="evaluation" data-b="llm-training" data-term="选 vs 炼模型" d="M749.0 379.0C749.0 408.0 666.8 408.0 666.8 437.0"><title>Evaluation ↔ LLM-Training　·　选 vs 炼模型</title></path>
+    <path class="kedge hue-0" data-a="evaluation" data-b="model-landscape" data-term="榜单幻觉 · 自建集" d="M722.4 339.0C722.4 212.0 389.9 212.0 389.9 85.0"><title>Evaluation ↔ Model-Landscape　·　榜单幻觉 · 自建集</title></path>
+    <path class="kedge hue-1" data-a="evaluation" data-b="multimodal" data-term="MMMU · OCRBench" d="M737.6 339.0C737.6 261.0 595.6 261.0 595.6 183.0"><title>Evaluation ↔ Multimodal　·　MMMU · OCRBench</title></path>
+    <path class="kedge hue-3" data-a="evaluation" data-b="pe" data-term="评估驱动优化" d="M760.5 379.0C760.5 408.0 879.0 408.0 879.0 437.0"><title>Evaluation ↔ Prompt-Engineering　·　评估驱动优化</title></path>
+    <path class="kedge hue-1" data-a="evaluation" data-b="rag" data-term="RAG 三角验收" d="M768.1 339.0C768.1 261.0 861.7 261.0 861.7 183.0"><title>Evaluation ↔ RAG　·　RAG 三角验收</title></path>
+    <path class="kedge hue-3" data-a="evaluation" data-b="security" data-term="红队 · 注入抵抗" d="M737.6 379.0C737.6 407.0 589.6 407.0 589.6 379.0"><title>Evaluation ↔ Security　·　红队 · 注入抵抗</title></path>
+    <path class="kedge hue-0" data-a="evaluation" data-b="solution-patterns" data-term="POC 签字指标" d="M752.8 339.0C752.8 212.0 816.0 212.0 816.0 85.0"><title>Evaluation ↔ Solution-Patterns　·　POC 签字指标</title></path>
+    <path class="kedge hue-3" data-a="fine-tuning" data-b="llm-inference" data-term="多 LoRA 部署" d="M863.0 379.0C863.0 408.0 515.0 408.0 515.0 437.0"><title>Fine-tuning ↔ LLM-Inference　·　多 LoRA 部署</title></path>
+    <path class="kedge hue-3" data-a="fine-tuning" data-b="llm-training" data-term="SFT · DPO 落地" d="M899.2 379.0C899.2 408.0 707.5 408.0 707.5 437.0"><title>Fine-tuning ↔ LLM-Training　·　SFT · DPO 落地</title></path>
+    <path class="kedge hue-0" data-a="fine-tuning" data-b="model-landscape" data-term="开放权重 · 许可证" d="M883.1 339.0C883.1 212.0 421.7 212.0 421.7 85.0"><title>Fine-tuning ↔ Model-Landscape　·　开放权重 · 许可证</title></path>
+    <path class="kedge hue-3" data-a="fine-tuning" data-b="pe" data-term="选型链 · 到头才微调" d="M935.4 379.0C935.4 408.0 922.9 408.0 922.9 437.0"><title>Fine-tuning ↔ Prompt-Engineering　·　选型链 · 到头才微调</title></path>
+    <path class="kedge hue-1" data-a="fine-tuning" data-b="rag" data-term="改知识 vs 改行为" d="M915.3 339.0C915.3 261.0 874.8 261.0 874.8 183.0"><title>Fine-tuning ↔ RAG　·　改知识 vs 改行为</title></path>
+    <path class="kedge hue-3" data-a="fine-tuning" data-b="security" data-term="投毒 · 来源验证" d="M887.1 379.0C887.1 407.0 603.1 407.0 603.1 379.0"><title>Fine-tuning ↔ Security　·　投毒 · 来源验证</title></path>
+    <path class="kedge hue-4" data-a="llm" data-b="llm-inference" data-term="KV Cache 机制↔系统" d="M255.0 477.0C255.0 505.0 443.0 505.0 443.0 477.0"><title>LLM ↔ LLM-Inference　·　KV Cache 机制↔系统</title></path>
+    <path class="kedge hue-4" data-a="llm" data-b="llm-training" data-term="架构 vs 训练" d="M273.0 477.0C273.0 505.0 646.5 505.0 646.5 477.0"><title>LLM ↔ LLM-Training　·　架构 vs 训练</title></path>
+    <path class="kedge hue-0" data-a="llm" data-b="model-landscape" data-term="MoE 稀疏激活" d="M265.8 437.0C265.8 261.0 336.9 261.0 336.9 85.0"><title>LLM ↔ Model-Landscape　·　MoE 稀疏激活</title></path>
+    <path class="kedge hue-1" data-a="llm" data-b="multimodal" data-term="ViT · 注意力复用" d="M280.2 437.0C280.2 310.0 543.3 310.0 543.3 183.0"><title>LLM ↔ Multimodal　·　ViT · 注意力复用</title></path>
+    <path class="kedge hue-4" data-a="llm" data-b="pe" data-term="窗口 · 注意力" d="M291.0 477.0C291.0 505.0 879.0 505.0 879.0 477.0"><title>LLM ↔ Prompt-Engineering　·　窗口 · 注意力</title></path>
+    <path class="kedge hue-1" data-a="llm" data-b="rag" data-term="" d="M294.6 437.0C294.6 310.0 815.9 310.0 815.9 183.0"><title>LLM ↔ RAG</title></path>
+    <path class="kedge hue-4" data-a="llm-inference" data-b="llm-training" data-term="训练 vs 推理账" d="M485.7 477.0C485.7 505.0 687.2 505.0 687.2 477.0"><title>LLM-Inference ↔ LLM-Training　·　训练 vs 推理账</title></path>
+    <path class="kedge hue-0" data-a="llm-inference" data-b="model-landscape" data-term="思考预算 · decode" d="M461.7 437.0C461.7 261.0 358.1 261.0 358.1 85.0"><title>LLM-Inference ↔ Model-Landscape　·　思考预算 · decode</title></path>
+    <path class="kedge hue-1" data-a="llm-inference" data-b="multimodal" data-term="视觉 token 膨胀" d="M475.0 437.0C475.0 310.0 569.5 310.0 569.5 183.0"><title>LLM-Inference ↔ Multimodal　·　视觉 token 膨胀</title></path>
+    <path class="kedge hue-1" data-a="llm-inference" data-b="rag" data-term="1M 窗口不是终结者" d="M501.6 437.0C501.6 310.0 829.0 310.0 829.0 183.0"><title>LLM-Inference ↔ RAG　·　1M 窗口不是终结者</title></path>
+    <path class="kedge hue-1" data-a="llm-training" data-b="rag" data-term="微调 vs RAG" d="M687.2 437.0C687.2 310.0 855.2 310.0 855.2 183.0"><title>LLM-Training ↔ RAG　·　微调 vs RAG</title></path>
+    <path class="kedge hue-2" data-a="mcp" data-b="security" data-term="工具投毒 · 供应链" d="M796.0 281.0C796.0 310.0 581.8 310.0 581.8 339.0"><title>MCP ↔ Security　·　工具投毒 · 供应链</title></path>
+    <path class="kedge hue-0" data-a="model-landscape" data-b="multimodal" data-term="原生 vs 拼管线" d="M368.7 85.0C368.7 114.0 560.8 114.0 560.8 143.0"><title>Model-Landscape ↔ Multimodal　·　原生 vs 拼管线</title></path>
+    <path class="kedge hue-0" data-a="model-landscape" data-b="rag" data-term="1M 窗口 vs RAG" d="M411.1 85.0C411.1 114.0 833.3 114.0 833.3 143.0"><title>Model-Landscape ↔ RAG　·　1M 窗口 vs RAG</title></path>
+    <path class="kedge hue-0" data-a="model-landscape" data-b="security" data-term="平台合规 · 备案" d="M379.3 85.0C379.3 212.0 558.6 212.0 558.6 339.0"><title>Model-Landscape ↔ Security　·　平台合规 · 备案</title></path>
+    <path class="kedge hue-0" data-a="model-landscape" data-b="solution-patterns" data-term="模型可替换件" d="M400.5 85.0C400.5 113.0 752.7 113.0 752.7 85.0"><title>Model-Landscape ↔ Solution-Patterns　·　模型可替换件</title></path>
+    <path class="kedge hue-1" data-a="multimodal" data-b="rag" data-term="多模态检索" d="M608.7 183.0C608.7 211.0 842.1 211.0 842.1 183.0"><title>Multimodal ↔ RAG　·　多模态检索</title></path>
+    <path class="kedge hue-1" data-a="multimodal" data-b="security" data-term="跨模态注入" d="M582.5 183.0C582.5 261.0 570.2 261.0 570.2 339.0"><title>Multimodal ↔ Security　·　跨模态注入</title></path>
+    <path class="kedge hue-0" data-a="multimodal" data-b="solution-patterns" data-term="语音客服 · 数字人" d="M591.2 143.0C591.2 114.0 790.7 114.0 790.7 85.0"><title>Multimodal ↔ Solution-Patterns　·　语音客服 · 数字人</title></path>
+    <path class="kedge hue-1" data-a="pe" data-b="rag" data-term="提示词 vs RAG" d="M901.0 437.0C901.0 310.0 868.2 310.0 868.2 183.0"><title>Prompt-Engineering ↔ RAG　·　提示词 vs RAG</title></path>
+    <path class="kedge hue-1" data-a="rag" data-b="security" data-term="向量库投毒 · ACL" d="M848.6 183.0C848.6 261.0 605.1 261.0 605.1 339.0"><title>RAG ↔ Security　·　向量库投毒 · ACL</title></path>
+    <path class="kedge hue-0" data-a="rag" data-b="solution-patterns" data-term="检索路线选型" d="M857.3 143.0C857.3 114.0 828.7 114.0 828.7 85.0"><title>RAG ↔ Solution-Patterns　·　检索路线选型</title></path>
+    <path class="kedge hue-0" data-a="security" data-b="solution-patterns" data-term="权限感知检索" d="M593.4 339.0C593.4 212.0 803.3 212.0 803.3 85.0"><title>Security ↔ Solution-Patterns　·　权限感知检索</title></path>
    </g>
    <g class="knodes">
     <a class="knode hue-0" href="./model-landscape/index.html" data-m="model-landscape" data-adj="ai-gateway,ai-ops,evaluation,fine-tuning,llm,llm-inference,multimodal,rag,security,solution-patterns" transform="translate(374.0,65.0)" tabindex="0">
@@ -292,7 +293,7 @@
    </g>
   </svg>
   </div>
-  <p class="kgraph-hint">点一个模块看它连着谁；点中心那个可打开该册，按返回全景 / Esc 回到这张总图。需要逐条读关系，展开下面的文字表。</p></div>
+  <p class="kgraph-hint">「单点学习」点模块直接进册；「关联学习」下点模块看它连着谁、连线上是关键技术词，点中心可打开该册，按返回全景 / Esc 回总图。需要逐条读关系，展开下面的文字表。</p></div>
   <details class="kgraph-alt"><summary>换成文字表看（逐模块列出边）</summary>
   <p class="net-lead">关联最密的三块：<b>Agent（21）、RAG（20）、Evaluation（18）</b>——括号是它连出与连入的模块数。讲这几块时最容易牵出别的话题，也最值得先吃透。</p>
   <div class="tw">
@@ -358,7 +359,7 @@
   <p>本页的关系网与保鲜看板都来自各模块的账本 <code>MANIFEST.md</code>，内容更新时自动重建。整站是纯静态页面，可以离线双击打开。</p>
 </footer>
 
-<script src="./data.js?v=20260723g"></script>
-<script src="./assets/site.js?v=20260723g"></script>
+<script src="./data.js?v=20260723h"></script>
+<script src="./assets/site.js?v=20260723h"></script>
 </body>
 </html>

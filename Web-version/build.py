@@ -702,6 +702,60 @@ def render_map(data, blurbs):
     return "\n".join(out)
 
 
+# 每条连线的「关联词」：桥接两个模块的关键技术名词/核心概念，供「关联学习」模式的
+# 连线标签用（读者顺着这个词深挖）。键＝两个模块 ID 字典序排序后 "|" 连；由 2026-07-23
+# 十九册 MANIFEST 串联出边的关系文字提炼。没登记的边不显标签（不强求每条都有）。
+EDGE_TERMS = {
+    "a2a|agent": "跨 Agent 协作", "a2a|ai-gateway": "统一身份传递",
+    "a2a|mcp": "纵向 vs 横向", "a2a|security": "签名 · 最小权限",
+    "agent|ai-gateway": "统一入口 · 护栏", "agent|evaluation": "轨迹评估",
+    "agent|llm": "上下文工程根源", "agent|llm-inference": "Prefix Caching",
+    "agent|llm-training": "推理模型 · RLVR", "agent|mcp": "工具接入 · MCP",
+    "agent|multimodal": "多模态感知 · CU", "agent|pe": "上下文工程 · ReAct",
+    "agent|rag": "Agentic RAG", "agent|security": "记忆投毒 · 控权",
+    "agent|solution-patterns": "低代码平台",
+    "ai-gateway|ai-ops": "trace 贯通", "ai-gateway|evaluation": "路由质量验收",
+    "ai-gateway|llm-inference": "网关 vs 引擎", "ai-gateway|mcp": "MCP 网关治理",
+    "ai-gateway|model-landscape": "路由 · 防锁定", "ai-gateway|security": "护栏 · 爆炸半径",
+    "ai-gateway|solution-patterns": "token · 并发治理",
+    "ai-infra-compute|ai-infra-platform": "硬件 vs 平台",
+    "ai-infra-compute|llm-inference": "KV Cache · HBM",
+    "ai-infra-compute|llm-training": "并行 · 显存切分",
+    "ai-infra-platform|fine-tuning": "云上托管训练",
+    "ai-infra-platform|llm-inference": "P/D 分离 · 承载",
+    "ai-infra-platform|llm-training": "调度 · 容错",
+    "ai-ops|data-engineering": "坏答案回流", "ai-ops|evaluation": "离线 vs 在线评估",
+    "ai-ops|model-landscape": "换模型回归", "ai-ops|pe": "提示词发布工程",
+    "ai-ops|security": "急停 · 事故响应", "ai-ops|solution-patterns": "运营包 · SLA",
+    "ai-infra-platform|ai-ops": "集群可观测边界",
+    "data-engineering|evaluation": "评估集方法", "data-engineering|fine-tuning": "数据配方",
+    "data-engineering|rag": "解析 · 向量库", "data-engineering|security": "ACL · 越权测试",
+    "data-engineering|solution-patterns": "数据就绪 · 报价",
+    "evaluation|fine-tuning": "微调验收门禁", "evaluation|llm-inference": "质量 vs 延迟",
+    "evaluation|llm-training": "选 vs 炼模型", "evaluation|model-landscape": "榜单幻觉 · 自建集",
+    "evaluation|multimodal": "MMMU · OCRBench", "evaluation|pe": "评估驱动优化",
+    "evaluation|rag": "RAG 三角验收", "evaluation|security": "红队 · 注入抵抗",
+    "evaluation|solution-patterns": "POC 签字指标",
+    "fine-tuning|llm-inference": "多 LoRA 部署", "fine-tuning|llm-training": "SFT · DPO 落地",
+    "fine-tuning|model-landscape": "开放权重 · 许可证", "fine-tuning|pe": "选型链 · 到头才微调",
+    "fine-tuning|rag": "改知识 vs 改行为", "fine-tuning|security": "投毒 · 来源验证",
+    "llm|llm-inference": "KV Cache 机制↔系统", "llm|llm-training": "架构 vs 训练",
+    "llm|model-landscape": "MoE 稀疏激活", "llm|multimodal": "ViT · 注意力复用",
+    "llm|pe": "窗口 · 注意力",
+    "llm-inference|llm-training": "训练 vs 推理账", "llm-inference|model-landscape": "思考预算 · decode",
+    "llm-inference|multimodal": "视觉 token 膨胀", "llm-inference|rag": "1M 窗口不是终结者",
+    "llm-training|rag": "微调 vs RAG", "llm-training|security": "投毒 · 来源验证",
+    "mcp|security": "工具投毒 · 供应链",
+    "model-landscape|multimodal": "原生 vs 拼管线", "model-landscape|rag": "1M 窗口 vs RAG",
+    "model-landscape|security": "平台合规 · 备案", "model-landscape|solution-patterns": "模型可替换件",
+    "multimodal|rag": "多模态检索", "multimodal|security": "跨模态注入",
+    "multimodal|solution-patterns": "语音客服 · 数字人",
+    "pe|rag": "提示词 vs RAG", "pe|security": "提示注入", "pe|solution-patterns": "风格注入",
+    "rag|security": "向量库投毒 · ACL", "rag|solution-patterns": "检索路线选型",
+    "security|solution-patterns": "权限感知检索",
+}
+
+
 def render_graph(data):
     """分层链接图：19 模块按 7 层排布 + 串联出边画成图（替代原来的表格）。
 
@@ -794,9 +848,12 @@ def render_graph(data):
     def edge_hue(a, b):
         up = a if pos[a][1] <= pos[b][1] else b
         return layer_i[by_id[up]["layer"]]
-    edges = ['    <path class="kedge hue-%d" data-a="%s" data-b="%s" d="%s"><title>%s ↔ %s</title></path>'
-             % (edge_hue(a, b), esc(a), esc(b), edge_path(a, b),
-                esc(by_id[a]["dir"]), esc(by_id[b]["dir"]))
+    edges = ['    <path class="kedge hue-%d" data-a="%s" data-b="%s" data-term="%s" d="%s">'
+             '<title>%s ↔ %s%s</title></path>'
+             % (edge_hue(a, b), esc(a), esc(b),
+                esc(EDGE_TERMS.get(a + "|" + b, "")), edge_path(a, b),
+                esc(by_id[a]["dir"]), esc(by_id[b]["dir"]),
+                ("　·　" + esc(EDGE_TERMS[a + "|" + b])) if (a + "|" + b) in EDGE_TERMS else "")
              for a, b in pairs]
 
     # 三遍分层画，顺序决定层叠——① 层带背景（最底）② 边（中间，连续不被挡）③ 节点（最上，压住出口）
@@ -851,14 +908,20 @@ def render_graph(data):
 
     deg_all = sorted(mods, key=lambda m: -len(adj[m["id"]]))
     hubs = "、".join("%s（%d）" % (m["dir"], len(adj[m["id"]])) for m in deg_all[:3])
-    lead = ('  <p class="net-lead">按 7 层排布的全库 19 个模块，连线＝讲一块时该带上的另一块。'
-            '<b>点任意模块</b>——它会滑到中间、把关联的模块拉到身边连成一张小网，'
-            '再点周围的模块继续跳。关联最密的三块：<b>%s</b>——括号是它连着的模块数，'
-            '最容易牵出别的话题。</p>' % esc(hubs))
-    graph = (lead + '\n  <div class="kgraph-wrap"><div class="kgraph-scroll">\n'
+    lead = ('  <p class="net-lead">按 7 层排布的全库 19 个模块。<b>两种学法</b>——'
+            '<b>单点学习</b>：直接点模块进那一册；<b>关联学习</b>：显示连线，'
+            '点一个模块它会滑到中间、把关联的模块拉到身边连成小网，连线上标着'
+            '桥接两块的关键技术词，顺着一路深挖。关联最密的三块：<b>%s</b>。</p>' % esc(hubs))
+    toggle = ('  <div class="kg-modes" role="tablist">'
+              '<button type="button" class="kg-mode on" data-mode="solo">单点学习</button>'
+              '<button type="button" class="kg-mode" data-mode="link">关联学习</button>'
+              '<span class="kg-modenote">单点＝直接进册；关联＝看连线、逐步深挖</span></div>')
+    graph = (lead + '\n' + toggle
+             + '\n  <div class="kgraph-wrap"><div class="kgraph-scroll">\n'
              + "\n".join(o) + "\n  </div>\n"
-             '  <p class="kgraph-hint">点一个模块看它连着谁；点中心那个可打开该册，'
-             '按返回全景 / Esc 回到这张总图。需要逐条读关系，展开下面的文字表。</p></div>')
+             '  <p class="kgraph-hint">「单点学习」点模块直接进册；「关联学习」下点模块看它'
+             '连着谁、连线上是关键技术词，点中心可打开该册，按返回全景 / Esc 回总图。'
+             '需要逐条读关系，展开下面的文字表。</p></div>')
 
     alt = ('  <details class="kgraph-alt"><summary>换成文字表看（逐模块列出边）</summary>\n'
            + render_network(data) + "\n  </details>")

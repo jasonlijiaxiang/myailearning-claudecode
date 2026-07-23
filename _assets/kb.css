@@ -454,6 +454,21 @@ svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
            border: 1px solid var(--line); border-radius: 999px; padding: .28rem .8rem;
            box-shadow: var(--shadow); transition: border-color .15s, color .15s; }
 .kg-back:hover { border-color: var(--blue-ln); color: var(--blue-d); }
+
+/* 学习模式切换（分段按钮） */
+.kg-modes { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: .2rem 0 .7rem; }
+.kg-mode { font-size: 13px; font-family: var(--sans); cursor: pointer; color: var(--ink-500);
+           background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+           padding: .3rem .95rem; transition: all .15s; }
+.kg-mode:hover { border-color: var(--blue-ln); color: var(--blue-d); }
+.kg-mode.on { color: #fff; background: var(--blue); border-color: var(--blue); font-weight: 600; }
+.kg-modenote { font-size: 12px; color: var(--ink-400); }
+/* 单点学习：不显连线（也就没有聚焦态） */
+.kgraph.kmode-solo .kedge { display: none; }
+/* 连线关键词标签（关联学习聚焦时出现，halo 描边保证压在连线上也读得清） */
+.kgraph .kterm { font-family: var(--sans); font-size: 11.5px; font-weight: 600;
+                 fill: var(--blue-d); stroke: var(--bg); stroke-width: 3px;
+                 paint-order: stroke; pointer-events: none; }
 .kgraph-hint { font-size: 12.5px; color: var(--ink-400); margin: .35rem 0 0; }
 details.kgraph-alt { margin: .5rem 0 0; }
 details.kgraph-alt > summary { cursor: pointer; font-size: 13px; color: var(--ink-500);

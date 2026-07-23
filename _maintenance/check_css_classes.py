@@ -33,6 +33,8 @@ DYNAMIC = {
     "js-on", "on", "cur",                    # site.js：JS 就绪 / 注释器选中 / 目录高亮
     "focus", "self", "faded", "off",         # site.js：链接图点选聚焦态（svg.focus / 中心.self /
                                              # 邻居.on / 淡出.faded / 非中心边.off）——classList 加，静态扫不到
+    "kmode-solo", "kmode-link",              # site.js：学习模式（单点隐藏连线 / 关联显示）
+    "kterm", "kterms",                       # site.js：连线关键词标签（createElementNS 动态建）
     "f",                                     # 报文注释器字段（标记里有，JS 也会重写）
     "over", "none",                          # build.py 保鲜看板/关系网的行状态
     "soon",                                  # 入口卡「未完成」状态：2026-07-22 网页版

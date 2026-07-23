@@ -138,7 +138,9 @@
       N[id] = { el: el, home: { x: +t[1], y: +t[2] }, cur: { x: +t[1], y: +t[2] },
                 adj: (el.getAttribute("data-adj") || "").split(",").filter(Boolean) };
     });
-    var mode = "map", center = null, raf = null;
+    var mode = "map", center = null, raf = null, learn = "solo";
+    var SVGNS = "http://www.w3.org/2000/svg";
+    kg.classList.add("kmode-solo");        // 默认单点学习：不显连线
 
     var back = document.createElement("button");
     back.className = "kg-back";
@@ -149,6 +151,34 @@
     if (wrap) wrap.insertBefore(back, wrap.firstChild);
     var hint = wrap ? wrap.querySelector(".kgraph-hint") : null;
     var hintMap = hint ? hint.textContent : "";
+
+    var termG = document.createElementNS(SVGNS, "g");   // 连线关键词标签（关联学习聚焦时出现）
+    termG.setAttribute("class", "kterms");
+    kg.appendChild(termG);
+    var terms = [];
+    function clearTerms() { terms = []; while (termG.firstChild) termG.removeChild(termG.firstChild); }
+    function buildTerms() {
+      clearTerms();
+      edges.forEach(function (e) {
+        if (!(e.a === center || e.b === center)) return;
+        var word = e.el.getAttribute("data-term");
+        if (!word) return;
+        var t = document.createElementNS(SVGNS, "text");
+        t.setAttribute("class", "kterm");
+        t.setAttribute("text-anchor", "middle");
+        t.textContent = word;
+        termG.appendChild(t);
+        terms.push({ el: t, other: e.a === center ? e.b : e.a });
+      });
+    }
+    function placeTerms() {
+      var c = N[center] ? N[center].cur : { x: 0, y: 0 };
+      terms.forEach(function (t) {
+        var o = N[t.other].cur;
+        t.el.setAttribute("x", (c.x + (o.x - c.x) * 0.56).toFixed(1));
+        t.el.setAttribute("y", (c.y + (o.y - c.y) * 0.56 - 4).toFixed(1));
+      });
+    }
 
     function place(id, x, y) {
       var n = N[id]; n.cur.x = x; n.cur.y = y;
@@ -166,6 +196,7 @@
       edges.forEach(function (e) {
         if (e.a === center || e.b === center) e.el.setAttribute("d", fpath(e.a, e.b));
       });
+      placeTerms();
     }
     function targets(id) {
       var t = {}; t[id] = { x: CX, y: CY };
@@ -213,16 +244,18 @@
         e.el.classList.toggle("on", on);
         e.el.classList.toggle("off", !on);
       });
+      buildTerms();
       animate(targets(id), 500);
       back.style.display = "inline-flex";
       if (hint) hint.textContent = "点周围的模块继续跳，点中间的「" + id +
-        "」打开那一册；按「返回全景」或 Esc 回到总图。";
+        "」打开那一册；连线上是桥接两块的关键技术词。按「返回全景」或 Esc 回总图。";
     }
     function toMap() {
       if (mode !== "focus") return;
       mode = "map";
       knodes.forEach(function (el) { el.classList.remove("self", "on", "faded"); });
       var tg = {}; Object.keys(N).forEach(function (id) { tg[id] = N[id].home; });
+      clearTerms();
       animate(tg, 460, function () {
         center = null; kg.classList.remove("focus");
         edges.forEach(function (e) {
@@ -235,20 +268,35 @@
     knodes.forEach(function (el) {
       var id = el.getAttribute("data-m");
       el.addEventListener("click", function (ev) {
+        if (learn === "solo") { return; }            // 单点学习：放行默认导航，直接进册
         if (mode === "map") { ev.preventDefault(); enter(id); }
         else if (id === center) { /* 打开该册：放行默认导航 */ }
         else if (N[center].adj.indexOf(id) >= 0) { ev.preventDefault(); enter(id); }
-        else { ev.preventDefault(); }   // 已淡出的模块不响应
-      });
-      el.addEventListener("keydown", function (ev) {
-        if ((ev.key === "Enter" || ev.key === " ") && mode === "map") {
-          ev.preventDefault(); enter(id);
-        }
+        else { ev.preventDefault(); }                // 已淡出的模块不响应
       });
     });
     back.addEventListener("click", toMap);
     document.addEventListener("keydown", function (ev) {
       if (ev.key === "Escape" && mode === "focus") toMap();
+    });
+
+    /* 学习模式切换：单点（直接进册、无连线）/ 关联（显连线、点选聚焦） */
+    var modeBtns = wrap ? [].slice.call(wrap.parentNode.querySelectorAll(".kg-mode")) : [];
+    modeBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var next = btn.getAttribute("data-mode");
+        if (next === learn) return;
+        learn = next;
+        modeBtns.forEach(function (b) { b.classList.toggle("on", b === btn); });
+        if (learn === "solo") {
+          toMap();                                   // 退出任何聚焦态
+          kg.classList.add("kmode-solo");
+          kg.classList.remove("kmode-link");
+        } else {
+          kg.classList.remove("kmode-solo");
+          kg.classList.add("kmode-link");
+        }
+      });
     });
   }
 
