@@ -156,7 +156,7 @@
 
     /* 联想边界：记一条「联想路径」（面包屑），最多深挖 MAXDEPTH 步——不能无限联想下去。
        点路径上的旧节点＝回退；到边界再点新模块＝不深入、提示回退或换起点。 */
-    var MAXDEPTH = 4, path = [];
+    var MAXDEPTH = 3, path = [];
     var crumb = document.createElement("div");
     crumb.className = "kg-crumb";
     crumb.style.display = "none";
