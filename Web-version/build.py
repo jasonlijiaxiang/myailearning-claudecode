@@ -757,6 +757,11 @@ def render_graph(data):
             for j, mid in enumerate(lay_nodes[l]):
                 pos[mid] = (xcenter(j, n), yc)
 
+    # 节点宽度按名字长短算，不写死——否则 Solution-Patterns / Prompt-Engineering
+    # 这类长名会撑出胶囊框（用户实测「框比字短」）。字面量：左内边距 7 + 字标 26 +
+    # 间距 8 + 名字宽（每字符约 7.0px，加宽估避免裁字）+ 右内边距 16，最短兜底 100。
+    NW = {m["id"]: max(100, int(7 + chip + 8 + len(m["dir"]) * 7.0 + 16)) for m in mods}
+
     # 出口点分散：一个节点的每条边从它「上沿 / 下沿」的不同 x 出发，避免多条边挤成一束
     # （悬停枢纽节点时最明显——12 条边若共用一个出口点会糊成乱线）。
     pairs = sorted(set(tuple(sorted((m["id"], k))) for m in mods for k in adj[m["id"]]))
@@ -772,7 +777,7 @@ def render_graph(data):
         for grp, ey in ((top, y0 - nh / 2), (bot, y0 + nh / 2)):
             n = len(grp)
             for i, o in enumerate(grp):
-                ex = x0 + nw * 0.78 * ((i + 1.0) / (n + 1) - 0.5)
+                ex = x0 + NW[mid] * 0.72 * ((i + 1.0) / (n + 1) - 0.5)
                 exitpt[(mid, o)] = (ex, ey)
 
     def edge_path(a, b):
@@ -818,14 +823,15 @@ def render_graph(data):
         for mid in lay_nodes[l]:
             m = by_id[mid]
             xc, _ = pos[mid]
-            x0, y0 = xc - nw / 2, yc - nh / 2
+            w = NW[mid]
+            x0, y0 = xc - w / 2, yc - nh / 2
             deg = len(adj[mid])
             adjids = ",".join(sorted(adj[mid]))
             o.append('     <a class="knode" href="./%s/index.html" data-m="%s" data-adj="%s" tabindex="0">'
                      % (esc(WEB_DIRS[mid]), esc(mid), esc(adjids)))
             o.append('      <title>%s · 关联 %d 个模块</title>' % (esc(m["dir"]), deg))
             o.append('      <rect class="kbox" x="%.1f" y="%.1f" width="%d" height="%d" rx="10"/>'
-                     % (x0, y0, nw, nh))
+                     % (x0, y0, w, nh))
             o.append('      <rect class="kchip" x="%.1f" y="%.1f" width="%d" height="%d" rx="7"/>'
                      % (x0 + 7, yc - chip / 2, chip, chip))
             o.append('      <text class="kmono" x="%.1f" y="%.1f" font-size="11" text-anchor="middle">%s</text>'
