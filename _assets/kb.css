@@ -426,8 +426,9 @@ h2[id^="sec-"] { scroll-margin-top: var(--anchor-top); }
 svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
 .kgraph .kband { fill: var(--hue-bg, var(--line-2)); stroke: none; transition: opacity .12s; }
 .kgraph .klabel { fill: var(--ink-500); font-weight: 700; }
-/* 边：画在层带之上、节点之下——连续可见的一张网；默认淡，悬停时只亮一支 */
-.kgraph .kedge { fill: none; stroke: var(--ink-400); stroke-width: 1.1; opacity: .15;
+/* 边：画在层带之上、节点之下——连续可见的一张网；按上端所在层着色（hue-N 类带令牌，
+   深浅色自动跟随），一层一束流线；默认半透，悬停时只亮一支 */
+.kgraph .kedge { fill: none; stroke: var(--hue, var(--ink-400)); stroke-width: 1.3; opacity: .32;
                  stroke-linecap: round; transition: opacity .12s, stroke .12s, stroke-width .12s; }
 /* 节点胶囊 */
 .kgraph .knode { cursor: pointer; }

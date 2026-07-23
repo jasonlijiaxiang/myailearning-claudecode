@@ -789,8 +789,14 @@ def render_graph(data):
         my = (ay + by) / 2                          # 跨层：竖向 S 曲线（两端出口已错开）
         return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ax, ay, ax, my, bx, my, bx, by)
 
-    edges = ['    <path class="kedge" data-a="%s" data-b="%s" d="%s"><title>%s ↔ %s</title></path>'
-             % (esc(a), esc(b), edge_path(a, b), esc(by_id[a]["dir"]), esc(by_id[b]["dir"]))
+    # 边按「上端所在层」着色（hue-N 类携带该层色令牌，深浅色自动跟随）——
+    # 于是每层的连线像一束该层色的流线往下淌，比统一灰线有生气；悬停时再统一压成蓝色。
+    def edge_hue(a, b):
+        up = a if pos[a][1] <= pos[b][1] else b
+        return layer_i[by_id[up]["layer"]]
+    edges = ['    <path class="kedge hue-%d" data-a="%s" data-b="%s" d="%s"><title>%s ↔ %s</title></path>'
+             % (edge_hue(a, b), esc(a), esc(b), edge_path(a, b),
+                esc(by_id[a]["dir"]), esc(by_id[b]["dir"]))
              for a, b in pairs]
 
     # 三遍分层画，顺序决定层叠——① 层带背景（最底）② 边（中间，连续不被挡）③ 节点（最上，压住出口）
