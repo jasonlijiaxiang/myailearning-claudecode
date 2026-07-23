@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Gateway AI 网关 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -71,6 +71,8 @@
   </table>
   </div>
   <p>记忆锚点:<b>MCP/A2A 是协议、推理服务是引擎、AI 网关是运营管控层</b>——互补不互斥。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-engines" title="这个词的主场：LLM-Inference · 推理框架图鉴">vLLM<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -87,6 +89,7 @@
   <p>真 key 锁在网关的保险箱里，发给应用的是「房卡」：每把虚拟密钥可单独设<b>预算、限速、可用模型范围、有效期</b>，出事一键注销。原厂 key 一旦泄露，账单和数据全裸奔且难吊销——虚拟密钥是企业级管控的地基，也是「最小权限/爆炸半径」在网关的具体落地。</p>
 
   <h3>深潜：十步请求链与五层策略栈</h3>
+  <p>把网关拆开看两件事：一条请求进来<b>顺序走哪十步</b>，以及每一步<b>拿身份的哪一层做决策</b>。先看请求链，再看策略栈。</p>
   <h3>一条请求在网关里走十步</h3>
   <figure>
    <div class="fig-wrap">
@@ -200,6 +203,8 @@
   <p>多区域部署再叠一层地域容灾；数据合规用「数据驻留」路由约束强制——某类数据只允许走特定区域的后端，网关是执行这条策略的最佳位置。</p>
   <p class="ev">RouteLLM / FrugalGPT 见<a href="#src-route">本模块书单（arXiv 官方链接）</a>；路由与选型的市场侧（三层路由 1:8:1、五约束）见
     <a href="../model-landscape/index.html#ml-selection">Model-Landscape 网页版</a>——双向互指：那页定「选哪些模型进路由池」，本页是工程落地件。<b>不可外推边界</b>：两篇论文是各自数据集与模型对上的结论，说明的是「路由降本这条路走得通」，不能外推成某个客户能省多少——省多少只有拿他自己的流量画像测才算数。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html#eval-scenarios" title="路由降级后的质量靠 Evaluation 持续打分验收">场景验收:RAG / Agent / 微调<span class="xm">Evaluation</span></a><a href="../model-landscape/index.html#ml-selection" title="&quot;选哪些模型进路由池&quot;的格局与方法在 Model-Landscape(三层路由/五约束决策树),网关是其工程落地件——双向互指(2026-07-10)">选型方法论<span class="xm">Model-Landscape</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -218,6 +223,8 @@
   <p class="ev">云上口径核实 2026-07-09：Azure APIM 是目前<b>唯一原生内置「按 token 限流 +
     LLM 专属策略」的云厂商网关</b>（网关侧预估 prompt token 提前拦截 + llm-semantic-cache），来源 <a href="#src-azure">learn.microsoft.com</a>。缓存输入约 1 折、省约 90% 为三大厂
     2026-06 口径（登记于 Prompt-Engineering 模块事实表）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html" title="网关在推理服务之上:单模型加速(Inference) vs 多模型统一治理(网关),互补分工">LLM-Inference</a><a href="../model-landscape/index.html#ml-selection" title="&quot;选哪些模型进路由池&quot;的格局与方法在 Model-Landscape(三层路由/五约束决策树),网关是其工程落地件——双向互指(2026-07-10)">选型方法论<span class="xm">Model-Landscape</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -231,6 +238,8 @@
   <p>护栏挂成 pre/post 钩子：<b>请求前</b>（进模型前搜身）做 PII 脱敏、注入检测、敏感话题、越权工具拦截；<b>响应后</b>（出模型后过检）做有害内容过滤、机密信息回收、格式与合规校验——命中就拦截、改写或告警。审计是网关的天然职能：「谁、什么时候、拿什么 prompt、调了哪个模型、花了多少、命中什么护栏」只有网关能一处收全——这是 EU AI Act、NIST RMF 要的「可追溯、可问责」证据链。</p>
   <p>诚实的边界要主动讲：<b>护栏不能 100% 挡住提示注入</b>——业界共识是注入无法在模型内根治，网关护栏是纵深防御的一道闸（拦掉大部分已知手法），要配合最小权限、人审关键动作一起用。脱敏会有误报，规则要可配置、可审计、能回溯调优。网关自身也要按高价值资产防护：最小暴露面、密钥库加密、定期红队——安检口本身也要有安保。与
     <a href="../../PPT-version/Security/README.html">Security 模块</a>的分工：那边出「威胁与对策清单」，网关做「能集中执行的那部分」；红队结论回来调网关护栏阈值。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-defense" title="网关是护栏/审计/内容安全的统一落地位;Security 出&quot;要防什么&quot;,网关做&quot;能集中执行的那部分&quot;">防护工程:护栏·模式·红队<span class="xm">Security</span></a><a href="../security/index.html#sec-agentic" title="虚拟密钥落地&quot;最小权限/爆炸半径&quot;;数据驻留/脱敏在路由与护栏里强制">Agent 与工具安全<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -261,6 +270,8 @@
    <div class="box"><h4>观测与评估的分工</h4><p>可观测答「快不快贵不贵」，评估答「好不好」——网关把质量信号纳入观测，就把两者连起来了。</p></div>
   </div>
   <p>消费与行动层在 <a href="../../PPT-version/AI-Ops/README.html">AI-Ops</a>，trace id 两层贯通。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html" title="可观测的&quot;质量维度&quot;接 Evaluation(快不快贵不贵 vs 好不好)">Evaluation</a><a href="../ai-ops/index.html#ops-tracing" title="网关是数据源与统一采集层,AI-Ops 是消费与行动层(在线评估/漂移/告警);trace id 两层贯通——双向互指(2026-07-10)">Tracing 与 OTel GenAI 深潜<span class="xm">AI-Ops</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -294,6 +305,8 @@
   <p class="ev">授权规范核实 2026-07-10（来源 <a href="#src-mcp-auth">modelcontextprotocol.io
     spec / Red Hat Developer</a>）；<b>下一版规范预计 2026-07-28 发布，本节届时复核</b>。
     Envoy 的 MCP 授权、OIDC token 交换仍在路线图——是当前最受关注的能力缺口，也是售前要盯的演进点。<b>不可外推边界</b>：路线图上的能力不等于当期可用能力，方案里不能按路线图做承诺。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../mcp/index.html" title="把 MCP 流量统一代理、发现、鉴权、限流、审计的运营层(MCP 讲协议,网关讲治理)">MCP</a><a href="../a2a/index.html" title="Agent↔Agent 流量经网关做统一身份传递与可观测">A2A</a><a href="../agent/index.html" title="给 Agent 的多模型/多工具调用提供统一入口与护栏">Agent</a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -433,6 +446,8 @@
       </div>
     </details>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-prompt-injection" title="这个词的主场：Security · 提示注入与越狱">提示注入<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 相关模块 ============ -->
@@ -519,8 +534,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 路由省钱计算器：RouteLLM/FrugalGPT 降本叙事的算术版（讲义第 3/4 章口径）。
    价格由使用者填入，页面不携带会过期的单价。无 JS 时 .tool 隐藏，静态兜底是策略表与正文。 */

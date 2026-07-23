@@ -95,6 +95,251 @@ WEB_PAGES = {mid: "./%s/index.html" % d for mid, d in WEB_DIRS.items()}
 # 派生二：模块页绝对路径，用于注入页脚「本册最近改动」（从 MANIFEST 取，手写会漂）。
 MOD_PAGES = {mid: os.path.join(HERE, d, "index.html") for mid, d in WEB_DIRS.items()}
 
+# ============ 知识点串联（章末串联条 + 关键词索引）============
+# 每个内容章的末尾生成一条「串联」行：这一章牵出的其他主题，点了就到它在库内的落点。
+# 两路数据源，都不新造事实：
+# ① MANIFEST「串联出边」——章节级、带关系说明，唯一账本（core-rules §一）；
+# ② CONCEPTS 关键词索引——关键词 → 它在库内的主归属落点（web-rules §五
+#    「同一概念只有一个主要归属模块」的机器可读形态）。只存「词 → 去处」，
+#    零释义、零事实——与 MONO / LAYER_ORDER 同地位：导航配置，不是第二份内容账。
+# 正文提到某个关键技术、而它的主场在别的册时，串联条给一条链接；
+# 该章已有手写链接指向那一册的不重复给。落点在生成时校验，对不上直接报错。
+CONCEPTS = {
+    # 关键词: "模块ID#章节ID"（由 2026-07-23 十九册知识点对账盘出，见
+    # _maintenance/2026-07-23-知识点对照与串联-设计.md）。
+    # 只收「关键技术」——一个词在库内有唯一明确的主场章节，且常在别的册被顺带提到。
+    # 不收模块名（RAG/Agent/MCP 这类）：那是引用不是术语，会把串联条变成词云。
+    # 落点在生成时校验（resolve_concepts），对不上直接报错。
+    # —— 微调 / 训练 ——
+    "LoRA": "fine-tuning#ft-methods",
+    "QLoRA": "fine-tuning#ft-methods",
+    "灾难性遗忘": "fine-tuning#ft-eval-deploy",
+    "RLHF": "llm-training#llmtrain-alignment",
+    "DPO": "llm-training#llmtrain-alignment",
+    "GRPO": "llm-training#llmtrain-reasoning",
+    "RLVR": "llm-training#llmtrain-reasoning",
+    "Chinchilla": "llm-training#llmtrain-pretrain",
+    # —— 模型原理 ——
+    "RoPE": "llm#llm-architecture",
+    "MoE": "llm#llm-architecture",
+    "GQA": "llm#llm-attention-zoo",
+    "MLA": "llm#llm-attention-zoo",
+    "FlashAttention": "llm#llm-attention-zoo",
+    # —— 检索 / RAG ——
+    "RRF": "rag#rag-hybrid",
+    "BM25": "rag#rag-hybrid",
+    "混合检索": "rag#rag-hybrid",
+    "重排序": "rag#rag-reranking",
+    "GraphRAG": "rag#rag-graphrag",
+    "Agentic RAG": "rag#rag-agentic",
+    "ColPali": "rag#rag-multimodal",
+    "上下文检索": "rag#rag-chunking",
+    "语义层": "rag#rag-structured",
+    # —— 数据底座 ——
+    "文档智能解析": "data-engineering#de-parsing",
+    "向量库迁移": "data-engineering#de-vectordb",
+    # —— Agent / 协议 ——
+    "Sub-agent": "agent#agent-subagent",
+    "Computer Use": "agent#agent-computer-use",
+    "上下文工程": "agent#agent-context",
+    "记忆投毒": "agent#agent-memory",
+    "Streamable HTTP": "mcp#mcp-transport",
+    "Agent Card": "a2a#a2a-protocol",
+    "AP2": "a2a#a2a-production",
+    # —— 推理服务 ——
+    "KV Cache": "llm-inference#llminf-kv-budget",
+    "KV 缓存": "llm-inference#llminf-kv-budget",
+    "PagedAttention": "llm-inference#llminf-batching",
+    "Continuous Batching": "llm-inference#llminf-batching",
+    "投机解码": "llm-inference#llminf-speculative",
+    "goodput": "llm-inference#llminf-production",
+    "vLLM": "llm-inference#llminf-engines",
+    "SGLang": "llm-inference#llminf-engines",
+    # —— 算力硬件 / 平台 ——
+    "HBM": "ai-infra-compute#aic-hbm",
+    "NVLink": "ai-infra-compute#aic-scaleup",
+    "NVL72": "ai-infra-compute#aic-scaleup",
+    "RDMA": "ai-infra-compute#aic-scaleout",
+    "InfiniBand": "ai-infra-compute#aic-scaleout",
+    "MIG": "ai-infra-platform#aip-sharing",
+    "gang scheduling": "ai-infra-platform#aip-scheduling",
+    "KServe": "ai-infra-platform#aip-serving",
+    # —— 评估 ——
+    "LLM-as-a-Judge": "evaluation#eval-judge",
+    "判官校准": "evaluation#eval-judge",
+    "黄金集": "evaluation#eval-build",
+    "MMLU": "evaluation#eval-benchmarks",
+    "SWE-bench": "evaluation#eval-benchmarks",
+    # —— 安全 / 合规 ——
+    "提示注入": "security#sec-prompt-injection",
+    "间接注入": "security#sec-prompt-injection",
+    "MITRE ATLAS": "security#sec-landscape",
+    "EU AI Act": "security#sec-governance",
+    # —— 提示词 ——
+    "思维链": "pe#pe-core-techniques",
+    "DSPy": "pe#pe-engineering",
+    "提示词缓存": "pe#pe-engineering",
+    # —— 多模态 / 格局 ——
+    "ViT": "multimodal#mm-encoder",
+    "开放权重": "model-landscape#ml-open",
+}
+
+
+def resolve_concepts(by_id):
+    """校验 CONCEPTS 的落点真实存在，返回 词 → (模块ID, 章节ID)。"""
+    out = {}
+    for term, home in CONCEPTS.items():
+        tmod, _, tch = home.partition("#")
+        m = by_id.get(tmod)
+        if not m or tmod not in WEB_DIRS:
+            raise SystemExit("CONCEPTS「%s」指向未知或未建网页版的模块：%s" % (term, home))
+        if tch not in {c["id"] for c in m["chapters"]}:
+            raise SystemExit("CONCEPTS「%s」指向不存在的章节：%s" % (term, home))
+        out[term] = (tmod, tch)
+    return out
+
+
+SEC_RE = re.compile(
+    r'(<section class="sec" id="(?P<sid>[^"]+)">)(?P<body>.*?)(</section>)', re.S)
+XLINKS_OLD_RE = re.compile(r'\n?[ \t]*<div class="xlinks">.*?</div>\n?', re.S)
+TAG_RE = re.compile(r"<[^>]+>")
+_WORDY = re.compile(r"[A-Za-z0-9-]")
+
+
+def _ascii_hit(text, term):
+    """英文词按词边界找：避免「MoE」命中「MoEngage」这类半截词。"""
+    start = 0
+    while True:
+        i = text.find(term, start)
+        if i < 0:
+            return -1
+        before = text[i - 1] if i else ""
+        after = text[i + len(term)] if i + len(term) < len(text) else ""
+        if not (_WORDY.match(before) or _WORDY.match(after)):
+            return i
+        start = i + 1
+
+
+def parse_edge_targets(e):
+    """拆「串联出边」的复合写法：from 可能「a / b」（两章共用一条边），
+    to 可能「mod#c1 / c2」（后半截沿用前面的模块）或不带锚点的裸模块名。"""
+    froms = [f.strip() for f in e["from"].split("/") if f.strip()]
+    outs, tmod = [], ""
+    for part in (p.strip() for p in e["to"].split("/")):
+        if not part:
+            continue
+        if "#" in part:
+            tmod, tch = (x.strip() for x in part.split("#", 1))
+        elif tmod:
+            tch = part
+        else:
+            tmod, tch = part, ""
+        outs.append((tmod, tch))
+    return froms, outs
+
+
+def _short(title):
+    """串联条标签用短章题：去掉「（五锚点 / 按规模演进…）」这类目录式括注。"""
+    return re.split(r"[（(]", title, 1)[0].strip()
+
+
+def _clip(s, n=88):
+    return s if len(s) <= n else s[:n] + "…"
+
+
+def module_xlinks(m, by_id):
+    """账本出边 → 每章的串联条目（人工判定的边排在前，关系说明进 title）。"""
+    chap_ids = {c["id"] for c in m["chapters"]}
+    per = {}
+    for e in m["edges"]:
+        if not e.get("resolved"):
+            continue
+        froms, outs = parse_edge_targets(e)
+        for sid in froms:
+            if sid not in chap_ids:
+                continue
+            for tmod, tch in outs:
+                t = by_id.get(tmod)
+                if not t:
+                    continue
+                titles = {c["id"]: c["title"] for c in t["chapters"]}
+                anchor = ("#" + tch) if tch in titles else ""
+                if tmod == m["id"]:
+                    if not anchor or tch == sid:
+                        continue        # 指回本章或没有可用锚点，无导航价值
+                    href, label, sub = anchor, _short(titles[tch]), "本页"
+                elif tmod in WEB_DIRS:
+                    href = "../%s/index.html%s" % (WEB_DIRS[tmod], anchor)
+                    label = _short(titles.get(tch, "")) or t["dir"]
+                    sub = t["dir"] if label != t["dir"] else ""
+                else:
+                    continue
+                per.setdefault(sid, []).append({
+                    "href": href, "label": label, "sub": sub,
+                    "title": _clip(e["why"]), "mod": tmod,
+                })
+    return per
+
+
+def inject_xlinks(html_text, m, by_id, concepts):
+    """向每个内容章 </section> 前注入串联条；qa/相关模块/来源三节不注入。
+    幂等：先摘掉上一轮生成的块再插，重跑结果一致（--check 依赖这一点）。"""
+    html_text = XLINKS_OLD_RE.sub("\n", html_text)
+    per = module_xlinks(m, by_id)
+    chap_ids = {c["id"] for c in m["chapters"]}
+
+    def repl(match):
+        sid = match.group("sid")
+        if sid not in chap_ids:
+            return match.group(0)
+        body = match.group("body")
+        items = list(per.get(sid, []))
+        # 关键词命中：查纯文本（去掉标签与脚本），别把 href/title 里的词也算上
+        text = TAG_RE.sub(" ", re.sub(r"<script\b.*?</script>", " ", body, flags=re.S))
+        linked = {d.lower() for d in
+                  re.findall(r'href="\.\./([a-z0-9-]+)/index\.html', body)}
+        linked |= {d.lower() for d in
+                   re.findall(r'href="\.\./\.\./PPT-version/([^/"]+)/', body)}
+        used = {it["mod"] for it in items}
+        hits = []
+        for term, (tmod, tch) in concepts.items():
+            if tmod == m["id"] or tmod in used:
+                continue
+            if WEB_DIRS[tmod] in linked or by_id[tmod]["dir"].lower() in linked:
+                continue                # 本章正文已手写链接指向那一册，不重复给
+            pos = _ascii_hit(text, term) if term.isascii() else text.find(term)
+            if pos >= 0:
+                hits.append((pos, term, tmod, tch))
+        hits.sort()
+        seen_mod = set()
+        for pos, term, tmod, tch in hits:
+            if tmod in seen_mod:        # 关键词路一册只给一条，防止串联条变词云
+                continue
+            seen_mod.add(tmod)
+            t = by_id[tmod]
+            titles = {c["id"]: c["title"] for c in t["chapters"]}
+            items.append({
+                "href": "../%s/index.html#%s" % (WEB_DIRS[tmod], tch),
+                "label": term, "sub": t["dir"],
+                "title": "这个词的主场：%s · %s" % (t["dir"], _short(titles.get(tch, ""))),
+                "mod": tmod,
+            })
+        if not items:
+            return match.group(0)
+        seen_href, links = set(), []
+        for it in items:
+            if it["href"] in seen_href:
+                continue
+            seen_href.add(it["href"])
+            sub = ('<span class="xm">%s</span>' % esc(it["sub"])) if it["sub"] else ""
+            links.append('<a href="%s" title="%s">%s%s</a>'
+                         % (esc(it["href"]), esc(it["title"]), esc(it["label"]), sub))
+        block = ('\n\n  <div class="xlinks"><span class="xk">串联</span>%s</div>\n'
+                 % "".join(links))
+        return match.group(1) + body.rstrip() + block + match.group(4)
+
+    return SEC_RE.sub(repl, html_text)
+
 
 def rows(section, text):
     """取某个 ## 段落下的表格数据行（跳过表头与 |---| 分隔行）。"""
@@ -401,8 +646,14 @@ def build():
         if cur is not None and cur != new:
             page_edits[os.path.join(HERE, WEB_DIRS[m["id"]], "index.html")] = (cur, new)
 
-    data = {"generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）",
-            "layers": layers, "modules": mods}
+    by_id = {m["id"]: m for m in mods}
+    concepts = resolve_concepts(by_id)
+    data = {"generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）"
+                              "+ build.py CONCEPTS（关键词落点）",
+            "layers": layers, "modules": mods,
+            "concepts": [{"t": t, "m": by_id[tm]["dir"],
+                          "u": "./%s/index.html#%s" % (WEB_DIRS[tm], tc)}
+                         for t, (tm, tc) in sorted(concepts.items())]}
     text = ("// 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。\n"
             "// 改内容请改 MANIFEST，然后重跑 build.py。\n"
             "window.KB = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n")
@@ -614,6 +865,7 @@ def main(argv):
 
         mod_cur, mod_new, anchored = {}, {}, 0
         by_id = {m["id"]: m for m in data["modules"]}
+        concepts = resolve_concepts(by_id)
         shelf = shelf_order(data)
         for mid, path in MOD_PAGES.items():
             if not os.path.exists(path) or mid not in by_id:
@@ -622,6 +874,7 @@ def main(argv):
             # 后写的会把先写的盖掉（第一版就踩了：锚点写进去又被页脚注入抹平）。
             cur = open(path, encoding="utf-8").read()
             base = page_edits[path][1] if path in page_edits else cur
+            base = inject_xlinks(base, by_id[mid], by_id, concepts)
             block = ('  <p class="updated">本册最近改动 <b>%s</b>'
                      '（以模块清单 MANIFEST 为准）。</p>' % esc(by_id[mid]["updated"])
                      + prevnext(shelf, mid))
@@ -670,11 +923,12 @@ def main(argv):
     for path, content in mod_new.items():
         open(path, "w", encoding="utf-8").write(content)
     nq = sum(len(m.get("questions", [])) for m in data["modules"])
+    nx = sum(v.count('<div class="xlinks">') for v in mod_new.values())
     print("已生成 %s、index.html 的三个区块（知识地图/关系网/保鲜看板，%d 个模块）"
           "与 qa/index.html（%d 道模块追问 + %d 道实战题），"
-          "补写问答锚点 %d 个文件"
+          "补写问答锚点 %d 个文件，章末串联条 %d 处（关键词 %d 个）"
           % (os.path.relpath(OUT, ROOT), len(data["modules"]),
-             nq, len(prep_qs), anchored + len(page_edits)))
+             nq, len(prep_qs), anchored + len(page_edits), nx, len(CONCEPTS)))
     return 0
 
 

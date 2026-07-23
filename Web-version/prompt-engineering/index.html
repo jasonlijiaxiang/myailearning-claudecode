@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prompt Engineering 提示词工程 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -85,6 +85,8 @@
    <h4>售前记住一句</h4>
    <p><b>约 80% 的「模型效果不好」其实是提示词没写好</b>——先怀疑提示词，别急着换更贵的模型或立项微调（几十万训练成本和几周工期常常就这么省下来）。</p>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html#ft-when" title="选型边界：提示词到头了、才上微调；对方第 1 章讲「何时微调 vs 提示词/RAG」，互为参照">什么时候该微调<span class="xm">Fine-tuning</span></a><a href="../rag/index.html#rag-what-why" title="「提示词 vs RAG」的选型边界：补知识用 RAG，改行为用提示词">是什么/为什么<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -111,6 +113,8 @@
   <p>缺哪块，模型就在哪块自由发挥。<b>分隔符</b>把「指令」和「数据」分开（三引号、XML 标签、###）：像填表格的框，框里的是材料、框外的才是命令——既提升准确率，也是防注入的第一道墙（Anthropic 尤其推荐 XML 标签结构化复杂提示词）。这套「三角色 + 四要素 + 分隔符」的骨架各家 API 通用，换模型结构不变、只调细节。</p>
   <p>上生产还要<b>五层分层管版本</b>（四要素管「一条写得好」，五层管「一群怎么维护」）：策略层（角色/红线，最稳定，安全团队管）→ 任务层（目标与完成标准，产品管）→ 上下文层（来源/新鲜度/信任级，运行时注入）→ 示例层（正例/反例/边界例）→ 输出层（schema/引用/拒答/报错约定）→ 各层各自版本化，改哪层审哪层。铁律：<b>不可信内容（用户输入/检索文档/工具返回）永远作为数据进入，不获得指令权限</b>——注入防御的结构根基。提示词为什么有效的「物理学」（上下文窗口与注意力）在
     <a href="../llm/index.html#llm-inference-kv">LLM 网页版</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-inference-kv" title="提示词为什么有效，根子在上下文窗口与注意力——上下文工程的「物理学」（讲义第 2/4 章埋点）">从架构到推理：上下文窗口与 KV 缓存<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -208,6 +212,8 @@
     <a href="../model-landscape/index.html#ml-capability">Model-Landscape 网页版</a>。</p>
   <p class="ev">推理模型口径核实 2026-07-09，来源 <a href="#src-reasoning">OpenAI/Anthropic
     文档综述</a>。<b>不可外推边界</b>：厂商文档描述的是各自模型的行为，不同家的「推理模式」在触发条件与计费方式上并不一致；提示词写法按目标模型的文档来，不能跨家照搬。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-context" title="ReAct、上下文工程就是提示词技巧在「工具循环」里的应用；Agent 第 5 章为工程化展开">上下文工程<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -264,9 +270,12 @@
    </div>
    <figcaption>越靠前越稳定，缓存命中率就越高；越靠后越易变，截断从后往前砍。</figcaption>
   </figure>
+  <p>四分区只讲了「前稳后砍」，还有一条<b>位置规则</b>别漏：<b>重要的放两端，别埋中间</b>——模型对上下文首尾的注意力强于正中间（长上下文的「中间迷失」），这是分区排序的物理依据，不是排版偏好。每段还要记来源、版本、位置与截断原因——<b>「为什么模型没看到那段」要能查</b>。</p>
   <p><b>云上闭环</b>：Bedrock Prompt Management / Vertex Prompt Optimizer / Azure Prompt Flow。</p>
   <p class="ev">DSPy/GEPA 与缓存口径核实 2026-07-09（缓存 07-20 补核），来源
     <a href="#src-dspy">futureagi/morphllm</a> 与 <a href="#src-cache">三大厂官方定价文档</a>。<b>不可外推边界</b>：缓存折扣是各厂当期定价策略，命中率则完全取决于你的提示词结构——「等效价砍半」是高复用场景的量级，低复用场景基本无感。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html#eval-methods" title="评估驱动的提示词优化直接用 Evaluation 的判分四法 / LLM-as-a-Judge（eval-judge）">评估方法谱系<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -347,6 +356,25 @@
     ②结构——system 定角色红线、分隔符包邮件正文 → ③技巧——few-shot 范例+结构化输出判类型 →
     ④编排——读→判类→起草拆成链、高风险类转人工 → ⑤工程——评估集+版本管理+缓存 →
     ⑥安全——防间接注入、最小权限、发送前人审。<b>最容易被忽视、最该先做的两件事：给输出上结构化约束（可靠接系统）、给高风险动作加人审（兜住注入）。</b></p>
+
+  <h3>提示词上线前的四条验收线</h3>
+  <p>提示词不是「调好了就行」的一次性文本，上线前四条线各自要拿出证据：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>验收线</th><th>要交出的证据</th></tr></thead>
+    <tbody>
+     <tr><td><b>任务与结构</b></td><td>目标与失败语义清楚（请求合同 + 评测集）；schema 与业务语义通过（解析校验结果）</td></tr>
+     <tr><td><b>上下文</b></td><td>来源 / 权限 / 位置可追踪（context 清单）——即上面的预算四分区</td></tr>
+     <tr><td><b>工具与安全</b></td><td>授权 / 确认 / 幂等可控（调用轨迹）；注入 / 泄露 / 越权被阻断（攻击集 + 硬门禁）</td></tr>
+     <tr><td><b>运营</b></td><td>质量 / 成本 / 延迟可监控、可回滚——灰度发布，五层各自版本化各自回滚</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="box">
+   <p>终极判断：<b>完整请求可重放、可解释、可回归、可止损，且模型无法绕过系统权限与业务不变量</b>——单次回答好看，不等于可生产。</p>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-prompt-injection" title="这个词的主场：Security · 提示注入与越狱">间接注入<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -500,7 +528,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../llm-training/index.html"><span class="k">上一册 · 基础层</span><b>LLM-Training</b></a>
    <a class="nx" href="../ai-infra-compute/index.html"><span class="k">下一册 · 算力底座层</span><b>AI-Infra-Compute</b></a>
@@ -508,8 +536,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 提示词处方器：第 2–6 节技巧判据的症状视角合成。判据全部来自本页各节。
    无 JS 时 .tool 隐藏，静态兜底是速查表与各节正文。 */

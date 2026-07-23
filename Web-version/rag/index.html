@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RAG 检索增强生成 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -85,6 +85,8 @@
   <p>与微调的边界一句话：<b>RAG 改的是「知识」，微调改的是「行为」</b>。知识频繁变动、要引用出处、私有数据多、要快速上线——选 RAG；要固定输出格式/语气、教会模型新技能——才考虑微调，二者常组合（取舍参照 <a href="../../PPT-version/Fine-tuning/README.html">Fine-tuning
     模块</a>）。「资料全塞超长 Prompt」不可行的原因在推理侧：长上下文两头吃钱、注意力被稀释——机制账见 <a href="../llm-inference/index.html#llminf-kv-budget">LLM-Inference
     网页版</a>。RAG 不能彻底消除幻觉，但「给了资料 + 要求带出处」能大幅降低，剩余风险靠重排与评估兜底。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../prompt-engineering/index.html#pe-what-why" title="「提示词 vs RAG」选型两面 + 检索内容要塞进提示词才生效；讲义已加「与 Prompt Engineering 的关系」页回指">是什么 / 为什么<span class="xm">Prompt-Engineering</span></a><a href="../fine-tuning/index.html" title="&quot;改知识用 RAG vs 改行为用微调&quot;的取舍，与 Fine-tuning 模块互为参照（2026-07-09 转正）">Fine-tuning</a><a href="../llm/index.html#llm-inference-kv" title="&quot;长上下文 vs RAG&quot;的架构论据（成本/有效性/权限）在 LLM 原理第 4 章，双向互为弹药">从架构到推理：上下文窗口与 KV 缓存<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -110,6 +112,8 @@
   <p>选型三问：①数据能否出企业（API vs 自建）②要不要多语言 ③量级与预算。先小模型跑通、按评估结果升级；注意隐形成本——<b>换嵌入模型＝全库向量重算重建</b>。</p>
   <p class="ev">选型口径核实 2026-07-07，来源 <a href="#src-embed">2026 对比与 arXiv
     2402.03216（BGE M3）</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../data-engineering/index.html#de-parsing" title="上游供给：解析产物进切分（解析质量决定切分质量）；向量库规模化选型与迁移在 Data-Engineering 第 4 章——双向互指（2026-07-11）">文档解析管线<span class="xm">Data-Engineering</span></a><a href="../data-engineering/index.html#de-vectordb" title="上游供给：解析产物进切分（解析质量决定切分质量）；向量库规模化选型与迁移在 Data-Engineering 第 4 章——双向互指（2026-07-11）">向量库选型深潜<span class="xm">Data-Engineering</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -144,6 +148,8 @@
   </figure>
   <p>文档全是 PDF / 扫描件时先过文档智能解析（OCR），<b>解析质量决定切分质量</b>（上游供给见 <a href="../../PPT-version/Data-Engineering/README.html">Data-Engineering</a>）。</p>
   <p class="ev">上下文检索数据来源 <a href="#src-anthropic-cb">Anthropic Cookbook</a>，核实 2026-07-07。<b>不可外推边界</b>：这是在特定数据集上、对检索失败率的相对降幅，不是准确率的绝对提升；换语料与切分策略结果会变。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../data-engineering/index.html#de-parsing" title="上游供给：解析产物进切分（解析质量决定切分质量）；向量库规模化选型与迁移在 Data-Engineering 第 4 章——双向互指（2026-07-11）">文档解析管线<span class="xm">Data-Engineering</span></a><a href="../data-engineering/index.html#de-vectordb" title="上游供给：解析产物进切分（解析质量决定切分质量）；向量库规模化选型与迁移在 Data-Engineering 第 4 章——双向互指（2026-07-11）">向量库选型深潜<span class="xm">Data-Engineering</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -260,6 +266,8 @@
     <div class="hitcards" id="dr-out"></div>
     <p class="note" id="dr-note"></p>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html" title="检索质量指标（忠实度、上下文精确率/召回率）↔ Evaluation 模块指标体系（2026-07-09 转正）">Evaluation</a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -367,6 +375,8 @@
     就是让那双手自己去翻书</b>——把检索管线注册成 agent 的一个工具，两边投资都复用（循环与工具的机制在 <a href="../agent/index.html#agent-context">Agent 网页版</a>）。</p>
   <p class="ev">五大模式与 CRAG 来源 <a href="#src-agentic">arXiv 2501.09136 / LangGraph
     官方教程</a>，核实 2026-07-08。<b>不可外推边界</b>：论文与教程给的是模式骨架，不含各模式的成本与延迟代价；多轮检索会把单次问答的 token 与耗时抬上去，选型要连成本一起比。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-context" title="RAG 第 8 章串联页 ↔ Agent 第 5 章&quot;与 RAG 的握手&quot;，双向互引">上下文工程<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 9 ============ -->
@@ -394,6 +404,13 @@
     （1 − 缓存命中率）</b>——命中率是最值得投资的变量。三层缓存各砍一件重复劳动：嵌入缓存省重算、语义缓存让相似问题直接命中历史答案（客服约四成问题重复，生成成本立砍四成）、
     Prompt 缓存省重复上下文的输入费。</p>
   <p>权限在<b>检索层</b>设卡：每个块入库带 ACL 元数据（部门/密级/角色），查询时按提问者身份过滤候选集——安检设在书库门口，不是等读者借走再追回。真实翻车模式：全公司文档进同一个向量库不带权限元数据，员工问「高管薪酬方案」居然真答出来了。安全三件套：数据不出租户、检索层 ACL、审计日志——<b>可溯源是 RAG 相对纯生成的安全加分项</b>。可信回答还要过四层证明：可访问（当前用户有权看）→ 可定位（指认出处）→ 可支持（真被证据支撑）→ 可呈现（可点摘录/冲突提示/拒答）——像法庭证据链，断一环整条作废。</p>
+
+  <h3>上线前的验收：一条回答能不能复现</h3>
+  <p>把前面十二章各留一条验收证据串起来，收敛成一句可执行的终极判断：</p>
+  <div class="box">
+   <p><b>任何一条回答都能回放「谁问的、检索到什么版本的什么、为何这样答、引用是否支撑」。</b></p>
+   <p>它背后是 <b>五个版本绑定</b>——<b>数据、索引、模型、提示词、策略</b>，缺一个就不可复现：换了嵌入模型没记版本、改了 top-n 没落配置、语义层口径改了没对账，事后都追不回「当时那一答是怎么来的」。验收 RAG 方案，验的不是「demo 答得对」，是<b>这五个版本齐不齐</b>。</p>
+  </div>
 </section>
 
 <!-- ============ 10 ============ -->
@@ -419,6 +436,8 @@
   <p>值得付 6–8 倍索引成本的三类问题：全局归纳（「主要主题/趋势」）、关系追溯（「A 通过什么关联到 B」）、合规审计（出处链有法律意义）。起步建议：先把混合检索+重排做扎实，收集三个月真实问题——全局性/关系性问题占比可观（如超一成）再用 LazyGraphRAG 小语料试点。增量更新是痛点：语料高频变化的场景选 LazyGraphRAG 或把图谱限定在稳定核心语料上。</p>
   <p class="ev">成本账核实 2026-07-09，来源 <a href="#src-graph">Microsoft GraphRAG 文档与
     2026 实践者评测</a>。<b>不可外推边界</b>：索引成本的倍数随语料规模与实体密度变化很大，文档给的是其示例语料下的口径；小语料上的倍数不能外推到全量知识库。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="#rag-agentic" title="向量+图谱&quot;按问题类型路由&quot;是第 8 章 Router 模式的应用（章内承接）">Agentic RAG<span class="xm">本页</span></a></div>
 </section>
 
 <!-- ============ 11 ============ -->
@@ -459,6 +478,8 @@
   <p>选型口诀：图少且简单→转述最划算；产品图/截图混在文档里→统一嵌入；扫描件海量、查询「视觉难」→ColPali 系。<b>先便宜后贵、增量演进</b>：先转述兜底，三个月后看坏答案，「视觉难」查询集中失败再对那部分语料上多向量。生成端要配套能看图的模型才闭环——「模型怎么看懂图」的能力边界在
     <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>（那边给眼睛，本节给眼睛配图书馆）。</p>
   <p class="ev">三路线格局核实 2026-07-09，来源 <a href="#src-mm">arXiv 2407.01449（ColPali）与 2026 实践综述</a>。<b>不可外推边界</b>：论文口径以文档视觉检索基准为主，落地效果强依赖文档类型；扫描件、图纸、表格密集的材料差异很大，按自己的材料实测。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-fusion" title="本章讲「多模态内容怎么检索」，Multimodal 模块讲「模型怎么看懂图」，互为上下游；第 11 章已加「与 Multimodal 模块的关系」页（2026-07-10），双…">模态怎么「拼」<span class="xm">Multimodal</span></a></div>
 </section>
 
 <!-- ============ 12 ============ -->
@@ -469,9 +490,7 @@
     <p>「查文」答「是什么」，「查数」答「多少」——数字类问题走文档检索是事故源：最坏情况从旧报告里捞个过期数字、还带着出处、显得特别可信。<b>入口处就要分流</b>：问题里带「多少/排名/趋势/对比数值」的，路由到查数管线。</p>
   </div>
 
-  <p>裸 Text-to-SQL 为什么不及格：模型写标准 SQL 语法早已过关，难在语义落地——真实企业库几百张表、字段名像密码、同一个「收入」五种口径，<b>准确率只有 50–70%</b>，而且错法危险：
-    SQL 跑得通、数字是错的（静默错误）。同一个「去年营收多少」，sum 订单表（含取消单）和
-    sum 财务确认收入能差 15%，都「语法正确」。</p>
+  <p>裸 Text-to-SQL 为什么不及格：模型写标准 SQL 语法早已过关，难在语义落地——真实企业库几百张表、字段名像密码、同一个「收入」五种口径。<b>准确率随基准的「真实程度」断崖式下滑</b>：学术单轮基准（Spider / BIRD）能到 80–90%，中等企业化基准掉到 50–70%，<b>最贴近真实脏 schema 的企业基准（Spider 2.0 类）低到约 20%</b>——所以对客<b>要讲最低那档</b>（场景视角与口径战场见 <a href="../solution-patterns/index.html#sp-chatbi">Solution-Patterns ChatBI 节</a>）。而且错法危险：SQL 跑得通、数字是错的（静默错误）。同一个「去年营收多少」，sum 订单表（含取消单）和 sum 财务确认收入能差 15%，都「语法正确」。</p>
   <div class="box">
    <h4>语义层是解药</h4>
    <p>指标 / 维度 / 同义词的确定性定义（「营收 = 确认收入 − 退款」）——<b>给空降的 SQL 高手发一本《公司指标口径手册》</b>，把「猜口径」变成「查口径」，<b>准确率抬到 85–95%</b>，覆盖到的问题近乎全对。</p>
@@ -485,8 +504,9 @@
    <div class="box"><h4>③ 可复核</h4><p>答案附生成的 SQL 与口径出处。</p></div>
   </div>
   <p><b>生产定式</b>：RAG 做检索层 + 语义层做回答层，查文 / 查数入口路由。场景视角（ChatBI 口径战场）在 <a href="../../PPT-version/Solution-Patterns/README.html">Solution-Patterns</a> 第 8 章。</p>
-  <p class="ev">50–70% → 85–95% 为 dbt 2026 基准口径，核实 2026-07-09，来源
-    <a href="#src-sql">dbt 基准</a>。</p>
+  <p class="ev">语义层前后 50–70% → 85–95% 为 dbt 2026 基准口径（核实 2026-07-09）；裸 SQL 随基准真实度分档（学术 80–90% / 中等 50–70% / 最难企业基准约 20%）经 2026-07-23 复核，来源 <a href="#src-sql">dbt 基准与 Spider 2.0 / 企业化基准（BEAVER、Spider-Ent）</a>。<b>不可外推边界</b>：准确率强依赖 schema 复杂度与基准口径，别拿学术单轮数字对客报真实企业库。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-components" title="SQL 查数包成 agent 工具，与文档检索并列路由，指向 Agent 模块工具使用章">核心组件<span class="xm">Agent</span></a><a href="../solution-patterns/index.html#sp-chatbi" title="本章讲 Text-to-SQL 与语义层的机制，SP 第 8 章是其场景视角（口径战场/三道闸/产品格局）——双向互指（2026-07-11）">ChatBI 与数据分析<span class="xm">Solution-Patterns</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -666,8 +686,8 @@
           <td>量级参考，随语料形态浮动</td></tr>
       <tr id="src-mm"><td><code>src-mm</code></td><td>arXiv 2407.01449（ColPali）/
           2026 实践综述</td><td>三条多模态路线与存储代价</td><td>模型能力月级演进</td></tr>
-      <tr id="src-sql"><td><code>src-sql</code></td><td>dbt 2026 基准</td>
-          <td>裸 Text-to-SQL 50–70% 与语义层 85–95%</td><td>基准库口径，自家库要实测</td></tr>
+      <tr id="src-sql"><td><code>src-sql</code></td><td>dbt 2026 基准 + Spider 2.0 / 企业化基准（BEAVER、Spider-Ent，2026-07-23 复核）</td>
+          <td>裸 Text-to-SQL 分档口径（学术 80–90% / 中等 50–70% / 最难企业 ~20%）与语义层 85–95%</td><td>基准库口径，自家库要实测；分档随 schema 复杂度浮动</td></tr>
     </tbody>
   </table>
   </div>
@@ -683,7 +703,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../multimodal/index.html"><span class="k">上一册 · 应用模式层</span><b>Multimodal</b></a>
    <a class="nx" href="../a2a/index.html"><span class="k">下一册 · 协议层</span><b>A2A</b></a>
@@ -691,8 +711,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 管线症状诊断器：六段诊断 + 排障三问的交互版（讲义第 5/7/9/11/12 章口径）。
    判据全部来自本页各节，不引入新事实。无 JS 时 .tool 隐藏，静态兜底是六段诊断与生产病表。 */

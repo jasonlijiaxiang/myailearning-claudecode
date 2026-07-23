@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Ops 可观测与运维 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -99,6 +99,8 @@
     <div class="kpis" id="pl-out"></div>
     <p class="note" id="pl-note"></p>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-gateway/index.html#gw-observe" title="网关是数据源与统一采集层，本模块是消费与行动层；trace id 两层贯通（双向）">可观测<span class="xm">AI-Gateway</span></a><a href="../ai-infra-platform/index.html#aip-observability" title="边界声明：GPU/集群层可观测归 Infra-Platform，应用与质量层归本模块">可观测性与利用率运营<span class="xm">AI-Infra-Platform</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -151,6 +153,8 @@
   <p><b>观测系统常是「数据泄漏的第二现场」</b>——prompt 明文原样进日志等于把客户数据复制了一份，按「第二数据库」的安全标准建。</p>
   <p class="ev">span 标准状态核实 2026-07-10（OTLP 口径 07-12），来源
     <a href="#src-otel">OTel 官方规范与博客</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-gateway/index.html#gw-observe" title="网关是数据源与统一采集层，本模块是消费与行动层；trace id 两层贯通（双向）">可观测<span class="xm">AI-Gateway</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -163,6 +167,8 @@
 
   <p><b>四级评估漏斗，越贵的手段处理越少的样本</b>：inline 检查（格式/护栏，唯一同步层，毫秒级全量）→ judge 打分（<b>采样 5–10% 真实流量、异步执行——先回复用户后打分，零应用时延</b>；判官用便宜档 + 定期人工校准）→ 人工评审（判官拿不准的 + 高价值样本进队列，评审动作标准化打失败模式标签，非工程角色也能参与）→ 离线学习（失败进数据集）。为什么只采 5–10% 不全量：质量问题是分布性的，采样足以抓趋势和回归；全量打分的钱不如花在判官质量和人工评审上，急性问题另有 inline 层全量兜底。</p>
   <p><b>闭环三件套</b>让打分变成行动：告警（评估分骤降联动发布记录——先问「刚才谁改了什么」；阈值来自基线不拍脑袋）、评审队列、<b>数据集晋升</b>（打好标签的失败样本进回归集——生产事故变成永久测试覆盖，评估集从一次性资产变「滚雪球资产」）。这是对客最有说服力的资产故事：您的每次故障都会让系统更难再犯同样的错——运维包「越用越值」的证据。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html#eval-build" title="全库最强新搭档：离线建集与判官方法在那边，在线采样运营在本模块——共享判分器定义（双向）">自建评估:数据集与指标设计<span class="xm">Evaluation</span></a><a href="../evaluation/index.html#eval-judge" title="全库最强新搭档：离线建集与判官方法在那边，在线采样运营在本模块——共享判分器定义（双向）">LLM-as-a-Judge 深潜<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -200,6 +206,8 @@
   </div>
   <p><b>巡检节奏</b>：日看板；周报告三个数字（judge 趋势 / 嵌入距离 / 回归通过率——<b>玄学变仪表盘</b>）；发现漂移先查供应商公告，再查自己的发布记录。</p>
   <p><b>巡检为什么持续收费</b>：威胁是持续的，基线断一个月就没了——像体检，<b>价值在连续性</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../model-landscape/index.html#ml-selection" title="换模型/供应商静默更新的回归验证是「保持可换」的运维面">选型方法论<span class="xm">Model-Landscape</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -237,6 +245,20 @@
    <figcaption>没有在线评估的金丝雀是裸奔；高风险变更在评估门禁那一步加专家评审。</figcaption>
   </figure>
 
+  <h3>金丝雀之外的两个工具：环境隔离与 A/B</h3>
+  <p>金丝雀不是唯一的发布工具，容易和另外两个混谈——三者答的不是同一个问题：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>机制</th><th>用途</th><th>它答的问题</th></tr></thead>
+    <tbody>
+     <tr><td><b>环境隔离</b></td><td>dev（随便试）→ staging（跑全量回归）→ prod（只接受晋升）</td><td>空间隔离——staging 全量回归是<b>最后一道离线门禁</b></td></tr>
+     <tr><td><b>金丝雀</b></td><td>新版本切 5–10% 流量，短期验证「没变坏」</td><td><b>敢不敢全量</b>（发布安全件，必备）</td></tr>
+     <tr><td><b>A/B 实验</b></td><td>两版本长期分流，带统计显著性</td><td><b>该选哪一版</b>（优化工具，有流量才值得上）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>一句话分工：<b>金丝雀答「敢不敢全量」，A/B 答「该选哪一版」</b>；<b>评估集不过线的版本，连金丝雀的资格都没有</b>——两者都要接在线自动评估。</p>
+
   <h3>回滚纪律与三个反模式</h3>
   <div class="tw">
    <table>
@@ -262,6 +284,8 @@
    </table>
   </div>
   <p>拼成组合发布号，<b>从任何一条 trace 一跳定位每层的不可变版本</b>。「什么都没改质量却掉了」，十有八九是没版本化的那层在动。模型升级当成一次大发布走全流程——<b>换模型是流程不是冒险</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../prompt-engineering/index.html#pe-engineering" title="提示词版本化在 PE 第 5 章点过，本模块升级为发布工程（注册表/门禁/金丝雀）">工程化与自动优化<span class="xm">Prompt-Engineering</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -315,6 +339,8 @@
    </table>
   </div>
   <p><b>P1 的定义要和客户共创</b>——什么算「高危错误输出」由业务定。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-defense" title="「被攻破了怎么办」的防护弹药在 Security；注入检测与工具权限急冻同源">防护工程:护栏·模式·红队<span class="xm">Security</span></a><a href="../security/index.html#sec-agentic" title="「被攻破了怎么办」的防护弹药在 Security；注入检测与工具权限急冻同源">Agent 与工具安全<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -369,6 +395,23 @@
    <div class="box"><h4>合同写清数据导出条款</h4><p>并购整合进行中，Langfuse 进 ClickHouse 是信号。</p></div>
   </div>
   <p><b>成本架构</b>：AI 遥测全量灌进按量计费的 APM 是账单事故的常见起点——专用系 / 自托管承接大头、APM 只收聚合指标。</p>
+
+  <h3>云上都有了，为什么还要你？——讲清那条分界</h3>
+  <p>各云确实内置了一批能力，但它们各管一段，组合时要把分界讲在前面，别等客户追问时卡壳：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>环节</th><th>云内置代表（多家可选，不绑一家）</th></tr></thead>
+    <tbody>
+     <tr><td>托管观测底座</td><td>各云 APM / 托管 Prometheus·Grafana——承载指标与告警</td></tr>
+     <tr><td>LLM 专用观测</td><td>Datadog LLM Obs；云市场部署 Langfuse / Phoenix 自托管</td></tr>
+     <tr><td>托管评估服务</td><td>Bedrock 模型评估 / Vertex 评估 / Azure AI Foundry 评估器（<b>偏离线</b>）</td></tr>
+     <tr><td>网关采集层</td><td>云 API 网关 + AI Gateway（token 计量与审计）</td></tr>
+     <tr><td>告警与值守</td><td>云监控告警 + IM 机器人（急停指令通道）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>一句话分界：<b>云内置评估偏离线验收，专用系管在线运营</b>——离线证明「这版能上」，在线才是「上了之后一直盯着、坏了能止损」，这正是你要交付的那一半。</p>
+
   <p class="ev">六平台与许可证核实 2026-07-10 至 07-12，来源 <a href="#src-tools">GitHub
     仓库与 2026 对比</a>。<b>不可外推边界</b>：开源项目的许可证会变更，选型落地一律以当日 LICENSE 原文为准，不引用二手对比表。</p>
 </section>
@@ -415,6 +458,8 @@
    <div class="box"><h4>可发布、可恢复</h4><p>离线 → 影子 → 金丝雀 → 门禁 + kill switch。</p></div>
   </div>
   <p>终极判断：任意一次质量或成本异常都能回放「哪个版本、哪里变化、为何放行、如何止损、怎样防复发」——<b>看板能打开只是联调，不是运营闭环</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../solution-patterns/index.html#sp-method" title="运营包五件套 = SP「人力账」的展开：那边说要卖，这边说卖什么、怎么定 SLA（双向）">方案共性方法<span class="xm">Solution-Patterns</span></a><a href="../evaluation/index.html#eval-judge" title="这个词的主场：Evaluation · LLM-as-a-Judge 深潜">判官校准<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -570,7 +615,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../ai-gateway/index.html"><span class="k">上一册 · 工程保障层</span><b>AI-Gateway</b></a>
    <a class="nx" href="../evaluation/index.html"><span class="k">下一册 · 工程保障层</span><b>Evaluation</b></a>
@@ -578,8 +623,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 观测成本与采样规划器：遥测量 = 日调用 × span 数 × span 大小；评估条数 = 日调用 × 采样率。
    系数来自讲义第 1/3 章。无 JS 时 .tool 隐藏，静态兜底是正文的账法描述。 */

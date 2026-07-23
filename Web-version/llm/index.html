@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM 大模型原理 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -151,6 +151,12 @@
   <p>顺带一条边界：多模态不是新架构——ViT 把图切成 16×16 的 patch，每块地位与词向量完全等同，
     QKV 原样复用，O(n²) 对图像同样成立（分辨率越高越贵）。深入见
     <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>。</p>
+  <div class="box">
+   <h4>一条对客边界：注意力权重能当「可解释性证据」吗</h4>
+   <p>做直觉演示可以，<b>当严格证据要小心</b>：权重高不等于因果上重要，学界对此有长期争议。给客户白板讲原理没问题，<b>写进审计报告 / 合规解释就不行</b>——那需要的是可复核的评测与归因，不是一张注意力热力图。</p>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-encoder" title="ViT = 注意力吃图像：patch 即 token、QKV 原样复用、O(n²) 对图像同样成立；第 2 章已加「承上启下 · 与 Multimodal」页回指（2026-0…">机器怎么「看」<span class="xm">Multimodal</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -183,6 +189,8 @@
    </table>
   </div>
   <p><b>MoE</b>（Mixture of Experts）像三甲医院分诊台：1000 位专家在编（总参数），挂一次号只见 2 位相关科室的（激活参数）。DeepSeek-V3 总参 671B、每 token 只激活约 37B——2026 主流旗舰基本都是 MoE。看 MoE 要问两个数：总参数（存储账）和激活参数（计算账），两个都真、衡量的东西不同。「参数账」不等于「显存账」——推理时显存大头常是 KV 缓存，下一节。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-pretrain" title="本模块讲 MoE/参数账的架构视角，训练侧故事（Scaling Laws、MoE 训练、FP8）在 LLM-Training 第 3 章展开；对方以 llmtrain-over…">预训练：压缩互联网<span class="xm">LLM-Training</span></a><a href="../llm-inference/index.html#llminf-kv-budget" title="这个词的主场：LLM-Inference · KV Cache 与显存账">KV 缓存<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -262,6 +270,22 @@
     <a href="../agent/index.html#agent-context">Agent 网页版</a>。服务系统怎么管好这笔账（分页、前缀缓存、容量规划）在 <a href="../llm-inference/index.html">LLM-Inference
     网页版</a>——互为前后篇。</p>
   <p class="ev">长上下文现状核实 2026-07-08（视频 token 口径 07-20 补），来源<a href="#src-longctx">长上下文基准汇总</a>。</p>
+
+  <h3>一次生成请求的状态机：「为什么答一半就停」</h3>
+  <p>一次请求从收到 prompt 到吐完答案，走过三组状态——像一通客服电话，每种「挂断」的记法都不一样，事后排查全靠它：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>状态组</th><th>发生了什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>进行中</b></td><td>准备上下文（拼 system / 历史 / 检索片段）→ prefill（整段并行编码，O(n²) 大头）→ decode 循环（逐 token 自回归）</td></tr>
+     <tr><td><b>等待</b></td><td>工具调用返回 / 用户补充输入</td></tr>
+     <tr><td><b>终态</b></td><td>三种：<b>停止词命中 / 长度上限 / 报错</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>客户问「为什么有时答一半就停」，按三种终态答；工程上<b>日志要记停止原因、参数与模型版本，固定 seed 也不能替代回归测试</b>——生成有随机性，靠一次跑对不能证明版本没退化。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../prompt-engineering/index.html#pe-anatomy" title="提示词为什么有效的「物理学」基础：上下文窗口 / 注意力决定能放多少、放多准；讲义已加「与 Prompt Engineering 的关系」页回指">提示词解剖<span class="xm">Prompt-Engineering</span></a><a href="../rag/index.html#rag-what-why" title="「1M 窗口不是 RAG 终结者」：本模块给架构论据（成本/有效性/权限），RAG 第 1 章为应用视角，双向互为弹药">是什么/为什么<span class="xm">RAG</span></a><a href="../agent/index.html#agent-context" title="上下文工程的物理学解释：O(n²) 成本 + 有效窗口约束是 Agent 第 5 章那套做法的根源">上下文工程<span class="xm">Agent</span></a><a href="../llm-inference/index.html#llminf-kv-budget" title="本章讲 KV 缓存「为什么存在」（机制），LLM-Inference 第 2 章讲「怎么管好」（服务系统），互为前后篇；对方讲义有承上启下页回指本章（2026-07-09 补）…">KV Cache 与显存账<span class="xm">LLM-Inference</span></a><a href="../ai-infra-compute/index.html#aic-hbm" title="这个词的主场：AI-Infra-Compute · 显存与 HBM：AI 时代最贵的房地产">HBM<span class="xm">AI-Infra-Compute</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -309,6 +333,8 @@
     MLA（KV ↓10×）+ MoE（激活 37B/总 671B）+ 自研推理工程——<b>便宜是设计出来的，不是补贴出来的</b>。看懂一家模型的注意力设计，就看懂了它的成本结构：架构表就是价目表的底稿（市场侧对照见 <a href="../model-landscape/index.html">Model-Landscape 网页版</a>）。</p>
   <p class="ev">变体格局核实 2026-07-08，来源 <a href="#src-zoo">Raschka 变体图解 /
     arXiv 2512.02556（DSA）等</a>。<b>不可外推边界</b>：图解与论文给的是架构谱系，不含各变体在具体硬件上的实测收益；文中「KV 降到约 1/10」这类比例是同级对照下的量级，换模型规模与并发口径就会变。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-kv-budget" title="这个词的主场：LLM-Inference · KV Cache 与显存账">KV 缓存<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -338,6 +364,8 @@
   <p><b>选型七问</b>（把 8 张 H100 的采购变成一页算术题）：①上下文需求多长、有效窗口有第三方基准吗 ②目标并发多少（KV/token × 并发 × 长度 = 显存账）③候选是 MHA/GQA/MLA、引擎支持吗
     ④是 MoE 吗、总参与激活各多少 ⑤GPU 代次与 kernel 匹配吗（FA-3 对 Hopper、FA-4 对
     Blackwell）⑥请求里有多少可复用前缀、能吃到缓存折扣吗 ⑦任务是长文档归纳还是多轮复杂推理（决定敢不敢用线性混合）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-kv-budget" title="这个词的主场：LLM-Inference · KV Cache 与显存账">KV 缓存<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -497,7 +525,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../security/index.html"><span class="k">上一册 · 工程保障层</span><b>Security</b></a>
    <a class="nx" href="../llm-inference/index.html"><span class="k">下一册 · 基础层</span><b>LLM-Inference</b></a>
@@ -505,8 +533,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 注意力变体 KV 账速算：讲义第 4 章显存账 × 第 5 章变体阶梯的交互版。
    口径：7B 级 MHA ≈ 0.5MB/token（FP16）；70B 级 GQA ≈ 0.32MB/token（LLM-Inference 册同源）。

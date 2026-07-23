@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Model-Landscape 模型格局与选型 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -79,6 +79,8 @@
   </table>
   </div>
   <p>三件事共同指向一个结论：<b>模型是快速贬值资产</b>——选型的重点从「选对一个」变成「保持可换」。这句话是全册的总纲，后面每一节都在为它提供论据或工具。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-architecture" title="MoE 稀疏激活是「开源追平」与三档定价的架构根源">Transformer 全解剖<span class="xm">LLM</span></a><a href="../evaluation/index.html#eval-benchmarks" title="这个词的主场：Evaluation · 模型基准测试全景">SWE-bench<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -154,7 +156,7 @@
   </div>
 
   <h3>追平靠什么：三板斧的因果链</h3>
-  <p>追平不是「砸更多卡」砸出来的，是三项技术叠出来的：<b>MoE（Mixture of Experts）稀疏激活</b>让大参数只花小算力（Qwen3.5 总参 397B、每次只激活 10B）；<b>从前沿模型蒸馏</b>把闭源模型的能力「教」给开放模型；<b>合成数据管线</b>解决高质量训练数据的供给。架构机制在
+  <p>追平不是「砸更多卡」砸出来的，是三项技术叠出来的：<b>MoE（Mixture of Experts）稀疏激活</b>让大参数只花小算力（Qwen3.5 有一档 122B 总参、每次只激活 10B，即以此超过 GPT-5-mini；另有 397B 推理档）；<b>从前沿模型蒸馏</b>把闭源模型的能力「教」给开放模型；<b>合成数据管线</b>解决高质量训练数据的供给。架构机制在
     <a href="../../PPT-version/LLM/README.html">LLM 原理模块</a>，训练侧在
     <a href="../../PPT-version/LLM-Training/README.html">LLM-Training</a>。</p>
   <p>追平也有边界：最难的推理任务闭源仍领先半个身位——所以<a href="#ml-selection">三层路由</a>里两边都有位置，不是二选一。</p>
@@ -163,6 +165,8 @@
   <p>Llama 4（Scout 109B/激活 17B、10M 上下文；Maverick 400B/17B、1M）成最后开放版本，存量生态最深、新项目谨慎押注；Mistral Large 3 / Small 4 已转 Apache 2.0（2026-03），欧系合规友好；
     Gemma 4 下沉端侧——26B MoE 激活约 4B，E2B 2.3B 有效参数 4GB 内存可跑。三个关键词：收尾、转宽松、下沉——开放权重的创新中心已东移。</p>
   <p class="ev">榜单口径 2026-07-10 快照，来源 <a href="#src-bench">BenchLM / Artificial Analysis</a>。排名月月在换，「前排是中国队」这个结构一年内稳定。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-architecture" title="MoE 稀疏激活是「开源追平」与三档定价的架构根源">Transformer 全解剖<span class="xm">LLM</span></a><a href="../fine-tuning/index.html#ft-cloud" title="开放权重 + 宽松许可证是私有化微调的前提">托管微调服务与上云落地<span class="xm">Fine-tuning</span></a><a href="../evaluation/index.html#eval-benchmarks" title="这个词的主场：Evaluation · 模型基准测试全景">SWE-bench<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -253,6 +257,8 @@
     </div>
   </div>
   <p class="ev">平台数字 2026-07-17 核实（来源 <a href="#src-platforms">各平台官网计费文档</a>），定点复查日 2026-08-31。「口径对齐四步」是本页把讲义警示句展开成的操作清单，未引入新事实。文心 5.1「搜索登顶/成本 6%」为厂商口径，引用需注明。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-china" title="平台合规配套（备案材料/护栏）与「私有化不免合规」口径在 Security 第 8 章中国监管合规展开（讲义内已互引）">中国监管合规<span class="xm">Security</span></a><a href="../ai-gateway/index.html#gw-unify" title="「平台锁定」的解法=兼容层/网关保切换能力，机制在 AI-Gateway 统一接入章">统一接入与协议转换<span class="xm">AI-Gateway</span></a><a href="../multimodal/index.html#mm-fusion" title="文心 5.0 原生全模态 vs 拼管线之争的机制展开在 Multimodal 第 3 章">模态怎么「拼」<span class="xm">Multimodal</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -291,6 +297,8 @@
     ③ 允许再分发吗（打进产品卖给客户）？④ 你的客户的客户使用，算不算触发条款？——四问答完再进方案。趋势对采购有利：宽松化是 2026 主旋律（Mistral 转 Apache、中国主力选 MIT），但 Llama 系例外要单独核。</p>
   <p class="ev">口径依据各 LICENSE 原文与 OSAID v1.0，核实 2026-07-10，来源
     <a href="#src-license">LICENSE 原文 / HF blog</a>。许可证是少数「答错会出事故」的领域，拿不准就说「以法务核定为准」。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html#ft-cloud" title="开放权重 + 宽松许可证是私有化微调的前提">托管微调服务与上云落地<span class="xm">Fine-tuning</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -327,6 +335,8 @@
   <p>① 写量级不写精确价，精确价放附录并标日期；② 注明「以官网当日为准」并给活水源链接；
     ③ 合同锁「档位与降价传导」，不锁单一型号价格——过去一年市场降了 30–60%，不写降价传导客户就吃亏。thinking 模式的账单问题（思考 token 十倍于普通回答）见<a href="#ml-capability">能力矩阵</a>的预算控制。</p>
   <p class="ev">价格全部为 2026-07-10 口径，来源 <a href="#src-price">各厂商官网价格页</a>。<b>价格是本页最快过期的数字</b>——学光谱结构和算法，数字在引用当天重查。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-gateway/index.html#gw-route" title="三层路由与成本治理的工程落地件；Gartner 网关趋势同源（双向）">路由·负载·容灾<span class="xm">AI-Gateway</span></a><a href="../ai-gateway/index.html#gw-cost" title="三层路由与成本治理的工程落地件；Gartner 网关趋势同源（双向）">流量与成本治理<span class="xm">AI-Gateway</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -364,6 +374,8 @@
   <p><b>overthinking 有实证</b>：超过临界思考预算后准确率稳定下降（arXiv 2506.04210）——简单任务开满档 thinking 更慢、更贵、还可能更错，像考试检查太多遍开始把对的改错。工程对策：按任务难度分级配预算、评估集里加「简单题不许想太久」的用例。帮客户把预算调到「刚刚好」，一次优化常省 30%+ 推理成本。思考 token 烧的是 decode——机制见
     <a href="./../llm-inference/index.html">LLM-Inference 网页版</a>。</p>
   <p class="ev">思考预算与 overthinking 口径来自 <a href="#src-arxiv">arXiv 2507.02076 / 2506.04210</a>，核实 2026-07-10。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-batching" title="思考预算烧的是 decode；长上下文成本机制在 LLM-Inference">把 GPU 喂饱：批处理与调度<span class="xm">LLM-Inference</span></a><a href="../rag/index.html#rag-what-why" title="「1M 窗口 vs RAG」：窗口≠有效窗口，权限/新鲜度/成本三关——与 RAG 第 1 章互为弹药">是什么/为什么<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 9 ============ -->
@@ -450,8 +462,22 @@
   <p><b>防线一：对榜单保持怀疑</b>——Leaderboard Illusion 已证实厂商私测多变体、择优公开（曾有厂商私测 27 个变体只发最好那个）；MMLU 类基准饱和在 88%+ 拉不开差距。榜单只做初筛。<b>防线二：自建评估集终审</b>——用客户真实数据抽样建评估集（方法在
     <a href="../../PPT-version/Evaluation/README.html">Evaluation</a> 第 5 章），换模型 = 跑一遍回归。评估集是客户的资产，模型是易耗品——这也是「保持可换」的技术前提。</p>
   <p>升级也要当发布链管：锁定当前版 → 候选版 → 离线评测 → 金丝雀放量 → 晋升或回滚；收到退役通知先跑回归证据，不是直接换模型 ID。终极验收一句话：<b>在真实部署端点上，模型以可接受成本持续产出合格结果，并能被观察、升级、回滚和替换</b>——Demo 里能回答只证明了最浅的一层。</p>
+  <p>把这句拆成<b>选型验收的六条证据线</b>——每条都要索取具体证据件，不是听承诺：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>验收面</th><th>要索取的证据件</th></tr></thead>
+    <tbody>
+     <tr><td><b>匹配 + 质量</b></td><td>任务与输出合同匹配（业务样本 + 错误影响）；关键切片与红线合格（<b>可重跑的评测包</b>）</td></tr>
+     <tr><td><b>运行 + 治理</b></td><td>p95 / p99、容量、恢复达标（代表负载报告）；许可 / 区域 / 数据 / 工具可控（处理清单 + 责任矩阵）</td></tr>
+     <tr><td><b>经济</b></td><td>每合格结果成本可承受——<b>端到端 TCO，不是单价表</b>（缓存 / 路由都算进去）</td></tr>
+     <tr><td><b>生命周期</b></td><td>升级、回滚、主备与退出可执行——版本登记与 runbook</td></tr>
+    </tbody>
+   </table>
+  </div>
   <p class="ev">案例与趋势核实 2026-07-10，来源 <a href="#src-cases">Walmart/ServiceNow 报道与
     Gartner 转引</a>；Leaderboard Illusion 见 <a href="#src-arxiv">arXiv 2504.20879</a>。<b>不可外推边界</b>：Gartner 的占比是预测不是实测、且为转引口径；两个客户案例是公开报道的单点，能说明「多模型已是大客户的现实选择」，不能当成行业普遍做法的证据。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html#eval-benchmarks" title="榜单饱和与 Leaderboard Illusion 的完整弹药在 Evaluation 第 2 章；自建评估集方法在其第 5 章——选型终审依赖它（双向）">模型基准测试全景<span class="xm">Evaluation</span></a><a href="../ai-gateway/index.html#gw-route" title="三层路由与成本治理的工程落地件；Gartner 网关趋势同源（双向）">路由·负载·容灾<span class="xm">AI-Gateway</span></a><a href="../ai-gateway/index.html#gw-cost" title="三层路由与成本治理的工程落地件；Gartner 网关趋势同源（双向）">流量与成本治理<span class="xm">AI-Gateway</span></a></div>
 </section>
 
 <!-- ============ 10 ============ -->
@@ -583,6 +609,8 @@
       </div>
     </details>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../solution-patterns/index.html#sp-method" title="「模型是可替换件」的方案叙事在 SP 第 2 章；各场景章的模型选型格子引用本模块">方案共性方法<span class="xm">Solution-Patterns</span></a><a href="../evaluation/index.html#eval-benchmarks" title="这个词的主场：Evaluation · 模型基准测试全景">SWE-bench<span class="xm">Evaluation</span></a><a href="../llm/index.html#llm-architecture" title="这个词的主场：LLM · Transformer 全解剖">MoE<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 相关模块 ============ -->
@@ -663,15 +691,15 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a class="nx" href="../solution-patterns/index.html"><span class="k">下一册 · 解决方案层</span><b>Solution-Patterns</b></a>
   </nav>
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 选型筛选器：五约束 → 首看名单。数据 = 本页已核实事实（价格 2026-07-10、平台 07-17）。
    纪律：帮助比较与决策（web-rules §九）；无 JS 时 .tool 整块隐藏，静态兜底是上方决策树表。 */
@@ -695,7 +723,7 @@
     {n:"Grok 4.3", t:"volume", self:0, lic:"api", tag:"闭源 · xAI", p:"$1.25/$2.50",
      s:"性价比 Pareto 前沿；案例少，更要评估集验收", need:[]},
     {n:"DeepSeek V4 Pro", t:"flagship", self:1, lic:"clean", tag:"开放权重 · MIT", p:"开源第一（综合 87）",
-     s:"SWE-bench 80.6% 追平闭源；MLA 架构推理成本占优", need:["code","zh"]},
+     s:"SWE-bench 80.6% 追平闭源；综合 87 开源第一、价格地板", need:["code","zh"]},
     {n:"DeepSeek V4 Flash", t:"floor", self:1, lic:"clean", tag:"开放权重 · MIT", p:"$0.14/$0.28",
      s:"全市场价格地板；批量任务默认档", need:["zh"]},
     {n:"Qwen3.5", t:"volume", self:1, lic:"clean", tag:"开放权重 · Apache 2.0", p:"0.6B–397B 谱系",

@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Security AI 安全 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -97,6 +97,8 @@
   </div>
   <p class="ev">OWASP 2025 版变化（LLM07/08 新增、敏感信息泄露升第 2）核实 2026-07-09，来源 <a href="#src-owasp">genai.owasp.org</a>；ATLAS 规模核实同日，来源
     <a href="#src-atlas">MITRE ATLAS</a>。<b>不可外推边界</b>：清单反映的是社区共识的风险优先级，随版本重排；它是自查起点不是合规清单——中国监管的强制要求另见本册中国监管合规一节。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-memory" title="这个词的主场：Agent · 记忆系统">记忆投毒<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -188,6 +190,8 @@
   </div>
   <p>RAG 侧三道闸当场能落：数据准入、来源可信、写入鉴权。<b>存：向量库是新入口</b>（LLM08）：检索投毒、跨租户泄露（A 的问题命中 B 的文档）、嵌入反演——<b>向量化 ≠ 匿名化</b>。对策：带 ACL 的权限过滤检索 + 多租户隔离 + 入库审校。
     RAG 侧工程细节在 <a href="../rag/index.html">RAG 网页版</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html" title="向量库投毒、跨租户泄露、带权限检索,对应 RAG 检索质量与数据面">RAG</a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -238,6 +242,8 @@
    <figcaption>四层缺一层，证据链就断在那一层。</figcaption>
   </figure>
   <p>只签容器不签模型和数据，等于安检只查行李不查人；组合发布把全部组件一起固定，任一撤回都能定位受影响部署。MCP 工具生态的供应链面（工具描述投毒）在下一节与 <a href="../mcp/index.html">MCP 网页版</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html" title="微调数据泄露、模型投毒与来源验证,是这两个模块的安全侧">Fine-tuning</a><a href="../llm-training/index.html" title="微调数据泄露、模型投毒与来源验证,是这两个模块的安全侧">LLM-Training</a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -280,6 +286,8 @@
   </div>
   <p><b>最常见翻车</b>：「用户同意过」被当成无限委托，Agent 拿宽 scope 长效 token 到处用。正解是<b>每个资源服务器独立核验，下游凭据绝不回传给模型</b>。</p>
   <p>OWASP Agentic 威胁地图（2026）按能力分五类：目标劫持 / 记忆 / 规划与自主 / 工具使用 / 部署运营——缓解主线就是<b>身份隔离 + 每动作授权 + HITL 提权 + 强可观测</b>。编排侧视角在 <a href="../agent/index.html">Agent 网页版</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html" title="Agent「评估与护栏」提出要防,本模块给系统性威胁与控权(最小权限/爆炸半径)">Agent</a><a href="../mcp/index.html" title="MCP 工具描述投毒与供应链安全,本模块第 4/5 章深化">MCP</a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -343,6 +351,8 @@
    <p>PyRIT（微软开源）自动生成攻击、多轮诱导、给攻破率报告，<b>按 ATLAS 选题</b>；接进 CI，每次改 prompt / 换模型都跑，打穿的用例修复后固化成回归——攻破率指标汇入 <a href="../evaluation/index.html">Evaluation 网页版</a>的安全维度验收。</p>
   </div>
   <p class="ev">CaMeL 77% 核实 2026-07-09，来源 <a href="#src-camel">arXiv 2503.18813</a>；六类模式来源 <a href="#src-patterns">arXiv 2506.08837</a>。<b>不可外推边界</b>：77% 是论文基准环境下、对已知攻击集合的防护成功率，不是生产承诺，对未见手法没有保证——所以它在本册被放在纵深防御的一层，不是终点。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html#eval-scenarios" title="红队产出的攻破率/有害内容率/注入抵抗率汇入 Evaluation 安全维度验收,兑现其 `eval-scenarios → security(候选)` 边">场景验收:RAG / Agent / 微调<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -462,6 +472,23 @@
   </table>
   </div>
   <p>一句话总纲：<b>假设模型会被骗 → 收敛它的权限与数据 → 四道闸兜底 → 红队和治理持续验证</b>。云上就近落地：护栏用托管的、敏感数据用 DLP 类、态势用 AI-SPM、权限用 IAM——服务名会更新，以各云最新文档为准。</p>
+
+  <h3>安全验收：攻击可复现、控制可阻断、事件可止损</h3>
+  <p>安全方案不看「上了几个产品」，看四段能不能闭环：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>段</th><th>验什么</th><th>证据</th></tr></thead>
+    <tbody>
+     <tr><td><b>边界 + 预防</b></td><td>资产 / 身份 / 数据与能力边界清楚，高风险路径有多层控制</td><td>威胁模型 + 责任人；策略、最小权限、沙箱</td></tr>
+     <tr><td><b>检测</b></td><td>异常与攻击可观测、可按切片看</td><td>trace、审计、告警（接 <a href="../ai-ops/index.html">AI-Ops</a>）</td></tr>
+     <tr><td><b>响应</b></td><td>能力可快速撤销</td><td>token / 工具 / 网络出口<b>三个急停开关都演练过</b></td></tr>
+     <tr><td><b>恢复 + 治理</b></td><td>版本可回退、数据可修复；剩余风险有签批</td><td>回滚 + 删除 + 回归样本；例外有期限与复核</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="box">
+   <p>终极判断：<b>从一条攻击路径能一路追到控制、检测、止损、恢复、责任人与剩余风险</b>——<b>「模型拒答了」不等于纵深防御成立</b>。</p>
+  </div>
 
   <div class="tool" id="riskcheck">
     <h4>AI 应用风险与合规自查器</h4>
@@ -656,7 +683,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../fine-tuning/index.html"><span class="k">上一册 · 工程保障层</span><b>Fine-tuning</b></a>
    <a class="nx" href="../llm/index.html"><span class="k">下一册 · 基础层</span><b>LLM</b></a>
@@ -664,8 +691,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 风险与合规自查器：能力勾选 → OWASP 风险 + 防线 + 合规路线。规则全部来自本页各节与
    速查表，不新增事实。无 JS 时 .tool 隐藏，静态兜底是上方威胁→防护映射表。 */

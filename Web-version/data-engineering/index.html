@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data-Engineering 数据工程 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -100,6 +100,8 @@
     <div class="kpis" id="rd-kpi"></div>
     <div class="hitcards" id="rd-out"></div>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../solution-patterns/index.html#sp-method" title="SP 说「数据坑是第一风险」，本模块把它变成显性工程件与报价项（双向）">方案共性方法<span class="xm">Solution-Patterns</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -147,6 +149,8 @@
   </div>
   <p><b>对客动作</b>：先拿客户 20 份最难的文档（表格重 / 扫描件）跑对比测试——<b>解析选型永远用客户自己的文档定，不用厂商 demo 定</b>。解析产物交给 <a href="../rag/index.html">RAG 网页版</a>按结构切分。</p>
   <p class="ev">四强格局与基准核实 2026-07-11，来源 <a href="#src-parsing">2026 解析横评</a>。<b>不可外推边界</b>：解析基准多以英文版面为主，对中日韩版面的参考价值有限——本节的选型分水岭因此写成「拿客户自己最难的 20 份文档实测」，而不是照抄榜单。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-chunking" title="解析产物交给 RAG 切分：解析质量决定切分质量——上游下游（双向）">切分策略 Chunking<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -183,6 +187,8 @@
    </div>
   </div>
   <p>同步链路<b>按生产系统运维</b>：断供、限速、权限失效都有告警与补偿重试，每个连接器有健康页——不是脚本跑一次就完。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../solution-patterns/index.html#sp-knowledge-search" title="SP 说「连接器是报价大头」，本章给五件事工程清单（双向）">企业知识库与 AI 搜索<span class="xm">Solution-Patterns</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -233,6 +239,8 @@
   <p><b>别为「将来可能的十亿级」提前买复杂度。</b></p>
   <p><b>性能答法</b>：各家都在毫秒级、量级内差距对多数应用无感——真正拉开差距的是<b>过滤 / 混合检索能力和运维成本</b>，选型看能力匹配不看跑分排名。国产化要求：开源自托管路线全可控（Milvus 是国内团队主导的开源项目）。</p>
   <p class="ev">选型锚点核实 2026-07-11，来源 <a href="#src-vectordb">2026 向量库对比</a>。<b>不可外推边界</b>：对比表是通用场景下的能力排序，不含客户的过滤条件、并发与运维口径；文中的量级建议是常见生产区间，不是硬上限。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-embedding" title="RAG 第 2 章讲原理与起步，本章讲规模化选型与迁移">向量检索与 Embedding<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -282,6 +290,8 @@
    <p>高频无答案问题清单 = <b>客户补文档的优先级表</b>——把「AI 答不上」变成知识治理的入口。补写是客户团队的活，<b>「补什么最值」由数据说话</b>。</p>
   </div>
   <p><b>运营节奏</b>：日看新鲜度告警、周看坏答案归因、月出四指标报告——与 AI-Ops 运营包同节奏合并交付；<b>停止运营的知识库半年就烂</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-ops/index.html#ops-online-eval" title="坏答案由 AI-Ops 在线评估抓到，归因到数据层由本章接住；运营节奏合并交付">在线评估与反馈回流<span class="xm">AI-Ops</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -319,6 +329,8 @@
   <p>这是撬动整个数据飞轮的最小投入。</p>
   </div>
   <p><b>合成数据「会不会越训越歪」</b>：有纪律就可靠——真实种子打底、judge 过滤、抽检合格率是硬指标（低于七成说明种子或标准要回炉）；<b>纯合成才有坍缩风险</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html#ft-data" title="配方在 Fine-tuning、评估集方法在 Evaluation；本章管预算与双线运营">数据准备：微调成败在此<span class="xm">Fine-tuning</span></a><a href="../evaluation/index.html#eval-build" title="配方在 Fine-tuning、评估集方法在 Evaluation；本章管预算与双线运营">自建评估:数据集与指标设计<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -355,6 +367,27 @@
    </table>
   </div>
   <p>与 Security 方案<b>不重复收费</b>：那边定规则与防护体系，这边是规则在数据管线上的施工。</p>
+
+  <h3>六条验收线 + 血缘：验的是证据链不是组件清单</h3>
+  <p>「有数据湖或向量库」不等于「有可运营的知识底座」——上线前把六条线加越权测试对一遍，每条都要拿得出证据：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>验收线</th><th>要交出什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>生命周期</b></td><td>来源到删除可追踪——资产 ID、owner、版本、保留策略</td></tr>
+     <tr><td><b>处理</b></td><td>重放 / 幂等 / 质量可恢复——checkpoint、测试、backfill 演练</td></tr>
+     <tr><td><b>血缘</b></td><td>Run / 输入 / 输出与影响可查——事件、目录、责任人（审计记主体与理由，血缘定位派生影响）</td></tr>
+     <tr><td><b>检索</b></td><td>全文 / 向量 / 过滤有质量证据——查询集、判定集、ACL 测试</td></tr>
+     <tr><td><b>服务</b></td><td>freshness / p99 / 降级可承诺——端到端 SLO 与演练</td></tr>
+     <tr><td><b>治理</b></td><td>用途 / 许可 / 删除 / 退出可审计——策略、日志、重建证据</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="box">
+   <p>终极判断：<b>任一回答 / 训练 / 评测都能回到数据来源、Run、版本、权限与质量，并能安全回滚、删除或重建。</b></p>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-data-privacy" title="Security 定规则，本章是数据管线上的三个执行点；越权测试集同 SP 第 4 章验收">数据与隐私安全<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -494,15 +527,15 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../ai-infra-platform/index.html"><span class="k">上一册 · 算力底座层</span><b>AI-Infra-Platform</b></a>
   </nav>
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 数据就绪度评估器：四问 → 排期量级 + 报价结构 + 技术路线。判据来自讲义第 1–4/7 章。
    无 JS 时 .tool 隐藏，静态兜底是正文四问与工具表。 */
@@ -512,10 +545,6 @@
   var $ = function (id) { return document.getElementById(id); };
   var kpiBox = $("rd-kpi"), out = $("rd-out");
   if (!out) return;
-  function card( name,tag, body, href) {
-    return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
-      '</b><p>' + body + ' <a href="' + href + '">详见</a></p></div>';
-  }
   function run() {
     var src = Math.max(1, +$("rd-src").value || 0);
     var custom = Math.min(src, Math.max(0, +$("rd-custom").value || 0));

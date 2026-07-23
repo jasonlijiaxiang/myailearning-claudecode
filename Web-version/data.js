@@ -1,7 +1,7 @@
 // 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。
 // 改内容请改 MANIFEST，然后重跑 build.py。
 window.KB = {
- "generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）",
+ "generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）+ build.py CONCEPTS（关键词落点）",
  "layers": [
   "解决方案层",
   "应用模式层",
@@ -17,7 +17,7 @@ window.KB = {
    "dir": "A2A",
    "layer": "协议层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "a2a-what-why",
@@ -547,7 +547,7 @@ window.KB = {
    "dir": "AI-Infra-Compute",
    "layer": "算力底座层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "aic-overview",
@@ -822,7 +822,7 @@ window.KB = {
    "dir": "AI-Infra-Platform",
    "layer": "算力底座层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "aip-overview",
@@ -1035,7 +1035,7 @@ window.KB = {
    "dir": "AI-Ops",
    "layer": "工程保障层",
    "created": "2026-07-10",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "ops-what-why",
@@ -1687,7 +1687,7 @@ window.KB = {
    "dir": "Data-Engineering",
    "layer": "数据底座层",
    "created": "2026-07-11",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "de-what-why",
@@ -2441,7 +2441,7 @@ window.KB = {
    "dir": "LLM",
    "layer": "基础层",
    "created": "2026-07-08",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "llm-why-transformer",
@@ -2652,7 +2652,7 @@ window.KB = {
    "dir": "LLM-Inference",
    "layer": "基础层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "llminf-anatomy",
@@ -2935,7 +2935,7 @@ window.KB = {
    "dir": "LLM-Training",
    "layer": "基础层",
    "created": "2026-07-08",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "llmtrain-overview",
@@ -3207,7 +3207,7 @@ window.KB = {
    "dir": "MCP",
    "layer": "协议层",
    "created": "2026-07-08",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "mcp-what-why",
@@ -3451,7 +3451,7 @@ window.KB = {
    "dir": "Model-Landscape",
    "layer": "解决方案层",
    "created": "2026-07-10",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "ml-map",
@@ -3825,7 +3825,7 @@ window.KB = {
    "dir": "Multimodal",
    "layer": "应用模式层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "mm-what-why",
@@ -4137,7 +4137,7 @@ window.KB = {
    "dir": "Prompt-Engineering",
    "layer": "基础层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "pe-what-why",
@@ -4342,7 +4342,7 @@ window.KB = {
    "dir": "RAG",
    "layer": "应用模式层",
    "created": "2026-07-07",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "rag-what-why",
@@ -4482,10 +4482,10 @@ window.KB = {
      "recheck": "—"
     },
     {
-     "text": "裸 Text-to-SQL 企业库准确率 50–70%，语义层抬至 85–95%（覆盖查询近 100%）",
+     "text": "裸 Text-to-SQL 准确率随基准真实度分档（学术单轮 80–90% / 中等企业化基准 50–70% / 最难企业基准 Spider 2.0 类约 20%），语义层抬至 85–95%（覆盖查询近 100%）；对客讲最低那档",
      "chapter": "rag-structured",
-     "verified": "2026-07-09",
-     "source": "dbt 2026 基准",
+     "verified": "2026-07-23（分档口径与 SP 对齐，原 07-09 只登 50–70% 与 SP 的 10–21% 打架，已按基准真实度合成一套）",
+     "source": "dbt 2026 基准 + Spider 2.0 / BEAVER / Spider-Ent（2026-07-23 复核）",
      "recheck": "—"
     }
    ],
@@ -4649,7 +4649,7 @@ window.KB = {
    "dir": "Security",
    "layer": "工程保障层",
    "created": "2026-07-09",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "sec-landscape",
@@ -4948,7 +4948,7 @@ window.KB = {
    "dir": "Solution-Patterns",
    "layer": "解决方案层",
    "created": "2026-07-10",
-   "updated": "2026-07-21",
+   "updated": "2026-07-23",
    "chapters": [
     {
      "id": "sp-what-why",
@@ -5069,10 +5069,10 @@ window.KB = {
      "recheck": "—"
     },
     {
-     "text": "Text-to-SQL 准确率口径：裸 LLM 真实企业任务仅 10–21%（学术基准五六成）；语义模型加持后 Snowflake 内部 150 题基准 51%→90%+、dbt 语义层基准 98–100%",
+     "text": "Text-to-SQL 准确率口径（分档，与 RAG 册对齐）：裸 LLM 随基准真实度分档——学术单轮 80–90% / 较干净企业化基准五六成 / 最难企业基准（Spider 2.0 类）10–21%，对客讲最低那档；语义模型加持后 Snowflake 内部 150 题基准 51%→90%+、dbt 语义层基准 98–100%",
      "chapter": "sp-chatbi",
-     "verified": "2026-07-11",
-     "source": "promethium 2026 企业对比 / Snowflake 工程博客 / colrows",
+     "verified": "2026-07-23（原「学术基准五六成」与 RAG「学术 80–90%」冲突，已合成分档口径两册一致）",
+     "source": "promethium 2026 企业对比 / Snowflake 工程博客 / Spider 2.0 / colrows",
      "recheck": "—"
     },
     {
@@ -5269,6 +5269,313 @@ window.KB = {
      ]
     }
    ]
+  }
+ ],
+ "concepts": [
+  {
+   "t": "AP2",
+   "m": "A2A",
+   "u": "./a2a/index.html#a2a-production"
+  },
+  {
+   "t": "Agent Card",
+   "m": "A2A",
+   "u": "./a2a/index.html#a2a-protocol"
+  },
+  {
+   "t": "Agentic RAG",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-agentic"
+  },
+  {
+   "t": "BM25",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-hybrid"
+  },
+  {
+   "t": "Chinchilla",
+   "m": "LLM-Training",
+   "u": "./llm-training/index.html#llmtrain-pretrain"
+  },
+  {
+   "t": "ColPali",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-multimodal"
+  },
+  {
+   "t": "Computer Use",
+   "m": "Agent",
+   "u": "./agent/index.html#agent-computer-use"
+  },
+  {
+   "t": "Continuous Batching",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-batching"
+  },
+  {
+   "t": "DPO",
+   "m": "LLM-Training",
+   "u": "./llm-training/index.html#llmtrain-alignment"
+  },
+  {
+   "t": "DSPy",
+   "m": "Prompt-Engineering",
+   "u": "./prompt-engineering/index.html#pe-engineering"
+  },
+  {
+   "t": "EU AI Act",
+   "m": "Security",
+   "u": "./security/index.html#sec-governance"
+  },
+  {
+   "t": "FlashAttention",
+   "m": "LLM",
+   "u": "./llm/index.html#llm-attention-zoo"
+  },
+  {
+   "t": "GQA",
+   "m": "LLM",
+   "u": "./llm/index.html#llm-attention-zoo"
+  },
+  {
+   "t": "GRPO",
+   "m": "LLM-Training",
+   "u": "./llm-training/index.html#llmtrain-reasoning"
+  },
+  {
+   "t": "GraphRAG",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-graphrag"
+  },
+  {
+   "t": "HBM",
+   "m": "AI-Infra-Compute",
+   "u": "./ai-infra-compute/index.html#aic-hbm"
+  },
+  {
+   "t": "InfiniBand",
+   "m": "AI-Infra-Compute",
+   "u": "./ai-infra-compute/index.html#aic-scaleout"
+  },
+  {
+   "t": "KServe",
+   "m": "AI-Infra-Platform",
+   "u": "./ai-infra-platform/index.html#aip-serving"
+  },
+  {
+   "t": "KV Cache",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-kv-budget"
+  },
+  {
+   "t": "KV 缓存",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-kv-budget"
+  },
+  {
+   "t": "LLM-as-a-Judge",
+   "m": "Evaluation",
+   "u": "./evaluation/index.html#eval-judge"
+  },
+  {
+   "t": "LoRA",
+   "m": "Fine-tuning",
+   "u": "./fine-tuning/index.html#ft-methods"
+  },
+  {
+   "t": "MIG",
+   "m": "AI-Infra-Platform",
+   "u": "./ai-infra-platform/index.html#aip-sharing"
+  },
+  {
+   "t": "MITRE ATLAS",
+   "m": "Security",
+   "u": "./security/index.html#sec-landscape"
+  },
+  {
+   "t": "MLA",
+   "m": "LLM",
+   "u": "./llm/index.html#llm-attention-zoo"
+  },
+  {
+   "t": "MMLU",
+   "m": "Evaluation",
+   "u": "./evaluation/index.html#eval-benchmarks"
+  },
+  {
+   "t": "MoE",
+   "m": "LLM",
+   "u": "./llm/index.html#llm-architecture"
+  },
+  {
+   "t": "NVL72",
+   "m": "AI-Infra-Compute",
+   "u": "./ai-infra-compute/index.html#aic-scaleup"
+  },
+  {
+   "t": "NVLink",
+   "m": "AI-Infra-Compute",
+   "u": "./ai-infra-compute/index.html#aic-scaleup"
+  },
+  {
+   "t": "PagedAttention",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-batching"
+  },
+  {
+   "t": "QLoRA",
+   "m": "Fine-tuning",
+   "u": "./fine-tuning/index.html#ft-methods"
+  },
+  {
+   "t": "RDMA",
+   "m": "AI-Infra-Compute",
+   "u": "./ai-infra-compute/index.html#aic-scaleout"
+  },
+  {
+   "t": "RLHF",
+   "m": "LLM-Training",
+   "u": "./llm-training/index.html#llmtrain-alignment"
+  },
+  {
+   "t": "RLVR",
+   "m": "LLM-Training",
+   "u": "./llm-training/index.html#llmtrain-reasoning"
+  },
+  {
+   "t": "RRF",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-hybrid"
+  },
+  {
+   "t": "RoPE",
+   "m": "LLM",
+   "u": "./llm/index.html#llm-architecture"
+  },
+  {
+   "t": "SGLang",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-engines"
+  },
+  {
+   "t": "SWE-bench",
+   "m": "Evaluation",
+   "u": "./evaluation/index.html#eval-benchmarks"
+  },
+  {
+   "t": "Streamable HTTP",
+   "m": "MCP",
+   "u": "./mcp/index.html#mcp-transport"
+  },
+  {
+   "t": "Sub-agent",
+   "m": "Agent",
+   "u": "./agent/index.html#agent-subagent"
+  },
+  {
+   "t": "ViT",
+   "m": "Multimodal",
+   "u": "./multimodal/index.html#mm-encoder"
+  },
+  {
+   "t": "gang scheduling",
+   "m": "AI-Infra-Platform",
+   "u": "./ai-infra-platform/index.html#aip-scheduling"
+  },
+  {
+   "t": "goodput",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-production"
+  },
+  {
+   "t": "vLLM",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-engines"
+  },
+  {
+   "t": "上下文工程",
+   "m": "Agent",
+   "u": "./agent/index.html#agent-context"
+  },
+  {
+   "t": "上下文检索",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-chunking"
+  },
+  {
+   "t": "判官校准",
+   "m": "Evaluation",
+   "u": "./evaluation/index.html#eval-judge"
+  },
+  {
+   "t": "向量库迁移",
+   "m": "Data-Engineering",
+   "u": "./data-engineering/index.html#de-vectordb"
+  },
+  {
+   "t": "开放权重",
+   "m": "Model-Landscape",
+   "u": "./model-landscape/index.html#ml-open"
+  },
+  {
+   "t": "思维链",
+   "m": "Prompt-Engineering",
+   "u": "./prompt-engineering/index.html#pe-core-techniques"
+  },
+  {
+   "t": "投机解码",
+   "m": "LLM-Inference",
+   "u": "./llm-inference/index.html#llminf-speculative"
+  },
+  {
+   "t": "提示注入",
+   "m": "Security",
+   "u": "./security/index.html#sec-prompt-injection"
+  },
+  {
+   "t": "提示词缓存",
+   "m": "Prompt-Engineering",
+   "u": "./prompt-engineering/index.html#pe-engineering"
+  },
+  {
+   "t": "文档智能解析",
+   "m": "Data-Engineering",
+   "u": "./data-engineering/index.html#de-parsing"
+  },
+  {
+   "t": "混合检索",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-hybrid"
+  },
+  {
+   "t": "灾难性遗忘",
+   "m": "Fine-tuning",
+   "u": "./fine-tuning/index.html#ft-eval-deploy"
+  },
+  {
+   "t": "记忆投毒",
+   "m": "Agent",
+   "u": "./agent/index.html#agent-memory"
+  },
+  {
+   "t": "语义层",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-structured"
+  },
+  {
+   "t": "重排序",
+   "m": "RAG",
+   "u": "./rag/index.html#rag-reranking"
+  },
+  {
+   "t": "间接注入",
+   "m": "Security",
+   "u": "./security/index.html#sec-prompt-injection"
+  },
+  {
+   "t": "黄金集",
+   "m": "Evaluation",
+   "u": "./evaluation/index.html#eval-build"
   }
  ]
 };

@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MCP 模型上下文协议 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -81,6 +81,8 @@
     2025 年 12 月捐给 Agentic AI Foundation（AAIF）——Linux 基金会旗下的中立基金会，由 Anthropic、Block、OpenAI 等共同发起。协议变更走 SEP（Specification Enhancement
     Proposal，规范增强提案）公开流程。</p>
   <p class="ev">核实 2026-07-08，来源 <a href="#src-aaif">aaif.io 官方博客</a>。这一条对客户的用处很直接：接入 MCP 不等于绑定某一家大模型厂商。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-tools-mcp" title="MCP 是 Agent 工具接入的标准化层，Agent 第 4 章为入口视角">工具接入与 MCP<span class="xm">Agent</span></a><a href="../a2a/index.html#a2a-what-why" title="协议层双子：MCP 接工具（纵向）/ A2A 接 Agent（横向），双向互引「分工」">是什么/为什么<span class="xm">A2A</span></a></div>
 </section>
 
 <!-- ============ 边界（网页版新增） ============ -->
@@ -436,6 +438,7 @@ if __name__ == "__main__":
 
   <p>另外两个装饰器对应另外两个原语：<code>@mcp.resource("file://readme")</code> 暴露只读上下文，
     <code>@mcp.prompt()</code> 把一段最佳用法固化成模板。同一个 server 里三类能力可以齐活。</p>
+  <p><b>选栈两条硬事实</b>：①官方 Tier 1 SDK 四种——TypeScript / Python / C# / Go（Tier 是支持等级承诺，不是安全认证）；②面向新规范的 beta 已发，<b>Python SDK v2.0.0b1 把 <code>FastMCP</code> 更名为 <code>MCPServer</code></b>，TS v2 拆包——上面这段 <code>FastMCP</code> 写法在当前稳定线仍可用，做迁移评估时记得新版类名已换。</p>
 
   <h3>开发顺序：先单测 server，再接模型</h3>
   <p>官方调试工具 MCP Inspector 相当于电工的万用表：<code>npx @modelcontextprotocol/inspector</code>
@@ -492,8 +495,8 @@ if __name__ == "__main__":
 
   <h3>鉴权：就是标准 OAuth，不是另起一套</h3>
   <p>本地 server 靠进程边界就安全；远程 server 暴露在网络上，必须认证「谁在调、有没有权」。
-    MCP 采用 OAuth 2.0 与 OIDC（OpenID Connect）：客户端拿令牌访问，server 校验令牌与权限。像进写字楼——本地 server 是自家客厅，进门即信任；远程 server 是办公楼，得先在前台换访客证，刷卡才能进对应楼层。</p>
-  <p>关键话术：<b>能直接对接客户现有的身份与访问管理（IAM，Identity and Access Management）体系</b>。新版进一步向 OAuth/OIDC 对齐，要求客户端校验令牌签发方、注册时声明应用类型、凭据绑定签发方——都是在堵「令牌被张冠李戴」的坑。</p>
+    <b>MCP 的授权底座自 2025-06-18 起是 OAuth 2.1</b>（在 2.0 之上收紧，配合 OIDC，OpenID Connect）：客户端拿令牌访问，server 校验令牌与权限。像进写字楼——本地 server 是自家客厅，进门即信任；远程 server 是办公楼，得先在前台换访客证，刷卡才能进对应楼层。</p>
+  <p>关键话术：<b>能直接对接客户现有的身份与访问管理（IAM，Identity and Access Management）体系</b>。新版要求客户端校验令牌签发方、注册时声明应用类型、凭据绑定签发方——都是在堵「令牌被张冠李戴」的坑。安全评审里有一条 MUST 级红线：<b>token 透传明令禁止</b>——server 不得把收到的令牌原样转发给下游，RFC 8707 的 audience（受众）校验是强制项，防的正是「拿着给 A 的令牌去调 B」这类混淆代理（confused deputy）攻击。</p>
 
   <h3>为什么要一个 MCP 网关</h3>
   <p>企业里 server 会越来越多，还有员工想接外部 server。网关在客户端与众多 server 之间做统一入口：集中认证、限流、审计、按策略放行或拦截。相当于公司的统一收发室，所有进出的流量都在这里登记、安检、留档，而不是每个工位各收各的。</p>
@@ -550,7 +553,7 @@ if __name__ == "__main__":
     </div>
   </div>
 
-  <p class="ev">以上三条均为 2026-07-20 联网核实。<b>成本类数字比协议条款更易过期</b>——模型窗口、计价、客户端的延迟加载策略都在变，引用前先核日期。客户端侧已有缓解手段（工具定义超过上下文一定比例时改为按需检索加载），但各家实现与阈值不同，不写进本页口径。</p>
+  <p class="ev">以上三条均为 2026-07-20 联网核实，来源 <a href="#src-cost-tok">Atlassian MCP Compression</a> 与 <a href="#src-cost-lat">Envoy AI Gateway 基准</a>。<b>成本类数字比协议条款更易过期</b>——模型窗口、计价、客户端的延迟加载策略都在变，引用前先核日期。客户端侧已有缓解手段（工具定义超过上下文一定比例时改为按需检索加载），但各家实现与阈值不同，不写进本页口径。</p>
 
   <h3>上线前的五条验收线</h3>
   <p>Inspector 里调通只是联调，不是生产结论。终极判断是一句话：<b>任意一次调用都能回放「谁、经哪个版本、调了什么、为何被允许、结果如何」</b>。</p>
@@ -581,6 +584,8 @@ if __name__ == "__main__":
   </table>
   </div>
   <p class="ev">只列有真实关联的环节，同一环节给多厂商代表性选项，不绑死单一供应商。各云的具体服务能力以 2026 年现状为准，<b>属于变动最快的一类信息，引用前先核日期</b>；完整清单见讲义第 5 章。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-gateway/index.html#gw-mcp" title="生产落地的治理面：MCP 流量的统一代理/发现/鉴权/限流/审计由网关承接（协议归本模块、治理归网关，双向互引）">AI 网关 + MCP 网关<span class="xm">AI-Gateway</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -726,6 +731,8 @@ if __name__ == "__main__":
   </table>
   </div>
   <p>最容易被忽视也最致命的两条：<b>无鉴权裸暴露公网</b>，以及<b>图省事开全自动批准</b>。这两条几乎是事故直通车，也最容易避免。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-eval-guardrails" title="防护共识一致：最小权限、人工审批、持续监控">评估与护栏<span class="xm">Agent</span></a><a href="../security/index.html#sec-agentic" title="工具描述投毒与 MCP 供应链风险在 Security 第 4/5 章深化（本章讲协议侧防线，双向互引）">Agent 与工具安全<span class="xm">Security</span></a><a href="../a2a/index.html#a2a-security" title="两协议安全共识对照：签名/最小权限/鉴权/opaque 边界（A2A 侧已有入边，此为回边）">安全 · 售前速查<span class="xm">A2A</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -879,7 +886,7 @@ if __name__ == "__main__":
 <!-- ============ 来源 ============ -->
 <section class="sec" id="sources">
   <h2><span class="num">10</span>来源与核实<a class="anchor" href="#sources">#sources</a></h2>
-  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见<a href="../../PPT-version/MCP/MANIFEST.md">本模块 MANIFEST</a>。核实窗口 2026-07-08 至 2026-07-12。<b>引用任何数字前先核日期。</b></p>
+  <p>本页时效性数字均经联网核实后写入，完整登记（事实 × 核实日期 × 信源）见<a href="../../PPT-version/MCP/MANIFEST.md">本模块 MANIFEST</a>。核实窗口 2026-07-08 至 2026-07-21（运行期成本三条为 2026-07-20 补核）。<b>引用任何数字前先核日期。</b></p>
   <div class="tw">
   <table>
     <thead><tr><th>来源 ID</th><th>信源</th><th>支持什么</th><th>不能支持什么</th></tr></thead>
@@ -891,6 +898,8 @@ if __name__ == "__main__":
       <tr id="src-registry"><td><code>src-registry</code></td><td>registry 官方页</td><td>Registry 的定位与 preview 状态</td><td>不能作为企业级目录方案的依据</td></tr>
       <tr id="src-cve"><td><code>src-cve</code></td><td>dev.to 汇总</td><td>2026 年 1–4 月 CVE 体量与代表案例</td><td>二次汇总，单条 CVE 细节以官方通告为准</td></tr>
       <tr id="src-mcptox"><td><code>src-mcptox</code></td><td>arXiv 2508.14925（MCPTox）</td><td>自动批准场景下的投毒成功率</td><td>基准环境结论，不可外推到关闭自动批准的部署</td></tr>
+      <tr id="src-cost-tok"><td><code>src-cost-tok</code></td><td>Atlassian 工程博客《MCP Compression》2026-03-29</td><td>工具定义常驻上下文的 token 量级（94 工具 ≈ 17.6k，压缩后 3.9k / 0.5k）</td><td>未公布模型与计数方法，量级参考不作精确报价</td></tr>
+      <tr id="src-cost-lat"><td><code>src-cost-lat</code></td><td>Envoy AI Gateway 官方基准 2025-12-08</td><td>网关一跳额外延迟（调优后 1–2ms / 会话）</td><td>单机 echo 工具、按会话计的基准，真实负载与 KDF 迭代数不同结果差异大</td></tr>
     </tbody>
   </table>
   </div>
@@ -909,7 +918,7 @@ if __name__ == "__main__":
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../a2a/index.html"><span class="k">上一册 · 协议层</span><b>A2A</b></a>
    <a class="nx" href="../ai-gateway/index.html"><span class="k">下一册 · 工程保障层</span><b>AI-Gateway</b></a>
@@ -917,7 +926,7 @@ if __name__ == "__main__":
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 </body>
 </html>

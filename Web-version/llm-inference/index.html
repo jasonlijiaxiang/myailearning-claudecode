@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM-Inference 推理服务 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -134,6 +134,8 @@
    <figcaption>批越大吞吐越高、单请求越慢：所有调度设计都是在这条曲线上选点。</figcaption>
   </figure>
   <p><b>谈体验先问 TTFT / TPOT，谈成本用吞吐</b>，不要只问「一条请求几秒」。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-overview" title="「训练一次性重投入 vs 推理持续账单」同一事实两侧；2030 推理算力 75% 预测两边同源引用">全景总览：从随机权重到可用助手<span class="xm">LLM-Training</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -222,6 +224,9 @@
 
   <h3>窗口是容量，命中是复用</h3>
   <p>上下文窗口是「一次能装多少」的能力上限，像信用卡额度——额度高不等于每次刷满；缓存命中是「装进去的东西要不要重算」的运行时效率。<b>命中率由 prompt 结构与请求模式决定，不由窗口大小决定</b>：1M 窗口可以 0% 命中，200K 窗口也能 90%+（稳定前缀放开头、别在头部插时间戳）。容量规划也别按会话数算：<b>按「并发活跃请求 × 实际长度」算</b>，任一时刻绝大多数会话离线、占的只是可回收的缓存位；但要给真跑满超长窗口的请求做准入控制（并发配额、长度分级），别让一个 1M 请求把整台机器的批处理能力挤瘦。</p>
+  <p><b>命中直接改写账单</b>：命中读取的价约为原价 <b>1 折</b>，而写入缓存要<b>加价（5 分钟档 1.25×、1 小时档 2×）</b>——像租一个带过期时间的储物柜：存要加钱、取很便宜，放太久被 LRU 挤掉就得重算。省下的<b>绝对金额随前缀长度增长</b>，所以<b>多轮 Agent 每轮重发全部历史时的增量缓存命中，正是「1M 窗口 × 多轮对话」在经济上成立的前提</b>。判断一个长上下文 Agent 方案划不划算，先看它的稳定前缀有多长、命中率能做到多少，而不是看窗口标称多大。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-inference-kv" title="KV Cache「为什么存在」（机制）在 LLM 原理第 4 章，「怎么管好」（系统）在本章——互为前后篇，讲义内有承上启下页；2026-07-20 对话沉淀拆分互指：本章新增…">从架构到推理：上下文窗口与 KV 缓存<span class="xm">LLM</span></a><a href="../rag/index.html#rag-what-why" title="长上下文 prefill 平方级+KV 线性级两头吃钱，是「1M 窗口不是 RAG 终结者」的推理侧论据">是什么/为什么<span class="xm">RAG</span></a><a href="../ai-infra-compute/index.html#aic-hbm" title="KV Cache 显存账（机制）↔ HBM 硬件账（地基）：互为前后篇，2026-07-09 建 AI-Infra-Compute 时补">显存与 HBM：AI 时代最贵的房地产<span class="xm">AI-Infra-Compute</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -250,7 +255,7 @@
     SGLang 的 RadixAttention 把所有请求的 KV 按前缀组织成基数树，自动发现公共前缀、自动共享。最大受益者：多轮 Agent（每轮带全量历史，命中后每轮只算新增几百 token）和固定语料 RAG。把「稳定不变的内容放提示词开头」从写作习惯升级为省钱手段。</p>
 
   <h3>Chunked Prefill 与请求状态机</h3>
-  <h3>分块预填充解的是什么两难</h3>
+  <p>分块预填充（Chunked Prefill）解的是一个调度两难：</p>
   <div class="tw">
    <table>
     <thead><tr><th>如果……</th><th>后果</th></tr></thead>
@@ -266,6 +271,8 @@
    <p>每个请求在排队 / Prefill / Decode / 等待 / 终态九种状态之间流转，每个状态要有<b>进入条件、最大驻留时间、可观察事件</b>。<b>平均吞吐很好看、P99 排队驻留 8 秒</b>的服务——仪表盘是绿的，用户体感是崩的。</p>
   </div>
   <p><b>调度验收同时看五项</b>：队列驻留、批内 token、KV 压力、取消抢占率、用户 SLO。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-context" title="Prefix Caching/RadixAttention 的最大受益者是多轮 Agent——上下文工程在推理侧的回报">上下文工程<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -345,6 +352,8 @@
     INT4 可能掉 3–5 分甚至更多。反例警示：某场景 INT4 后客服话术无感，但工单里的金额计算开始出错——败在评测集没覆盖算术。两条铁律：①用自己的业务评测集做上线门禁，不只信通用榜单；
     ②分档使用——面客核心链路 FP8 起步，内部工具再下探 INT4。<b>量化不是「开不开」而是「开到几档」</b>：FP8 近乎白捡，INT4 用评测换显存，再往下要业务拍板。</p>
   <p class="ev">核实 2026-07-09，来源 <a href="#src-quant">2026 量化综述</a>。NVFP4 用块级缩放把量化误差比 MXFP4 降 88%（NVIDIA 数据）——低比特损失的大头来自缩放粒度。<b>不可外推边界</b>：这个 88% 是两种低比特格式之间的量化误差相对改善（厂商自家口径），不是「模型质量只掉一点点」的结论——业务侧仍要拿自己的评测集做上线门禁。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-compute/index.html#aic-gpu" title="量化落地 ↔ FP8/FP4 精度阶梯硬件前提，同源口径（2026-07-09 补）">GPU 解剖：为什么 AI 计算长在 GPU 上<span class="xm">AI-Infra-Compute</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -371,6 +380,8 @@
   <p class="ev">核实 2026-07-09，来源 <a href="#src-spec">2026 实测综述</a>（vLLM 报告 EAGLE-3
     最高 ~2.5×）。三板斧正交且叠乘：FP8 + 连续批处理 + EAGLE 组合后，同硬件吞吐可达朴素部署的
     5–10 倍。<b>不可外推边界</b>：两个倍数都是特定负载与硬件下的实测：投机解码的收益强依赖草稿命中率，长输出场景收益大、短问答几乎无感；5–10 倍是三招叠乘的上限估计，不是默认可得。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-reasoning" title="推理模型（RLVR）让 decode 负载暴涨十几倍，是推理优化 2026 成为刚需的直接原因">后训练 III · RLVR 与推理模型：教会思考<span class="xm">LLM-Training</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -433,6 +444,8 @@
   <p class="ev">核实 2026-07-12（Dynamo 稳定版 v1.2.1，2026-06-13），来源
     <a href="#src-dynamo">NVIDIA 官方博客 / GitHub releases</a>；Mooncake 见
     <a href="#src-mooncake">arXiv 2407.00079</a>。<b>不可外推边界</b>：分布式推理的收益随规模才显现，论文与厂商博客给的都是大规模场景的数字；小集群引入会先付一笔运维成本。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-compute/index.html#aic-storage" title="P/D 分离/KV 路由 ↔ KV Cache 外置存储：存储升级为推理性能部件（2026-07-09 补）">存储与数据管线：别让 GPU 等数据<span class="xm">AI-Infra-Compute</span></a><a href="../ai-infra-platform/index.html#aip-serving" title="P/D 分离/Dynamo/llm-d 机制在本模块，平台承载（编排/扩缩/路由）在 AI-Infra-Platform 第 7 章（2026-07-09 补）">推理服务平台化<span class="xm">AI-Infra-Platform</span></a><a href="../llm/index.html#llm-architecture" title="这个词的主场：LLM · Transformer 全解剖">MoE<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -518,6 +531,8 @@
   </div>
   <p class="ev">SLO 与成本量级核实 2026-07-09、压测工具 07-12（AIPerf v0.11.0），来源
     <a href="#src-aiperf">pypi/GitHub</a> 与 <a href="#src-cost">2026 年中多方评测量级归纳</a>（讲义中已标注「参考」口径）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-platform/index.html#aip-observability" title="利用率/goodput/SLO 运营两侧互指（2026-07-09 补）">可观测性与利用率运营<span class="xm">AI-Infra-Platform</span></a></div>
 </section>
 
 <!-- ============ 相关模块 ============ -->
@@ -697,7 +712,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../llm/index.html"><span class="k">上一册 · 基础层</span><b>LLM</b></a>
    <a class="nx" href="../llm-training/index.html"><span class="k">下一册 · 基础层</span><b>LLM-Training</b></a>
@@ -705,8 +720,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 显存与并发计算器：讲义第 2 章心算公式的交互版。
    KV/token（FP16）：8B ≈ 0.13、32B ≈ 0.26、70B ≈ 0.32 MB（GQA 口径，MLA 不适用）。

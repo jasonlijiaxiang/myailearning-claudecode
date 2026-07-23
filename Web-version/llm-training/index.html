@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LLM-Training 训练全景 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -107,6 +107,8 @@
    </div>
   </div>
   <p>行业测算 2030 年推理算力占 AI 总算力约 75%。权重发布后是冻结的，不会「越用越聪明」——更新知识走 RAG 或增量微调。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-why-transformer" title="LLM 原理讲架构（发动机舱），本模块讲训练（流水线），互为前置；第 3 章「可并行」一页对应其第 1 章">从序列问题到 Transformer<span class="xm">LLM</span></a><a href="../llm-inference/index.html#llminf-anatomy" title="「训练一次性重投入 vs 推理持续账单」两侧互指；2030 推理算力 75% 预测两边同源引用（2026-07-09 补）">推理是怎么跑起来的<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -184,6 +186,8 @@
     <a href="../llm/index.html">LLM 网页版</a>：那边讲机器是什么，本页讲机器怎么被造出来。</p>
   <p class="ev">MoE/FP8/Muon 格局核实 2026-07-08，来源 <a href="#src-pretrain">OpenRouter
     盘点 / PyTorch 官方博客</a>。<b>不可外推边界</b>：盘点反映的是公开模型的技术选择分布，不含各家的训练细节与失败尝试；「主流」不等于「对你的规模也最优」。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-why-transformer" title="LLM 原理讲架构（发动机舱），本模块讲训练（流水线），互为前置；第 3 章「可并行」一页对应其第 1 章">从序列问题到 Transformer<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -214,6 +218,8 @@
   </div>
   <p>选型口诀与镜像模块：「改知识用 RAG、改行为用微调、先试提示词」——应用侧在
     <a href="../rag/index.html#rag-what-why">RAG 网页版</a>，落地工程（LoRA/QLoRA/托管服务）在 <a href="../fine-tuning/index.html">Fine-tuning 网页版</a>——本页只讲训练侧原理。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-what-why" title="「微调 vs RAG」互为镜像：RAG 从应用侧答，本章从训练侧补全">是什么/为什么<span class="xm">RAG</span></a><a href="../fine-tuning/index.html#ft-methods" title="本模块讲原理，Fine-tuning 模块讲「拿自己数据落地」的工程实践（2026-07-09 建成，候选转正）">微调方法谱系<span class="xm">Fine-tuning</span></a><a href="../fine-tuning/index.html#ft-alignment" title="本模块讲原理，Fine-tuning 模块讲「拿自己数据落地」的工程实践（2026-07-09 建成，候选转正）">偏好对齐落地<span class="xm">Fine-tuning</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -252,6 +258,8 @@
   </div>
   <p><b>DPO 的暴力简化</b>：跳过奖励模型和 RL，直接在偏好对上抬高好答案概率、压低差答案——简单、稳定、便宜，是开源与企业偏好定制的默认起手式。<b>先 DPO，不够再上 RL</b>。</p>
   <p><b>对齐税</b>真实存在但可调控：过度安全训练导致误拒、回答套路化（先共情再免责）、创造力下降——像医院的免责文化，每条规定单看都合理，叠起来体验直线下降。工程平衡术：有用性与安全性分开做奖励信号、边界案例训「该拒的拒、不该拒的别拒」、上线后跟踪误拒率。客户抱怨「模型太怂」的专业回应：<b>这是对齐策略的选择不是能力缺陷</b>——可用系统提示词放宽或自有偏好数据 DPO，把分寸调到业务需要的位置。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html#ft-methods" title="本模块讲原理，Fine-tuning 模块讲「拿自己数据落地」的工程实践（2026-07-09 建成，候选转正）">微调方法谱系<span class="xm">Fine-tuning</span></a><a href="../fine-tuning/index.html#ft-alignment" title="本模块讲原理，Fine-tuning 模块讲「拿自己数据落地」的工程实践（2026-07-09 建成，候选转正）">偏好对齐落地<span class="xm">Fine-tuning</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -295,6 +303,8 @@
   <p>推理模型让 decode 负载暴涨的推理侧后果在 <a href="../llm-inference/index.html#llminf-speculative">LLM-Inference 网页版</a>；<b>「agent 为什么现在能成」的模型侧原因也在这一步</b>——规划、反思、多步工具使用都是 RL 里练出来的。</p>
   <p class="ev">后训练主流栈（SFT→DPO→RLVR，GRPO/DAPO 主力）核实 2026-07-08，来源
     <a href="#src-posttrain">2026 后训练综述</a>。<b>不可外推边界</b>：综述归纳的是公开工作的顺序，各家实际配方并不公开：顺序可参考，超参与数据配比不可照搬。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-what-why" title="推理模型/RLVR 是「agent 为什么现在能成」的模型侧原因">是什么/为什么<span class="xm">Agent</span></a><a href="../llm-inference/index.html#llminf-speculative" title="RLVR 推理模型让 decode 负载暴涨，是推理优化成为刚需的原因；对方第 6 章以承上页回指本章（2026-07-09 补）">让模型变快：投机解码与算法加速<span class="xm">LLM-Inference</span></a><a href="../prompt-engineering/index.html#pe-core-techniques" title="这个词的主场：Prompt-Engineering · 核心技巧">思维链<span class="xm">Prompt-Engineering</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -345,9 +355,9 @@
   <div class="tw">
    <table>
     <tbody>
-     <tr><td>GPU 算力</td><td>——</td></tr>
-     <tr><td><b>高速互联</b></td><td>节点内 NVLink、节点间 RDMA——<b>张量并行对带宽极度敏感，这是 AI 集群与散租 GPU 的本质区别</b></td></tr>
-     <tr><td>并行文件存储</td><td>——</td></tr>
+     <tr><td>GPU 算力</td><td>大量同型号 GPU 堆出总算力——这部分是可采购的商品，谁都买得到</td></tr>
+     <tr><td><b>高速互联</b></td><td>节点内 NVLink、节点间 RDMA——<b>张量并行对带宽极度敏感，这才是 AI 集群与散租 GPU 的本质区别</b></td></tr>
+     <tr><td>并行文件存储</td><td>高吞吐并行文件系统喂数据、扛 checkpoint 洪峰写——慢了 GPU 就空等</td></tr>
     </tbody>
    </table>
   </div>
@@ -357,6 +367,37 @@
   </div>
   <p><b>自建 vs 租云</b>：训练是脉冲式负载，租云弹性占优；微调不需要这套重装备——<b>把「预训练级基建」和「微调级需求」分开，能帮客户砍掉九成不必要的预算焦虑</b>。</p>
   <p>并行通信怎么被网络承载在 <a href="../../PPT-version/AI-Infra-Compute/README.html">AI-Infra-Compute</a>，作业怎么被调度在 <a href="../../PPT-version/AI-Infra-Platform/README.html">AI-Infra-Platform</a>。</p>
+
+  <h3>省显存的每一招，都把成本转移到别处</h3>
+  <p>显存不够时有四根杠杆，<b>没有一根是白省的</b>——每一招都把代价转移到别处，按顺序动：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>杠杆</th><th>省什么</th><th>代价转移到哪</th></tr></thead>
+    <tbody>
+     <tr><td>混合精度</td><td>权重与计算用 BF16 / FP8，状态与算力都省</td><td>数值范围变窄：盯 loss 溢出与发散</td></tr>
+     <tr><td>激活重计算</td><td>前向激活不存，反向传播时重算</td><td>吞吐与 MFU 下降，训练变慢</td></tr>
+     <tr><td>分片（FSDP / ZeRO）</td><td>参数 / 梯度 / 优化器状态切碎分摊到多卡</td><td>通信量上升：吃网络，规模越大越明显</td></tr>
+     <tr><td>CPU / NVMe 卸载</td><td>把暂时不用的状态挪出显存</td><td>PCIe 带宽与尾延迟：取书慢</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>动手顺序</b>：先量化显存账本、清异常与碎片 → 混合精度 / 重计算 → 分片 → <b>最后才考虑卸载</b>；梯度累积另记一笔——省的是激活，代价是全局 batch 语义变化。</p>
+
+  <h3>训练方案的验收证据，四组八项</h3>
+  <p>客户问「你们支持分布式训练吗」，专业答法不是「支持」，是把这四组证据摆出来——<b>任何「支持分布式」的承诺都要落到版本、规模、边界条件</b>：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>验收组</th><th>要交出的证据</th></tr></thead>
+    <tbody>
+     <tr><td><b>数据与目标</b></td><td>data card（来源 / 许可 / 去重 / 切分）+ tokenizer 与样本游标；loss 口径、分片验证、基线与早停——<b>来源不清或不可复现直接拒绝</b></td></tr>
+     <tr><td><b>并行与性能</b></td><td>各 rank 数据不重不漏、数值容差、并行网格记录；显存账本、tokens/s、MFU、扩展曲线与瓶颈分解</td></tr>
+     <tr><td><b>恢复与运维</b></td><td>checkpoint 清单、故障注入演练、RPO / RTO、告警与责任路由——<b>恢复没演练过，等于没有</b></td></tr>
+     <tr><td><b>成本与交接</b></td><td>完成成本、配额与区域、模型卡、评测报告、退出与迁移路径——<b>交付的是可复现的方案，不是一次成功的运行</b></td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-compute/index.html#aic-scaleup" title="并行策略（TP/PP/EP）产生的通信量决定网络怎么建；本模块讲并行、AI-Infra-Compute 讲承载它的两级互联（2026-07-09 补）">Scale-up 互联：把 72 张卡焊成一张大卡<span class="xm">AI-Infra-Compute</span></a><a href="../ai-infra-compute/index.html#aic-scaleout" title="并行策略（TP/PP/EP）产生的通信量决定网络怎么建；本模块讲并行、AI-Infra-Compute 讲承载它的两级互联（2026-07-09 补）">Scale-out 网络：把一万张卡连成集群<span class="xm">AI-Infra-Compute</span></a><a href="../ai-infra-compute/index.html#aic-hbm" title="训练显存账（ZeRO/FSDP 切分）↔ HBM 硬件账；本模块讲切分、对方讲硬件地基（2026-07-09 补）">显存与 HBM：AI 时代最贵的房地产<span class="xm">AI-Infra-Compute</span></a><a href="../ai-infra-platform/index.html#aip-scheduling" title="训练作业是集群调度与容错的头号负载；本模块讲并行怎么切，AI-Infra-Platform 讲作业怎么被调度、崩了怎么续（2026-07-09 补）">作业调度：让最贵的卡不空转<span class="xm">AI-Infra-Platform</span></a><a href="../ai-infra-platform/index.html#aip-faulttol" title="训练作业是集群调度与容错的头号负载；本模块讲并行怎么切，AI-Infra-Platform 讲作业怎么被调度、崩了怎么续（2026-07-09 补）">训练容错工程：万卡集群故障是常态<span class="xm">AI-Infra-Platform</span></a><a href="../fine-tuning/index.html#ft-methods" title="这个词的主场：Fine-tuning · 微调方法谱系">LoRA<span class="xm">Fine-tuning</span></a><a href="../llm/index.html#llm-architecture" title="这个词的主场：LLM · Transformer 全解剖">MoE<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -391,6 +432,8 @@
   <p>企业自建评估集的最小配方（50–200 道真题、业务专家评分、版本化管理）在 <a href="../evaluation/index.html">Evaluation 网页版</a>展开成完整方法论。</p>
   <p class="ev">许可格局核实 2026-07-08，来源 <a href="#src-eval-lt">OpenRouter 2026-06
     盘点</a>。<b>不可外推边界</b>：许可格局按发布批次变动（Meta 转向就是本节的例子）；许可证结论一律以当日 LICENSE 原文为准。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-evaluation" title="模型本体评估 ↔ 检索质量评估，两条评估线互参">常见评估方法<span class="xm">RAG</span></a><a href="../agent/index.html#agent-eval-guardrails" title="模型本体评估 ↔ 智能体评估与护栏">评估与护栏<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -561,7 +604,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../llm-inference/index.html"><span class="k">上一册 · 基础层</span><b>LLM-Inference</b></a>
    <a class="nx" href="../prompt-engineering/index.html"><span class="k">下一册 · 基础层</span><b>Prompt-Engineering</b></a>
@@ -569,8 +612,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 6ND 训练成本速算器：讲义第 7 章公式的交互版。总算力=6×N×D；天数=总算力÷(卡数×峰值×MFU)。
    显存账按每参数 16 字节（混合精度+Adam 口径）。无 JS 时 .tool 隐藏，静态兜底是正文公式。 */

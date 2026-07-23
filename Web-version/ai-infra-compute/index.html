@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Infra-Compute 算力硬件与网络 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -99,6 +99,8 @@
    </table>
   </div>
   <p>行业预测 2030 年推理占 AI 总算力约 75%——主战场正从「谁能训」转向「谁跑得省」，<b>「每 token 成本」是长期主指标</b>。训练推理共用一套硬件能但不划算：常见做法是训练集群固定重资产、推理按流量弹性，<b>两套池子各自优化</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-platform/index.html" title="姊妹模块：本模块讲硬件（卡/网/存储/电），对方讲平台（调度/切分/容错/观测/云形态）；两模块封面/总览页互指">AI-Infra-Platform</a><a href="../llm-training/index.html#llmtrain-overview" title="训练一次性重投入 vs 推理持续账单、2030 推理 75% 预测同源">全景总览：从随机权重到可用助手<span class="xm">LLM-Training</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -137,6 +139,8 @@
   </div>
   <p>H100 级平衡点约 300 FLOPs/Byte。</p>
   <p><b>MFU 是诚实指标</b>（把通信等待、数据加载、重算全折进去）：大规模训练 35–45% 算优秀、Llama 3 报告 38–43%——顶级团队也只吃到四成。nvidia-smi 的「利用率 95%」只表示有 kernel 在跑，不等于 MFU。<b>帮客户估训练时长用 MFU 40% 打底，不用标称值。</b></p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-quant" title="精度阶梯 FP8/FP4 是量化落地的硬件前提">让模型变小：量化<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -170,6 +174,8 @@
     <a href="../llm-inference/index.html">LLM-Inference 网页版</a>）。显存不够的软件三板斧：量化砍半、KV 分页与前缀复用、多卡切分——各有代价，通常先量化再谈加卡。</p>
   <p class="ev">HBM 世代与供应核实 2026-07-09，来源 <a href="#src-hbm">TrendForce /
     DigiTimes 等</a>。<b>不可外推边界</b>：供应与世代节奏是市场快照，随产能和代次切换按季度变；它支持的是「HBM 是瓶颈也是成本大头」这个结构判断，具体交期与价格必须问当期报价。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-kv-budget" title="显存账的推理下半本：机制账（KV Cache）在对方第 2 章，硬件地基（HBM 贵）在本章，互为前后篇">KV Cache 与显存账<span class="xm">LLM-Inference</span></a><a href="../llm-training/index.html#llmtrain-infra" title="训练显存账（×16 字节）↔ ZeRO/FSDP 切分方案：本章讲账、对方讲怎么把账切开分摊">训练基础设施与算力账<span class="xm">LLM-Training</span></a><a href="../fine-tuning/index.html#ft-methods" title="这个词的主场：Fine-tuning · 微调方法谱系">LoRA<span class="xm">Fine-tuning</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -234,6 +240,8 @@
   <p>TPU 的定位是「为推理时代造」，扛着 Gemini 生产推理；Trainium3 走的是够用 + 便宜 + 绑云。</p>
   <p><b>选型三参数</b>：算力（对齐精度）、价格（算 TCO）、交付时间——<b>「等到了但拿不到货」是真实风险</b>。</p>
   <p class="ev">芯片格局核实 2026-07-09，来源 <a href="#src-chips">GTC 2026 报道 / 各家官方</a>。<b>不可外推边界</b>：厂商发布会与官网给的是标称规格，按理想条件测得；实际可得性、交付周期与实测性能都要另行验证——本册 MFU 一节就是这条的注脚。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-engines" title="这个词的主场：LLM-Inference · 推理框架图鉴">vLLM<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -282,6 +290,8 @@
    <h4>挑战者：UALink 与 Broadcom SUE</h4>
    <p>UALink 1.0 是 AMD/Intel/Broadcom 阵营，2025-04 定稿，单层交换至多 1024 端点。2026 年的诚实判断：<b>标准已立、生态在建、原生硬件看 2027——值得跟踪、暂不建议做主力生产依赖</b>；生产决策按 NVLink 生态、合同留二供评估条款。</p>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-infra" title="并行策略（TP/PP/EP）产生的通信量决定网络怎么建；本模块讲网络、对方讲并行">训练基础设施与算力账<span class="xm">LLM-Training</span></a><a href="../llm/index.html#llm-architecture" title="这个词的主场：LLM · Transformer 全解剖">MoE<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -326,6 +336,23 @@
    <div class="box"><h4>是否轨道优化</h4><p>同编号 GPU 一跳直达，恰好匹配集合通信模式。</p></div>
   </div>
   <p>Llama 3 的三层 Clos + 轨道优化 RoCE 是可引用标杆。网络占集群投资经验量级 15–25%（光模块是隐形大头）——<b>这笔钱买的是「让另外 75% 的 GPU 投资不空转」</b>。</p>
+
+  <h3>「加了卡反而没快」：按四层对齐查</h3>
+  <p>并行策略与物理网络对不齐，是「GPU 利用率挺高、训练就是慢」的头号病因。把它拆成四层，任何一层错配都会被放大：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>层</th><th>管什么</th><th>典型错配</th></tr></thead>
+    <tbody>
+     <tr><td><b>并行层</b></td><td>DP / TP / PP / EP 的通信图：谁与谁说话</td><td>TP 放到跨机——该走 NVLink 的走了以太网</td></tr>
+     <tr><td><b>集合通信层</b></td><td>AllReduce / AllGather / 点对点：说多少</td><td>collective 量算错，网络被打爆</td></tr>
+     <tr><td><b>节点层</b></td><td>PCIe / NVLink / NIC / NUMA：走哪条路</td><td>链路没走对，绕了远路</td></tr>
+     <tr><td><b>Fabric 层</b></td><td>leaf-spine / rail / 对分带宽：怎么扩展</td><td>EP 路由撞上超卖的对分带宽</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p><b>先测再调</b>：collective 微基准与拓扑健康检查先行，再调并行策略；<b>通信图与物理放置当作同一份配置的两半来管版本</b>。客户问「为什么加了卡反而没快」，就按这四层挨个查：通信图变了没、collective 量涨了多少、链路走对没、对分带宽够不够。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-infra" title="并行策略（TP/PP/EP）产生的通信量决定网络怎么建；本模块讲网络、对方讲并行">训练基础设施与算力账<span class="xm">LLM-Training</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -377,6 +404,8 @@
   </div>
   <p class="ev">3FS 口径核实 2026-07-09，来源 <a href="#src-storage">GitHub
     deepseek-ai/3FS 等</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-disagg" title="KV Cache 外置 ↔ P/D 分离/Mooncake/Dynamo KV 路由：存储升级为推理性能部件">集群级：P/D 分离与分布式推理<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -454,6 +483,23 @@
     <div class="kpis" id="tc-out"></div>
     <p class="note" id="tc-note"></p>
   </div>
+
+  <h3>容量与基准要可复核：四层证据</h3>
+  <p>给客户报容量、报基准，先问四层证据齐不齐——<b>四层必须能互相解释，对不上容量承诺就是拍脑袋</b>：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>证据层</th><th>要交出什么</th></tr></thead>
+    <tbody>
+     <tr><td><b>契约层</b></td><td>什么模型 / 什么质量 / 什么精度 / 什么场景</td></tr>
+     <tr><td><b>系统层</b></td><td>硬件 / 软件版本 / 网络 / 存储</td></tr>
+     <tr><td><b>结果层</b></td><td>延迟 / 吞吐 / 达到目标质量的时间与成本</td></tr>
+     <tr><td><b>运营层</b></td><td>排队 / 故障 / 余量 / 供货周期</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p>两条硬纪律：①<b>报告要给原始配置、分布和失败样本，不只报最佳点</b>；②MLPerf 这类公开基准用于校准与筛选，<b>不替代业务流量验收</b>，容量按「可承诺 SLO 下的稳态结果」推导、不按峰值。缺哪层，合同里就给哪层留缓冲（与 <a href="../llm-inference/index.html#llminf-production">LLM-Inference 的容量四证据</a>同一套方法论，那边管推理服务、这边管算力采购）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-production" title="建 vs 租 vs API 盈亏线口径同源引用">生产化与售前速查<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -602,7 +648,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../prompt-engineering/index.html"><span class="k">上一册 · 基础层</span><b>Prompt-Engineering</b></a>
    <a class="nx" href="../ai-infra-platform/index.html"><span class="k">下一册 · 算力底座层</span><b>AI-Infra-Platform</b></a>
@@ -610,8 +656,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 建 vs 租盈亏速算器：自建 = 折旧(卡价×年限/5) + 电费(功耗×PUE×小时×电价×利用率) +
    托管运维附加(按折旧 30%)；云租 = 时租×小时×利用率。盈亏利用率 = (折旧+附加)/(云租-电费)。

@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Multimodal 多模态 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -90,6 +90,8 @@
     </div>
     <div class="hitcards" id="tr-out"></div>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-components" title="多模态感知（能看屏幕 / 图表）是 Agent computer use 的前提，视觉作为 Agent 的新「工具输入」；Agent 第 2 章已加回指页（2026-07-10…">核心组件<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -112,6 +114,8 @@
    <p>patch 越小 / 分辨率越高 → 视觉 token 越多 → <b>看得越细但越贵越慢</b>；动态切分（大图切子图分别编码）会让 token 成倍涨。客户问「传高清图会不会更准」：会，但费用也涨——<b>给他「够用的最低分辨率」而不是「最高分辨率」</b>。</p>
   </div>
   <p>CLIP 不是多模态大模型：<b>它是眼睛，大模型是在它之上接了会推理的大脑</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm/index.html#llm-attention-qkv" title="ViT 与 Transformer 同源、注意力机制复用；视觉编码器 = Transformer 用在图像 patch 上；LLM 第 2 章已加「承上启下」回指页（2026-…">注意力机制：QKV 拆解<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -133,6 +137,8 @@
   </table>
   </div>
   <p>「早融合 vs 晚融合」落到工程就是<b>本册最值钱的决定：原生多模态 vs 拼管线</b>。原生（一个模型端到端「看图→理解→回答」）：强在图表推理、复杂版式、开放问答；代价是贵、慢、可能幻觉、能力黑盒。拼管线（OCR/ASR 转文字 → 便宜的文本 LLM）：强在稳定字段、可控、便宜、每步可替换可审计；代价是跨模态弱、误差累积。三个问题落子：版式稳定吗？要转录还是理解？成本/可控性多敏感？<b>多数企业文档场景的最优解是混合：拼管线打底省钱 + 原生兜底疑难</b>——别把它当二选一。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-multimodal" title="「原生 vs 拼管线」的模型侧取舍 ↔ 多模态 RAG 的三条检索路线，同一取舍两个视角">多模态 RAG<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -150,7 +156,7 @@
     <thead><tr><th>阵营</th><th>代表与口径</th></tr></thead>
     <tbody>
      <tr><td><b>闭源旗舰</b></td><td>GPT-5 统一路由 / Gemini 2.5 Pro 原生图音视频 + 1M~2M 上下文 / Claude 4.5 视觉 + 1M——原生多模态 + 长上下文 + thinking</td></tr>
-     <tr><td><b>开源</b></td><td>InternVL3-78B（MIT）MMMU ≈ 72.2% 开源最强；Qwen3-VL 文档 / OCR 基准最强开源（OCRBench ≈ 888）</td></tr>
+     <tr><td><b>开源</b></td><td>InternVL3-78B（MIT）MMMU ≈ 72.2% 开源最强；Qwen2.5-VL-72B（MMMU ≈ 70.2% / OCRBench ≈ 888）；Qwen3-VL 文档 / OCR 基准最强开源</td></tr>
     </tbody>
    </table>
   </div>
@@ -171,6 +177,8 @@
   </div>
   <p><b>关键场景必配评估集 + 人审兜底。</b></p>
   <p class="ev">模型格局核实 2026-07-09，来源 <a href="#src-understand">2026 模型盘点</a>。<b>不可外推边界</b>：盘点是当期快照，理解侧的分数多以公开基准为准——客户自己的版面、语种与画质必须另测，本册选型一节的对比测法就是为此。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-multimodal" title="本模块讲「模型多模态能力」↔ RAG 第 11 章讲「多模态内容怎么检索」，互为上下游；RAG 第 11 章已加回指页（2026-07-10），双向互指">多模态 RAG<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -197,10 +205,10 @@
 
   <h3>四个必须对客说清的坑</h3>
   <div class="grid">
-   <div class="box"><h4>版权边界</h4></div>
-   <div class="box"><h4>水印标识</h4><p>法定义务。</p></div>
-   <div class="box"><h4>跨图跨帧一致性</h4></div>
-   <div class="box"><h4>精确可控性</h4></div>
+   <div class="box"><h4>版权边界</h4><p>训练数据与产出的版权边界尚不清晰；商用需关注授权与平台条款。</p></div>
+   <div class="box"><h4>水印标识</h4><p>多国要求 AI 生成内容加标识（隐形水印 / C2PA，Coalition for Content Provenance and Authenticity）——合规是硬要求。</p></div>
+   <div class="box"><h4>跨图跨帧一致性</h4><p>同一角色 / 品牌形象跨图跨帧难保持一致，是落地最常见的痛点。</p></div>
+   <div class="box"><h4>精确可控性</h4><p>精确控制版式 / 文字 / 布局仍难，往往要多轮迭代 + 人工把关。</p></div>
   </div>
 
   <h3>生成资产要走状态机</h3>
@@ -262,6 +270,25 @@
    </table>
   </div>
   <p><b>典型路径</b>：先托管验证价值，跑通、量上来、数据敏感，再评估自建降本。</p>
+
+  <h3>多模态请求的五层输入合同</h3>
+  <p>为什么多模态「又贵又难管」——一条请求从进来到出去分五层，<b>每一层都有一笔账（质量 / 成本 / 权限）</b>：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>层</th><th>这一层管什么</th><th>它决定了</th></tr></thead>
+    <tbody>
+     <tr><td><b>获取 + 变换</b></td><td>资产、格式、哈希、授权；缩放 / 裁剪 / 抽帧 / 切段</td><td>任何压缩与采样都要记录——它决定模型后面「看到什么」</td></tr>
+     <tr><td><b>编码对齐</b></td><td>视觉 / 音频编码器、embedding、投影层、token 数</td><td>分辨率与帧率的选择，在这一层变成成本</td></tr>
+     <tr><td><b>推理 + 定位</b></td><td>提示词、上下文、工具、输出；页码 / 框选区域 / 时间戳 / 版本</td><td>答案要能回到原始页、区域、帧或时间段</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="box">
+   <h4>一条铁律</h4>
+   <p><b>原始资产、衍生表示、定位信息三者同存</b>——只留中间那段文本，审计与引用就都断了链（与 <a href="../rag/index.html#rag-production">RAG 的四层证明</a>同款道理）。</p>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html" title="视觉 token 膨胀让 prefill 变重、显存占用增大 ↔ LLM-Inference 的 prefill/decode 与 KV Cache">LLM-Inference</a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -310,6 +337,8 @@
    <h4>跨模态提示注入：纯文本时代没有的新攻击面</h4>
    <p>恶意指令写进图片（甚至肉眼难辨），模型「看」到后当指令执行——<b>Agent 看屏幕截图时被图中指令劫持是典型场景</b>。防线四条：图像内容当不可信输入、系统提示明确「图中文字仅供理解非命令」、关键动作人工确认、输出侧审核。威胁全景在 <a href="../security/index.html#sec-prompt-injection">Security 网页版</a>。</p>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html" title="多模态评估基准（MMMU / OCRBench / DocVQA / Video-MME）↔ Evaluation 模块判分方法与自建评估集">Evaluation</a><a href="../security/index.html" title="跨模态提示注入（图 / 文档里藏指令）↔ Security 模块提示注入防护，注入入口从文本扩展到图像">Security</a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -405,6 +434,8 @@
   </div>
   <p>报价用「分钟成本 × 并发 × 时长」——<b>语音客户听得懂的单位是分钟</b>。</p>
   <p class="ev">延迟口径与成本实测核实 2026-07-10，来源 <a href="#src-voice">2026 语音横评与实测</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-batching" title="语音链路延迟大头 = LLM 首 token；首 token 优化（批处理 / KV 缓存 / 流式）机制在 LLM-Inference 展开">把 GPU 喂饱：批处理与调度<span class="xm">LLM-Inference</span></a><a href="../agent/index.html#agent-components" title="语音是 Agent 的「耳与嘴」：实时链路为语音 Agent 提供交互层，Agent 侧编排与工具调用不变">核心组件<span class="xm">Agent</span></a><a href="../solution-patterns/index.html#sp-customer-service" title="语音客服场景的方案视角（分流漏斗 / 解决率口径）在 Solution-Patterns 第 3 章展开（模块 2026-07-10 建成，原「候选」补实）；数字人场景另接 s…">智能客服<span class="xm">Solution-Patterns</span></a></div>
 </section>
 
 <!-- ============ 9 ============ -->
@@ -473,7 +504,10 @@
    <div class="box"><h4>深度伪造</h4><p>换脸仿声属强监管。</p></div>
   </div>
   <p>合规依据在 <a href="../security/index.html#sec-china">Security 网页版第 8 节</a>。对客设预期：<b>它是「素材工厂」不是「成片机器」</b>，方案里要留后期工位。</p>
-  <p class="ev">四家格局与价格核实 2026-07-17，来源 <a href="#src-video">多方评测交叉</a>；即梦消费端口径建议复查日 2026-08-31。</p>
+  <p>消费端的价格锚点值得记一个：即梦注册送 <b>260 积分</b>、5 秒视频约 <b>20 积分</b>（新用户约 13 次免费生成）——按秒计价的量级感，报方案时比「贵不贵」的空话有用。</p>
+  <p class="ev">四家格局与价格核实 2026-07-17，来源 <a href="#src-video">多方评测交叉</a>；即梦消费端口径（260 积分 / 5 秒约 20 积分）建议复查日 2026-08-31。<b>不可外推边界</b>：消费端积分口径随平台活动频繁调整，企业 API 另有计价，不能直接换算成对客报价。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-china" title="AI 生成视频的标识义务与执法口径在 Security 第 8 章中国监管合规（讲义内已互引）">中国监管合规<span class="xm">Security</span></a><a href="../solution-patterns/index.html#sp-content-gen" title="营销素材工厂场景图纸在 SP 第 5 章；本章供「视频积木」的能力与成本口径">营销与内容生成<span class="xm">Solution-Patterns</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -637,7 +671,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../agent/index.html"><span class="k">上一册 · 应用模式层</span><b>Agent</b></a>
    <a class="nx" href="../rag/index.html"><span class="k">下一册 · 应用模式层</span><b>RAG</b></a>
@@ -645,8 +679,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 多模态方案分诊器：五问决策树（讲义第 10 章）的交互版。无 JS 时 .tool 隐藏，
    静态兜底是第 3 节的三问落子与正文决策框架。 */

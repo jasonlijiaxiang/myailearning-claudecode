@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Evaluation 评估体系 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -104,6 +104,8 @@
    </div>
   </div>
   <p>边界声明：本册管「质量」，延迟/吞吐归 <a href="../llm-inference/index.html">LLM-Inference 网页版</a>——快不快找推理，好不好找评估。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html" title="边界声明:质量归本模块,延迟/吞吐归 LLM-Inference">LLM-Inference</a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -145,6 +147,8 @@
   <p class="ev">核实 2026-07-09，来源 <a href="#src-bench">2026 基准综述</a>、
     <a href="#src-illusion">arXiv 2504.20879</a>。这套「榜单怎么骗人」的弹药与
     <a href="../model-landscape/index.html#ml-selection">Model-Landscape 网页版</a>的选型两道防线互为表里。<b>不可外推边界</b>：领跑格局是当期快照，且每个基准只对它那类任务有效——「没有全能冠军」的另一面是：任何单一基准分数都不能外推成整体能力。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html" title="模型厂「炼模型时评什么」vs 应用方「选模型时评什么」,视角互补">LLM-Training</a><a href="../model-landscape/index.html#ml-selection" title="本模块讲&quot;榜单怎么骗人/怎么自建评估&quot;,Model-Landscape 第 8 章把它用作选型两道防线——双向互指(2026-07-10)">选型方法论<span class="xm">Model-Landscape</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -197,6 +201,8 @@
     <div class="hitcards" id="gr-out"></div>
     <p class="note" id="gr-note"></p>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../prompt-engineering/index.html#pe-engineering" title="提示词的评估驱动优化用本模块判分四法 / LLM-as-a-Judge；讲义已加「与 Prompt Engineering 的关系」页回指">工程化与自动优化<span class="xm">Prompt-Engineering</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -232,6 +238,8 @@
     低分与边界样本送人工复核 → 人工判决回流为新校准数据」。评审任何判官方案用<b>判官三问</b>：
     ①和人工对齐过吗？②换序复核了吗？③高风险有人工兜底吗？</p>
   <p class="ev">偏差证据来源 <a href="#src-judge">arXiv 2306.05685 / 2410.21819 / 2410.02736</a>，校准与可靠性 <a href="#src-jrh">Judge Reliability Harness（2026-03）</a>，核实 2026-07-09。<b>不可外推边界</b>：一致率门槛是常见做法不是通用标准，随任务而变；压测的结论也正是「可靠性是逐任务的属性」——换任务必须重新校准，不能沿用上一个场景的判官结论。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-ops/index.html#ops-online-eval" title="全库最强新搭档:本模块给离线建集与判官方法,AI-Ops 第 3 章做在线采样运营(共享判分器定义)——双向互指(2026-07-10)">在线评估与反馈回流<span class="xm">AI-Ops</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -287,6 +295,8 @@
 
   <h3>进 CI、持续生长</h3>
   <p>把评估当测试跑：prompt 改动、模型升级、检索配置变更都触发评估集回归，通过率低于门槛就挡住上线——「只改了一个词」和「只改了一行代码」一样都是变更。评估集要持续生长：线上坏例回流（同一个坑不踩第二次），像免疫系统越打越强。两个维护点：<b>防泄漏</b>（评估题别混进微调训练数据）、<b>防过拟合</b>（留 10–20% 保留集不参与日常调优，定期补新题）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-ops/index.html#ops-online-eval" title="全库最强新搭档:本模块给离线建集与判官方法,AI-Ops 第 3 章做在线采样运营(共享判分器定义)——双向互指(2026-07-10)">在线评估与反馈回流<span class="xm">AI-Ops</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -308,8 +318,7 @@
   </table>
   </div>
 
-  <h3>RAG：检索与生成分开评</h3>
-  <h3>Ragas 三角</h3>
+  <h3>RAG：检索与生成分开评（Ragas 三角）</h3>
   <p>开卷考试三件事：翻到对的页、别抄不相干段落、答案只依据书上写的。</p>
   <div class="tw">
    <table>
@@ -330,6 +339,8 @@
 
   <h3>微调与安全维度</h3>
   <p>微调验收别只看 loss：目标能力提升了吗、通用能力掉了吗（灾难性遗忘）、格式与安全行为稳吗、线上 A/B 赢了吗——训前冻结一套与训练数据零重叠的通用回归集，训后先过回归再上线。安全维度进验收清单：有害内容率、注入抵抗、泄露、幻觉率（无依据陈述比例）——同样可以出题、判分、算通过率。护栏与评估的分工：<b>护栏是在线安检门挡个案，评估是离线体检看水位</b>——互补不互替，护栏拦得准不准也要靠评估度量。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html" title="RAG 检索质量指标在本模块收编为「场景验收」并补全端到端方法">RAG</a><a href="../agent/index.html" title="Agent「评估与护栏」提出「要评」,本模块给出轨迹/结果分层的「怎么评」">Agent</a><a href="../fine-tuning/index.html#ft-eval-deploy" title="微调验收四层与回归门禁在本模块展开成完整验收方案">评估与部署<span class="xm">Fine-tuning</span></a><a href="../security/index.html#sec-defense" title="安全维度验收(注入抵抗率、有害内容率)由 Security 模块第 6 章红队产出并回流,候选边已兑现(2026-07-09)">防护工程:护栏·模式·红队<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -559,6 +570,8 @@
       </div>
     </details>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html#ft-eval-deploy" title="这个词的主场：Fine-tuning · 评估与部署">灾难性遗忘<span class="xm">Fine-tuning</span></a></div>
 </section>
 
 <!-- ============ 相关模块 ============ -->
@@ -642,8 +655,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 判分方案设计器：第 3 章设计顺序（先代码判→再判官→人工定标兜底）的交互版。
    判据全部来自本页各节，不引入新事实。无 JS 时 .tool 隐藏，静态兜底是判分四法表。 */

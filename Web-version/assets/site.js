@@ -72,6 +72,11 @@
         });
       });
     });
+    /* 关键词也进索引：词 → 它在库内的主归属章节（build.py CONCEPTS，
+       与章末串联条同一份落点表）。搜「LoRA」直达微调册对应章。 */
+    (kb.concepts || []).forEach(function (c) {
+      out.push({ t: c.t, k: c.m + " · 关键词", u: c.u, s: c.t + " " + c.m });
+    });
     return out;
   }
 

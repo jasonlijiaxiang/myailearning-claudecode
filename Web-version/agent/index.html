@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent 智能体与编排 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -159,6 +159,8 @@
   <p>接工具不是「有 API 就行」——命名、描述、返回的设计直接决定 agent 用不用得好。</p>
   <p>多模态让 agent 的感知从纯文本扩展到屏幕截图、图表、扫描件——视觉成为新的工具入参，也是 <a href="#agent-computer-use">Computer Use</a> 的前提（模型怎么看懂图见
     <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-what-why" title="多模态感知让 agent「能看」屏幕 / 图表，是 computer use 的前提；第 2 章已加「多模态感知」串联页回指（2026-07-10），护栏侧接 multimod…">是什么 / 为什么<span class="xm">Multimodal</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -224,6 +226,8 @@
   <p>投入在工具契约上的一小时，常比调一天提示词更能提升成功率——工具返回的质量决定模型「看到什么」，提示词只决定「怎么看」。<b>评审 agent 方案先翻它的工具清单</b>：六层缺哪层，事故就从哪层来。</p>
   <p class="ev">MCP 版本现状核实 2026-07-07（建议复查日 2026-07-28），来源
     <a href="#src-mcp">modelcontextprotocol.io</a>。<b>不可外推边界</b>：已排定 2026-07-28 发新版，届时本节结论按新规范重写；在那之前引用必须带版本号。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../mcp/index.html#mcp-what-why" title="Agent 第 4 章讲 MCP 概览，协议细节深入见 MCP 模块">是什么/为什么<span class="xm">MCP</span></a><a href="../a2a/index.html#a2a-what-why" title="Agent 第 4 章提及 A2A（v1.0）；跨厂商 Agent 协作的协议细节深入见 A2A 模块">是什么/为什么<span class="xm">A2A</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -259,6 +263,8 @@
   <p>把检索当工具交给 agent：它自己决定查不查、查什么、查几轮，根据首轮结果改写查询再深挖——检索从「固定的前置步骤」变成「循环里的自主动作」，代价是延迟与成本随轮数上升。检索质量的地基（切分、Embedding、重排序、评估）全在
     <a href="../../PPT-version/RAG/README.html">RAG 模块</a>——那边把库建好，这边 agent
     才有得查。RAG 建库的投资完全复用，区别只在调用方式。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../prompt-engineering/index.html#pe-advanced-reasoning" title="上下文工程 / ReAct 是提示词技巧在工具循环里的应用；讲义已加「与 Prompt Engineering 的关系」页回指">进阶推理与编排<span class="xm">Prompt-Engineering</span></a><a href="../rag/index.html#rag-agentic" title="Agent 第 5 章&quot;与 RAG 的握手&quot; ↔ RAG 第 8 章，双向互引">Agentic RAG<span class="xm">RAG</span></a><a href="../llm/index.html#llm-inference-kv" title="上下文工程的架构根源（O(n²) 成本 + KV 缓存 + 有效窗口）见 LLM 原理第 4 章">从架构到推理：上下文窗口与 KV 缓存<span class="xm">LLM</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -294,6 +300,8 @@
   <p class="ev">OWASP 清单与工具格局核实 2026-07-07，来源 <a href="#src-owasp">genai.owasp.org
     与各官方文档</a>。深入的攻防机制见 <a href="../../PPT-version/Security/README.html">Security
     模块</a>。<b>不可外推边界</b>：OWASP 清单是风险面的行业共识，不是覆盖度承诺——清单上没有的不等于不存在，记忆投毒（ASI06）就是后补进来的。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../evaluation/index.html#eval-scenarios" title="agent 评估（turn/milestone/trajectory）已在 Evaluation 第 6 章场景验收展开（原「候选」于 2026-07-10 补实）">场景验收:RAG / Agent / 微调<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -334,6 +342,8 @@
     LangGraph 服务是常规操作；锁定主要在工作流画布（格式不通），对策是复杂逻辑早下沉，画布只做薄编排。</p>
   <p class="ev">四平台口径核实 2026-07-10，来源 <a href="#src-lowcode">GitHub 仓库 /
     官方文档 / 融资报道</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../mcp/index.html#mcp-what-why" title="四平台都在补 MCP 支持（工具接入标准化），协议细节见 MCP 模块">是什么/为什么<span class="xm">MCP</span></a><a href="../rag/index.html#rag-pipeline" title="Dify 内置 RAG = RAG 第 6 章最小管线的产品化，配知识库即建库">最小 RAG 管线<span class="xm">RAG</span></a><a href="../multimodal/index.html#mm-voice-realtime" title="平台搭的客服 bot 要上语音时，实时链路工程（延迟/打断/RTC）见 Multimodal 第 8 章">语音与实时交互<span class="xm">Multimodal</span></a><a href="../solution-patterns/index.html#sp-cheatsheet" title="平台是各场景方案的落地工具层；「有没有平台」在 Solution-Patterns 分诊树中指回本章（模块 2026-07-10 建成，原「候选」补实）">售前速查<span class="xm">Solution-Patterns</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -394,6 +404,8 @@
   <p class="ev">框架横评与投毒研究核实 2026-07-11，来源 <a href="#src-memory">2026 横评 /
     arXiv 2601.05504、2607.06595</a>。防线与 <a href="../../PPT-version/Security/README.html">Security</a>
     第 5 章同源展开。<b>不可外推边界</b>：投毒成功率来自研究环境的对抗实验，不能外推成生产系统的实际发生率；它支持的是「必须有写入过滤与审计」，不是「你已经被投毒了」。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../security/index.html#sec-agentic" title="记忆投毒防线与 Security 第 5 章「记忆投毒」同源展开；记忆 vs RAG 边界 = 用户交互史 vs 组织知识">Agent 与工具安全<span class="xm">Security</span></a><a href="../rag/index.html#rag-what-why" title="记忆投毒防线与 Security 第 5 章「记忆投毒」同源展开；记忆 vs RAG 边界 = 用户交互史 vs 组织知识">是什么/为什么<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 9 ============ -->
@@ -423,6 +435,8 @@
   <p>RPA 流程写死——稳而脆，界面改一个按钮就断；Computer Use 自适应——但慢而贵。落地常态是<b>混合：RPA 跑稳定主干，CU 处理变化页面与异常分支</b>，存量投资不浪费。安全边界四件：跑在沙箱/虚拟桌面（别碰真实工作机）、账号最小权限、不可逆操作人审、<b>屏幕内容当不可信输入</b>——网页里藏一行字就可能指挥 agent，注入面转移到了屏幕上。成本提醒：每步都要截图进模型，视觉 token 是大头——按「步数 × 每步截图成本」估算，长流程常是 RPA 混合的账更好看。</p>
   <p class="ev">路线与基准核实 2026-07-11，来源 <a href="#src-cu">2026 对比矩阵 /
     arXiv 2606.29537</a>。<b>不可外推边界</b>：两个基准的口径差得很远（短窄任务 vs 长程多应用），任何一个数字单拎出来都会误导，对客必须两个一起给。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-what-why" title="视觉感知是 CU 前提（第 2 章串联页已埋&quot;computer use 前提&quot;）；屏幕内容 = 新注入面">是什么 / 为什么<span class="xm">Multimodal</span></a><a href="../security/index.html#sec-prompt-injection" title="视觉感知是 CU 前提（第 2 章串联页已埋&quot;computer use 前提&quot;）；屏幕内容 = 新注入面">提示注入与越狱<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 10 ============ -->
@@ -538,6 +552,8 @@
   <p><b>治理三件</b>：按任务价值分层开、并发限额、token 预算与超额熔断——<b>先上追踪和预算，再开 multi-agent</b>。</p>
   <p class="ev">机制与配置核实 2026-07-17，来源 <a href="#src-subagent">Claude Code / Codex
     官方文档</a>；决策账数字来源 <a href="#src-anthropic">Anthropic 多 agent 研究系统工程博客</a>（BrowseComp 内部评测口径，两家产品迭代都快，引用前先核日期）。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="#agent-orchestration" title="模块内串联：orchestrator-workers 是模式（蓝图），sub-agent 是 coding agent 产品里的机制（车间）；两章互指">编排模式<span class="xm">本页</span></a><a href="#agent-context" title="模块内串联：上下文隔离是第 5 章「子 agent」板斧的机制展开；任务书自包含 = 上下文工程纪律">上下文工程<span class="xm">本页</span></a></div>
 </section>
 
 <!-- ============ 11 ============ -->
@@ -825,8 +841,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 启用条件决策器：两把尺 + 六个启用条件 + 派与不派账的交互版。
    判据全部来自本页各节（讲义第 1/7/8/9/10/11 章口径），不引入新事实。

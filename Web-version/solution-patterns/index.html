@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Solution-Patterns 场景方案库 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -81,6 +81,8 @@
     </div>
     <div class="hitcards" id="tg-out"></div>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-reranking" title="这个词的主场：RAG · 重排序 Reranking">重排序<span class="xm">RAG</span></a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -149,6 +151,25 @@
     厂商自报解决率 51–80%，独立口径（Zendesk 企业全量）中位仅 41.2%——30–40 个百分点的差距是常态。五类高频坑没有一个是技术坑（需求/数据/期望/验收/安全）——AI 项目烂尾，八成烂在方法和预期管理上。</p>
   <p class="ev">口径锚点核实 2026-07-10，来源 <a href="#src-cs">fin.ai 对比页 /
     digitalapplied 2026 统计</a>。</p>
+
+  <h3>方案验收：六条线闭环</h3>
+  <p>方案能不能交付，看四组八件能不能各拿出证据——功能 Demo 只验证了一小部分假设：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>验收组</th><th>要交出的证据</th></tr></thead>
+    <tbody>
+     <tr><td><b>价值 + 模式</b></td><td>决策 / KPI / baseline 清楚（方案一页纸）；复杂度由场景证明——RAG 够用就别上 Agent（分诊树）</td></tr>
+     <tr><td><b>架构 + 数据</b></td><td>能力 / owner / 主路径完整（架构与时序图）；来源 / 权限 / 版本 / 删除可控（数据契约，接 <a href="../data-engineering/index.html">DE</a>）</td></tr>
+     <tr><td><b>保障</b></td><td>质量 / NFR / 风险 / TCO 可承诺——评测与门禁（接 <a href="../evaluation/index.html">Evaluation</a>），四阶段门逐层放行</td></tr>
+     <tr><td><b>交付</b></td><td>阶段 / 运营 / 退出可执行——runbook 与路线图；运营包五件套（接 <a href="../ai-ops/index.html">AI-Ops</a>）</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="box">
+   <p>终极判断：<b>客户能签署业务结果与责任，团队能用证据决定继续、停止、扩容、回滚或替换。</b></p>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-gateway/index.html#gw-cost" title="三本账的 token/并发治理在网关落地；成本治理机制见 AI-Gateway 第 4 章">流量与成本治理<span class="xm">AI-Gateway</span></a><a href="../evaluation/index.html#eval-build" title="POC 三要素中「签字的指标」= 自建评估集方法，见 Evaluation 第 5 章">自建评估:数据集与指标设计<span class="xm">Evaluation</span></a><a href="../ai-ops/index.html#ops-cheatsheet" title="三本账的「人力账/运营包」在 AI-Ops 第 8 章展开为五件套清单与 SLA 报价口径——双向互指（2026-07-10）">售前速查<span class="xm">AI-Ops</span></a><a href="../data-engineering/index.html#de-what-why" title="「数据坑是第一风险」「连接器是报价大头」在 Data-Engineering 展开为工程清单与报价明细——双向互指（2026-07-11）">数据就绪度是第一风险<span class="xm">Data-Engineering</span></a><a href="../data-engineering/index.html#de-pipeline" title="「数据坑是第一风险」「连接器是报价大头」在 Data-Engineering 展开为工程清单与报价明细——双向互指（2026-07-11）">连接器与增量同步<span class="xm">Data-Engineering</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -190,6 +211,8 @@
    </table>
   </div>
   <p>呼叫中心与工单系统集成是工程量大头，<b>排期如实体现、集成费单列</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-hybrid" title="客服主料：知识兜底 + 业务办理">混合检索<span class="xm">RAG</span></a><a href="../agent/index.html#agent-orchestration" title="客服主料：知识兜底 + 业务办理">编排模式<span class="xm">Agent</span></a><a href="../multimodal/index.html#mm-voice-realtime" title="语音客服链路（级联/延迟/SIP）深潜入口">语音与实时交互<span class="xm">Multimodal</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -242,6 +265,8 @@
   <p><b>文档质量差怎么办</b>：垃圾进垃圾出，但方案可带知识运营——覆盖率仪表盘找高频无答案问题，反向驱动文档补全。</p>
   <p class="ev">Glean 数字核实 2026-07-10，来源 <a href="#src-glean">TechCrunch
     2026-05-28 / Glean press</a>。<b>不可外推边界</b>：这是全公司 AI 搜索这一形态的市场锚点，是公司层面的数字不是项目数字；部门级知识库问答不适用这个量级——两种形态的工程量差一个数量级。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../data-engineering/index.html#de-what-why" title="「数据坑是第一风险」「连接器是报价大头」在 Data-Engineering 展开为工程清单与报价明细——双向互指（2026-07-11）">数据就绪度是第一风险<span class="xm">Data-Engineering</span></a><a href="../data-engineering/index.html#de-pipeline" title="「数据坑是第一风险」「连接器是报价大头」在 Data-Engineering 展开为工程清单与报价明细——双向互指（2026-07-11）">连接器与增量同步<span class="xm">Data-Engineering</span></a><a href="../rag/index.html#rag-hybrid" title="按知识形态选检索路线">混合检索<span class="xm">RAG</span></a><a href="../rag/index.html#rag-graphrag" title="按知识形态选检索路线">GraphRAG：图谱增强检索<span class="xm">RAG</span></a><a href="../rag/index.html#rag-structured" title="按知识形态选检索路线">结构化数据 RAG<span class="xm">RAG</span></a><a href="../security/index.html#sec-data-privacy" title="权限感知检索 / ACL / 越权测试的安全侧依据">数据与隐私安全<span class="xm">Security</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -294,6 +319,8 @@
    <figcaption>人审不是不信任 AI，是风险定价：万分之一翻车概率 × 指数级翻车成本 = 必须有人签字。</figcaption>
   </figure>
   <p>生成技术侧（扩散 vs 自回归、视频四家）在 <a href="../multimodal/index.html#mm-generation">Multimodal 网页版</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-generation" title="生成能力 + 风格注入两大主料">生成侧能力盘点<span class="xm">Multimodal</span></a><a href="../prompt-engineering/index.html#pe-anatomy" title="生成能力 + 风格注入两大主料">提示词解剖<span class="xm">Prompt-Engineering</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -304,6 +331,7 @@
     <p><b>「三选一」是伪命题</b>——双层格局配组合：IDE 补全/编辑层管单人效率（Copilot/
       Cursor，按人头月费）+ agentic 层管整任务委托（Claude Code 类终端 agent，端到端修
       bug、按用量计费）。70% 工程师同时用 2–4 个工具；网关统一管预算，工具迭代不伤架构。</p>
+    <p class="note">报价量级（2026-07）：<b>$19–40 / 人 / 月的 IDE 层月费 + agentic 层的 token 用量</b>——两层分开算，别只报一个「人头费」漏掉 agent 层的用量账。</p>
   </div>
 
   <h3>2026 市场三个第一</h3>
@@ -358,6 +386,8 @@
   <p><b>评审门禁不降级 + 新人配 AI 结对规范</b>：AI 提高产量，评审守住质量，两者不能互换。</p>
   <p class="ev">市场数字核实 2026-07-10，来源 <a href="#src-coding">ideaplan /
     JetBrains 2026 调查</a>。<b>不可外推边界</b>：三个「第一」各属不同维度（用户数、收入、满意度），不是同一张榜的名次，合不成「谁最强」；提效区间是行业口径且方差大，验收要用客户自己的基线。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../agent/index.html#agent-lowcode" title="工具组合与统一预算治理">低代码 Agent 平台<span class="xm">Agent</span></a><a href="../ai-gateway/index.html#gw-cost" title="工具组合与统一预算治理">流量与成本治理<span class="xm">AI-Gateway</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -413,6 +443,8 @@
    <div class="box"><h4>声音克隆授权</h4><p>声音与肖像同等保护、<b>名人音色是高压线</b>。</p></div>
   </div>
   <p>答得好，<b>合规就是竞争力</b>。语音链路深潜在 <a href="../multimodal/index.html#mm-voice-realtime">Multimodal 网页版第 8 节</a>，标识义务在 <a href="../security/index.html#sec-china">Security 网页版第 8 节</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-voice-realtime" title="数字人 = 语音链路 + 生成的脸">语音与实时交互<span class="xm">Multimodal</span></a><a href="../multimodal/index.html#mm-generation" title="数字人 = 语音链路 + 生成的脸">生成侧能力盘点<span class="xm">Multimodal</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -421,7 +453,7 @@
 
   <div class="lead">
     <p>三层需求先分清（混着报价必翻车）：L1 查数（「上月华东区收入多少」，两三周能上）→
-      L2 归因（「为什么环比降了」，依赖语义层厚度）→ L3 报告（Agent 工程）。<b>准确率的真相在语义层不在模型</b>：裸 Text-to-SQL 真实企业库实测仅 10–21%（学术基准五六成，给客户一定讲前者），绑定语义模型后 51%→90%+（Snowflake 内部 150 题），dbt 语义层基准上限 98–100%。</p>
+      L2 归因（「为什么环比降了」，依赖语义层厚度）→ L3 报告（Agent 工程）。<b>准确率的真相在语义层不在模型</b>：裸 Text-to-SQL 随基准的真实程度断崖下滑——学术单轮基准 80–90%、较干净的企业化基准五六成、<b>最贴近真实脏 schema 的企业基准（Spider 2.0 类）仅 10–21%</b>，<b>对客一定讲最低那档</b>；绑定语义模型后 51%→90%+（Snowflake 内部 150 题），dbt 语义层基准上限 98–100%。机制底座见 <a href="../rag/index.html#rag-structured">RAG 结构化数据节</a>。</p>
   </div>
 
   <p>把「你们准确率多少」转化为「语义层建到多厚」，<b>口径治理问题就赢了</b>。</p>
@@ -445,7 +477,11 @@
     </tbody>
    </table>
   </div>
-  <p><b>选型第一问不是「哪家准」而是「客户数据在哪」。</b></p>
+  <p><b>选型第一问不是「哪家准」而是「客户数据在哪」</b>：已在 Snowflake / Databricks → 顺势用自家的；多源分散 → 独立语义层。国内格局：主流 BI（帆软 / 观远 / 网易有数等）均已挂 ChatBI，按客户已有 BI 栈顺势选。</p>
+  <div class="box">
+   <h4>新变量：语义层「太贵」的理由正在失效</h4>
+   <p>Snowflake 2026 推出 <b>Semantic View Autopilot</b>——用 ML 从元数据和 BI 使用模式<b>自动发现指标定义，把建语义层从天级压到分钟级</b>。异议处理时要知道这条：客户拿「语义层建设太贵」当反对理由时，它已经在被自动化削弱。</p>
+  </div>
 
   <p><b>成本结构</b>：大头是语义层建设与运营的人力，不是模型调用——起步 10–20 个高频指标定口径，两三周出 POC。</p>
   <div class="box">
@@ -455,6 +491,8 @@
   <p>技术底座在 <a href="../rag/index.html#rag-structured">RAG 网页版结构化数据节</a>。</p>
   <p class="ev">准确率口径核实 2026-07-11，来源 <a href="#src-chatbi">promethium 企业对比 /
     Snowflake 工程博客</a>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../rag/index.html#rag-structured" title="技术底座：Text-to-SQL 与语义层机制在 RAG 第 12 章，本章是其场景视角（双向）">结构化数据 RAG<span class="xm">RAG</span></a><a href="../security/index.html#sec-data-privacy" title="行级权限与只读闸；高频指标验收集 + 越权测试">数据与隐私安全<span class="xm">Security</span></a><a href="../evaluation/index.html#eval-build" title="行级权限与只读闸；高频指标验收集 + 越权测试">自建评估:数据集与指标设计<span class="xm">Evaluation</span></a></div>
 </section>
 
 <!-- ============ 9 ============ -->
@@ -521,6 +559,8 @@
   </div>
   <p class="ev">格局核实 2026-07-11，来源 <a href="#src-meeting">read.ai / zapier / 2026
     横评</a>。<b>不可外推边界</b>：格局是产品形态的当期快照，会随会议平台补齐原生能力而变；「准确率」的三层口径不可混谈，一层的数字不能当另一层的结论。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../multimodal/index.html#mm-understanding" title="ASR 与说话人分离能力底座；实时字幕走语音链路">理解侧能力盘点<span class="xm">Multimodal</span></a><a href="../multimodal/index.html#mm-voice-realtime" title="ASR 与说话人分离能力底座；实时字幕走语音链路">语音与实时交互<span class="xm">Multimodal</span></a><a href="../rag/index.html#rag-hybrid" title="会议记忆库 = 权限感知检索；行动项自动执行的审批边界">混合检索<span class="xm">RAG</span></a><a href="../agent/index.html#agent-eval-guardrails" title="会议记忆库 = 权限感知检索；行动项自动执行的审批边界">评估与护栏<span class="xm">Agent</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -688,7 +728,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../model-landscape/index.html"><span class="k">上一册 · 解决方案层</span><b>Model-Landscape</b></a>
    <a class="nx" href="../agent/index.html"><span class="k">下一册 · 应用模式层</span><b>Agent</b></a>
@@ -696,8 +736,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 场景分诊器：讲义第 10 章分诊树 + 场景→积木总表 + 成本速查卡的交互合体。
    无 JS 时 .tool 隐藏，静态兜底是正文各场景节。 */

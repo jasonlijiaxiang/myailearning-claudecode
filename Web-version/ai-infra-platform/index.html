@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-Infra-Platform 集群平台与调度 · AI 知识库网页版</title>
-<link rel="stylesheet" href="../../_assets/kb.css?v=20260721r">
+<link rel="stylesheet" href="../../_assets/kb.css?v=20260723a">
 </head>
 <body>
 
 <nav class="topbar"><div class="tb">
  <a class="brand" href="../../README.html">AI 知识库</a><a class="ti cur" href="../../Web-version/index.html">网页版</a>
  <a class="ti" href="../../PPT-version/README.html">PPT 总览</a><a class="ti" href="../../_prep/实战包.html">实战包</a><a class="ti" href="../../_prep/学习路径.html">学习路径</a><a class="ti" href="../../_prep/全库一页纸.html">全库一页纸</a><a class="ti" href="../../开始使用.html">开始使用</a>
- <span class="ver">v0721r</span>
+ <span class="ver">v0723a</span>
 </div></nav>
 
 <header class="top">
@@ -137,6 +137,25 @@
   </div>
   <p><b>为什么都长在 Kubernetes 上</b>：像盖楼不自己烧砖——声明式 API、自愈、CRD 生态、云全托管，GPU 调度监控存储都是往框架上挂的插件；<b>AI 平台 ≈ K8s + 一堆 GPU 感知的插件</b>。Slurm 在纯训练/HPC 仍主流且常与 K8s 并存——趋势是融合不是替代。</p>
   <p>分工一句话：Compute 讲铁、Training/Inference 讲负载本身、本页讲「把负载高效跑在铁上」的中间层。</p>
+
+  <h3>四大职责之外：四条控制链要有执行点</h3>
+  <p>调度 / 隔离 / 容错 / 观测管的是「跑得好」，治理管的是「管得住」。四条控制链每条都要有<b>拦得住的闸 + 留得下的记录</b>——贴在墙上的规定不算控制：</p>
+  <div class="tw">
+   <table>
+    <thead><tr><th>控制链</th><th>管什么</th><th>要留的证据</th><th>失败时的动作</th></tr></thead>
+    <tbody>
+     <tr><td><b>身份与租户</b></td><td>SSO、RBAC / ABAC、命名空间、网络与密钥</td><td>主体、授权决定、资源归属</td><td>拒绝、吊销、隔离</td></tr>
+     <tr><td><b>供应链</b></td><td>源码、CI、签名、镜像仓库、准入控制</td><td>commit、digest、SBOM、来源证明</td><td>阻断晋级、召回制品</td></tr>
+     <tr><td><b>运行与数据</b></td><td>沙箱、策略引擎、DLP、存储与设备权限</td><td>策略版本、访问与数据流事件</td><td>限权、停止、保全</td></tr>
+     <tr><td><b>运营治理</b></td><td>SLO、成本、审计、例外与响应</td><td>告警、审批、责任人与时间线</td><td>降级、回滚、通报复盘</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="box">
+   <p>一句话验收：<b>策略文档不等于控制生效</b>——每项控制写清主体、对象、执行点、证据、例外与失效模式，且<b>高风险默认拒绝（fail closed）</b>。</p>
+  </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-compute/index.html" title="姊妹模块：本模块讲平台（调度/切分/容错/观测/云形态），对方讲硬件（卡/网/存储/电）；两模块封面/总览页互指">AI-Infra-Compute</a></div>
 </section>
 
 <!-- ============ 2 ============ -->
@@ -185,6 +204,8 @@
   </figure>
   <p class="ev">DRA GA 与捐赠核实 2026-07-09，来源 <a href="#src-k8s">kubernetes.io /
     KubeCon EU 2026 报道</a>。<b>不可外推边界</b>：GA 说的是接口稳定，不等于各发行版与云厂商都已跟进；落地前查目标集群的版本与厂商支持矩阵。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-compute/index.html#aic-scaleup" title="这个词的主场：AI-Infra-Compute · Scale-up 互联：把 72 张卡焊成一张大卡">NVLink<span class="xm">AI-Infra-Compute</span></a></div>
 </section>
 
 <!-- ============ 3 ============ -->
@@ -231,6 +252,8 @@
    </div>
   </div>
   <p>被抢占的作业先 checkpoint 再暂停、从断点续跑（靠<a href="#aip-faulttol">第 5 节容错</a>），<b>是双赢不是牺牲</b>。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-infra" title="训练作业是集群调度与容错的头号负载；那边讲并行怎么切模型，本模块讲作业怎么被调度、崩了怎么续">训练基础设施与算力账<span class="xm">LLM-Training</span></a></div>
 </section>
 
 <!-- ============ 4 ============ -->
@@ -255,6 +278,8 @@
   </div>
   <p>三把尺子选型：<b>生产多租户用 MIG</b>（硬件砌墙，一户失火不殃及邻居，性能可预测；缺点是档位固定、改配置要重置）；<b>内部可信榨利用率用时间片/MPS</b>（共享办公室轮班——便宜灵活但没隔墙，一个任务掀桌大家遭殃，绝不用于互不信任的外部多租户）；<b>非 MIG
     卡要配额用 HAMi</b>（给合租房间装智能水电表设上限——填补硬隔离与无隔离之间的空档）。先问「这些租户彼此信任吗、是不是线上服务」再定切法和份数。2026 主线：<b>DRA 把各种切法统一到声明式接口下</b>——不是取代是统一编排；切分要配合配额与公平共享，防「一租户拖垮全卡」。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../ai-infra-compute/index.html#aic-gpu" title="切分建立在 GPU 内部组织（SM/Tensor Core）之上，硬件概念见姊妹模块第 2 章">GPU 解剖：为什么 AI 计算长在 GPU 上<span class="xm">AI-Infra-Compute</span></a></div>
 </section>
 
 <!-- ============ 5 ============ -->
@@ -344,6 +369,8 @@
    <p>HyperPod 类自动健康检查、坏节点替换、断点续训开箱即带（2026 又加一键建集群、Slurm continuous provisioning）——自建这套自愈体系工程量巨大；<b>「省下的救火人力 + 挽回的 goodput」比功能清单更打动人</b>。</p>
   </div>
   <p class="ev">HyperPod 更新核实 2026-07-09，来源 <a href="#src-hyperpod">AWS 官方文档</a>。<b>不可外推边界</b>：这是单一云厂商的产品能力，不能外推成「托管训练平台都这样」——各家在容错粒度与计费方式上差别很大。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-training/index.html#llmtrain-infra" title="训练作业是集群调度与容错的头号负载；那边讲并行怎么切模型，本模块讲作业怎么被调度、崩了怎么续">训练基础设施与算力账<span class="xm">LLM-Training</span></a><a href="../llm-inference/index.html#llminf-production" title="这个词的主场：LLM-Inference · 生产化与售前速查">goodput<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 6 ============ -->
@@ -383,6 +410,8 @@
    </div>
   </div>
   <p><b>闭环</b>：DCGM 采数 → 看板暴露黑洞 → MFU 定基线 → chargeback 让各团队为自己的利用率负责。</p>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-production" title="利用率/MFU/goodput/SLO 运营两侧互指；推理压测那条线待未来 Evaluation 收编">生产化与售前速查<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 7 ============ -->
@@ -443,6 +472,8 @@
    </div>
    <figcaption>发布可追溯：四类对象连成一张图，审批与门禁长在图上，不在流程文档里。</figcaption>
   </figure>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../llm-inference/index.html#llminf-disagg" title="推理引擎（vLLM/SGLang）与 P/D 分离（Dynamo/llm-d）机制在对方讲，本章讲平台承载：怎么被编排、部署、扩缩、路由">集群级：P/D 分离与分布式推理<span class="xm">LLM-Inference</span></a></div>
 </section>
 
 <!-- ============ 8 ============ -->
@@ -554,6 +585,8 @@
     </div>
     <div class="hitcards" id="tp-out"></div>
   </div>
+
+  <div class="xlinks"><span class="xk">串联</span><a href="../fine-tuning/index.html#ft-cloud" title="云上托管训练形态（HyperPod/Vertex/PAI 类）两边互指">托管微调服务与上云落地<span class="xm">Fine-tuning</span></a></div>
 </section>
 
 <!-- ============ 问答 ============ -->
@@ -692,7 +725,7 @@
   </p>
   <p>网页版与讲义用同一批事实、术语、边界和来源，但各按各的读法组织目录与节奏，清单只有一份。</p>
   <!-- UPDATED:BEGIN 由 build.py 从 MANIFEST 取，请勿手工编辑 -->
-  <p class="updated">本册最近改动 <b>2026-07-21</b>（以模块清单 MANIFEST 为准）。</p>
+  <p class="updated">本册最近改动 <b>2026-07-23</b>（以模块清单 MANIFEST 为准）。</p>
   <nav class="prevnext" aria-label="书架前后册">
    <a href="../ai-infra-compute/index.html"><span class="k">上一册 · 算力底座层</span><b>AI-Infra-Compute</b></a>
    <a class="nx" href="../data-engineering/index.html"><span class="k">下一册 · 数据底座层</span><b>Data-Engineering</b></a>
@@ -700,8 +733,8 @@
   <!-- UPDATED:END -->
 </footer>
 
-<script src="../data.js?v=20260721r"></script>
-<script src="../assets/site.js?v=20260721r"></script>
+<script src="../data.js?v=20260723a"></script>
+<script src="../assets/site.js?v=20260723a"></script>
 <script>
 /* 云上形态定档器：三问 → 形态 + 责任递交线提醒。判据来自讲义第 8 章三问定档与四形态表。
    无 JS 时 .tool 隐藏，静态兜底是正文四形态与三问。 */
@@ -711,10 +744,6 @@
   var $ = function (id) { return document.getElementById(id); };
   var out = $("tp-out");
   if (!out) return;
-  function card( name,tag, body, href) {
-    return '<div class="hitcard"><div class="tagline2">' + tag + '</div><b>' + name +
-      '</b><p>' + body + (href ? ' <a href="' + href + '">详见</a>' : '') + '</p></div>';
-  }
   function run() {
     var team = $("tp-team").value, load = $("tp-load").value, speed = $("tp-speed").value;
     var cards = [];
