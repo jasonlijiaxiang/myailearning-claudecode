@@ -135,12 +135,14 @@
     knodes.forEach(function (el) {
       var t = /translate\(\s*([-\d.]+)[ ,]+([-\d.]+)/.exec(el.getAttribute("transform")) || [0, 0, 0];
       var id = el.getAttribute("data-m");
+      var nm = el.querySelector(".knm");
       N[id] = { el: el, home: { x: +t[1], y: +t[2] }, cur: { x: +t[1], y: +t[2] },
+                name: nm ? nm.textContent : id,
                 adj: (el.getAttribute("data-adj") || "").split(",").filter(Boolean) };
     });
-    var mode = "map", center = null, raf = null, learn = "solo";
+    var mode = "map", center = null, raf = null, learn = "link";
     var SVGNS = "http://www.w3.org/2000/svg";
-    kg.classList.add("kmode-solo");        // 默认单点学习：不显连线
+    kg.classList.add("kmode-link");        // 默认关联学习：显连线、点选聚焦
 
     var back = document.createElement("button");
     back.className = "kg-back";
@@ -151,6 +153,31 @@
     if (wrap) wrap.insertBefore(back, wrap.firstChild);
     var hint = wrap ? wrap.querySelector(".kgraph-hint") : null;
     var hintMap = hint ? hint.textContent : "";
+
+    /* 联想边界：记一条「联想路径」（面包屑），最多深挖 MAXDEPTH 步——不能无限联想下去。
+       点路径上的旧节点＝回退；到边界再点新模块＝不深入、提示回退或换起点。 */
+    var MAXDEPTH = 4, path = [];
+    var crumb = document.createElement("div");
+    crumb.className = "kg-crumb";
+    crumb.style.display = "none";
+    if (wrap) wrap.insertBefore(crumb, back.nextSibling);
+    function jumpTo(i) { if (i < 0 || i >= path.length) return; path = path.slice(0, i + 1); enter(path[i]); renderCrumb(); }
+    function renderCrumb() {
+      while (crumb.firstChild) crumb.removeChild(crumb.firstChild);
+      if (!path.length) { crumb.style.display = "none"; return; }
+      crumb.style.display = "flex";
+      var lbl = document.createElement("span"); lbl.className = "kg-crumb-lbl"; lbl.textContent = "联想路径"; crumb.appendChild(lbl);
+      path.forEach(function (id, i) {
+        if (i) { var s = document.createElement("span"); s.className = "kg-crumb-sep"; s.textContent = "›"; crumb.appendChild(s); }
+        var b = document.createElement("button"); b.type = "button";
+        b.className = i === path.length - 1 ? "kg-crumb-b cur" : "kg-crumb-b";
+        b.textContent = N[id] ? N[id].name : id;
+        b.addEventListener("click", function () { jumpTo(i); });
+        crumb.appendChild(b);
+      });
+      var d = document.createElement("span"); d.className = "kg-crumb-depth";
+      d.textContent = "深度 " + path.length + " / " + MAXDEPTH; crumb.appendChild(d);
+    }
 
     var termG = document.createElementNS(SVGNS, "g");   // 连线关键词标签（关联学习聚焦时出现）
     termG.setAttribute("class", "kterms");
@@ -247,8 +274,8 @@
       buildTerms();
       animate(targets(id), 500);
       back.style.display = "inline-flex";
-      if (hint) hint.textContent = "点周围的模块继续跳，点中间的「" + id +
-        "」打开那一册；连线上是桥接两块的关键技术词。按「返回全景」或 Esc 回总图。";
+      if (hint) hint.textContent = "点周围的模块顺着关键词深挖，点中间的「" + (N[id] ? N[id].name : id) +
+        "」打开那一册；最多联想 " + MAXDEPTH + " 步，用上面的路径回退。按「返回全景」或 Esc 回总图。";
     }
     function toMap() {
       if (mode !== "focus") return;
@@ -263,16 +290,27 @@
         });
       });
       back.style.display = "none";
+      path = []; renderCrumb();
       if (hint) hint.textContent = hintMap;
     }
     knodes.forEach(function (el) {
       var id = el.getAttribute("data-m");
       el.addEventListener("click", function (ev) {
-        if (learn === "solo") { return; }            // 单点学习：放行默认导航，直接进册
-        if (mode === "map") { ev.preventDefault(); enter(id); }
-        else if (id === center) { /* 打开该册：放行默认导航 */ }
-        else if (N[center].adj.indexOf(id) >= 0) { ev.preventDefault(); enter(id); }
-        else { ev.preventDefault(); }                // 已淡出的模块不响应
+        if (learn === "solo") return;                          // 单点学习：放行导航，直接进册
+        if (mode === "map") { ev.preventDefault(); path = [id]; enter(id); renderCrumb(); return; }
+        if (id === center) return;                             // 点中心：打开该册
+        if (N[center].adj.indexOf(id) < 0) { ev.preventDefault(); return; }  // 非邻居不响应
+        ev.preventDefault();
+        var at = path.indexOf(id);
+        if (at >= 0) { jumpTo(at); return; }                   // 点路径上的旧节点＝回退
+        if (path.length >= MAXDEPTH) {                         // 到联想边界：不再深入
+          if (hint) hint.textContent = "联想已到 " + MAXDEPTH +
+            " 步的边界——再点就离题太远了。点上面「联想路径」回到某一步，或「返回全景」换个起点。";
+          crumb.classList.add("nudge");
+          setTimeout(function () { crumb.classList.remove("nudge"); }, 900);
+          return;
+        }
+        path.push(id); enter(id); renderCrumb();               // 深入一步
       });
     });
     back.addEventListener("click", toMap);

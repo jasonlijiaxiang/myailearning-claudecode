@@ -463,6 +463,19 @@ svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
 .kg-mode:hover { border-color: var(--blue-ln); color: var(--blue-d); }
 .kg-mode.on { color: #fff; background: var(--blue); border-color: var(--blue); font-weight: 600; }
 .kg-modenote { font-size: 12px; color: var(--ink-400); }
+/* 联想路径面包屑（关联学习聚焦时出现，标出你走了几步、可点回退，最多 MAXDEPTH 步） */
+.kg-crumb { display: none; flex-wrap: wrap; align-items: center; gap: .3rem; margin: 0 0 .55rem; }
+.kg-crumb-lbl { font-size: 12px; color: var(--ink-400); }
+.kg-crumb-sep { font-size: 13px; color: var(--ink-400); }
+.kg-crumb-b { font-size: 12.5px; font-family: var(--sans); cursor: pointer; color: var(--ink-700);
+              background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+              padding: .16rem .62rem; transition: border-color .15s, color .15s; }
+.kg-crumb-b:hover { border-color: var(--blue-ln); color: var(--blue-d); }
+.kg-crumb-b.cur { color: #fff; background: var(--blue); border-color: var(--blue); font-weight: 600; }
+.kg-crumb-depth { font-size: 12px; color: var(--ink-400); margin-left: .25rem; }
+.kg-crumb.nudge { animation: kgshake .4s; }
+@keyframes kgshake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@media (prefers-reduced-motion: reduce) { .kg-crumb.nudge { animation: none; } }
 /* 单点学习：不显连线（也就没有聚焦态） */
 .kgraph.kmode-solo .kedge { display: none; }
 /* 连线关键词标签（关联学习聚焦时出现，halo 描边保证压在连线上也读得清） */

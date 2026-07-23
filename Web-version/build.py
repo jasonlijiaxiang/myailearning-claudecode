@@ -913,9 +913,9 @@ def render_graph(data):
             '点一个模块它会滑到中间、把关联的模块拉到身边连成小网，连线上标着'
             '桥接两块的关键技术词，顺着一路深挖。关联最密的三块：<b>%s</b>。</p>' % esc(hubs))
     toggle = ('  <div class="kg-modes" role="tablist">'
-              '<button type="button" class="kg-mode on" data-mode="solo">单点学习</button>'
-              '<button type="button" class="kg-mode" data-mode="link">关联学习</button>'
-              '<span class="kg-modenote">单点＝直接进册；关联＝看连线、逐步深挖</span></div>')
+              '<button type="button" class="kg-mode on" data-mode="link">关联学习</button>'
+              '<button type="button" class="kg-mode" data-mode="solo">单点学习</button>'
+              '<span class="kg-modenote">关联＝看连线、逐步深挖；单点＝直接进册</span></div>')
     graph = (lead + '\n' + toggle
              + '\n  <div class="kgraph-wrap"><div class="kgraph-scroll">\n'
              + "\n".join(o) + "\n  </div>\n"
