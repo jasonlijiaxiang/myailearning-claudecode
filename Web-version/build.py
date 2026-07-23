@@ -702,6 +702,141 @@ def render_map(data, blurbs):
     return "\n".join(out)
 
 
+def render_graph(data):
+    """分层链接图：19 模块按 7 层排布 + 串联出边画成图（替代原来的表格）。
+
+    节点＝模块（按 KB-CONFIG 层级从上到下分带，就是 PPT 总览那套层级），
+    边＝各模块 MANIFEST「串联出边」的无向去重关系。默认边极淡、悬停高亮一个模块的邻接。
+    布局用重心排序（barycenter）减少交叉，确定性无随机——出静态 SVG，file:// 与无 JS 都完整可读；
+    无 JS 的文字路径由随后的 `<details>` 表格兜底（复用 render_network，故 table.net 类不失联）。
+    """
+    mods = data["modules"]
+    by_id = {m["id"]: m for m in mods}
+    layers = data["layers"]
+    layer_i = {l: i for i, l in enumerate(layers)}
+
+    adj = {m["id"]: {} for m in mods}      # 无向邻接：id -> {邻居id: 关系说明}
+    for m in mods:
+        for e in m["edges"]:
+            tgt = e["to"].split("#")[0].strip()
+            if not e.get("resolved") or tgt == m["id"] or tgt not in by_id:
+                continue
+            adj[m["id"]].setdefault(tgt, e["why"])
+            adj[tgt].setdefault(m["id"], e["why"])
+
+    lay_nodes = {l: [m["id"] for m in mods if m["layer"] == l] for l in layers}
+
+    # 几何：viewBox 1000 宽，每层一条带
+    W, padTop, bandH, areaL, areaR, nw, nh = 1000, 16, 98, 172, 980, 132, 40
+    H = padTop * 2 + len(layers) * bandH
+    chip = 26
+
+    def xcenter(j, n):
+        return (areaL + areaR) / 2 if n <= 1 else areaL + (j + 0.5) * (areaR - areaL) / n
+
+    pos = {}
+
+    def place():
+        for l in layers:
+            yc = padTop + layer_i[l] * bandH + bandH / 2
+            n = len(lay_nodes[l])
+            for j, mid in enumerate(lay_nodes[l]):
+                pos[mid] = (xcenter(j, n), yc)
+
+    place()
+    # 重心排序：每层内按「邻居平均 x」重排，上下交替扫，收敛到较少交叉
+    for p in range(6):
+        seq = layers if p % 2 == 0 else list(reversed(layers))
+        for l in seq:
+            n = len(lay_nodes[l])
+            lay_nodes[l] = sorted(
+                lay_nodes[l],
+                key=lambda mid: (sum(pos[k][0] for k in adj[mid]) / len(adj[mid]))
+                if adj[mid] else pos[mid][0])
+            yc = padTop + layer_i[l] * bandH + bandH / 2
+            for j, mid in enumerate(lay_nodes[l]):
+                pos[mid] = (xcenter(j, n), yc)
+
+    # 边（无向去重）
+    def edge_path(a, b):
+        ax, ay = pos[a]
+        bx, by = pos[b]
+        if abs(ay - by) < 1:                       # 同层：下凸弧
+            sy = ay + nh / 2
+            cy = sy + 32
+            return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ax, sy, ax, cy, bx, cy, bx, sy)
+        up, lo = (a, b) if ay < by else (b, a)     # 跨层：竖向 S 曲线
+        ux, uy = pos[up]
+        lx, ly = pos[lo]
+        sy, ey = uy + nh / 2, ly - nh / 2
+        my = (sy + ey) / 2
+        return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ux, sy, ux, my, lx, my, lx, ey)
+
+    seen = set()
+    edges = []
+    for m in mods:
+        for k, why in adj[m["id"]].items():
+            key = tuple(sorted((m["id"], k)))
+            if key in seen:
+                continue
+            seen.add(key)
+            edges.append('   <path class="kedge" data-a="%s" data-b="%s" d="%s"><title>%s ↔ %s</title></path>'
+                         % (esc(key[0]), esc(key[1]), edge_path(key[0], key[1]),
+                            esc(by_id[key[0]]["dir"]), esc(by_id[key[1]]["dir"])))
+
+    o = ['  <svg class="kgraph" viewBox="0 0 %d %d" role="img" '
+         'aria-label="全库 19 个模块按七层排布的关系图，边表示讲一块时该带上的另一块">' % (W, H)]
+    o.append('   <g class="kedges">')
+    o.extend(edges)
+    o.append("   </g>")
+
+    for l in layers:
+        i = layer_i[l]
+        yc = padTop + i * bandH + bandH / 2
+        bandY = padTop + i * bandH + 4
+        o.append('   <g class="hue-%d">' % i)
+        o.append('    <rect class="kband" x="8" y="%.1f" width="%d" height="%d" rx="10"/>'
+                 % (bandY, W - 16, bandH - 8))
+        o.append('    <circle cx="24" cy="%.1f" r="5" fill="var(--hue)"/>' % yc)
+        o.append('    <text class="klabel" x="36" y="%.1f" font-size="12.5">%s</text>'
+                 % (yc + 4, esc(l)))
+        n = len(lay_nodes[l])
+        for j, mid in enumerate(lay_nodes[l]):
+            m = by_id[mid]
+            xc, _ = pos[mid]
+            x0, y0 = xc - nw / 2, yc - nh / 2
+            deg = len(adj[mid])
+            adjids = ",".join(sorted(adj[mid]))
+            o.append('    <a class="knode" href="./%s/index.html" data-m="%s" data-adj="%s" tabindex="0">'
+                     % (esc(WEB_DIRS[mid]), esc(mid), esc(adjids)))
+            o.append('     <title>%s · 关联 %d 个模块</title>' % (esc(m["dir"]), deg))
+            o.append('     <rect class="kbox" x="%.1f" y="%.1f" width="%d" height="%d" rx="10"/>'
+                     % (x0, y0, nw, nh))
+            o.append('     <rect class="kchip" x="%.1f" y="%.1f" width="%d" height="%d" rx="7"/>'
+                     % (x0 + 7, yc - chip / 2, chip, chip))
+            o.append('     <text class="kmono" x="%.1f" y="%.1f" font-size="11" text-anchor="middle">%s</text>'
+                     % (x0 + 7 + chip / 2, yc + 4, esc(mono(m["dir"]))))
+            o.append('     <text class="knm" x="%.1f" y="%.1f" font-size="12.5">%s</text>'
+                     % (x0 + 7 + chip + 8, yc + 4, esc(m["dir"])))
+            o.append("    </a>")
+        o.append("   </g>")
+    o.append("  </svg>")
+
+    deg_all = sorted(mods, key=lambda m: -len(adj[m["id"]]))
+    hubs = "、".join("%s（%d）" % (m["dir"], len(adj[m["id"]])) for m in deg_all[:3])
+    lead = ('  <p class="net-lead">按 7 层排布的全库 19 个模块，连线＝讲一块时该带上的另一块。'
+            '<b>悬停任意模块</b>看它牵出哪些；点开进那一册。关联最密的三块：'
+            '<b>%s</b>——括号是它连着的模块数，最容易牵出别的话题。</p>' % esc(hubs))
+    graph = (lead + '\n  <div class="kgraph-wrap"><div class="kgraph-scroll">\n'
+             + "\n".join(o) + "\n  </div>\n"
+             '  <p class="kgraph-hint">连线太密看不清时，悬停某个模块只亮它这一支。'
+             '需要逐条读关系，展开下面的文字表。</p></div>')
+
+    alt = ('  <details class="kgraph-alt"><summary>换成文字表看（逐模块列出边）</summary>\n'
+           + render_network(data) + "\n  </details>")
+    return graph + "\n" + alt
+
+
 def render_network(data):
     """跨模块关系网：讲一个模块时还该带上哪几块。
 
@@ -858,7 +993,7 @@ def main(argv):
         root_cur = open(ROOT_INDEX, encoding="utf-8").read()
         root_new = inject(root_cur, MAPR_BEGIN, MAPR_END,
                           render_map(data, blurbs), "MAPR")
-        html_new = inject(html_cur, NET_BEGIN, NET_END, render_network(data), "NET")
+        html_new = inject(html_cur, NET_BEGIN, NET_END, render_graph(data), "NET")
         html_new = inject(html_new, FRESH_BEGIN, FRESH_END, render_fresh(data), "FRESH")
         fp_cur = open(FRESHPAGE, encoding="utf-8").read()
         fp_new = inject(fp_cur, FRESH_BEGIN, FRESH_END, render_fresh_full(data), "FRESH@full")

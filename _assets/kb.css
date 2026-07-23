@@ -419,7 +419,39 @@ h2[id^="sec-"] { scroll-margin-top: var(--anchor-top); }
 .plumb, .foot { font-size: 14px; color: var(--ink-400); line-height: 1.75;
                 border-top: 1px solid var(--line); padding-top: .9rem; margin-top: 2.2rem; }
 
-/* 关系网 / 保鲜看板 */
+/* 关系网 · 分层链接图（build.py 从 MANIFEST 串联出边生成的 SVG） */
+.kgraph-wrap { margin: .4rem 0 1rem; }
+.kgraph-scroll { overflow-x: auto; overflow-y: hidden; border: 1px solid var(--line);
+                 border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
+svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
+.kgraph .kband { fill: var(--hue-bg, var(--line-2)); stroke: none; }
+.kgraph .klabel { fill: var(--ink-500); font-weight: 700; }
+/* 边：默认极淡，看得出连通但不糊 */
+.kgraph .kedge { fill: none; stroke: var(--ink-400); stroke-width: 1.2; opacity: .13;
+                 transition: opacity .12s, stroke .12s; }
+/* 节点胶囊 */
+.kgraph .knode { cursor: pointer; }
+.kgraph .knode rect.kbox { fill: var(--card); stroke: var(--line); transition: stroke .12s; }
+.kgraph .knode:hover rect.kbox,
+.kgraph .knode:focus-visible rect.kbox { stroke: var(--hue, var(--blue-ln)); }
+.kgraph .knode rect.kchip { fill: var(--hue, var(--blue)); }
+.kgraph .knode text.knm { fill: var(--ink-900); font-weight: 700; }
+.kgraph .knode text.kmono { fill: #fff; font-weight: 700; }
+.kgraph .knode:focus-visible { outline: none; }
+/* 悬停一个模块：它的边与邻居亮起，其余淡出（.hot 由 site.js 挂在 svg 上） */
+.kgraph.hot .kedge { opacity: .05; }
+.kgraph.hot .kedge.on { opacity: .95; stroke: var(--blue); stroke-width: 1.8; }
+.kgraph.hot .knode { opacity: .32; transition: opacity .12s; }
+.kgraph.hot .knode.on, .kgraph.hot .knode.self { opacity: 1; }
+.kgraph.hot .knode.self rect.kbox { stroke: var(--blue); stroke-width: 2; }
+.kgraph-hint { font-size: 12.5px; color: var(--ink-400); margin: .35rem 0 0; }
+details.kgraph-alt { margin: .5rem 0 0; }
+details.kgraph-alt > summary { cursor: pointer; font-size: 13px; color: var(--ink-500);
+                               list-style: none; padding: .2rem 0; }
+details.kgraph-alt > summary::-webkit-details-marker { display: none; }
+details.kgraph-alt > summary::before { content: "▸ "; color: var(--blue); }
+details.kgraph-alt[open] > summary::before { content: "▾ "; }
+
 .net-lead { font-size: 13.5px; color: var(--ink-500); margin: .5rem 0 .8rem; }
 table.net td, table.fresh td { font-size: 13.5px; line-height: 1.65; }
 table.net td:first-child, table.fresh td:first-child { white-space: nowrap; }

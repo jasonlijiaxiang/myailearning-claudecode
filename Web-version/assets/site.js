@@ -117,6 +117,49 @@
   /* 知识地图不在这里渲染——它由 build.py 生成期静态注入 index.html，
      以保证无 JavaScript 时首页仍有完整阅读路径（web-design-system 可访问性底线）。 */
 
+  /* ---------- 分层链接图：悬停/聚焦一个模块，亮它这一支 ----------
+     图本身是静态 SVG（无 JS 也完整可读、每个节点都是链接）；这里只做高亮增强。
+     状态类写成整串字面量（"on"/"self"/"hot"），供 check_css_classes 静态扫到。 */
+  var kg = document.querySelector("svg.kgraph");
+  if (kg) {
+    var kedges = [].slice.call(kg.querySelectorAll(".kedge"));
+    var knodes = [].slice.call(kg.querySelectorAll(".knode"));
+    var lift = function (id) {
+      var self = null, adj = {};
+      knodes.forEach(function (a) {
+        if (a.getAttribute("data-m") === id) {
+          self = a;
+          (a.getAttribute("data-adj") || "").split(",").forEach(function (x) {
+            if (x) adj[x] = 1;
+          });
+        }
+      });
+      if (!self) return;
+      kg.classList.add("hot");
+      knodes.forEach(function (a) {
+        var m = a.getAttribute("data-m");
+        a.setAttribute("class", m === id ? "knode self"
+                       : (adj[m] ? "knode on" : "knode"));
+      });
+      kedges.forEach(function (e) {
+        var hit = e.getAttribute("data-a") === id || e.getAttribute("data-b") === id;
+        e.setAttribute("class", hit ? "kedge on" : "kedge");
+      });
+    };
+    var drop = function () {
+      kg.classList.remove("hot");
+      knodes.forEach(function (a) { a.setAttribute("class", "knode"); });
+      kedges.forEach(function (e) { e.setAttribute("class", "kedge"); });
+    };
+    knodes.forEach(function (a) {
+      var id = a.getAttribute("data-m");
+      a.addEventListener("mouseenter", function () { lift(id); });
+      a.addEventListener("mouseleave", drop);
+      a.addEventListener("focus", function () { lift(id); });
+      a.addEventListener("blur", drop);
+    });
+  }
+
   /* ---------- 全库问答库：就地过滤 ----------
      题目由 build.py 生成期写进页面，这里只做显示/隐藏——无 JS 时整份分组长列表照样读得完，
      筛选条自己隐藏（.qa-tools 默认 display:none，靠 .js-on 打开），不留一个点不动的假控件。 */
