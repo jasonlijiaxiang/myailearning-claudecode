@@ -117,208 +117,196 @@
   /* 知识地图不在这里渲染——它由 build.py 生成期静态注入 index.html，
      以保证无 JavaScript 时首页仍有完整阅读路径（web-design-system 可访问性底线）。 */
 
-  /* ---------- 分层链接图：点选聚焦（ego 网络）----------
-     图是静态 SVG（无 JS 也完整可读、每个节点都是链接）。这里做「点一个模块 → 它滑到中间、
-     关联模块环绕它连成一张小网」的动效：节点用 transform 平移、rAF 插值，中心的边每帧跟手重算。
-     状态类（focus/self/on/off/faded）写成整串字面量，供 check_css_classes 静态扫到。 */
+  /* ---------- 分层链接图：关键词联想 ----------
+     模块图作入口；「关联学习」下点一个模块 → 它滑到中间、散开它的**关键技术词**（不是相关模块）；
+     点一个关键词 → 它到中间，散开同一章的相关词，并给一个「读这一章」的链接，一路顺着术语深挖。
+     联想有边界：面包屑记路径，最多 MAXKW 个关键词步。节点用 rAF 从中心散出，尊重 reduce-motion。
+     动态类（kwon/kwnode/kw-center/kw-ring/kwedge/kwt 等）走白名单，供 check_css_classes 静态放行。 */
   var kg = document.querySelector("svg.kgraph");
-  if (kg && kg.viewBox && kg.viewBox.baseVal) {
+  if (kg && kg.viewBox && kg.viewBox.baseVal && window.KB && window.KB.kw) {
     var vb = kg.viewBox.baseVal;
     var CX = vb.width / 2, CY = vb.height * 0.47;
     var RX = Math.min(430, vb.width * 0.43), RY = vb.height * 0.34;
-    var knodes = [].slice.call(kg.querySelectorAll(".knode"));
-    var edges = [].slice.call(kg.querySelectorAll(".kedge")).map(function (el) {
-      return { el: el, a: el.getAttribute("data-a"), b: el.getAttribute("data-b"),
-               mapD: el.getAttribute("d") };
-    });
-    var N = {};
-    knodes.forEach(function (el) {
-      var t = /translate\(\s*([-\d.]+)[ ,]+([-\d.]+)/.exec(el.getAttribute("transform")) || [0, 0, 0];
-      var id = el.getAttribute("data-m");
-      var nm = el.querySelector(".knm");
-      N[id] = { el: el, home: { x: +t[1], y: +t[2] }, cur: { x: +t[1], y: +t[2] },
-                name: nm ? nm.textContent : id,
-                adj: (el.getAttribute("data-adj") || "").split(",").filter(Boolean) };
-    });
-    var mode = "map", center = null, raf = null, learn = "link";
     var SVGNS = "http://www.w3.org/2000/svg";
-    kg.classList.add("kmode-link");        // 默认关联学习：显连线、点选聚焦
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    var back = document.createElement("button");
-    back.className = "kg-back";
-    back.type = "button";
-    back.textContent = "← 返回全景";
-    back.style.display = "none";
+    var knodes = [].slice.call(kg.querySelectorAll(".knode"));
+    var NAME = {};
+    knodes.forEach(function (el) {
+      var nm = el.querySelector(".knm");
+      NAME[el.getAttribute("data-m")] = nm ? nm.textContent : el.getAttribute("data-m");
+    });
+    var MI = {};                                   // 模块 → {dir,hue,web}
+    var layers = window.KB.layers || [];
+    (window.KB.modules || []).forEach(function (m) {
+      MI[m.id] = { dir: m.dir, hue: layers.indexOf(m.layer), web: m.web || ("./" + m.dir + "/index.html") };
+    });
+
+    var learn = "link";
+    kg.classList.add("kmode-link");
+
     var wrap = kg.closest(".kgraph-wrap");
-    if (wrap) wrap.insertBefore(back, wrap.firstChild);
+    var back = document.createElement("button"); back.className = "kg-back"; back.type = "button";
+    back.textContent = "← 返回全景"; back.style.display = "none";
+    var crumb = document.createElement("div"); crumb.className = "kg-crumb"; crumb.style.display = "none";
+    var read = document.createElement("a"); read.className = "kg-read"; read.style.display = "none";
+    if (wrap) { wrap.insertBefore(back, wrap.firstChild); wrap.insertBefore(crumb, back.nextSibling); wrap.insertBefore(read, crumb.nextSibling); }
     var hint = wrap ? wrap.querySelector(".kgraph-hint") : null;
     var hintMap = hint ? hint.textContent : "";
 
-    /* 联想边界：记一条「联想路径」（面包屑），最多深挖 MAXDEPTH 步——不能无限联想下去。
-       点路径上的旧节点＝回退；到边界再点新模块＝不深入、提示回退或换起点。 */
-    var MAXDEPTH = 3, path = [];
-    var crumb = document.createElement("div");
-    crumb.className = "kg-crumb";
-    crumb.style.display = "none";
-    if (wrap) wrap.insertBefore(crumb, back.nextSibling);
-    function jumpTo(i) { if (i < 0 || i >= path.length) return; path = path.slice(0, i + 1); enter(path[i]); renderCrumb(); }
+    /* 关键词索引：章 → 词、词 → 章 */
+    var CH = window.KB.kw.ch, META = window.KB.kw.meta, T2C = {};
+    Object.keys(CH).forEach(function (ch) { CH[ch].forEach(function (t) { (T2C[t] = T2C[t] || []).push(ch); }); });
+    function moduleKW(modId) {                      // 该模块各章关键词，跨章轮询取一批（≤14）
+      var chs = Object.keys(META).filter(function (c) { return META[c].modId === modId; });
+      var out = [], seen = {}, maxL = 0;
+      chs.forEach(function (c) { if (CH[c].length > maxL) maxL = CH[c].length; });
+      for (var i = 0; i < maxL; i++) for (var j = 0; j < chs.length; j++) {
+        var t = CH[chs[j]][i];
+        if (t && !seen[t] && out.length < 14) { seen[t] = 1; out.push({ term: t, ch: chs[j] }); }
+      }
+      return out;
+    }
+    function relatedKW(term) {                      // 同章相关词（≤12）
+      var out = [], seen = {}; seen[term] = 1;
+      (T2C[term] || []).forEach(function (ch) {
+        CH[ch].forEach(function (t) { if (!seen[t]) { seen[t] = 1; out.push({ term: t, ch: ch }); } });
+      });
+      return out.slice(0, 12);
+    }
+    function labelW(s) { var w = 0; for (var i = 0; i < s.length; i++) w += s.charCodeAt(i) > 255 ? 14.5 : 7.3; return Math.min(220, Math.max(58, w + 22)); }
+
+    var kwlayer = document.createElementNS(SVGNS, "g"); kwlayer.setAttribute("class", "kwlayer"); kg.appendChild(kwlayer);
+    var kwraf = null, active = false, path = [], MAXKW = 3, cur = { center: null, ring: [], spokes: [] };
+
+    function makeNode(kind, label, hueIdx, href, x, y) {
+      var g = document.createElementNS(SVGNS, href ? "a" : "g");
+      g.setAttribute("class", "kwnode " + kind + " hue-" + hueIdx);
+      if (href) g.setAttribute("href", href);
+      var w = labelW(label);
+      var box = document.createElementNS(SVGNS, "rect"); box.setAttribute("class", "kbox");
+      box.setAttribute("x", (-w / 2).toFixed(1)); box.setAttribute("y", "-16");
+      box.setAttribute("width", w.toFixed(1)); box.setAttribute("height", "32"); box.setAttribute("rx", "9");
+      var tx = document.createElementNS(SVGNS, "text"); tx.setAttribute("class", "kwt");
+      tx.setAttribute("text-anchor", "middle"); tx.setAttribute("y", "4"); tx.setAttribute("font-size", "12.5"); tx.textContent = label;
+      g.appendChild(box); g.appendChild(tx); kwlayer.appendChild(g);
+      var o = { g: g, x: x, y: y };
+      o.setPos = function (nx, ny) { o.x = nx; o.y = ny; g.setAttribute("transform", "translate(" + nx.toFixed(1) + "," + ny.toFixed(1) + ")"); };
+      o.setOp = function (v) { g.setAttribute("opacity", v.toFixed(2)); };
+      o.setPos(x, y); o.setOp(0);
+      return o;
+    }
+    function spoke(A, B) {
+      var dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy) || 1, ox = -dy / L * L * 0.09, oy = dx / L * L * 0.09;
+      return "M" + A.x.toFixed(1) + " " + A.y.toFixed(1) + "Q" + ((A.x + B.x) / 2 + ox).toFixed(1) + " " +
+             ((A.y + B.y) / 2 + oy).toFixed(1) + " " + B.x.toFixed(1) + " " + B.y.toFixed(1);
+    }
+    function runAnim(frame, dur, done) {
+      if (kwraf) cancelAnimationFrame(kwraf);
+      if (reduce) { frame(1); if (done) done(); return; }
+      var t0 = null;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur), e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        frame(e);
+        if (p < 1) kwraf = requestAnimationFrame(step); else { kwraf = null; if (done) done(); }
+      }
+      kwraf = requestAnimationFrame(step);
+    }
+
+    function focusItem(item, startPos) {
+      var isMod = item.type === "mod";
+      var raw = isMod ? moduleKW(item.key) : relatedKW(item.key);
+      var ringData = raw.map(function (k) { var m = META[k.ch]; return { term: k.term, ch: k.ch, hue: m.hue, href: m.web + "#" + k.ch }; });
+      var centerHref = isMod ? MI[item.key].web : (item.ch ? (META[item.ch].web + "#" + item.ch) : null);
+      var oldNodes = (cur.center ? [cur.center] : []).concat(cur.ring);
+      cur.spokes.forEach(function (p) { if (p.parentNode) p.parentNode.removeChild(p); });
+      var sX = startPos ? startPos.x : CX, sY = startPos ? startPos.y : CY;
+      var center = makeNode("kw-center", item.name, item.hue, centerHref, sX, sY);
+      var n = ringData.length || 1;
+      var ring = ringData.map(function (rd, i) {
+        var node = makeNode("kw-ring", rd.term, rd.hue, rd.href, CX, CY);
+        var ang = -Math.PI / 2 + 2 * Math.PI * i / n; node.tx = CX + RX * Math.cos(ang); node.ty = CY + RY * Math.sin(ang);
+        node.g.addEventListener("click", function (ev) { ev.preventDefault(); clickKW(rd.term, rd.ch, node); });
+        return node;
+      });
+      var spokes = ring.map(function () { var p = document.createElementNS(SVGNS, "path"); p.setAttribute("class", "kwedge"); kwlayer.insertBefore(p, kwlayer.firstChild); return p; });
+      if (centerHref) {
+        read.setAttribute("href", centerHref);
+        read.textContent = isMod ? ("读：" + item.name + " 网页版  →") : ("读：" + META[item.ch].mod + " · " + META[item.ch].title + "  →");
+        read.style.display = "inline-flex";
+      } else read.style.display = "none";
+      runAnim(function (e) {
+        center.setPos(sX + (CX - sX) * e, sY + (CY - sY) * e); center.setOp(Math.min(1, e * 1.5));
+        ring.forEach(function (node) { node.setPos(CX + (node.tx - CX) * e, CY + (node.ty - CY) * e); node.setOp(e); });
+        oldNodes.forEach(function (o) { o.setOp(1 - e); });
+        ring.forEach(function (node, i) { spokes[i].setAttribute("d", spoke(center, node)); });
+      }, 470, function () {
+        oldNodes.forEach(function (o) { if (o.g.parentNode) o.g.parentNode.removeChild(o.g); });
+        cur = { center: center, ring: ring, spokes: spokes };
+      });
+    }
+
     function renderCrumb() {
       while (crumb.firstChild) crumb.removeChild(crumb.firstChild);
       if (!path.length) { crumb.style.display = "none"; return; }
       crumb.style.display = "flex";
       var lbl = document.createElement("span"); lbl.className = "kg-crumb-lbl"; lbl.textContent = "联想路径"; crumb.appendChild(lbl);
-      path.forEach(function (id, i) {
+      path.forEach(function (it, i) {
         if (i) { var s = document.createElement("span"); s.className = "kg-crumb-sep"; s.textContent = "›"; crumb.appendChild(s); }
         var b = document.createElement("button"); b.type = "button";
-        b.className = i === path.length - 1 ? "kg-crumb-b cur" : "kg-crumb-b";
-        b.textContent = N[id] ? N[id].name : id;
-        b.addEventListener("click", function () { jumpTo(i); });
-        crumb.appendChild(b);
+        b.className = i === path.length - 1 ? "kg-crumb-b cur" : "kg-crumb-b"; b.textContent = it.name;
+        b.addEventListener("click", function () { jumpTo(i); }); crumb.appendChild(b);
       });
-      var d = document.createElement("span"); d.className = "kg-crumb-depth";
-      d.textContent = "深度 " + path.length + " / " + MAXDEPTH; crumb.appendChild(d);
+      var d = document.createElement("span"); d.className = "kg-crumb-depth"; d.textContent = "深度 " + (path.length - 1) + " / " + MAXKW; crumb.appendChild(d);
     }
+    function jumpTo(i) { if (i < 0 || i >= path.length) return; path = path.slice(0, i + 1); focusItem(path[i]); renderCrumb(); }
 
-    var termG = document.createElementNS(SVGNS, "g");   // 连线关键词标签（关联学习聚焦时出现）
-    termG.setAttribute("class", "kterms");
-    kg.appendChild(termG);
-    var terms = [];
-    function clearTerms() { terms = []; while (termG.firstChild) termG.removeChild(termG.firstChild); }
-    function buildTerms() {
-      clearTerms();
-      edges.forEach(function (e) {
-        if (!(e.a === center || e.b === center)) return;
-        var word = e.el.getAttribute("data-term");
-        if (!word) return;
-        var t = document.createElementNS(SVGNS, "text");
-        t.setAttribute("class", "kterm");
-        t.setAttribute("text-anchor", "middle");
-        t.textContent = word;
-        termG.appendChild(t);
-        terms.push({ el: t, other: e.a === center ? e.b : e.a });
-      });
+    function openModule(id) {
+      if (!MI[id]) return;
+      active = true; kg.classList.add("kwon");
+      while (kwlayer.firstChild) kwlayer.removeChild(kwlayer.firstChild);
+      cur = { center: null, ring: [], spokes: [] };
+      path = [{ type: "mod", key: id, name: NAME[id], hue: MI[id].hue }];
+      focusItem(path[0]);
+      back.style.display = "inline-flex"; renderCrumb();
+      if (hint) hint.textContent = "散开的是这册的关键技术词——点一个词跳到讲它的那一章、并散开相关词，最多联想 " +
+        MAXKW + " 步。点中心可读该册，按「返回全景」或 Esc 回总图。";
     }
-    function placeTerms() {
-      var c = N[center] ? N[center].cur : { x: 0, y: 0 };
-      terms.forEach(function (t) {
-        var o = N[t.other].cur;
-        t.el.setAttribute("x", (c.x + (o.x - c.x) * 0.56).toFixed(1));
-        t.el.setAttribute("y", (c.y + (o.y - c.y) * 0.56 - 4).toFixed(1));
-      });
-    }
-
-    function place(id, x, y) {
-      var n = N[id]; n.cur.x = x; n.cur.y = y;
-      n.el.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ")");
-    }
-    function fpath(a, b) {              // 中心↔邻居：带一点弧度的曲线，任意方向都自然
-      var A = N[a].cur, B = N[b].cur, dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy) || 1;
-      var ox = -dy / L * L * 0.09, oy = dx / L * L * 0.09;
-      return "M" + A.x.toFixed(1) + " " + A.y.toFixed(1) +
-             "Q" + ((A.x + B.x) / 2 + ox).toFixed(1) + " " + ((A.y + B.y) / 2 + oy).toFixed(1) +
-             " " + B.x.toFixed(1) + " " + B.y.toFixed(1);
-    }
-    function redrawCenterEdges() {
-      if (center === null) return;
-      edges.forEach(function (e) {
-        if (e.a === center || e.b === center) e.el.setAttribute("d", fpath(e.a, e.b));
-      });
-      placeTerms();
-    }
-    function targets(id) {
-      var t = {}; t[id] = { x: CX, y: CY };
-      var nb = N[id].adj, n = nb.length || 1;
-      nb.forEach(function (o, k) {
-        var ang = -Math.PI / 2 + 2 * Math.PI * k / n;
-        if (N[o]) t[o] = { x: CX + RX * Math.cos(ang), y: CY + RY * Math.sin(ang) };
-      });
-      Object.keys(N).forEach(function (o) { if (!(o in t)) t[o] = N[o].home; });  // 其余原地淡出
-      return t;
-    }
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    function animate(tg, dur, done) {
-      if (raf) cancelAnimationFrame(raf);
-      if (reduce) {              // 尊重「减少动态效果」：直接到位，不做补间
-        Object.keys(N).forEach(function (id) { var b = tg[id] || N[id].cur; place(id, b.x, b.y); });
-        redrawCenterEdges(); if (done) done(); return;
+    function clickKW(term, ch, node) {
+      for (var i = 0; i < path.length; i++) if (path[i].type === "kw" && path[i].key === term) { jumpTo(i); return; }
+      if (path.length - 1 >= MAXKW) {
+        if (hint) hint.textContent = "联想已到 " + MAXKW + " 步的边界——再点就离题太远了。点上面「联想路径」回到某一步，或「返回全景」换个起点。";
+        crumb.classList.add("nudge"); setTimeout(function () { crumb.classList.remove("nudge"); }, 900);
+        return;
       }
-      var s = {}, t0 = null;
-      Object.keys(N).forEach(function (id) { s[id] = { x: N[id].cur.x, y: N[id].cur.y }; });
-      function step(ts) {
-        if (t0 === null) t0 = ts;
-        var p = Math.min(1, (ts - t0) / dur);
-        var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;  // easeInOutCubic
-        Object.keys(N).forEach(function (id) {
-          var a = s[id], b = tg[id] || a;
-          place(id, a.x + (b.x - a.x) * e, a.y + (b.y - a.y) * e);
-        });
-        redrawCenterEdges();
-        if (p < 1) { raf = requestAnimationFrame(step); }
-        else { raf = null; if (done) done(); }
-      }
-      raf = requestAnimationFrame(step);
+      path.push({ type: "kw", key: term, name: term, ch: ch, hue: META[ch].hue });
+      focusItem(path[path.length - 1], node ? { x: node.x, y: node.y } : null);
+      renderCrumb();
     }
-    function enter(id) {
-      if (!N[id]) return;
-      mode = "focus"; center = id; kg.classList.add("focus");
-      knodes.forEach(function (el) {
-        var m = el.getAttribute("data-m");
-        el.classList.remove("self", "on", "faded");
-        el.classList.add(m === id ? "self" : (N[id].adj.indexOf(m) >= 0 ? "on" : "faded"));
+    function closeKW() {
+      if (!active) return; active = false;
+      var oldNodes = (cur.center ? [cur.center] : []).concat(cur.ring);
+      runAnim(function (e) { oldNodes.forEach(function (o) { o.setOp(1 - e); }); }, 280, function () {
+        while (kwlayer.firstChild) kwlayer.removeChild(kwlayer.firstChild);
+        cur = { center: null, ring: [], spokes: [] }; kg.classList.remove("kwon");
       });
-      edges.forEach(function (e) {
-        var on = (e.a === id || e.b === id);
-        e.el.classList.toggle("on", on);
-        e.el.classList.toggle("off", !on);
-      });
-      buildTerms();
-      animate(targets(id), 500);
-      back.style.display = "inline-flex";
-      if (hint) hint.textContent = "点周围的模块顺着关键词深挖，点中间的「" + (N[id] ? N[id].name : id) +
-        "」打开那一册；最多联想 " + MAXDEPTH + " 步，用上面的路径回退。按「返回全景」或 Esc 回总图。";
-    }
-    function toMap() {
-      if (mode !== "focus") return;
-      mode = "map";
-      knodes.forEach(function (el) { el.classList.remove("self", "on", "faded"); });
-      var tg = {}; Object.keys(N).forEach(function (id) { tg[id] = N[id].home; });
-      clearTerms();
-      animate(tg, 460, function () {
-        center = null; kg.classList.remove("focus");
-        edges.forEach(function (e) {
-          e.el.setAttribute("d", e.mapD); e.el.classList.remove("on", "off");
-        });
-      });
-      back.style.display = "none";
-      path = []; renderCrumb();
+      path = []; renderCrumb(); back.style.display = "none"; read.style.display = "none";
       if (hint) hint.textContent = hintMap;
     }
+
     knodes.forEach(function (el) {
       var id = el.getAttribute("data-m");
       el.addEventListener("click", function (ev) {
-        if (learn === "solo") return;                          // 单点学习：放行导航，直接进册
-        if (mode === "map") { ev.preventDefault(); path = [id]; enter(id); renderCrumb(); return; }
-        if (id === center) return;                             // 点中心：打开该册
-        if (N[center].adj.indexOf(id) < 0) { ev.preventDefault(); return; }  // 非邻居不响应
+        if (learn === "solo") return;                // 单点学习：放行导航，直接进册
         ev.preventDefault();
-        var at = path.indexOf(id);
-        if (at >= 0) { jumpTo(at); return; }                   // 点路径上的旧节点＝回退
-        if (path.length >= MAXDEPTH) {                         // 到联想边界：不再深入
-          if (hint) hint.textContent = "联想已到 " + MAXDEPTH +
-            " 步的边界——再点就离题太远了。点上面「联想路径」回到某一步，或「返回全景」换个起点。";
-          crumb.classList.add("nudge");
-          setTimeout(function () { crumb.classList.remove("nudge"); }, 900);
-          return;
-        }
-        path.push(id); enter(id); renderCrumb();               // 深入一步
+        if (!active) openModule(id);
       });
     });
-    back.addEventListener("click", toMap);
-    document.addEventListener("keydown", function (ev) {
-      if (ev.key === "Escape" && mode === "focus") toMap();
-    });
+    back.addEventListener("click", closeKW);
+    document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && active) closeKW(); });
 
-    /* 学习模式切换：单点（直接进册、无连线）/ 关联（显连线、点选聚焦） */
+    /* 学习模式切换：单点（直接进册、无连线）/ 关联（关键词联想） */
     var modeBtns = wrap ? [].slice.call(wrap.parentNode.querySelectorAll(".kg-mode")) : [];
     modeBtns.forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -326,14 +314,8 @@
         if (next === learn) return;
         learn = next;
         modeBtns.forEach(function (b) { b.classList.toggle("on", b === btn); });
-        if (learn === "solo") {
-          toMap();                                   // 退出任何聚焦态
-          kg.classList.add("kmode-solo");
-          kg.classList.remove("kmode-link");
-        } else {
-          kg.classList.remove("kmode-solo");
-          kg.classList.add("kmode-link");
-        }
+        if (learn === "solo") { closeKW(); kg.classList.add("kmode-solo"); kg.classList.remove("kmode-link"); }
+        else { kg.classList.remove("kmode-solo"); kg.classList.add("kmode-link"); }
       });
     });
   }

@@ -1,7 +1,7 @@
 // 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。
 // 改内容请改 MANIFEST，然后重跑 build.py。
 window.KB = {
- "generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）+ build.py CONCEPTS（关键词落点）",
+ "generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）+ build.py CONCEPTS/CHKW（关键词落点与联想）",
  "layers": [
   "解决方案层",
   "应用模式层",
@@ -5577,5 +5577,2169 @@ window.KB = {
    "m": "Evaluation",
    "u": "./evaluation/index.html#eval-build"
   }
- ]
+ ],
+ "kw": {
+  "ch": {
+   "mcp-what-why": [
+    "MCP",
+    "Function Calling",
+    "M×N→M+N",
+    "AAIF",
+    "SEP"
+   ],
+   "mcp-protocol": [
+    "Host/Client/Server",
+    "JSON-RPC 2.0",
+    "Tools/Resources/Prompts",
+    "控制面",
+    "tools/call 报文"
+   ],
+   "mcp-transport": [
+    "stdio",
+    "Streamable HTTP",
+    "无状态核心",
+    "Extensions/Tasks",
+    "弃用政策"
+   ],
+   "mcp-server": [
+    "FastMCP",
+    "MCP Inspector",
+    "工具描述",
+    "REST 包装"
+   ],
+   "mcp-production": [
+    "OAuth 2.1",
+    "MCP 网关",
+    "MCP Registry",
+    "私有 registry",
+    "token 透传禁令"
+   ],
+   "mcp-security": [
+    "工具投毒",
+    "rug pull",
+    "confused deputy",
+    "MCPTox",
+    "NSA/CISA 指引"
+   ],
+   "mcp-cheatsheet": [
+    "上手四步",
+    "排错三板斧",
+    "Inspector 分层定位"
+   ],
+   "a2a-what-why": [
+    "A2A",
+    "MCP/A2A 分工",
+    "Linux Foundation",
+    "多专精 Agent 协作"
+   ],
+   "a2a-protocol": [
+    "Agent Card",
+    "Task 状态机",
+    "Message/Part",
+    "Artifact",
+    "Protocol Buffers"
+   ],
+   "a2a-transport": [
+    "well-known URI",
+    "三绑定",
+    "SSE",
+    "推送通知 webhook",
+    "四种交付"
+   ],
+   "a2a-handson": [
+    "官方 SDK",
+    "message/send",
+    "a2a-inspector",
+    "TCK"
+   ],
+   "a2a-orchestration": [
+    "opaque agents",
+    "编排者—执行者",
+    "链式流水线",
+    "并行汇聚"
+   ],
+   "a2a-production": [
+    "多租户",
+    "Bedrock AgentCore",
+    "Vertex Agent Engine",
+    "AP2",
+    "采用度"
+   ],
+   "a2a-security": [
+    "Signed Agent Cards",
+    "OAuth2/mTLS",
+    "授权范围 scope",
+    "五个信任边界",
+    "跨 Agent 提示注入"
+   ],
+   "gw-what-why": [
+    "AI 网关",
+    "LLM 专属六件套",
+    "M×N 收敛",
+    "边界辨析"
+   ],
+   "gw-unify": [
+    "OpenAI 兼容层",
+    "虚拟密钥",
+    "十步请求链",
+    "五层策略栈",
+    "优雅降级"
+   ],
+   "gw-route": [
+    "路由五策略",
+    "复杂度路由",
+    "语义路由",
+    "fallback/熔断",
+    "RouteLLM/FrugalGPT"
+   ],
+   "gw-cost": [
+    "按 token 限流",
+    "花费归集 FinOps",
+    "语义缓存",
+    "相似度阈值"
+   ],
+   "gw-guardrail": [
+    "pre/post 护栏",
+    "统一执行点",
+    "审计证据链",
+    "PII 脱敏",
+    "注入检测"
+   ],
+   "gw-observe": [
+    "OpenTelemetry GenAI",
+    "OpenInference",
+    "日志/指标/追踪"
+   ],
+   "gw-mcp": [
+    "MCP 网关",
+    "openapi-to-mcp",
+    "RFC 8693 token 交换",
+    "token 透传禁令",
+    "三大授权反模式"
+   ],
+   "gw-cheatsheet": [
+    "自托管 vs 托管",
+    "LiteLLM",
+    "Higress",
+    "Envoy AI Gateway",
+    "Azure APIM"
+   ],
+   "sec-landscape": [
+    "指令数据不分离",
+    "三层攻击面",
+    "OWASP LLM Top 10",
+    "MITRE ATLAS"
+   ],
+   "sec-prompt-injection": [
+    "提示注入",
+    "间接注入",
+    "越狱",
+    "EchoLeak 零点击",
+    "模型外兜底"
+   ],
+   "sec-data-privacy": [
+    "系统提示词泄露",
+    "成员推断",
+    "投毒三时机",
+    "嵌入反演",
+    "RAG 优于微调"
+   ],
+   "sec-supply-chain": [
+    "pickle RCE",
+    "后门模型",
+    "safetensors",
+    "模型签名",
+    "AI-BOM"
+   ],
+   "sec-agentic": [
+    "过度自主",
+    "爆炸半径",
+    "工具描述投毒",
+    "记忆投毒",
+    "HITL"
+   ],
+   "sec-defense": [
+    "纵深防御四道闸",
+    "Llama Guard",
+    "NeMo Guardrails",
+    "双 LLM/CaMeL",
+    "PyRIT 红队"
+   ],
+   "sec-governance": [
+    "NIST AI RMF",
+    "EU AI Act",
+    "ISO/IEC 42001",
+    "AI-SPM"
+   ],
+   "sec-china": [
+    "双备案",
+    "内容标识办法",
+    "GB/T 45654",
+    "数据出境三通道",
+    "988 款备案"
+   ],
+   "sec-cheatsheet": [
+    "威胁→防护映射",
+    "风险与合规自查",
+    "爆炸半径分级"
+   ],
+   "eval-why-hard": [
+    "非确定性",
+    "三层分工",
+    "评估集护城河",
+    "隐性回归"
+   ],
+   "eval-benchmarks": [
+    "MMLU 饱和",
+    "GPQA",
+    "HLE",
+    "SWE-bench",
+    "Arena/Elo",
+    "数据污染"
+   ],
+   "eval-methods": [
+    "判分四法",
+    "代码判分",
+    "人工评估",
+    "BLEU/ROUGE 失灵"
+   ],
+   "eval-judge": [
+    "LLM-as-a-Judge",
+    "位置偏差",
+    "冗长偏差",
+    "自我偏好",
+    "判官校准"
+   ],
+   "eval-build": [
+    "黄金集",
+    "错误分析",
+    "冷启动三路",
+    "CI 门禁",
+    "保留集"
+   ],
+   "eval-scenarios": [
+    "RAG 三角",
+    "轨迹评估",
+    "pass^k",
+    "回归门禁",
+    "幻觉率"
+   ],
+   "eval-tooling": [
+    "Ragas",
+    "DeepEval",
+    "promptfoo",
+    "LangSmith/Phoenix",
+    "四道发布门"
+   ],
+   "eval-cheatsheet": [
+    "POC 验收四件套",
+    "应答三步",
+    "误区总表"
+   ],
+   "ft-when": [
+    "微调时机",
+    "定制光谱",
+    "知识 vs 行为",
+    "劝退清单"
+   ],
+   "ft-methods": [
+    "全参微调",
+    "LoRA",
+    "QLoRA",
+    "显存心算",
+    "学得少忘得少"
+   ],
+   "ft-data": [
+    "聊天模板",
+    "JSONL",
+    "LIMA",
+    "合成数据",
+    "蒸馏",
+    "PII 治理三问"
+   ],
+   "ft-training": [
+    "Unsloth",
+    "LLaMA-Factory",
+    "Axolotl",
+    "TRL",
+    "eval loss/过拟合"
+   ],
+   "ft-alignment": [
+    "SFT",
+    "DPO",
+    "RFT",
+    "GRPO",
+    "偏好对",
+    "reward hacking"
+   ],
+   "ft-cloud": [
+    "托管微调",
+    "OpenAI 微调 API",
+    "Bedrock Haiku",
+    "数据出域"
+   ],
+   "ft-eval-deploy": [
+    "验收四层",
+    "灾难性遗忘",
+    "回归门禁",
+    "adapter 热插拔",
+    "多 LoRA"
+   ],
+   "ft-field-guide": [
+    "误区总表",
+    "成本心算",
+    "决策树"
+   ],
+   "ops-what-why": [
+    "质量轴",
+    "token 成本轴",
+    "静默退化",
+    "观测成本",
+    "采样率"
+   ],
+   "ops-tracing": [
+    "OTel GenAI",
+    "span 四类",
+    "trace 旅程",
+    "PII 脱敏",
+    "保留期分级"
+   ],
+   "ops-online-eval": [
+    "在线评估",
+    "评估漏斗",
+    "判官采样打分",
+    "评审队列",
+    "数据集晋升"
+   ],
+   "ops-drift": [
+    "漂移监测",
+    "静默换 checkpoint",
+    "嵌入距离",
+    "回归集重跑"
+   ],
+   "ops-release": [
+    "版本注册表",
+    "评估门禁",
+    "金丝雀",
+    "秒级回滚",
+    "四层版本键"
+   ],
+   "ops-incident": [
+    "AI runbook 四问",
+    "成本尖峰",
+    "急停开关",
+    "HITL 分级",
+    "事故 SLA"
+   ],
+   "ops-tooling": [
+    "LangSmith",
+    "Langfuse",
+    "Arize Phoenix",
+    "Braintrust",
+    "AgentOps"
+   ],
+   "ops-cheatsheet": [
+    "运营包五件套",
+    "月度质量报告",
+    "观测验收六个可"
+   ],
+   "rag-what-why": [
+    "RAG 三步流程",
+    "RAG vs 微调",
+    "幻觉"
+   ],
+   "rag-embedding": [
+    "Embedding",
+    "余弦相似度",
+    "ANN",
+    "HNSW",
+    "pgvector",
+    "向量库选型"
+   ],
+   "rag-chunking": [
+    "Chunking",
+    "块大小/重叠",
+    "Contextual Retrieval",
+    "语义切分"
+   ],
+   "rag-reranking": [
+    "两阶段检索",
+    "交叉编码器",
+    "Bi-Encoder",
+    "Cohere Rerank",
+    "BGE-reranker"
+   ],
+   "rag-evaluation": [
+    "Ragas",
+    "Faithfulness",
+    "上下文精确率/召回率",
+    "六段诊断",
+    "DeepEval"
+   ],
+   "rag-pipeline": [
+    "离线建库/在线查询",
+    "最小 RAG 管线",
+    "LlamaIndex",
+    "LangGraph"
+   ],
+   "rag-hybrid": [
+    "BM25",
+    "混合检索",
+    "RRF",
+    "k≈60"
+   ],
+   "rag-agentic": [
+    "Agentic RAG",
+    "CRAG",
+    "Self-RAG",
+    "Router",
+    "ReAct"
+   ],
+   "rag-production": [
+    "质量漂移",
+    "语义缓存",
+    "检索层 ACL",
+    "Trace",
+    "四层证明"
+   ],
+   "rag-graphrag": [
+    "GraphRAG",
+    "Leiden 社区检测",
+    "LazyGraphRAG",
+    "LightRAG",
+    "全局查询"
+   ],
+   "rag-multimodal": [
+    "多模态 RAG",
+    "ColPali",
+    "MaxSim 晚交互",
+    "转述索引",
+    "统一多模态嵌入"
+   ],
+   "rag-structured": [
+    "Text-to-SQL",
+    "语义层",
+    "静默错误",
+    "查文/查数路由"
+   ],
+   "agent-what-why": [
+    "Agent 循环",
+    "Chatbot/Workflow/Agent 光谱",
+    "停机条件"
+   ],
+   "agent-components": [
+    "ReAct",
+    "Function Calling",
+    "工具设计",
+    "短期/长期记忆"
+   ],
+   "agent-orchestration": [
+    "编排五模式",
+    "Orchestrator-Workers",
+    "A2A",
+    "Agent Card"
+   ],
+   "agent-tools-mcp": [
+    "MCP",
+    "M×N 问题",
+    "六层工具契约",
+    "Resources vs Tools"
+   ],
+   "agent-context": [
+    "上下文工程",
+    "context rot",
+    "Compaction",
+    "Just-in-time 检索",
+    "子 agent 隔离"
+   ],
+   "agent-eval-guardrails": [
+    "pass^k",
+    "轨迹级评估",
+    "LLM-as-judge",
+    "OWASP Agentic Top 10",
+    "提示注入"
+   ],
+   "agent-lowcode": [
+    "Coze",
+    "Dify",
+    "n8n",
+    "HiAgent",
+    "fair-code 许可证"
+   ],
+   "agent-memory": [
+    "Mem0",
+    "Letta (MemGPT)",
+    "Zep",
+    "LangMem",
+    "记忆投毒 MINJA"
+   ],
+   "agent-computer-use": [
+    "Computer Use",
+    "GUI Agent",
+    "OSWorld",
+    "Browser Use",
+    "RPA 混合"
+   ],
+   "agent-subagent": [
+    "Sub-agent",
+    "扇出/扇入",
+    "任务书",
+    "context: fork",
+    "15× token 账"
+   ],
+   "agent-cheatsheet": [
+    "启用条件决策树",
+    "六条验收线",
+    "按症状导航"
+   ],
+   "mm-what-why": [
+    "理解侧 vs 生成侧",
+    "能力谱系",
+    "OCR 分工",
+    "方案分诊"
+   ],
+   "mm-encoder": [
+    "ViT",
+    "patch",
+    "CLIP",
+    "SigLIP",
+    "视觉 token"
+   ],
+   "mm-fusion": [
+    "投影层 LLaVA",
+    "交叉注意力 Flamingo",
+    "Q-Former BLIP-2",
+    "原生 vs 拼管线"
+   ],
+   "mm-understanding": [
+    "MMMU",
+    "OCRBench",
+    "InternVL3",
+    "Qwen3-VL",
+    "能力边界"
+   ],
+   "mm-generation": [
+    "扩散 vs 自回归",
+    "GPT Image 2",
+    "Nano Banana 2",
+    "音色克隆",
+    "any-to-any"
+   ],
+   "mm-selection": [
+    "成本/延迟/精度铁三角",
+    "视觉 token 成本",
+    "vLLM 自部署",
+    "五层输入合同"
+   ],
+   "mm-production": [
+    "视觉幻觉",
+    "跨模态提示注入",
+    "评估四把尺",
+    "分辨率上限"
+   ],
+   "mm-voice-realtime": [
+    "级联管线",
+    "端到端 S2S",
+    "gpt-realtime",
+    "VAD",
+    "打断 barge-in",
+    "WebRTC"
+   ],
+   "mm-video-generation": [
+    "Seedance",
+    "Sora 2",
+    "可灵 Kling",
+    "Veo",
+    "按秒计价",
+    "内容标识"
+   ],
+   "sp-what-why": [
+    "场景×积木",
+    "需求分诊",
+    "一物三用"
+   ],
+   "sp-method": [
+    "五层参考架构",
+    "POC 三要素",
+    "三本账",
+    "口径鉴别术",
+    "方案验收六条线"
+   ],
+   "sp-customer-service": [
+    "三层漏斗",
+    "deflection vs resolution",
+    "解决率口径",
+    "语音客服"
+   ],
+   "sp-knowledge-search": [
+    "权限感知检索",
+    "连接器",
+    "Glean",
+    "越权测试集"
+   ],
+   "sp-content-gen": [
+    "品牌一致性",
+    "禁用词护栏",
+    "Firefly 商业安全",
+    "人审分级"
+   ],
+   "sp-ai-coding": [
+    "Copilot",
+    "Cursor",
+    "Claude Code",
+    "双层格局",
+    "DORA 指标"
+   ],
+   "sp-digital-human": [
+    "数字人",
+    "HeyGen",
+    "离线 vs 实时",
+    "深度合成标识"
+   ],
+   "sp-chatbi": [
+    "ChatBI",
+    "语义层",
+    "Cortex Analyst",
+    "三道闸",
+    "Semantic View Autopilot"
+   ],
+   "sp-meeting": [
+    "会议助手",
+    "WER",
+    "说话人分离",
+    "会议记忆库",
+    "bot 疲劳"
+   ],
+   "llm-why-transformer": [
+    "Transformer",
+    "RNN",
+    "长距离依赖",
+    "Attention Is All You Need",
+    "可扩展性"
+   ],
+   "llm-attention-qkv": [
+    "QKV",
+    "缩放点积注意力",
+    "Softmax",
+    "因果掩码",
+    "多头注意力"
+   ],
+   "llm-architecture": [
+    "Embedding",
+    "RoPE",
+    "FFN",
+    "残差连接/LayerNorm",
+    "Decoder-only",
+    "MoE"
+   ],
+   "llm-inference-kv": [
+    "KV 缓存",
+    "prefill/decode",
+    "TTFT/TPOT",
+    "上下文窗口",
+    "有效窗口 RULER"
+   ],
+   "llm-attention-zoo": [
+    "GQA",
+    "MLA",
+    "稀疏注意力 DSA",
+    "滑动窗口 SWA",
+    "线性混合",
+    "FlashAttention"
+   ],
+   "llm-presales-map": [
+    "架构选型七问",
+    "四类失败分诊",
+    "Mamba/SSM"
+   ],
+   "pe-what-why": [
+    "提示词工程",
+    "能力杠杆",
+    "提示词→RAG→微调"
+   ],
+   "pe-anatomy": [
+    "system prompt",
+    "消息角色",
+    "四要素",
+    "分隔符",
+    "五层结构"
+   ],
+   "pe-core-techniques": [
+    "zero-shot/few-shot",
+    "CoT 思维链",
+    "结构化输出",
+    "正向表述"
+   ],
+   "pe-advanced-reasoning": [
+    "自洽性",
+    "ReAct",
+    "提示词链",
+    "ToT",
+    "推理预算"
+   ],
+   "pe-engineering": [
+    "提示词版本化",
+    "评估驱动",
+    "DSPy MIPROv2/GEPA",
+    "提示词缓存",
+    "上下文预算四分区"
+   ],
+   "pe-security": [
+    "提示词注入",
+    "间接注入",
+    "越狱",
+    "OWASP LLM01",
+    "纵深防御",
+    "护栏"
+   ],
+   "pe-presales-map": [
+    "选型判断树",
+    "六步白板演练",
+    "上线验收四条线"
+   ],
+   "llminf-anatomy": [
+    "自回归",
+    "prefill/decode 两阶段",
+    "TTFT",
+    "TPOT",
+    "带宽墙"
+   ],
+   "llminf-kv-budget": [
+    "KV Cache 心算",
+    "GQA/MLA",
+    "显存账本",
+    "长上下文成本",
+    "容量规划"
+   ],
+   "llminf-batching": [
+    "Continuous Batching",
+    "PagedAttention",
+    "Prefix Caching",
+    "RadixAttention",
+    "Chunked Prefill"
+   ],
+   "llminf-engines": [
+    "vLLM",
+    "SGLang",
+    "TensorRT-LLM/NIM",
+    "llama.cpp/Ollama",
+    "OpenAI 兼容 API"
+   ],
+   "llminf-quant": [
+    "FP8",
+    "INT4",
+    "AWQ/GPTQ",
+    "NVFP4",
+    "GGUF",
+    "校准"
+   ],
+   "llminf-speculative": [
+    "投机解码",
+    "EAGLE-3",
+    "MTP",
+    "接受率",
+    "Test-time Scaling"
+   ],
+   "llminf-disagg": [
+    "P/D 分离",
+    "Mooncake",
+    "Dynamo",
+    "llm-d",
+    "TP/PP/EP",
+    "KV 分层存储"
+   ],
+   "llminf-production": [
+    "SLO",
+    "goodput",
+    "压测",
+    "成本心算",
+    "盈亏线利用率"
+   ],
+   "llmtrain-overview": [
+    "训练流水线六道工序",
+    "base/instruct/reasoning",
+    "训练 vs 推理成本"
+   ],
+   "llmtrain-data": [
+    "清洗去重",
+    "FineWeb",
+    "分词/BPE",
+    "数据墙",
+    "模型坍缩"
+   ],
+   "llmtrain-pretrain": [
+    "下一词预测",
+    "Scaling Laws/Chinchilla",
+    "稀疏 MoE",
+    "FP8 训练",
+    "Muon"
+   ],
+   "llmtrain-sft": [
+    "SFT",
+    "LIMA 质量>数量",
+    "蒸馏造数据",
+    "Chat Template"
+   ],
+   "llmtrain-alignment": [
+    "RLHF",
+    "奖励模型",
+    "Reward Hacking",
+    "DPO",
+    "对齐税"
+   ],
+   "llmtrain-reasoning": [
+    "RLVR",
+    "GRPO",
+    "DeepSeek-R1",
+    "思维链",
+    "推理蒸馏",
+    "推理时扩展"
+   ],
+   "llmtrain-infra": [
+    "16 字节/参数显存账",
+    "DP/TP/PP/EP",
+    "ZeRO",
+    "6ND 法则",
+    "MFU",
+    "checkpoint 容错"
+   ],
+   "llmtrain-eval": [
+    "benchmark 三层",
+    "数据污染/刷榜",
+    "Arena",
+    "模型卡五盯点",
+    "开源许可"
+   ],
+   "aic-overview": [
+    "五层栈",
+    "功率密度/液冷",
+    "东西向流量",
+    "训练 vs 推理曲线"
+   ],
+   "aic-gpu": [
+    "Tensor Core",
+    "精度阶梯 FP8/FP4",
+    "Roofline",
+    "MFU"
+   ],
+   "aic-hbm": [
+    "HBM 堆叠",
+    "HBM4",
+    "16 字节/参数训练账",
+    "权重+KV 推理账"
+   ],
+   "aic-chips": [
+    "NVIDIA Rubin",
+    "CUDA 护城河",
+    "AMD MI400",
+    "TPU Ironwood",
+    "昇腾 910C"
+   ],
+   "aic-scaleup": [
+    "NVLink 5",
+    "NVSwitch",
+    "NVL72",
+    "带宽阶梯",
+    "UALink"
+   ],
+   "aic-scaleout": [
+    "RDMA/GPUDirect",
+    "NCCL",
+    "AllReduce/AllToAll",
+    "InfiniBand vs RoCE",
+    "Ultra Ethernet",
+    "轨道优化"
+   ],
+   "aic-storage": [
+    "并行文件系统",
+    "checkpoint 洪峰写",
+    "对象存储分层",
+    "KV Cache 外置"
+   ],
+   "aic-econ": [
+    "TCO",
+    "PUE/液冷",
+    "建 vs 租 vs API",
+    "盈亏线利用率"
+   ],
+   "aip-overview": [
+    "平台四大职责",
+    "裸机之痛",
+    "利用率翻倍 ROI",
+    "K8s + 插件",
+    "四条控制链"
+   ],
+   "aip-k8s-gpu": [
+    "Device Plugin",
+    "DRA",
+    "GPU Operator",
+    "拓扑感知申请"
+   ],
+   "aip-scheduling": [
+    "gang scheduling",
+    "碎片/bin-packing",
+    "Kueue",
+    "Volcano",
+    "KAI/Run:ai"
+   ],
+   "aip-sharing": [
+    "MIG",
+    "时间片",
+    "MPS",
+    "HAMi",
+    "多租户隔离"
+   ],
+   "aip-faulttol": [
+    "checkpoint 异步/分级",
+    "自愈循环",
+    "466 次中断",
+    "HyperPod"
+   ],
+   "aip-observability": [
+    "利用率三层口径",
+    "MFU",
+    "goodput",
+    "四大黑洞",
+    "DCGM",
+    "chargeback"
+   ],
+   "aip-serving": [
+    "训练 vs 推理调度",
+    "KServe",
+    "llm-d/Dynamo",
+    "扩缩信号",
+    "冷启动"
+   ],
+   "aip-cloud": [
+    "云上四形态",
+    "责任递交线",
+    "三问定档",
+    "自建隐藏工作量"
+   ],
+   "ml-map": [
+    "三大阵营",
+    "企业/消费份额分裂",
+    "Menlo 口径",
+    "模型贬值资产"
+   ],
+   "ml-closed": [
+    "闭源旗舰家族",
+    "GPT-5.6 三档",
+    "Claude 5",
+    "Gemini 3.1",
+    "Grok 4.3"
+   ],
+   "ml-open": [
+    "开放权重",
+    "开源追平",
+    "SWE-bench",
+    "MoE 稀疏激活",
+    "Llama 4"
+   ],
+   "ml-china": [
+    "国产四强",
+    "豆包家族",
+    "昇腾全国产训练",
+    "模型即入口"
+   ],
+   "ml-platforms": [
+    "火山方舟",
+    "阿里百炼",
+    "百度千帆",
+    "腾讯混元",
+    "模型货架哲学"
+   ],
+   "ml-license": [
+    "open weight",
+    "OSAID",
+    "MIT/Apache 2.0",
+    "社区许可证",
+    "蒸馏条款继承"
+   ],
+   "ml-price": [
+    "价格光谱",
+    "三档家族制",
+    "缓存经济学",
+    "报价纪律",
+    "降价传导"
+   ],
+   "ml-capability": [
+    "上下文窗口",
+    "有效窗口",
+    "多模态矩阵",
+    "思考预算",
+    "overthinking"
+   ],
+   "ml-selection": [
+    "多模型组合",
+    "三层路由",
+    "五约束决策树",
+    "Leaderboard Illusion",
+    "评估集终审"
+   ],
+   "ml-cheatsheet": [
+    "赏味期限",
+    "保鲜声明",
+    "定点复查"
+   ],
+   "de-what-why": [
+    "数据就绪度",
+    "四问评估",
+    "显性工程件",
+    "数据工程报价"
+   ],
+   "de-parsing": [
+    "文档智能解析",
+    "LlamaParse",
+    "Docling",
+    "MinerU",
+    "表格保真",
+    "CJK 版面"
+   ],
+   "de-pipeline": [
+    "连接器五件事",
+    "增量同步",
+    "webhook/CDC",
+    "内容指纹去重",
+    "失效下架"
+   ],
+   "de-vectordb": [
+    "向量库选型",
+    "pgvector",
+    "Qdrant",
+    "Milvus",
+    "混合检索",
+    "向量库迁移"
+   ],
+   "de-quality": [
+    "质量四指标",
+    "覆盖率仪表盘",
+    "坏答案回流",
+    "修数据不改提示词"
+   ],
+   "de-labeling": [
+    "标注预算三去向",
+    "合成数据",
+    "种子样本",
+    "坏例分流",
+    "保留集防应试"
+   ],
+   "de-governance": [
+    "ACL 映射",
+    "采集点脱敏",
+    "越权测试集",
+    "向量化≠匿名化",
+    "遗忘权",
+    "血缘"
+   ]
+  },
+  "meta": {
+   "mcp-what-why": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "是什么/为什么",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "mcp-protocol": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "协议解剖",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "mcp-transport": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "传输与演进",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "mcp-server": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "动手写 server",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "mcp-production": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "生产落地",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "mcp-security": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "安全",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "mcp-cheatsheet": {
+    "mod": "MCP",
+    "modId": "mcp",
+    "title": "售前速查（高频问题 / 上手排错 / 版本口径与串联；2026-07-11 补齐全库速查惯例）",
+    "web": "./mcp/index.html",
+    "hue": 2
+   },
+   "a2a-what-why": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "是什么/为什么（与 MCP 分工）",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "a2a-protocol": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "协议解剖（五大对象与生命周期）",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "a2a-transport": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "发现与传输（Agent Card 发现·三绑定·流式）",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "a2a-handson": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "动手做：跑通一次 A2A 协作",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "a2a-orchestration": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "多智能体协作（opaque agents·任务委派）",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "a2a-production": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "生产落地·上云",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "a2a-security": {
+    "mod": "A2A",
+    "modId": "a2a",
+    "title": "安全 · 售前速查",
+    "web": "./a2a/index.html",
+    "hue": 2
+   },
+   "gw-what-why": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "是什么·为什么(从 API 网关到 AI 网关)",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-unify": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "统一接入与协议转换",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-route": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "路由·负载·容灾",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-cost": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "流量与成本治理",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-guardrail": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "安全·合规·护栏(挂载点)",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-observe": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "可观测",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-mcp": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "AI 网关 + MCP 网关(展开章,含授权时序深潜)",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "gw-cheatsheet": {
+    "mod": "AI-Gateway",
+    "modId": "ai-gateway",
+    "title": "选型与上云·售前速查",
+    "web": "./ai-gateway/index.html",
+    "hue": 3
+   },
+   "sec-landscape": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "为什么 AI 安全是新问题(威胁全景)",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-prompt-injection": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "提示注入与越狱",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-data-privacy": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "数据与隐私安全",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-supply-chain": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "供应链与模型来源",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-agentic": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "Agent 与工具安全",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-defense": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "防护工程:护栏·模式·红队",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-governance": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "治理与合规框架",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-china": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "中国监管合规",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "sec-cheatsheet": {
+    "mod": "Security",
+    "modId": "security",
+    "title": "售前速查",
+    "web": "./security/index.html",
+    "hue": 3
+   },
+   "eval-why-hard": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "为什么评估这么难",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-benchmarks": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "模型基准测试全景",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-methods": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "评估方法谱系",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-judge": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "LLM-as-a-Judge 深潜",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-build": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "自建评估:数据集与指标设计",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-scenarios": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "场景验收:RAG / Agent / 微调",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-tooling": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "评估工具链与生产闭环",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "eval-cheatsheet": {
+    "mod": "Evaluation",
+    "modId": "evaluation",
+    "title": "售前速查",
+    "web": "./evaluation/index.html",
+    "hue": 3
+   },
+   "ft-when": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "什么时候该微调",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-methods": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "微调方法谱系（全参 / LoRA / QLoRA）",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-data": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "数据准备：微调成败在此",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-training": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "训练实操与框架图鉴",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-alignment": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "偏好对齐落地（DPO / RFT）",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-cloud": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "托管微调服务与上云落地",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-eval-deploy": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "评估与部署",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ft-field-guide": {
+    "mod": "Fine-tuning",
+    "modId": "fine-tuning",
+    "title": "售前速查",
+    "web": "./fine-tuning/index.html",
+    "hue": 3
+   },
+   "ops-what-why": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "为什么 LLM 应用的 Ops 是新学科（两根新轴 / 静默退化 / 边界地图 / 观测成本）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-tracing": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "Tracing 与 OTel GenAI 深潜（span 四类 / trace 旅程 / PII 三开关）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-online-eval": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "在线评估与反馈回流（采样异步打分 / 评估漏斗 / 闭环三件套）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-drift": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "漂移与静默退化监测（三类漂移 / 检测组合拳 / 巡检节奏）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-release": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "发布管理（版本注册表 / 评估门禁 / 金丝雀 / 回滚 / 环境与 A/B）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-incident": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "事故响应（AI runbook 四问 / 急停 / HITL 分级 / 事故分级 SLA）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-tooling": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "工具格局与选型（六平台 / Braintrust · AgentOps / APM vs 专用 / 上云）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "ops-cheatsheet": {
+    "mod": "AI-Ops",
+    "modId": "ai-ops",
+    "title": "售前速查（运营包五件套 / 指标速查 / 选型卡 / 串联地图）",
+    "web": "./ai-ops/index.html",
+    "hue": 3
+   },
+   "rag-what-why": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "是什么/为什么",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-embedding": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "向量检索与 Embedding",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-chunking": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "切分策略 Chunking",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-reranking": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "重排序 Reranking",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-evaluation": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "常见评估方法",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-pipeline": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "最小 RAG 管线",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-hybrid": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "混合检索",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-agentic": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "Agentic RAG",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-production": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "生产化与常见坑",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-graphrag": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "GraphRAG：图谱增强检索",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-multimodal": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "多模态 RAG",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "rag-structured": {
+    "mod": "RAG",
+    "modId": "rag",
+    "title": "结构化数据 RAG（Text-to-SQL 与语义层）",
+    "web": "./rag/index.html",
+    "hue": 1
+   },
+   "agent-what-why": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "是什么/为什么",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-components": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "核心组件",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-orchestration": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "编排模式",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-tools-mcp": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "工具接入与 MCP",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-context": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "上下文工程",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-eval-guardrails": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "评估与护栏",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-lowcode": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "低代码 Agent 平台（Coze/Dify/n8n/HiAgent 与 code-first 边界）",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-memory": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "记忆系统（四种记忆分层 / 框架四强 / 记忆投毒 ASI06）",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-computer-use": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "Computer Use 与 GUI Agent（三路线 / 基准两口径 / RPA 混合 / 安全四件）",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-subagent": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "多智能体 / Sub-agent 编排（三层框架 / 三性质 / CC·Codex 实操 / 四层触发 / 决策账）",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "agent-cheatsheet": {
+    "mod": "Agent",
+    "modId": "agent",
+    "title": "售前速查（高频问题 / 启用条件决策树 / 串联地图；替代原全书串联页）",
+    "web": "./agent/index.html",
+    "hue": 1
+   },
+   "mm-what-why": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "是什么 / 为什么（感知面全景、理解 vs 生成）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-encoder": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "机器怎么「看」（ViT / CLIP / 编码器选型）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-fusion": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "模态怎么「拼」（三路线 + 原生 vs 拼管线）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-understanding": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "理解侧能力盘点（图 / 文档 / 视频 / 语音 + 格局）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-generation": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "生成侧能力盘点（扩散 vs 自回归 / 视频 / 语音）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-selection": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "选型与动手做（成本 / 延迟 / 精度、调用、部署）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-production": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "生产落地与坑（成本 / 幻觉 / 评估 / 安全）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-voice-realtime": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "语音与实时交互（延迟预算 / 级联 vs 端到端 / 打断 / RTC 框架）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "mm-video-generation": {
+    "mod": "Multimodal",
+    "modId": "multimodal",
+    "title": "视频生成（四家旗舰格局、按秒计价成本账、工作流与标识合规）",
+    "web": "./multimodal/index.html",
+    "hue": 1
+   },
+   "sp-what-why": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "从技术轴到场景轴（方案 = 场景 × 积木）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-method": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "方案共性方法（五层架构 / POC 三要素 / 三本账 / 口径鉴别）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-customer-service": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "智能客服（三层漏斗 / 解决率口径 / 语音客服）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-knowledge-search": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "企业知识库与 AI 搜索（权限命门 / Glean 模式）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-content-gen": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "营销与内容生成（品牌工程 / 商业安全 / 人审）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-ai-coding": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "AI Coding 与研发提效（双层格局 / 企业三关注）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-digital-human": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "数字人（离线 vs 实时 / 合规红线）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-chatbi": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "ChatBI 与数据分析（语义层口径战场 / 三道闸 / 产品格局）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "sp-meeting": {
+    "mod": "Solution-Patterns",
+    "modId": "solution-patterns",
+    "title": "会议与办公助手（记忆库资产 / 三层口径 / 合规红线）",
+    "web": "./solution-patterns/index.html",
+    "hue": 0
+   },
+   "llm-why-transformer": {
+    "mod": "LLM",
+    "modId": "llm",
+    "title": "从序列问题到 Transformer",
+    "web": "./llm/index.html",
+    "hue": 4
+   },
+   "llm-attention-qkv": {
+    "mod": "LLM",
+    "modId": "llm",
+    "title": "注意力机制：QKV 拆解",
+    "web": "./llm/index.html",
+    "hue": 4
+   },
+   "llm-architecture": {
+    "mod": "LLM",
+    "modId": "llm",
+    "title": "Transformer 全解剖",
+    "web": "./llm/index.html",
+    "hue": 4
+   },
+   "llm-inference-kv": {
+    "mod": "LLM",
+    "modId": "llm",
+    "title": "从架构到推理：上下文窗口与 KV 缓存",
+    "web": "./llm/index.html",
+    "hue": 4
+   },
+   "llm-attention-zoo": {
+    "mod": "LLM",
+    "modId": "llm",
+    "title": "注意力的工程进化",
+    "web": "./llm/index.html",
+    "hue": 4
+   },
+   "llm-presales-map": {
+    "mod": "LLM",
+    "modId": "llm",
+    "title": "售前视角收拢",
+    "web": "./llm/index.html",
+    "hue": 4
+   },
+   "pe-what-why": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "是什么 / 为什么",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "pe-anatomy": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "提示词解剖（角色/四要素/分隔符）",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "pe-core-techniques": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "核心技巧（zero/few-shot、CoT、结构化输出、清晰指令）",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "pe-advanced-reasoning": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "进阶推理与编排（自洽性、ReAct、提示词链、推理模型时代）",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "pe-engineering": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "工程化与自动优化（版本化、评估驱动、DSPy、缓存）",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "pe-security": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "安全与风险（提示词注入、越狱、OWASP、纵深防御）",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "pe-presales-map": {
+    "mod": "Prompt-Engineering",
+    "modId": "pe",
+    "title": "售前视角收拢（问题速查、选型树、上云全景、串联）",
+    "web": "./prompt-engineering/index.html",
+    "hue": 4
+   },
+   "llminf-anatomy": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "推理是怎么跑起来的",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-kv-budget": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "KV Cache 与显存账",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-batching": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "把 GPU 喂饱：批处理与调度",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-engines": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "推理框架图鉴",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-quant": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "让模型变小：量化",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-speculative": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "让模型变快：投机解码与算法加速",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-disagg": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "集群级：P/D 分离与分布式推理",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llminf-production": {
+    "mod": "LLM-Inference",
+    "modId": "llm-inference",
+    "title": "生产化与售前速查",
+    "web": "./llm-inference/index.html",
+    "hue": 4
+   },
+   "llmtrain-overview": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "全景总览：从随机权重到可用助手",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-data": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "数据：模型的粮食",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-pretrain": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "预训练：压缩互联网",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-sft": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "后训练 I · SFT：教会听话",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-alignment": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "后训练 II · 对齐：教会分寸",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-reasoning": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "后训练 III · RLVR 与推理模型：教会思考",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-infra": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "训练基础设施与算力账",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "llmtrain-eval": {
+    "mod": "LLM-Training",
+    "modId": "llm-training",
+    "title": "评估与发布：怎么知道练成了",
+    "web": "./llm-training/index.html",
+    "hue": 4
+   },
+   "aic-overview": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "全景总览：从一张卡到一座 AI 工厂",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-gpu": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "GPU 解剖：为什么 AI 计算长在 GPU 上",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-hbm": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "显存与 HBM：AI 时代最贵的房地产",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-chips": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "芯片格局与选型：NVIDIA 之内与之外",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-scaleup": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "Scale-up 互联：把 72 张卡焊成一张大卡",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-scaleout": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "Scale-out 网络：把一万张卡连成集群",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-storage": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "存储与数据管线：别让 GPU 等数据",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aic-econ": {
+    "mod": "AI-Infra-Compute",
+    "modId": "ai-infra-compute",
+    "title": "算力经济学与售前速查",
+    "web": "./ai-infra-compute/index.html",
+    "hue": 5
+   },
+   "aip-overview": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "平台全景：从「一堆卡」到「一个平台」",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-k8s-gpu": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "K8s + GPU 基础：从数卡到懂卡",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-scheduling": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "作业调度：让最贵的卡不空转",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-sharing": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "GPU 切分与多租户",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-faulttol": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "训练容错工程：万卡集群故障是常态",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-observability": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "可观测性与利用率运营",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-serving": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "推理服务平台化",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "aip-cloud": {
+    "mod": "AI-Infra-Platform",
+    "modId": "ai-infra-platform",
+    "title": "云上算力形态与售前速查",
+    "web": "./ai-infra-platform/index.html",
+    "hue": 5
+   },
+   "ml-map": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "全景地图（三大阵营 / 两个市场 / 一年三变局）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-closed": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "闭源旗舰家族图谱（五张名片 + 对比总表）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-open": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "开放权重格局（中国四强榜首 / 西方线 / 追平叙事）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-china": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "中国格局与豆包定位（四强横评 / 豆包家族 / 场景口径）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-platforms": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "国内平台格局（方舟/百炼/千帆/腾讯四平台画像、货架哲学、价格锚点、选型三问）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-license": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "许可证与合规边界（open weight vs open source / 三级分类）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-price": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "价格带与成本工程（光谱 / 三档制 / 缓存经济学）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-capability": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "能力矩阵与推理模型（窗口 / 模态 / 思考预算 / overthinking）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-selection": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "选型方法论（多模型默认解 / 三层路由 / 两道防线）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "ml-cheatsheet": {
+    "mod": "Model-Landscape",
+    "modId": "model-landscape",
+    "title": "售前速查（总表 / 价格卡 / 许可证卡 / 保鲜声明 / 串联）",
+    "web": "./model-landscape/index.html",
+    "hue": 0
+   },
+   "de-what-why": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "数据就绪度是第一风险（四问 / 管线总图 / 报价项）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   },
+   "de-parsing": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "文档解析管线（四强格局 / 基准口径 / 选型分水岭）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   },
+   "de-pipeline": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "连接器与增量同步（五件事 / 增量三模式 / 去重失效）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   },
+   "de-vectordb": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "向量库选型深潜（五锚点 / 按规模演进 / 迁移纪律）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   },
+   "de-quality": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "数据质量与覆盖率（四指标 / 坏答案回流 / 运营节奏）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   },
+   "de-labeling": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "标注与合成数据运营（预算三去向 / 双线运营 / 分流口诀）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   },
+   "de-governance": {
+    "mod": "Data-Engineering",
+    "modId": "data-engineering",
+    "title": "治理与权限衔接（三执行点 / 越权测试 / 向量化≠匿名化）",
+    "web": "./data-engineering/index.html",
+    "hue": 6
+   }
+  }
+ }
 };

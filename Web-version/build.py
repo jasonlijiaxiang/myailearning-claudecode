@@ -648,12 +648,34 @@ def build():
 
     by_id = {m["id"]: m for m in mods}
     concepts = resolve_concepts(by_id)
+
+    # 关键词联想数据：章节 → 关键技术词。校验 CHKW 的章节 ID 都是真实章节（对不上就丢弃并告警），
+    # 附章节所属模块 / 标题 / 层色，供网页端「点模块散关键词、点关键词跳章 + 散相关词」用。
+    chmeta = {}
+    for m in mods:
+        if m["id"] not in WEB_DIRS:
+            continue
+        hue = layers.index(m["layer"])
+        for c in m["chapters"]:
+            chmeta[c["id"]] = {"mod": m["dir"], "modId": m["id"], "title": c["title"],
+                               "web": WEB_PAGES[m["id"]], "hue": hue}
+    kw_ch, dropped = {}, []
+    for ch, words in CHKW.items():
+        if ch in chmeta and words:
+            kw_ch[ch] = words
+        else:
+            dropped.append(ch)
+    if dropped:
+        print("提示：CHKW 有 %d 个章节 ID 不在 MANIFEST 章节清单里，已丢弃：%s"
+              % (len(dropped), "、".join(sorted(dropped))))
+
     data = {"generated_from": "PPT-version/*/MANIFEST.md（结构）+ Web-version/*/index.html（问答）"
-                              "+ build.py CONCEPTS（关键词落点）",
+                              "+ build.py CONCEPTS/CHKW（关键词落点与联想）",
             "layers": layers, "modules": mods,
             "concepts": [{"t": t, "m": by_id[tm]["dir"],
                           "u": "./%s/index.html#%s" % (WEB_DIRS[tm], tc)}
-                         for t, (tm, tc) in sorted(concepts.items())]}
+                         for t, (tm, tc) in sorted(concepts.items())],
+            "kw": {"ch": kw_ch, "meta": {c: chmeta[c] for c in kw_ch}}}
     text = ("// 本文件由 Web-version/build.py 从各模块 MANIFEST.md 生成，请勿手工编辑。\n"
             "// 改内容请改 MANIFEST，然后重跑 build.py。\n"
             "window.KB = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n")
@@ -753,6 +775,177 @@ EDGE_TERMS = {
     "pe|rag": "提示词 vs RAG", "pe|security": "提示注入", "pe|solution-patterns": "风格注入",
     "rag|security": "向量库投毒 · ACL", "rag|solution-patterns": "检索路线选型",
     "security|solution-patterns": "权限感知检索",
+}
+
+
+# 每章的关键技术词（供「关键词联想」：点模块散开它的技术词，点技术词跳到讲它的那一章、
+# 并散开同章相关词，一路顺着术语深挖）。键＝章节 ID（须与 MANIFEST 章节清单一致，构建时校验、
+# 对不上就丢弃并告警）；由 2026-07-23 十九册逐章盘点。同章的词互为「相关词」。
+CHKW = {
+    # —— 协议层 ——
+    "mcp-what-why": ["MCP", "Function Calling", "M×N→M+N", "AAIF", "SEP"],
+    "mcp-protocol": ["Host/Client/Server", "JSON-RPC 2.0", "Tools/Resources/Prompts", "控制面", "tools/call 报文"],
+    "mcp-transport": ["stdio", "Streamable HTTP", "无状态核心", "Extensions/Tasks", "弃用政策"],
+    "mcp-server": ["FastMCP", "MCP Inspector", "工具描述", "REST 包装"],
+    "mcp-production": ["OAuth 2.1", "MCP 网关", "MCP Registry", "私有 registry", "token 透传禁令"],
+    "mcp-security": ["工具投毒", "rug pull", "confused deputy", "MCPTox", "NSA/CISA 指引"],
+    "mcp-cheatsheet": ["上手四步", "排错三板斧", "Inspector 分层定位"],
+    "a2a-what-why": ["A2A", "MCP/A2A 分工", "Linux Foundation", "多专精 Agent 协作"],
+    "a2a-protocol": ["Agent Card", "Task 状态机", "Message/Part", "Artifact", "Protocol Buffers"],
+    "a2a-transport": ["well-known URI", "三绑定", "SSE", "推送通知 webhook", "四种交付"],
+    "a2a-handson": ["官方 SDK", "message/send", "a2a-inspector", "TCK"],
+    "a2a-orchestration": ["opaque agents", "编排者—执行者", "链式流水线", "并行汇聚"],
+    "a2a-production": ["多租户", "Bedrock AgentCore", "Vertex Agent Engine", "AP2", "采用度"],
+    "a2a-security": ["Signed Agent Cards", "OAuth2/mTLS", "授权范围 scope", "五个信任边界", "跨 Agent 提示注入"],
+    # —— 工程保障层 ——
+    "gw-what-why": ["AI 网关", "LLM 专属六件套", "M×N 收敛", "边界辨析"],
+    "gw-unify": ["OpenAI 兼容层", "虚拟密钥", "十步请求链", "五层策略栈", "优雅降级"],
+    "gw-route": ["路由五策略", "复杂度路由", "语义路由", "fallback/熔断", "RouteLLM/FrugalGPT"],
+    "gw-cost": ["按 token 限流", "花费归集 FinOps", "语义缓存", "相似度阈值"],
+    "gw-guardrail": ["pre/post 护栏", "统一执行点", "审计证据链", "PII 脱敏", "注入检测"],
+    "gw-observe": ["OpenTelemetry GenAI", "OpenInference", "日志/指标/追踪"],
+    "gw-mcp": ["MCP 网关", "openapi-to-mcp", "RFC 8693 token 交换", "token 透传禁令", "三大授权反模式"],
+    "gw-cheatsheet": ["自托管 vs 托管", "LiteLLM", "Higress", "Envoy AI Gateway", "Azure APIM"],
+    "sec-landscape": ["指令数据不分离", "三层攻击面", "OWASP LLM Top 10", "MITRE ATLAS"],
+    "sec-prompt-injection": ["提示注入", "间接注入", "越狱", "EchoLeak 零点击", "模型外兜底"],
+    "sec-data-privacy": ["系统提示词泄露", "成员推断", "投毒三时机", "嵌入反演", "RAG 优于微调"],
+    "sec-supply-chain": ["pickle RCE", "后门模型", "safetensors", "模型签名", "AI-BOM"],
+    "sec-agentic": ["过度自主", "爆炸半径", "工具描述投毒", "记忆投毒", "HITL"],
+    "sec-defense": ["纵深防御四道闸", "Llama Guard", "NeMo Guardrails", "双 LLM/CaMeL", "PyRIT 红队"],
+    "sec-governance": ["NIST AI RMF", "EU AI Act", "ISO/IEC 42001", "AI-SPM"],
+    "sec-china": ["双备案", "内容标识办法", "GB/T 45654", "数据出境三通道", "988 款备案"],
+    "sec-cheatsheet": ["威胁→防护映射", "风险与合规自查", "爆炸半径分级"],
+    "eval-why-hard": ["非确定性", "三层分工", "评估集护城河", "隐性回归"],
+    "eval-benchmarks": ["MMLU 饱和", "GPQA", "HLE", "SWE-bench", "Arena/Elo", "数据污染"],
+    "eval-methods": ["判分四法", "代码判分", "人工评估", "BLEU/ROUGE 失灵"],
+    "eval-judge": ["LLM-as-a-Judge", "位置偏差", "冗长偏差", "自我偏好", "判官校准"],
+    "eval-build": ["黄金集", "错误分析", "冷启动三路", "CI 门禁", "保留集"],
+    "eval-scenarios": ["RAG 三角", "轨迹评估", "pass^k", "回归门禁", "幻觉率"],
+    "eval-tooling": ["Ragas", "DeepEval", "promptfoo", "LangSmith/Phoenix", "四道发布门"],
+    "eval-cheatsheet": ["POC 验收四件套", "应答三步", "误区总表"],
+    "ft-when": ["微调时机", "定制光谱", "知识 vs 行为", "劝退清单"],
+    "ft-methods": ["全参微调", "LoRA", "QLoRA", "显存心算", "学得少忘得少"],
+    "ft-data": ["聊天模板", "JSONL", "LIMA", "合成数据", "蒸馏", "PII 治理三问"],
+    "ft-training": ["Unsloth", "LLaMA-Factory", "Axolotl", "TRL", "eval loss/过拟合"],
+    "ft-alignment": ["SFT", "DPO", "RFT", "GRPO", "偏好对", "reward hacking"],
+    "ft-cloud": ["托管微调", "OpenAI 微调 API", "Bedrock Haiku", "数据出域"],
+    "ft-eval-deploy": ["验收四层", "灾难性遗忘", "回归门禁", "adapter 热插拔", "多 LoRA"],
+    "ft-field-guide": ["误区总表", "成本心算", "决策树"],
+    "ops-what-why": ["质量轴", "token 成本轴", "静默退化", "观测成本", "采样率"],
+    "ops-tracing": ["OTel GenAI", "span 四类", "trace 旅程", "PII 脱敏", "保留期分级"],
+    "ops-online-eval": ["在线评估", "评估漏斗", "判官采样打分", "评审队列", "数据集晋升"],
+    "ops-drift": ["漂移监测", "静默换 checkpoint", "嵌入距离", "回归集重跑"],
+    "ops-release": ["版本注册表", "评估门禁", "金丝雀", "秒级回滚", "四层版本键"],
+    "ops-incident": ["AI runbook 四问", "成本尖峰", "急停开关", "HITL 分级", "事故 SLA"],
+    "ops-tooling": ["LangSmith", "Langfuse", "Arize Phoenix", "Braintrust", "AgentOps"],
+    "ops-cheatsheet": ["运营包五件套", "月度质量报告", "观测验收六个可"],
+    # —— 应用模式层 ——
+    "rag-what-why": ["RAG 三步流程", "RAG vs 微调", "幻觉"],
+    "rag-embedding": ["Embedding", "余弦相似度", "ANN", "HNSW", "pgvector", "向量库选型"],
+    "rag-chunking": ["Chunking", "块大小/重叠", "Contextual Retrieval", "语义切分"],
+    "rag-reranking": ["两阶段检索", "交叉编码器", "Bi-Encoder", "Cohere Rerank", "BGE-reranker"],
+    "rag-evaluation": ["Ragas", "Faithfulness", "上下文精确率/召回率", "六段诊断", "DeepEval"],
+    "rag-pipeline": ["离线建库/在线查询", "最小 RAG 管线", "LlamaIndex", "LangGraph"],
+    "rag-hybrid": ["BM25", "混合检索", "RRF", "k≈60"],
+    "rag-agentic": ["Agentic RAG", "CRAG", "Self-RAG", "Router", "ReAct"],
+    "rag-production": ["质量漂移", "语义缓存", "检索层 ACL", "Trace", "四层证明"],
+    "rag-graphrag": ["GraphRAG", "Leiden 社区检测", "LazyGraphRAG", "LightRAG", "全局查询"],
+    "rag-multimodal": ["多模态 RAG", "ColPali", "MaxSim 晚交互", "转述索引", "统一多模态嵌入"],
+    "rag-structured": ["Text-to-SQL", "语义层", "静默错误", "查文/查数路由"],
+    "agent-what-why": ["Agent 循环", "Chatbot/Workflow/Agent 光谱", "停机条件"],
+    "agent-components": ["ReAct", "Function Calling", "工具设计", "短期/长期记忆"],
+    "agent-orchestration": ["编排五模式", "Orchestrator-Workers", "A2A", "Agent Card"],
+    "agent-tools-mcp": ["MCP", "M×N 问题", "六层工具契约", "Resources vs Tools"],
+    "agent-context": ["上下文工程", "context rot", "Compaction", "Just-in-time 检索", "子 agent 隔离"],
+    "agent-eval-guardrails": ["pass^k", "轨迹级评估", "LLM-as-judge", "OWASP Agentic Top 10", "提示注入"],
+    "agent-lowcode": ["Coze", "Dify", "n8n", "HiAgent", "fair-code 许可证"],
+    "agent-memory": ["Mem0", "Letta (MemGPT)", "Zep", "LangMem", "记忆投毒 MINJA"],
+    "agent-computer-use": ["Computer Use", "GUI Agent", "OSWorld", "Browser Use", "RPA 混合"],
+    "agent-subagent": ["Sub-agent", "扇出/扇入", "任务书", "context: fork", "15× token 账"],
+    "agent-cheatsheet": ["启用条件决策树", "六条验收线", "按症状导航"],
+    "mm-what-why": ["理解侧 vs 生成侧", "能力谱系", "OCR 分工", "方案分诊"],
+    "mm-encoder": ["ViT", "patch", "CLIP", "SigLIP", "视觉 token"],
+    "mm-fusion": ["投影层 LLaVA", "交叉注意力 Flamingo", "Q-Former BLIP-2", "原生 vs 拼管线"],
+    "mm-understanding": ["MMMU", "OCRBench", "InternVL3", "Qwen3-VL", "能力边界"],
+    "mm-generation": ["扩散 vs 自回归", "GPT Image 2", "Nano Banana 2", "音色克隆", "any-to-any"],
+    "mm-selection": ["成本/延迟/精度铁三角", "视觉 token 成本", "vLLM 自部署", "五层输入合同"],
+    "mm-production": ["视觉幻觉", "跨模态提示注入", "评估四把尺", "分辨率上限"],
+    "mm-voice-realtime": ["级联管线", "端到端 S2S", "gpt-realtime", "VAD", "打断 barge-in", "WebRTC"],
+    "mm-video-generation": ["Seedance", "Sora 2", "可灵 Kling", "Veo", "按秒计价", "内容标识"],
+    "sp-what-why": ["场景×积木", "需求分诊", "一物三用"],
+    "sp-method": ["五层参考架构", "POC 三要素", "三本账", "口径鉴别术", "方案验收六条线"],
+    "sp-customer-service": ["三层漏斗", "deflection vs resolution", "解决率口径", "语音客服"],
+    "sp-knowledge-search": ["权限感知检索", "连接器", "Glean", "越权测试集"],
+    "sp-content-gen": ["品牌一致性", "禁用词护栏", "Firefly 商业安全", "人审分级"],
+    "sp-ai-coding": ["Copilot", "Cursor", "Claude Code", "双层格局", "DORA 指标"],
+    "sp-digital-human": ["数字人", "HeyGen", "离线 vs 实时", "深度合成标识"],
+    "sp-chatbi": ["ChatBI", "语义层", "Cortex Analyst", "三道闸", "Semantic View Autopilot"],
+    "sp-meeting": ["会议助手", "WER", "说话人分离", "会议记忆库", "bot 疲劳"],
+    # —— 基础层 ——
+    "llm-why-transformer": ["Transformer", "RNN", "长距离依赖", "Attention Is All You Need", "可扩展性"],
+    "llm-attention-qkv": ["QKV", "缩放点积注意力", "Softmax", "因果掩码", "多头注意力"],
+    "llm-architecture": ["Embedding", "RoPE", "FFN", "残差连接/LayerNorm", "Decoder-only", "MoE"],
+    "llm-inference-kv": ["KV 缓存", "prefill/decode", "TTFT/TPOT", "上下文窗口", "有效窗口 RULER"],
+    "llm-attention-zoo": ["GQA", "MLA", "稀疏注意力 DSA", "滑动窗口 SWA", "线性混合", "FlashAttention"],
+    "llm-presales-map": ["架构选型七问", "四类失败分诊", "Mamba/SSM"],
+    "pe-what-why": ["提示词工程", "能力杠杆", "提示词→RAG→微调"],
+    "pe-anatomy": ["system prompt", "消息角色", "四要素", "分隔符", "五层结构"],
+    "pe-core-techniques": ["zero-shot/few-shot", "CoT 思维链", "结构化输出", "正向表述"],
+    "pe-advanced-reasoning": ["自洽性", "ReAct", "提示词链", "ToT", "推理预算"],
+    "pe-engineering": ["提示词版本化", "评估驱动", "DSPy MIPROv2/GEPA", "提示词缓存", "上下文预算四分区"],
+    "pe-security": ["提示词注入", "间接注入", "越狱", "OWASP LLM01", "纵深防御", "护栏"],
+    "pe-presales-map": ["选型判断树", "六步白板演练", "上线验收四条线"],
+    "llminf-anatomy": ["自回归", "prefill/decode 两阶段", "TTFT", "TPOT", "带宽墙"],
+    "llminf-kv-budget": ["KV Cache 心算", "GQA/MLA", "显存账本", "长上下文成本", "容量规划"],
+    "llminf-batching": ["Continuous Batching", "PagedAttention", "Prefix Caching", "RadixAttention", "Chunked Prefill"],
+    "llminf-engines": ["vLLM", "SGLang", "TensorRT-LLM/NIM", "llama.cpp/Ollama", "OpenAI 兼容 API"],
+    "llminf-quant": ["FP8", "INT4", "AWQ/GPTQ", "NVFP4", "GGUF", "校准"],
+    "llminf-speculative": ["投机解码", "EAGLE-3", "MTP", "接受率", "Test-time Scaling"],
+    "llminf-disagg": ["P/D 分离", "Mooncake", "Dynamo", "llm-d", "TP/PP/EP", "KV 分层存储"],
+    "llminf-production": ["SLO", "goodput", "压测", "成本心算", "盈亏线利用率"],
+    "llmtrain-overview": ["训练流水线六道工序", "base/instruct/reasoning", "训练 vs 推理成本"],
+    "llmtrain-data": ["清洗去重", "FineWeb", "分词/BPE", "数据墙", "模型坍缩"],
+    "llmtrain-pretrain": ["下一词预测", "Scaling Laws/Chinchilla", "稀疏 MoE", "FP8 训练", "Muon"],
+    "llmtrain-sft": ["SFT", "LIMA 质量>数量", "蒸馏造数据", "Chat Template"],
+    "llmtrain-alignment": ["RLHF", "奖励模型", "Reward Hacking", "DPO", "对齐税"],
+    "llmtrain-reasoning": ["RLVR", "GRPO", "DeepSeek-R1", "思维链", "推理蒸馏", "推理时扩展"],
+    "llmtrain-infra": ["16 字节/参数显存账", "DP/TP/PP/EP", "ZeRO", "6ND 法则", "MFU", "checkpoint 容错"],
+    "llmtrain-eval": ["benchmark 三层", "数据污染/刷榜", "Arena", "模型卡五盯点", "开源许可"],
+    # —— 算力底座层 ——
+    "aic-overview": ["五层栈", "功率密度/液冷", "东西向流量", "训练 vs 推理曲线"],
+    "aic-gpu": ["Tensor Core", "精度阶梯 FP8/FP4", "Roofline", "MFU"],
+    "aic-hbm": ["HBM 堆叠", "HBM4", "16 字节/参数训练账", "权重+KV 推理账"],
+    "aic-chips": ["NVIDIA Rubin", "CUDA 护城河", "AMD MI400", "TPU Ironwood", "昇腾 910C"],
+    "aic-scaleup": ["NVLink 5", "NVSwitch", "NVL72", "带宽阶梯", "UALink"],
+    "aic-scaleout": ["RDMA/GPUDirect", "NCCL", "AllReduce/AllToAll", "InfiniBand vs RoCE", "Ultra Ethernet", "轨道优化"],
+    "aic-storage": ["并行文件系统", "checkpoint 洪峰写", "对象存储分层", "KV Cache 外置"],
+    "aic-econ": ["TCO", "PUE/液冷", "建 vs 租 vs API", "盈亏线利用率"],
+    "aip-overview": ["平台四大职责", "裸机之痛", "利用率翻倍 ROI", "K8s + 插件", "四条控制链"],
+    "aip-k8s-gpu": ["Device Plugin", "DRA", "GPU Operator", "拓扑感知申请"],
+    "aip-scheduling": ["gang scheduling", "碎片/bin-packing", "Kueue", "Volcano", "KAI/Run:ai"],
+    "aip-sharing": ["MIG", "时间片", "MPS", "HAMi", "多租户隔离"],
+    "aip-faulttol": ["checkpoint 异步/分级", "自愈循环", "466 次中断", "HyperPod"],
+    "aip-observability": ["利用率三层口径", "MFU", "goodput", "四大黑洞", "DCGM", "chargeback"],
+    "aip-serving": ["训练 vs 推理调度", "KServe", "llm-d/Dynamo", "扩缩信号", "冷启动"],
+    "aip-cloud": ["云上四形态", "责任递交线", "三问定档", "自建隐藏工作量"],
+    # —— 解决方案 · 数据底座 ——
+    "ml-map": ["三大阵营", "企业/消费份额分裂", "Menlo 口径", "模型贬值资产"],
+    "ml-closed": ["闭源旗舰家族", "GPT-5.6 三档", "Claude 5", "Gemini 3.1", "Grok 4.3"],
+    "ml-open": ["开放权重", "开源追平", "SWE-bench", "MoE 稀疏激活", "Llama 4"],
+    "ml-china": ["国产四强", "豆包家族", "昇腾全国产训练", "模型即入口"],
+    "ml-platforms": ["火山方舟", "阿里百炼", "百度千帆", "腾讯混元", "模型货架哲学"],
+    "ml-license": ["open weight", "OSAID", "MIT/Apache 2.0", "社区许可证", "蒸馏条款继承"],
+    "ml-price": ["价格光谱", "三档家族制", "缓存经济学", "报价纪律", "降价传导"],
+    "ml-capability": ["上下文窗口", "有效窗口", "多模态矩阵", "思考预算", "overthinking"],
+    "ml-selection": ["多模型组合", "三层路由", "五约束决策树", "Leaderboard Illusion", "评估集终审"],
+    "ml-cheatsheet": ["赏味期限", "保鲜声明", "定点复查"],
+    "de-what-why": ["数据就绪度", "四问评估", "显性工程件", "数据工程报价"],
+    "de-parsing": ["文档智能解析", "LlamaParse", "Docling", "MinerU", "表格保真", "CJK 版面"],
+    "de-pipeline": ["连接器五件事", "增量同步", "webhook/CDC", "内容指纹去重", "失效下架"],
+    "de-vectordb": ["向量库选型", "pgvector", "Qdrant", "Milvus", "混合检索", "向量库迁移"],
+    "de-quality": ["质量四指标", "覆盖率仪表盘", "坏答案回流", "修数据不改提示词"],
+    "de-labeling": ["标注预算三去向", "合成数据", "种子样本", "坏例分流", "保留集防应试"],
+    "de-governance": ["ACL 映射", "采集点脱敏", "越权测试集", "向量化≠匿名化", "遗忘权", "血缘"],
 }
 
 
@@ -909,19 +1102,19 @@ def render_graph(data):
     deg_all = sorted(mods, key=lambda m: -len(adj[m["id"]]))
     hubs = "、".join("%s（%d）" % (m["dir"], len(adj[m["id"]])) for m in deg_all[:3])
     lead = ('  <p class="net-lead">按 7 层排布的全库 19 个模块。<b>两种学法</b>——'
-            '<b>单点学习</b>：直接点模块进那一册；<b>关联学习</b>：显示连线，'
-            '点一个模块它会滑到中间、把关联的模块拉到身边连成小网，连线上标着'
-            '桥接两块的关键技术词，顺着一路深挖。关联最密的三块：<b>%s</b>。</p>' % esc(hubs))
+            '<b>单点学习</b>：直接点模块进那一册；<b>关联学习</b>：点一个模块，它滑到中间、'
+            '散开它的<b>关键技术词</b>；点一个词就跳到讲它的那一章去读，同时散开相关的词，'
+            '顺着技术名词一步步深挖。</p>')
     toggle = ('  <div class="kg-modes" role="tablist">'
               '<button type="button" class="kg-mode on" data-mode="link">关联学习</button>'
               '<button type="button" class="kg-mode" data-mode="solo">单点学习</button>'
-              '<span class="kg-modenote">关联＝看连线、逐步深挖；单点＝直接进册</span></div>')
+              '<span class="kg-modenote">关联＝点模块散关键词、顺着技术名词深挖；单点＝直接进册</span></div>')
     graph = (lead + '\n' + toggle
              + '\n  <div class="kgraph-wrap"><div class="kgraph-scroll">\n'
              + "\n".join(o) + "\n  </div>\n"
-             '  <p class="kgraph-hint">「单点学习」点模块直接进册；「关联学习」下点模块看它'
-             '连着谁、连线上是关键技术词，点中心可打开该册，按返回全景 / Esc 回总图。'
-             '需要逐条读关系，展开下面的文字表。</p></div>')
+             '  <p class="kgraph-hint">「单点学习」点模块直接进册；「关联学习」下点模块散开它的'
+             '关键技术词，点一个词跳到讲它的那一章、并散开相关词，最多联想 3 步；'
+             '点中心可读该册，按返回全景 / Esc 回总图。需要逐条读关系，展开下面的文字表。</p></div>')
 
     alt = ('  <details class="kgraph-alt"><summary>换成文字表看（逐模块列出边）</summary>\n'
            + render_network(data) + "\n  </details>")

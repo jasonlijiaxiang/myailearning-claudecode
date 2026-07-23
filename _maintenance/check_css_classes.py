@@ -37,6 +37,8 @@ DYNAMIC = {
     "kterm", "kterms",                       # site.js：连线关键词标签（createElementNS 动态建）
     "kg-crumb", "kg-crumb-lbl", "kg-crumb-sep",  # site.js：联想路径面包屑（createElement 动态建）
     "kg-crumb-b", "kg-crumb-depth", "nudge",
+    "kwon", "kwlayer", "kwnode", "kw-center",    # site.js：关键词联想（点模块散关键词、点词深挖）
+    "kw-ring", "kwedge", "kwt", "kg-read",
     "f",                                     # 报文注释器字段（标记里有，JS 也会重写）
     "over", "none",                          # build.py 保鲜看板/关系网的行状态
     "soon",                                  # 入口卡「未完成」状态：2026-07-22 网页版

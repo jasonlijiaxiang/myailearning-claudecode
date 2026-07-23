@@ -476,6 +476,21 @@ svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
 .kg-crumb.nudge { animation: kgshake .4s; }
 @keyframes kgshake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 @media (prefers-reduced-motion: reduce) { .kg-crumb.nudge { animation: none; } }
+/* 关键词联想：点模块后进入，隐藏模块图、淡化层带，只留关键词云 */
+.kgraph.kwon .knode, .kgraph.kwon .kedge { display: none; }
+.kgraph.kwon .kbands { opacity: .1; }
+.kwnode { cursor: pointer; }
+.kwnode rect.kbox { fill: var(--card); stroke: var(--hue, var(--line)); transition: stroke-width .12s; }
+.kwnode text.kwt { fill: var(--ink-900); font-weight: 600; }
+.kwnode:hover rect.kbox { stroke-width: 2; }
+.kw-center rect.kbox { fill: var(--blue-bg); stroke: var(--blue); stroke-width: 2; }
+.kw-center text.kwt { fill: var(--blue-d); font-weight: 700; }
+.kwedge { fill: none; stroke: var(--blue); stroke-width: 1.6; opacity: .5; stroke-linecap: round; }
+/* 「读这一章」链接（关键词聚焦时出现） */
+.kg-read { display: none; align-items: center; gap: .3rem; margin: 0 0 .55rem; text-decoration: none;
+           font-size: 13px; color: var(--blue-d); background: var(--blue-bg);
+           border: 1px solid var(--blue-ln); border-radius: 999px; padding: .28rem .85rem; }
+.kg-read:hover { background: var(--blue); color: #fff; }
 /* 单点学习：不显连线（也就没有聚焦态） */
 .kgraph.kmode-solo .kedge { display: none; }
 /* 连线关键词标签（关联学习聚焦时出现，halo 描边保证压在连线上也读得清） */
