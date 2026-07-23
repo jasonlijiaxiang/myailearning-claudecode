@@ -61,8 +61,27 @@
     <p>大模型三个先天短板：知识过期、看不到你的私有数据、爱一本正经地编（幻觉）。RAG 的解法是<b>从「闭卷考」变成「开卷考」</b>：回答前先从外部知识库检索相关片段，让模型「看着资料」作答——更新快、更准、可溯源。</p>
   </div>
 
-  <p>三步流程：<b>检索</b>（问题转向量，找语义最相关的 Top-K 片段）→ <b>增强</b>（片段拼进
-    Prompt 作为参考资料）→ <b>生成</b>（要求「只依据资料、给出出处」）。在线这三步之外还有离线建库：解析 → 切分 → Embedding → 入库。</p>
+  <p>三步流程：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 96" role="img" aria-label="RAG 在线三步流程：检索（问题转向量，找语义最相关的 Top-K 片段）→ 增强（片段拼进 Prompt 作为参考资料）→ 生成（要求只依据资料、给出出处）。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="225" height="52" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="118" y="28" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">检索</text>
+      <text x="118" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">问题转向量，找 Top-K 片段</text>
+      <rect x="247" y="6" width="225" height="52" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="359" y="28" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">增强</text>
+      <text x="359" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">片段拼进 Prompt 作参考</text>
+      <path d="M 233 32 L 242 32" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 243 32 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="488" y="6" width="225" height="52" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="600" y="28" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">生成</text>
+      <text x="600" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">只依据资料、给出出处</text>
+      <path d="M 474 32 L 483 32" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 484 32 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>在线三步。这三步之外还有离线建库：解析 → 切分 → Embedding → 入库。</figcaption>
+  </figure>
   <p>与微调的边界一句话：<b>RAG 改的是「知识」，微调改的是「行为」</b>。知识频繁变动、要引用出处、私有数据多、要快速上线——选 RAG；要固定输出格式/语气、教会模型新技能——才考虑微调，二者常组合（取舍参照 <a href="../../PPT-version/Fine-tuning/README.html">Fine-tuning
     模块</a>）。「资料全塞超长 Prompt」不可行的原因在推理侧：长上下文两头吃钱、注意力被稀释——机制账见 <a href="../llm-inference/index.html#llminf-kv-budget">LLM-Inference
     网页版</a>。RAG 不能彻底消除幻觉，但「给了资料 + 要求带出处」能大幅降低，剩余风险靠重排与评估兜底。</p>
@@ -135,8 +154,35 @@
     <p>两阶段检索像招聘：HR 先按简历海选一批（快、宽），业务负责人再对进面的逐个深聊（准、慢）。<b>召回负责「不漏」，重排负责「排得准」</b>——宽召回 + 精排是 RAG 提质的标准组合拳。</p>
   </div>
 
-  <p>机制差别：双编码器把问题和文档各自独立编码，可预建索引、能扫全库但略粗；交叉编码器把「问题+文档」拼一起联合打分，捕捉细粒度关联、准得多——但每候选实时算一次，没法预建索引，所以只做第二阶段、精排少量候选（Top-50~100 召回 → 精排到 Top-3~5）。</p>
-  <p>选型（2026-07 口径）：托管选 <b>Cohere Rerank v4.0 系</b>（pro 重质量 / fast 低延迟，多语言+半结构化）；自建选 <b>BGE-reranker-v2-m3</b>（质量/延迟/许可平衡好，多数生产环境的稳妥默认开源项）；Jina Reranker v2 面向 Agentic 场景可作备选。收益成本账：多几百毫秒和一次调用费，换准确率明显提升——对质量敏感的场景（合规问答）几乎必上，对延迟极敏感的实时场景再权衡。</p>
+  <p>机制差别：双编码器把问题和文档各自独立编码，可预建索引、能扫全库但略粗；交叉编码器把「问题+文档」拼一起联合打分，捕捉细粒度关联、准得多——但每候选实时算一次，没法预建索引，所以只做第二阶段、精排少量候选。</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 132" role="img" aria-label="两阶段检索漏斗：宽召回用双或交叉编码器扫全库取 Top-50 到 100；再精排，交叉编码器逐个联合打分收到 Top-3 到 5。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="708" height="52" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="360" y="28" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">宽召回　<tspan font-size="10.5" font-weight="400" fill="var(--ink-500)">Top-50~100</tspan></text>
+      <text x="360" y="46" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">双/交叉编码器扫全库</text>
+      <rect x="180" y="70" width="360" height="52" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="360" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-900)">精排　<tspan font-size="10.5" font-weight="400" fill="var(--ink-500)">Top-3~5</tspan></text>
+      <text x="360" y="110" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">交叉编码器逐个联合打分</text>
+      <path d="M 360 58 L 360 66" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 360 67 l -3 -4 h 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>召回负责「不漏」，重排负责「排得准」——宽进窄出。</figcaption>
+  </figure>
+  <p>选型（2026-07 口径）：</p>
+  <div class="grid">
+   <div class="box">
+    <h4>托管：Cohere Rerank v4.0 系</h4>
+    <p>pro 重质量 / fast 低延迟，多语言 + 半结构化。</p>
+   </div>
+   <div class="box">
+    <h4>自建：BGE-reranker-v2-m3</h4>
+    <p>质量/延迟/许可平衡好，多数生产环境的稳妥默认开源项。Jina Reranker v2 面向 Agentic 场景可作备选。</p>
+   </div>
+  </div>
+  <p>收益成本账：多几百毫秒和一次调用费，换准确率明显提升——对质量敏感的场景（合规问答）几乎必上，对延迟极敏感的实时场景再权衡。</p>
   <p class="ev">Reranker 格局核实 2026-07-12（Cohere v4.0 系为当前主线），来源
     <a href="#src-rerank">docs.cohere.com 与 2026 对比</a>。<b>不可外推边界</b>：版本是当日主线，重排模型迭代快；排序质量对领域敏感，通用榜领先不等于在你的语料上领先。</p>
 </section>
@@ -221,7 +267,44 @@
   <h2><span class="num">06</span>最小管线<a class="anchor" href="#rag-pipeline">#rag-pipeline</a></h2>
 
   <div class="lead">
-    <p>完整管线两条腿：<b>离线建库</b>（解析→切分→嵌入→入库，低频但重——备菜进冷库）与<b>在线查询</b>(检索→重排→生成，毫秒级高频——点单出菜)。两条腿解耦，各自独立扩缩、独立优化；线上出问题先问一句：是建库的问题，还是查询的问题？</p>
+    <p>完整管线两条腿——离线建库低频但重（备菜进冷库），在线查询毫秒级高频（点单出菜）：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 168" role="img" aria-label="完整管线两条腿：离线建库低频但重，解析→切分→嵌入→入库；在线查询毫秒级高频，检索→重排→生成。两条腿解耦，各自独立扩缩。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="708" height="72" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="22" y="36" font-size="12.5" font-weight="700" fill="var(--ink-900)">离线建库</text>
+      <text x="22" y="54" font-size="10" fill="var(--ink-500)">低频但重</text>
+      <text x="22" y="68" font-size="10" fill="var(--ink-500)">备菜进冷库</text>
+      <rect x="170" y="24" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="229" y="47" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">解析</text>
+      <rect x="302" y="24" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="361" y="47" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">切分</text>
+      <path d="M 289 42 L 298 42" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 299 42 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="434" y="24" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="493" y="47" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">嵌入</text>
+      <path d="M 421 42 L 430 42" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 431 42 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="566" y="24" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="625" y="47" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">入库</text>
+      <path d="M 553 42 L 562 42" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 563 42 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="6" y="90" width="708" height="72" rx="8" fill="var(--blue-bg)" stroke="var(--blue-ln)"/>
+      <text x="22" y="120" font-size="12.5" font-weight="700" fill="var(--ink-900)">在线查询</text>
+      <text x="22" y="138" font-size="10" fill="var(--ink-500)">毫秒级高频</text>
+      <text x="22" y="152" font-size="10" fill="var(--ink-500)">点单出菜</text>
+      <rect x="170" y="108" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="229" y="131" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">检索</text>
+      <rect x="302" y="108" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="361" y="131" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">重排</text>
+      <path d="M 289 126 L 298 126" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 299 126 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="434" y="108" width="118" height="36" rx="6" fill="var(--card)" stroke="var(--line)"/>
+      <text x="493" y="131" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink-900)">生成</text>
+      <path d="M 421 126 L 430 126" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 431 126 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>两条腿解耦，各自独立扩缩、独立优化。线上出问题先问：是建库的问题，还是查询的问题？</figcaption>
+  </figure>
+  </div>
   </div>
 
   <p>最小可用版本比想象中小：纯 API + 向量库客户端几十行代码——切分（第 3 节）、嵌入建库（第 2 节）、宽召回精排（第 4 节）、带出处生成（第 1 节），每段代码对应一节。框架不是必需品：管线简单就纯 API 拼（透明好排障）；生产常见组合是 <b>LlamaIndex 管数据接入、
@@ -238,8 +321,17 @@
     <p>破案要人证+物证：BM25 是物证——指纹对上就是对上，一字不差；向量是人证——听得懂「那个高高瘦瘦戴眼镜的」。只信一种证据都会放走真凶。<b>混合检索是 2026 年生产部署的最低标配基线，不是加分项。</b></p>
   </div>
 
-  <p>两种盲区的实例：搜「错误码 0x80070005」，向量检索返回一堆泛泛的「权限问题排查」，
-    BM25 一发命中含该错误码的 KB；反过来搜「电脑越用越卡怎么办」，BM25 远不如向量懂你。企业语料里型号、代号、专名密度极高——<b>纯向量检索的翻车率被普遍低估</b>。</p>
+  <div class="grid">
+   <div class="box">
+    <h4>BM25 是物证</h4>
+    <p>指纹对上就是对上，一字不差。搜「错误码 0x80070005」一发命中含该错误码的 KB——向量检索只会返回一堆泛泛的「权限问题排查」。</p>
+   </div>
+   <div class="box">
+    <h4>向量是人证</h4>
+    <p>听得懂「那个高高瘦瘦戴眼镜的」。搜「电脑越用越卡怎么办」，BM25 远不如向量懂你。</p>
+   </div>
+  </div>
+  <p>企业语料里型号、代号、专名密度极高——<b>纯向量检索的翻车率被普遍低估</b>。</p>
   <p>融合用 <b>RRF</b>（Reciprocal Rank Fusion，倒数排名融合）：两套分数不可比（BM25 无上界、余弦 0~1），RRF 只看名次——按 1/(k+r) 相加，k≈60 开箱即用。算一遍就懂：文档 A 在 BM25
     第 1、向量第 8 → 0.031；文档 B 两榜都第 3 → 0.032 胜——<b>两边都不错的稳健选手，赢过单边冠军</b>。生产标配三段式：双路宽召回（各 Top-50~100，求不漏）→ RRF 融合（不比分数、不用调权）→ 交叉编码器重排取 Top-10（求不错）。</p>
   <p>落地捷径：Elasticsearch / OpenSearch 已原生支持向量检索与 RRF 混合查询——存量 ES 用户升级配置即可，数据不搬家、运维不新增；向量库阵营（Qdrant/Milvus/Weaviate）用稀疏+稠密双向量一次查询完成融合。成本增量主要是 BM25 索引存储，比向量便宜得多。</p>
@@ -337,8 +429,33 @@
     <p>企业文档里最值钱的信息常在图里：架构图、财报图表、扫描件。纯文本管线的丢失发生在<b>建库期</b>——图表抽不成有意义的文字，后面检索再准也无济于事（「答案明明在第 47 页的柱状图里，系统答资料中未提及」）。</p>
   </div>
 
-  <p>三条路线从便宜到强：<b>①转述索引 Caption</b>——用视觉模型给每张图写文字描述进普通管线，最便宜、改造最小；<b>②统一多模态嵌入</b>——文与图进同一向量空间（Cohere Embed 4 /
-    voyage-multimodal），跨模态直接互检，工程最干净；<b>③页面当图（ColPali 系）</b>——整页编码成约千个图块向量，免 OCR、MaxSim 逐词对格打分，表格、图表、手写体一视同仁——扫描件的杀手锏，代价是<b>存储涨约一个量级</b>。</p>
+  <p>三条路线从便宜到强（②的代表：Cohere Embed 4 / voyage-multimodal；③的 MaxSim 逐词对格打分，表格、图表、手写体一视同仁）：</p>
+  <figure>
+   <div class="fig-wrap">
+    <svg viewBox="0 0 720 126" role="img" aria-label="多模态 RAG 三条路线，从便宜到强：①转述索引 Caption，用视觉模型给每张图写文字描述进普通管线，最便宜、改造最小；②统一多模态嵌入，文与图进同一向量空间跨模态互检，工程最干净；③页面当图 ColPali 系，整页编码成约千个图块向量、免 OCR，是扫描件杀手锏，代价是存储涨约一个量级。">
+     <g font-family="var(--sans)">
+      <rect x="6" y="6" width="225" height="108" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="118" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">① 转述索引 Caption</text>
+      <text x="118" y="52" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">视觉模型给每张图写</text>
+      <text x="118" y="68" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">文字描述进普通管线</text>
+      <text x="118" y="100" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink-900)">最便宜、改造最小</text>
+      <rect x="247" y="6" width="225" height="108" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="359" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">② 统一多模态嵌入</text>
+      <text x="359" y="52" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">文与图进同一向量空间，</text>
+      <text x="359" y="68" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">跨模态直接互检</text>
+      <text x="359" y="100" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink-900)">工程最干净</text>
+      <path d="M 233 60 L 242 60" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 243 60 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+      <rect x="488" y="6" width="225" height="108" rx="8" fill="var(--card)" stroke="var(--line)"/>
+      <text x="600" y="30" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink-900)">③ 页面当图 ColPali 系</text>
+      <text x="600" y="52" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">整页编码成约千个图块向量，免 OCR、</text>
+      <text x="600" y="68" text-anchor="middle" font-size="10.5" fill="var(--ink-500)">逐词对格打分</text>
+      <text x="600" y="100" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--ink-900)">扫描件杀手锏 · 存储涨约一个量级</text>
+      <path d="M 474 60 L 483 60" stroke="var(--ink-400)" stroke-width="1.5" fill="none"/><path d="M 484 60 l -4 -3 v 6 z" fill="var(--ink-400)"/>
+     </g>
+    </svg>
+   </div>
+   <figcaption>加粗那行是各路线的一句话定位——从便宜到强，增量演进。</figcaption>
+  </figure>
   <p>选型口诀：图少且简单→转述最划算；产品图/截图混在文档里→统一嵌入；扫描件海量、查询「视觉难」→ColPali 系。<b>先便宜后贵、增量演进</b>：先转述兜底，三个月后看坏答案，「视觉难」查询集中失败再对那部分语料上多向量。生成端要配套能看图的模型才闭环——「模型怎么看懂图」的能力边界在
     <a href="../../PPT-version/Multimodal/README.html">Multimodal 模块</a>（那边给眼睛，本节给眼睛配图书馆）。</p>
   <p class="ev">三路线格局核实 2026-07-09，来源 <a href="#src-mm">arXiv 2407.01449（ColPali）与 2026 实践综述</a>。<b>不可外推边界</b>：论文口径以文档视觉检索基准为主，落地效果强依赖文档类型；扫描件、图纸、表格密集的材料差异很大，按自己的材料实测。</p>
