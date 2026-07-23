@@ -757,69 +757,84 @@ def render_graph(data):
             for j, mid in enumerate(lay_nodes[l]):
                 pos[mid] = (xcenter(j, n), yc)
 
-    # 边（无向去重）
+    # 出口点分散：一个节点的每条边从它「上沿 / 下沿」的不同 x 出发，避免多条边挤成一束
+    # （悬停枢纽节点时最明显——12 条边若共用一个出口点会糊成乱线）。
+    pairs = sorted(set(tuple(sorted((m["id"], k))) for m in mods for k in adj[m["id"]]))
+    inc = {m["id"]: [] for m in mods}
+    for a, b in pairs:
+        inc[a].append(b)
+        inc[b].append(a)
+    exitpt = {}
+    for mid, others in inc.items():
+        x0, y0 = pos[mid]
+        top = sorted((o for o in others if pos[o][1] < y0 - 1), key=lambda o: pos[o][0])
+        bot = sorted((o for o in others if pos[o][1] >= y0 - 1), key=lambda o: pos[o][0])
+        for grp, ey in ((top, y0 - nh / 2), (bot, y0 + nh / 2)):
+            n = len(grp)
+            for i, o in enumerate(grp):
+                ex = x0 + nw * 0.78 * ((i + 1.0) / (n + 1) - 0.5)
+                exitpt[(mid, o)] = (ex, ey)
+
     def edge_path(a, b):
-        ax, ay = pos[a]
-        bx, by = pos[b]
+        ax, ay = exitpt[(a, b)]
+        bx, by = exitpt[(b, a)]
         if abs(ay - by) < 1:                       # 同层：下凸弧
-            sy = ay + nh / 2
-            cy = sy + 32
-            return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ax, sy, ax, cy, bx, cy, bx, sy)
-        up, lo = (a, b) if ay < by else (b, a)     # 跨层：竖向 S 曲线
-        ux, uy = pos[up]
-        lx, ly = pos[lo]
-        sy, ey = uy + nh / 2, ly - nh / 2
-        my = (sy + ey) / 2
-        return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ux, sy, ux, my, lx, my, lx, ey)
+            cy = ay + 28
+            return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ax, ay, ax, cy, bx, cy, bx, by)
+        my = (ay + by) / 2                          # 跨层：竖向 S 曲线（两端出口已错开）
+        return "M%.1f %.1fC%.1f %.1f %.1f %.1f %.1f %.1f" % (ax, ay, ax, my, bx, my, bx, by)
 
-    seen = set()
-    edges = []
-    for m in mods:
-        for k, why in adj[m["id"]].items():
-            key = tuple(sorted((m["id"], k)))
-            if key in seen:
-                continue
-            seen.add(key)
-            edges.append('   <path class="kedge" data-a="%s" data-b="%s" d="%s"><title>%s ↔ %s</title></path>'
-                         % (esc(key[0]), esc(key[1]), edge_path(key[0], key[1]),
-                            esc(by_id[key[0]]["dir"]), esc(by_id[key[1]]["dir"])))
+    edges = ['    <path class="kedge" data-a="%s" data-b="%s" d="%s"><title>%s ↔ %s</title></path>'
+             % (esc(a), esc(b), edge_path(a, b), esc(by_id[a]["dir"]), esc(by_id[b]["dir"]))
+             for a, b in pairs]
 
+    # 三遍分层画，顺序决定层叠——① 层带背景（最底）② 边（中间，连续不被挡）③ 节点（最上，压住出口）
     o = ['  <svg class="kgraph" viewBox="0 0 %d %d" role="img" '
          'aria-label="全库 19 个模块按七层排布的关系图，边表示讲一块时该带上的另一块">' % (W, H)]
-    o.append('   <g class="kedges">')
-    o.extend(edges)
-    o.append("   </g>")
 
-    for l in layers:
+    o.append('   <g class="kbands">')
+    for l in layers:                                # ① 层带背景 + 层标签
         i = layer_i[l]
         yc = padTop + i * bandH + bandH / 2
         bandY = padTop + i * bandH + 4
-        o.append('   <g class="hue-%d">' % i)
-        o.append('    <rect class="kband" x="8" y="%.1f" width="%d" height="%d" rx="10"/>'
+        o.append('    <g class="hue-%d">' % i)
+        o.append('     <rect class="kband" x="8" y="%.1f" width="%d" height="%d" rx="12"/>'
                  % (bandY, W - 16, bandH - 8))
-        o.append('    <circle cx="24" cy="%.1f" r="5" fill="var(--hue)"/>' % yc)
-        o.append('    <text class="klabel" x="36" y="%.1f" font-size="12.5">%s</text>'
+        o.append('     <circle cx="26" cy="%.1f" r="5" fill="var(--hue)"/>' % yc)
+        o.append('     <text class="klabel" x="38" y="%.1f" font-size="12.5">%s</text>'
                  % (yc + 4, esc(l)))
-        n = len(lay_nodes[l])
-        for j, mid in enumerate(lay_nodes[l]):
+        o.append("    </g>")
+    o.append("   </g>")
+
+    o.append('   <g class="kedges">')               # ② 边
+    o.extend(edges)
+    o.append("   </g>")
+
+    o.append('   <g class="knodes">')               # ③ 节点（压在边之上，出口藏进胶囊）
+    for l in layers:
+        i = layer_i[l]
+        yc = padTop + i * bandH + bandH / 2
+        o.append('    <g class="hue-%d">' % i)
+        for mid in lay_nodes[l]:
             m = by_id[mid]
             xc, _ = pos[mid]
             x0, y0 = xc - nw / 2, yc - nh / 2
             deg = len(adj[mid])
             adjids = ",".join(sorted(adj[mid]))
-            o.append('    <a class="knode" href="./%s/index.html" data-m="%s" data-adj="%s" tabindex="0">'
+            o.append('     <a class="knode" href="./%s/index.html" data-m="%s" data-adj="%s" tabindex="0">'
                      % (esc(WEB_DIRS[mid]), esc(mid), esc(adjids)))
-            o.append('     <title>%s · 关联 %d 个模块</title>' % (esc(m["dir"]), deg))
-            o.append('     <rect class="kbox" x="%.1f" y="%.1f" width="%d" height="%d" rx="10"/>'
+            o.append('      <title>%s · 关联 %d 个模块</title>' % (esc(m["dir"]), deg))
+            o.append('      <rect class="kbox" x="%.1f" y="%.1f" width="%d" height="%d" rx="10"/>'
                      % (x0, y0, nw, nh))
-            o.append('     <rect class="kchip" x="%.1f" y="%.1f" width="%d" height="%d" rx="7"/>'
+            o.append('      <rect class="kchip" x="%.1f" y="%.1f" width="%d" height="%d" rx="7"/>'
                      % (x0 + 7, yc - chip / 2, chip, chip))
-            o.append('     <text class="kmono" x="%.1f" y="%.1f" font-size="11" text-anchor="middle">%s</text>'
+            o.append('      <text class="kmono" x="%.1f" y="%.1f" font-size="11" text-anchor="middle">%s</text>'
                      % (x0 + 7 + chip / 2, yc + 4, esc(mono(m["dir"]))))
-            o.append('     <text class="knm" x="%.1f" y="%.1f" font-size="12.5">%s</text>'
+            o.append('      <text class="knm" x="%.1f" y="%.1f" font-size="12.5">%s</text>'
                      % (x0 + 7 + chip + 8, yc + 4, esc(m["dir"])))
-            o.append("    </a>")
-        o.append("   </g>")
+            o.append("     </a>")
+        o.append("    </g>")
+    o.append("   </g>")
     o.append("  </svg>")
 
     deg_all = sorted(mods, key=lambda m: -len(adj[m["id"]]))

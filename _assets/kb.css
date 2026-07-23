@@ -424,11 +424,11 @@ h2[id^="sec-"] { scroll-margin-top: var(--anchor-top); }
 .kgraph-scroll { overflow-x: auto; overflow-y: hidden; border: 1px solid var(--line);
                  border-radius: var(--radius); background: var(--card); box-shadow: var(--shadow); }
 svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
-.kgraph .kband { fill: var(--hue-bg, var(--line-2)); stroke: none; }
+.kgraph .kband { fill: var(--hue-bg, var(--line-2)); stroke: none; transition: opacity .12s; }
 .kgraph .klabel { fill: var(--ink-500); font-weight: 700; }
-/* 边：默认极淡，看得出连通但不糊 */
-.kgraph .kedge { fill: none; stroke: var(--ink-400); stroke-width: 1.2; opacity: .13;
-                 transition: opacity .12s, stroke .12s; }
+/* 边：画在层带之上、节点之下——连续可见的一张网；默认淡，悬停时只亮一支 */
+.kgraph .kedge { fill: none; stroke: var(--ink-400); stroke-width: 1.1; opacity: .15;
+                 stroke-linecap: round; transition: opacity .12s, stroke .12s, stroke-width .12s; }
 /* 节点胶囊 */
 .kgraph .knode { cursor: pointer; }
 .kgraph .knode rect.kbox { fill: var(--card); stroke: var(--line); transition: stroke .12s; }
@@ -438,11 +438,13 @@ svg.kgraph { display: block; width: 100%; min-width: 720px; height: auto; }
 .kgraph .knode text.knm { fill: var(--ink-900); font-weight: 700; }
 .kgraph .knode text.kmono { fill: #fff; font-weight: 700; }
 .kgraph .knode:focus-visible { outline: none; }
-/* 悬停一个模块：它的边与邻居亮起，其余淡出（.hot 由 site.js 挂在 svg 上） */
-.kgraph.hot .kedge { opacity: .05; }
-.kgraph.hot .kedge.on { opacity: .95; stroke: var(--blue); stroke-width: 1.8; }
-.kgraph.hot .knode { opacity: .32; transition: opacity .12s; }
+/* 悬停一个模块：层带压暗、其余边与节点淡出，只亮这一支 */
+.kgraph.hot .kband { opacity: .4; }
+.kgraph.hot .kedge { opacity: .03; }
+.kgraph.hot .kedge.on { opacity: .9; stroke: var(--blue); stroke-width: 2.2; }
+.kgraph.hot .knode { opacity: .3; transition: opacity .12s; }
 .kgraph.hot .knode.on, .kgraph.hot .knode.self { opacity: 1; }
+.kgraph.hot .knode.on rect.kbox { stroke: var(--blue-ln); }
 .kgraph.hot .knode.self rect.kbox { stroke: var(--blue); stroke-width: 2; }
 .kgraph-hint { font-size: 12.5px; color: var(--ink-400); margin: .35rem 0 0; }
 details.kgraph-alt { margin: .5rem 0 0; }
