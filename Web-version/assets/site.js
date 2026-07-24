@@ -177,7 +177,7 @@
     function labelW(s) { var w = 0; for (var i = 0; i < s.length; i++) w += s.charCodeAt(i) > 255 ? 14.5 : 7.3; return Math.min(220, Math.max(58, w + 22)); }
 
     var kwlayer = document.createElementNS(SVGNS, "g"); kwlayer.setAttribute("class", "kwlayer"); kg.appendChild(kwlayer);
-    var kwraf = null, active = false, path = [], MAXKW = 3, cur = { center: null, ring: [], spokes: [] };
+    var kwraf = null, kwto = null, active = false, path = [], MAXKW = 3, cur = { center: null, ring: [], spokes: [] };
 
     function makeNode(kind, label, hueIdx, href, x, y) {
       var g = document.createElementNS(SVGNS, href ? "a" : "g");
@@ -203,15 +203,18 @@
     }
     function runAnim(frame, dur, done) {
       if (kwraf) cancelAnimationFrame(kwraf);
+      if (kwto) clearTimeout(kwto);
       if (reduce) { frame(1); if (done) done(); return; }
-      var t0 = null;
+      var t0 = null, fin = false;
+      function finish() { if (fin) return; fin = true; if (kwraf) cancelAnimationFrame(kwraf); kwraf = null; frame(1); if (done) done(); }
       function step(ts) {
         if (t0 === null) t0 = ts;
         var p = Math.min(1, (ts - t0) / dur), e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
         frame(e);
-        if (p < 1) kwraf = requestAnimationFrame(step); else { kwraf = null; if (done) done(); }
+        if (p < 1) kwraf = requestAnimationFrame(step); else { fin = true; kwraf = null; if (done) done(); }
       }
       kwraf = requestAnimationFrame(step);
+      kwto = setTimeout(finish, dur + 250);   // 兜底：若 rAF 被节流没跑，到时直接落终态，绝不停在 opacity 0
     }
 
     function focusItem(item, startPos) {
